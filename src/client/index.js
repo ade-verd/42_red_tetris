@@ -23,4 +23,4 @@ ReactDom.render((
   </Provider>
 ), document.getElementById('tetris'))
 
-store.dispatch(alert('Soon, will be here a fantastic Tetris ...'))
+store.dispatch(alert('Soon, will be here a fantastic te-Tetris ...'))
