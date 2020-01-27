@@ -10,6 +10,35 @@
 | [ ] | Pouvoir créer / rejoindre une salle à partir de l'URL directement | cf. ["hash uris"](https://www.w3.org/blog/2011/05/hash-uris/) <br/> http://\<server_name_or_ip>:\<port>/#\<room>[<player_name>]| 
 | [ ] | Gérer la chute de pièce avec la barre espace  | |
 
+## React components
+- Header
+- Main
+	- Game
+		- GameArea
+		- Cell
+		- NextBlock
+		- Spectrums
+		- Infos
+	- Rooms
+	- Players
+	- Scores
+- Footer
+
+## Redux actions
+- Lobby
+	- Login / Logout
+	- createRoom
+	- joinRoom
+	- leaveRoom
+	- writeMessage [optional]
+- Game
+	- moveHorizontally (or moveLeftRight)
+	- moveDown
+	- drop
+	- rotate
+	- pause
+	- quitGame
+
 # Server side
 |     | To do | Comments |
 | --- | ----- | -------- |
