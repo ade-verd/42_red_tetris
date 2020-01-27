@@ -42,9 +42,9 @@
 # Server side
 |     | To do | Comments |
 | --- | ----- | -------- |
-| [ ] | Créer une collection "rooms" | { _id, room_name, players_ids[], game_status, blocks_list[], settings{} |
-| [ ] | Créer une collection "players" | { _id, name, blocks_consumed } |
-| [ ] | Créer une collection "spectrums" | { _id, room_id, player_id } (Créer un index sur le roomId et un index sur le playerId) |
+| [x] | Créer une collection "rooms" | { _id, room_name, players_ids[], game_status, blocks_list[], settings{} |
+| [x] | Créer une collection "players" | { _id, name, blocks_consumed } |
+| [x] | Créer une collection "spectrums" | { _id, room_id, spectrums[] } (Créer un index sur le roomId) |
 | [ ] | ? Mettre en place socket.io pour la communication entre serveur et client | voir si besoin |
 | [ ] | [LIB] Créer une fonction qui génère X nouveaux tetriminos et les push à la suite de rooms.blocks_list | Le principe est d'éviter de faire trop d'appels entre clients et serveurs |
 | [ ] | [GET] Créer un endpoint pour envoyer un nouveau stock de pièces (ex: 20 pièces) | Attention les joueurs doivent avoir les mêmes pièces. Le stock commun est rooms.blocks_list<br /><br />S'il y a assez de pièces, on retourne les nouvelles pièces. Sinon on en génère de nouvelles |

@@ -2,13 +2,20 @@ version: '3.1'
 
 services:
   mongo:
+    container_name: mongodb
     image: mongo:4.2
     restart: always
+    ports:
+      - 27017-27019:27017-27019
     environment:
-      MONGO_INITDB_ROOT_USERNAME: red
-      MONGO_INITDB_ROOT_PASSWORD: tetris
+      - MONGO_INITDB_DATABASE=redtetris
+      - MONGO_INITDB_ROOT_USERNAME=red
+      - MONGO_INITDB_ROOT_PASSWORD=tetris
+    volumes:
+     - ./src/server/config/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
 
   mongo-express:
+    container_name: mongo-express
     image: mongo-express:0.49
     restart: always
     ports:
