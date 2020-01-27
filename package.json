@@ -10,8 +10,8 @@
     "srv-dev": "start-services && DEBUG=tetris:* babel-watch -w src src/server/main.js",
     "srv-dist": "start-services && DEBUG=tetris:* babel src --out-dir dist",
     "start-services": "docker-compose -f docker-services.yml up -d",
-    "test": "mocha --require babel-core/register --reporter spec && coverage",
-    "coverage": "NODE_ENV=test nyc --include src --all -r text -r lcov -r text --require babel-core/register mocha "
+    "test-only": "mocha --require babel-core/register --reporter spec",
+    "test": "NODE_ENV=test nyc --include src --all -r text -r lcov -r text --require babel-core/register mocha"
   },
   "dependencies": {
     "react": "^15.0.2",
