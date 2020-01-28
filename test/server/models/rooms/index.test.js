@@ -2,27 +2,29 @@
 
 const { expect } = require('chai');
 const sinon = require('sinon');
-const mongoClient = require('mongodb').MongoClient; 
+const { ObjectId } = require('mongodb'); 
 
 const config = require('../../../../src/server/config');
+
+const dbLib = require('../../../../src/server/lib/mongodb');
 
 const roomsModels = require('../../../../src/server/models/rooms');
 const { DATABASE, COLLECTION } = require('../../../../src/server/models/rooms/definition');
 
 const fixtures = require('../../../fixtures/rooms.fixtures');
 
-describe.only('models/rooms', () => {
-	let mongodb;
+describe.skip('models/rooms', () => {
+	let db;
 	// const sandbox = sinon.sandbox.create();
 
 	before(async () => {
-		mongodb = await mongoClient.connect(config.db.url, config.db.config);
+		await dbLib.connect();
+		db = await dbLib.getDb();
 	});
 
 	beforeEach(async () => {
-		console.log('DB:', DATABASE);
-		console.log('COLLECTION:', COLLECTION);
-		await mongodb.db(DATABASE).collection(COLLECTION).remove();
+		console.log(db);
+		await db.collection(COLLECTION).deleteMany({});
 	});
 
 	afterEach(() => {
@@ -30,21 +32,22 @@ describe.only('models/rooms', () => {
 	});
 
 	after(async () => {
-		await mongodb.close();
+		await dbLib.disconnect();
 	});
 
-	describe('#get()', () => {
+	describe('#find()', () => {
 		beforeEach(async () => {
-			await mongodb.db(DATABASE).collection(COLLECTION).insertMany(fixtures.default);
+			await db.collection(COLLECTION).insertMany(fixtures.default[0]);
 		});
 
-		it('gets a room document by its id', async () => {
+		it('should find all rooms', async () => {
 			const ROOM_ID = '000000000000000000000001';
 
-			const res = roomsModels.get(mongodb, ROOM_ID);
+			const res = roomsModels.find(b, ROOM_ID);
 
 			expect(res).to.deep.equal({
 				_id: new ObjectId('000000000000000000000001'),
+				room_name: 'room_name_1',
 				players_ids: ['00000000000000000000000a'],
 				game_status: 'waiting',
 				block_list: [],

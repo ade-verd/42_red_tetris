@@ -1,3 +1,16 @@
+db.createUser(
+	{
+		user: 'red',
+		pwd: 'tetris',
+		roles: [
+			{
+				role: 'readWrite',
+				db: 'redtetris'
+			}
+		]
+	}
+);
+
 db.createCollection('rooms', {});
 db.rooms.createIndex(
 	{ room_name: 1 },

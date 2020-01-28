@@ -1,12 +1,14 @@
 'use strict';
 
 const Joi = require('@hapi/joi');
+const { ObjectId} = require('mongodb');
 
 const { DATABASE, COLLECTION } = require('./definition');
 const { GAME_STATUS } = require('../../constants');
-const { newDate } = require('../../lib/utils/date');
+const { getDb } = require('../../lib/mongodb');
+const dateLib = require('../../lib/utils/date');
 
-function validate(room) {
+function _validate(room) {
 	const schema = Joi.object({
 		room_name: Joi.string().required(),
 		players_ids: [
@@ -19,68 +21,86 @@ function validate(room) {
 		updated_at: Joi.date().default([newDate(), 'creation date']),
 	}).required();
 
-	const validation = schema.validate(room);
-	if (validation.error) {
-		throw new Error(`Validation error: ${validation.error}`);
-	}
-	return validation.value;
+  	return Joi.attempt(room, schema);
 }
 
 /**
- * Returns the model collection
- * @param {object} mongodb MongoDb connections
- * @returns {object} Collection
+ * Return the rooms collection
+ *
+ * @returns {Object} object to manipulate rooms collection
  */
-function collection(mongodb) {
-	return mongodb.db(DATABASE).collection(COLLECTION);
+function collection() {
+  return getDb().collection(COLLECTION);
 }
 
 /**
- * Get a room into the database by its id
- * @param {object} mongodb MongoDb connections
- * @param {object} roomId The room id
- *  @returns {Promise<object | null>} Found room
+ * Create collection indexes
+ *
+ * @returns {void}
  */
-function get(mongodb, roomId) {
-	return collection(mongodb).findOne({
-		_id: ObjectId.createFromHexString(roomId)
-	});
+async function createIndexes() {
+	await collection().createIndex({ room_name: 1 }, { unique: true, background: true });
 }
 
 /**
- * Insert a room into the database
- * @param {object} mongodb MongoDb connections
- * @param {object} room The room
- *  @returns {Promise<object>} Inserted room
+ * Returns a cursor on lots for a given query.
+ *
+ * @param {object} query       - mongo query
+ * @param {object} projections - optional projection of results fields
+ *
+ * @returns {Promise<Cursor>} The cursor to iterate on messages
  */
-async function insert(mongodb, room) {
-	const validatedRoom = validate(room);
-	const res = await collection(mongodb).insertOne(validatedRoom, {
-		returnOriginal: false
-	});
-
-	return res.ops[0];
+function find(query = {}, projections = {}) {
+  return collection().find(query, projections);
 }
 
 /**
- * Updates a room into the database
- * @param {object} mongodb MongoDb connections
- * @param {object} room The room
- *  @returns {Promise<object>} Inserted room
+ * Returns a room found with its id
+ *
+ * @param {ObjectId} roomId   - identifier of the queried room
+ * @param {Object} projections - optional projection of result fields
+ *
+ * @returns {Object} The mongo document
  */
-function update(mongodb, room) {
-	return collection(mongodb).findOneAndUpdate({
-		_id: room._id
-	}, {
-		$set: room
-	}, {
-		returnOriginal: false
-	});
+function findOneById(roomId, projections = {}) {
+  return collection().findOne({ _id: roomId }, projections);
+}
+
+/**
+ * Insert a new room into the database
+ *
+ * @param {Object} room - data about the inserted room
+ *
+ * @returns {Object} the inserted room
+ */
+async function insertOne(room) {
+  const validatedRoom = _validate(room);
+  const res = await collection().insert(validatedRoom);
+
+  return res.ops[0];
+}
+
+/**
+ * Update a room
+ *
+ * @param {ObjectId} roomId     - identifier of the updated room
+ * @param {Object} updatedFields - fields that are updated
+ *
+ * @returns {Object/null} result of update if succeeded, null otherwise
+ */
+async function updateOne(roomId, updatedFields) {
+  const result = await collection().updateOne(
+    { _id: roomId },
+    { $set: updatedFields },
+  );
+  return result;
 }
 
 module.exports = {
-	collection,
-	get,
-	insert,
-	update
+  collection,
+  createIndexes,
+  find,
+  findOneById,
+  insertOne,
+  updateOne,
 };

@@ -2,6 +2,7 @@ const { ObjectId } = require('mongodb');
 
 const room_1player = () => ({
 	_id: new ObjectId('000000000000000000000001'),
+	room_name: 'room_1',
 	players_ids: [
 		'00000000000000000000000a',
 	],
@@ -14,6 +15,7 @@ const room_1player = () => ({
 
 const room_2players = () => ({
 	_id: new ObjectId('000000000000000000000002'),
+	room_name: 'room_2',
 	players_ids: [
 		'00000000000000000000000a',
 		'00000000000000000000000b',
@@ -27,6 +29,7 @@ const room_2players = () => ({
 
 const room_3players = () => ({
 	_id: new ObjectId('000000000000000000000003'),
+	room_name: 'room_3',
 	players_ids: [
 		'00000000000000000000000a',
 		'00000000000000000000000b',
@@ -41,8 +44,8 @@ const room_3players = () => ({
 
 module.exports = {
 	default: [
-		room_1player,
-		room_2players,
-		room_3players,
+		room_1player(),
+		room_2players(),
+		room_3players(),
 	]
 }

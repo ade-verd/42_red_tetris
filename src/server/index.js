@@ -1,6 +1,8 @@
 import fs  from 'fs'
 import debug from 'debug'
 
+const mongodb = require('./lib/mongodb');
+
 const logerror = debug('tetris:error')
   , loginfo = debug('tetris:info')
 
@@ -18,6 +20,8 @@ const initApp = (app, params, cb) => {
       res.end(data)
     })
   }
+
+  mongodb.connect();
 
   app.on('request', handler)
 
@@ -44,17 +48,22 @@ export function create(params){
     initApp(app, params, () =>{
       const io = require('socket.io')(app)
       const stop = (cb) => {
+        mongodb.disconnect();
+
         io.close()
         app.close( () => {
           app.unref()
         })
         loginfo(`Engine stopped.`)
+
         cb()
       }
 
       initEngine(io)
       resolve({stop})
-    })
-  })
+    });
+
+
+  });
   return promise
 }
