@@ -47,5 +47,5 @@ module.exports = {
 		room_1player(),
 		room_2players(),
 		room_3players(),
-	]
+	],
 }

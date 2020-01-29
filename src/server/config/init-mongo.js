@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 db.createUser(
 	{
 		user: 'red',

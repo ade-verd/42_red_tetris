@@ -7,8 +7,8 @@ module.exports = {
 			authSource: 'redtetris',
 			authMechanism: 'SCRAM-SHA-1',
 			auth: {
-				user: 'red', // process.env.CONFIG_MONGODB_ADMINUSERNAME, //
-				password: 'tetris', //process.env.CONFIG_MONGODB_ADMINPASSWORD,
+				user: 'red', // process.env.CONFIG_MONGODB_USERNAME,
+				password: 'tetris', //process.env.CONFIG_MONGODB_PASSWORD,
 			}
 		}
 	}

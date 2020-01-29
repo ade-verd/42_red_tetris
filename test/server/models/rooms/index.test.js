@@ -2,7 +2,7 @@
 
 const { expect } = require('chai');
 const sinon = require('sinon');
-const { ObjectId } = require('mongodb'); 
+const { ObjectId } = require('mongodb');
 
 const config = require('../../../../src/server/config');
 
@@ -13,7 +13,7 @@ const { DATABASE, COLLECTION } = require('../../../../src/server/models/rooms/de
 
 const fixtures = require('../../../fixtures/rooms.fixtures');
 
-describe.skip('models/rooms', () => {
+describe('models/rooms', () => {
 	let db;
 	// const sandbox = sinon.sandbox.create();
 
@@ -23,12 +23,11 @@ describe.skip('models/rooms', () => {
 	});
 
 	beforeEach(async () => {
-		console.log(db);
 		await db.collection(COLLECTION).deleteMany({});
 	});
 
 	afterEach(() => {
-//		sandbox.restore();
+		//		sandbox.restore();
 	});
 
 	after(async () => {
@@ -37,24 +36,80 @@ describe.skip('models/rooms', () => {
 
 	describe('#find()', () => {
 		beforeEach(async () => {
-			await db.collection(COLLECTION).insertMany(fixtures.default[0]);
+			await db.collection(COLLECTION).insertMany(fixtures.default);
 		});
 
 		it('should find all rooms', async () => {
-			const ROOM_ID = '000000000000000000000001';
+			const res = await roomsModels.find({}).toArray();
 
-			const res = roomsModels.find(b, ROOM_ID);
-
-			expect(res).to.deep.equal({
-				_id: new ObjectId('000000000000000000000001'),
-				room_name: 'room_name_1',
-				players_ids: ['00000000000000000000000a'],
-				game_status: 'waiting',
-				block_list: [],
-				settings: [],
-				created_at: "2020-01-01T10:00:00Z",
-				updated_at: "2020-01-01T10:00:00Z",
-			});
+			expect(res).to.deep.equal([
+				{
+					_id: new ObjectId('000000000000000000000001'),
+					room_name: 'room_1',
+					players_ids: ['00000000000000000000000a'],
+					game_status: 'waiting',
+					block_list: [],
+					settings: [],
+					created_at: "2020-01-01T10:00:00Z",
+					updated_at: "2020-01-01T10:00:00Z",
+				},
+				{
+					_id: new ObjectId('000000000000000000000002'),
+					room_name: 'room_2',
+					players_ids: [
+						'00000000000000000000000a',
+						'00000000000000000000000b',
+					],
+					game_status: 'waiting',
+					block_list: [],
+					settings: [],
+					created_at: "2020-01-01T10:00:00Z",
+					updated_at: "2020-01-01T10:00:00Z",
+				},
+				{
+					_id: new ObjectId('000000000000000000000003'),
+					room_name: 'room_3',
+					players_ids: [
+						'00000000000000000000000a',
+						'00000000000000000000000b',
+						'00000000000000000000000c',
+					],
+					game_status: 'waiting',
+					block_list: [],
+					settings: [],
+					created_at: "2020-01-01T10:00:00Z",
+					updated_at: "2020-01-01T10:00:00Z",
+				}
+			]);
 		});
+
+		it('should find a specific room by its id', async () => {
+			const ROOM_ID = new ObjectId('000000000000000000000001');
+			const res = await roomsModels.find({ _id: ROOM_ID}).toArray();
+
+			expect(res).to.deep.equal([
+				{
+					_id: new ObjectId('000000000000000000000001'),
+					room_name: 'room_1',
+					players_ids: ['00000000000000000000000a'],
+					game_status: 'waiting',
+					block_list: [],
+					settings: [],
+					created_at: "2020-01-01T10:00:00Z",
+					updated_at: "2020-01-01T10:00:00Z",
+				},
+			]);
+		});
+
+		it('should apply the projection', async () => {
+			const res = await roomsModels.find({}, { _id: 0, room_name: 1 }).toArray();
+
+			expect(res).to.deep.equal([
+				{ room_name: 'room_1' },
+				{ room_name: 'room_2' },
+				{ room_name: 'room_3' },
+			]);
+		});
+
 	});
 });

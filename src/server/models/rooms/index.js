@@ -1,7 +1,7 @@
 'use strict';
 
 const Joi = require('@hapi/joi');
-const { ObjectId} = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 const { DATABASE, COLLECTION } = require('./definition');
 const { GAME_STATUS } = require('../../constants');
@@ -9,19 +9,19 @@ const { getDb } = require('../../lib/mongodb');
 const dateLib = require('../../lib/utils/date');
 
 function _validate(room) {
-	const schema = Joi.object({
-		room_name: Joi.string().required(),
-		players_ids: [
-			Joi.string().required(),
-		].required(),
-		game_status: Joi.string.valid(GAME_STATUS.map(status => status)).required(),
-		block_list: Joi.array().require(),
-		settings: Joi.object().required(),
-		created_at: Joi.date().default([newDate(), 'creation date']),
-		updated_at: Joi.date().default([newDate(), 'creation date']),
-	}).required();
+  const schema = Joi.object({
+    room_name: Joi.string().required(),
+    players_ids: [
+      Joi.string().required(),
+    ].required(),
+    game_status: Joi.string.valid(GAME_STATUS.map(status => status)).required(),
+    block_list: Joi.array().require(),
+    settings: Joi.object().required(),
+    created_at: Joi.date().default([newDate(), 'creation date']),
+    updated_at: Joi.date().default([newDate(), 'creation date']),
+  }).required();
 
-  	return Joi.attempt(room, schema);
+  return Joi.attempt(room, schema);
 }
 
 /**
@@ -39,7 +39,7 @@ function collection() {
  * @returns {void}
  */
 async function createIndexes() {
-	await collection().createIndex({ room_name: 1 }, { unique: true, background: true });
+  await collection().createIndex({ room_name: 1 }, { unique: true, background: true });
 }
 
 /**
@@ -50,8 +50,8 @@ async function createIndexes() {
  *
  * @returns {Promise<Cursor>} The cursor to iterate on messages
  */
-function find(query = {}, projections = {}) {
-  return collection().find(query, projections);
+function find(query = {}, projection = {}) {
+  return collection().find(query, { projection });
 }
 
 /**
@@ -62,8 +62,11 @@ function find(query = {}, projections = {}) {
  *
  * @returns {Object} The mongo document
  */
-function findOneById(roomId, projections = {}) {
-  return collection().findOne({ _id: roomId }, projections);
+function findOneById(roomId, projection = {}) {
+  return collection().findOne(
+    {_id: ObjectId.createFromHexString(roomId) },
+    { projection } 
+  );
 }
 
 /**

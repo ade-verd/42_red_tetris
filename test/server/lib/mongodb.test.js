@@ -5,7 +5,7 @@ const { Db, MongoError } = require('mongodb');
 
 const dbLib = require('../../../src/server/lib/mongodb');
 
-describe.only('lib/mongodb', () => {
+describe('lib/mongodb', () => {
   beforeEach(async () => {
       await dbLib.disconnect();
   });
