@@ -1,13 +1,18 @@
-import React from 'react'
+const React = require('react');
 
-export const Tetris = () => {
+const Tetris = () => {
   return (
     <Board/>
   )
 }
 
-export const Board = () => {
+const Board = () => {
   return (
     <div/>
   )
+}
+
+module.exports = {
+  Tetris, 
+  Board
 }

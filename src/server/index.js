@@ -1,5 +1,5 @@
-import fs  from 'fs'
-import debug from 'debug'
+const fs = require('fs');
+const debug = require('debug');
 
 const mongodb = require('./lib/mongodb');
 
@@ -42,7 +42,7 @@ const initEngine = io => {
   })
 }
 
-export function create(params){
+function create(params){
   const promise = new Promise( (resolve, reject) => {
     const app = require('http').createServer()
     initApp(app, params, () =>{
@@ -66,4 +66,8 @@ export function create(params){
 
   });
   return promise
+}
+
+module.exports = {
+  create
 }

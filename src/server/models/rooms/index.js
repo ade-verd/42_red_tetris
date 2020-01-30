@@ -11,14 +11,16 @@ const dateLib = require('../../lib/utils/date');
 function _validate(room) {
   const schema = Joi.object({
     room_name: Joi.string().required(),
-    players_ids: [
+    players_ids: Joi.array().items(
       Joi.string().required(),
-    ].required(),
-    game_status: Joi.string.valid(GAME_STATUS.map(status => status)).required(),
-    block_list: Joi.array().require(),
+    ).required(),
+    game_status: Joi.string().valid(
+      ...Object.keys(GAME_STATUS).map(status => GAME_STATUS[status])
+    ).required(),
+    block_list: Joi.array().required(),
     settings: Joi.object().required(),
-    created_at: Joi.date().default([newDate(), 'creation date']),
-    updated_at: Joi.date().default([newDate(), 'creation date']),
+    created_at: Joi.date().default(dateLib.newDate()),
+    updated_at: Joi.date().default(dateLib.newDate()),
   }).required();
 
   return Joi.attempt(room, schema);
@@ -93,8 +95,8 @@ async function insertOne(room) {
  */
 async function updateOne(roomId, updatedFields) {
   const result = await collection().updateOne(
-    { _id: roomId },
-    { $set: updatedFields },
+    { _id: ObjectId.createFromHexString(roomId) },
+    { $set: { ...updatedFields, updated_at: dateLib.newDate() } },
   );
   return result;
 }

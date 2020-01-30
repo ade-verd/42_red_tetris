@@ -1,7 +1,7 @@
 'use strict';
 
-function newDate(str) {
-	return new Date(str || Date.now());
+function newDate(str = null) {
+	return (str !== null ? new Date(str) : new Date());
 }
 
 module.exports = {
