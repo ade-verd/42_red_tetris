@@ -1,0 +1,23 @@
+{
+  "all": true,
+  "require": [
+    "@babel/register"
+  ],
+  "sourceMap": false,
+  "instrument": false,
+  "include": [
+    "src/**/*.js"
+  ],
+  "reporter": [
+    "text-summary",
+    "lcov"
+  ],
+  "exclude": [
+    "build",
+    "test/**/*.js"
+  ],
+  "branches": 70,
+  "lines": 70,
+  "functions": 70,
+  "statements": 70
+}
