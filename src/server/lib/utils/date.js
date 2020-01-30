@@ -1,9 +1,9 @@
 'use strict';
 
-function newDate() {
-	return new Date();
+function newDate(str) {
+	return new Date(str || Date.now());
 }
 
-module.export = {
+module.exports = {
 	newDate,
 }
