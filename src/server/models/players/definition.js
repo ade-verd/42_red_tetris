@@ -1,12 +1,12 @@
 'use strict';
 
 const DATABASE = 'redtetris';
-const COLLECTION = 'rooms';
+const COLLECTION = 'players';
 const COLLECTION_OPTIONS = {};
 
 const INDEXES = {
-	 KEYS: { room_name: 1 },
-	 OPTIONS: { unique: true, background: true },
+	 KEYS: { _id: 1 },
+	 OPTIONS: {},
 };
 
 module.exports = {

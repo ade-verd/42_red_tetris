@@ -1,28 +1,22 @@
 'use strict';
 
-const _ = require('lodash');
 const { expect } = require('chai');
 const { MongoError, ObjectId } = require('mongodb');
 const sinon = require('sinon');
-
-const config = require('../../../../src/server/config');
 
 const dbLib = require('../../../../src/server/lib/mongodb');
 
 const dateLib = require('../../../../src/server/lib/utils/date.js');
 const roomsModels = require('../../../../src/server/models/rooms');
-const { COLLECTION } = require('../../../../src/server/models/rooms/definition');
 
 const fixtures = require('../../../fixtures/rooms.fixtures');
 const { GAME_STATUS } = require('../../../../src/server/constants');
 
 describe('models/rooms', () => {
-	let db;
 	const sandbox = sinon.createSandbox();
 
 	before(async () => {
 		await dbLib.connect();
-		db = await dbLib.getDb();
 		await roomsModels.createIndexes();
 	});
 

@@ -3,33 +3,27 @@
 const Joi = require('@hapi/joi');
 const { ObjectId } = require('mongodb');
 
-const { COLLECTION, INDEXES } = require('./definition');
-const { GAME_STATUS } = require('../../constants');
 const { getDb } = require('../../lib/mongodb');
 const dateLib = require('../../lib/utils/date');
 
-function _validate(room) {
+const { COLLECTION, INDEXES } = require('./definition');
+const { GAME_STATUS } = require('../../constants');
+
+function _validate(player) {
   const schema = Joi.object({
-    room_name: Joi.string().required(),
-    players_ids: Joi.array().items(
-      Joi.string().required(),
-    ).required(),
-    game_status: Joi.string().valid(
-      ...Object.keys(GAME_STATUS).map(status => GAME_STATUS[status])
-    ).required(),
-    block_list: Joi.array().required(),
-    settings: Joi.object().required(),
+    name: Joi.string().required(),
+    blocks_consumed: Joi.number().min(0).required(),
     created_at: Joi.date().default(dateLib.newDate()),
     updated_at: Joi.date().default(dateLib.newDate()),
   }).required();
 
-  return Joi.attempt(room, schema);
+  return Joi.attempt(player, schema);
 }
 
 /**
- * Return the rooms collection
+ * Return the players collection
  *
- * @returns {Object} object to manipulate rooms collection
+ * @returns {Object} object to manipulate players collection
  */
 function collection() {
   return getDb().collection(COLLECTION);
@@ -57,45 +51,45 @@ function find(query = {}, projection = {}) {
 }
 
 /**
- * Returns a room found with its id
+ * Returns a player found with its id
  *
- * @param {ObjectId} roomId   - identifier of the queried room
+ * @param {ObjectId} playerId   - identifier of the queried player
  * @param {Object} projections - optional projection of result fields
  *
  * @returns {Object} The mongo document
  */
-function findOneById(roomId, projection = {}) {
+function findOneById(playerId, projection = {}) {
   return collection().findOne(
-    {_id: ObjectId.createFromHexString(roomId) },
+    {_id: ObjectId.createFromHexString(playerId) },
     { projection } 
   );
 }
 
 /**
- * Insert a new room into the database
+ * Insert a new player into the database
  *
- * @param {Object} room - data about the inserted room
+ * @param {Object} player - data about the inserted player
  *
- * @returns {Object} the inserted room
+ * @returns {Object} the inserted player
  */
-async function insertOne(room) {
-  const validatedRoom = _validate(room);
+async function insertOne(player) {
+  const validatedRoom = _validate(player);
   const res = await collection().insert(validatedRoom);
 
   return res.ops[0];
 }
 
 /**
- * Update a room
+ * Update a player
  *
- * @param {ObjectId} roomId     - identifier of the updated room
+ * @param {ObjectId} playerId     - identifier of the updated player
  * @param {Object} updatedFields - fields that are updated
  *
  * @returns {Object/null} result of update if succeeded, null otherwise
  */
-async function updateOne(roomId, updatedFields) {
+async function updateOne(playerId, updatedFields) {
   const result = await collection().updateOne(
-    { _id: ObjectId.createFromHexString(roomId) },
+    { _id: ObjectId.createFromHexString(playerId) },
     { $set: { ...updatedFields, updated_at: dateLib.newDate() } },
   );
   return result;
