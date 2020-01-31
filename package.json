@@ -12,7 +12,7 @@
     "srv-dev": "DEBUG=tetris:* babel-watch -w src src/server/main.js",
     "srv-dist": "DEBUG=tetris:* babel src --out-dir dist",
     "mocha": "mocha",
-    "test": "cross-env NODE_ENV=test nyc -r text -r lcov -r text --require @babel/register mocha"
+    "test": "cross-env NODE_ENV=test nyc mocha"
   },
   "dependencies": {
     "@hapi/joi": "17.1.0",
@@ -67,27 +67,12 @@
     "eslint-plugin-babel": "3.3.0",
     "eslint-plugin-react": "5.2.2",
     "mocha": "7.0.1",
-    "nyc": "^15.0.0",
     "react-addons-test-utils": "15.3.2",
     "sinon": "8.1.1",
     "webpack": "4.41.5",
     "webpack-dev-middleware": "3.7.2",
     "webpack-dev-server": "3.10.1",
     "webpack-hot-middleware": "2.25.0"
-  },
-  "nyc": {
-    "require": [
-      "@babel/register"
-    ],
-    "sourceMap": false,
-    "instrument": false,
-    "include": [
-      "src/**/*.js"
-    ],
-    "exclude": [
-      "build",
-      "test/**/*.js"
-    ]
   },
   "babel": {
     "presets": [
