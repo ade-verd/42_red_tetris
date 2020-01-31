@@ -1,7 +1,7 @@
 'use strict';
 
 const { expect } = require('chai');
-const { MongoError, ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const sinon = require('sinon');
 
 const dbLib = require('../../../../src/server/lib/mongodb');
@@ -10,7 +10,6 @@ const dateLib = require('../../../../src/server/lib/utils/date.js');
 const playersModels = require('../../../../src/server/models/players');
 
 const fixtures = require('../../../fixtures/players.fixtures');
-const { GAME_STATUS } = require('../../../../src/server/constants');
 
 describe('models/players', () => {
 	const sandbox = sinon.createSandbox();
