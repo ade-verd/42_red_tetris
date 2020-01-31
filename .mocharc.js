@@ -3,6 +3,7 @@
 // Here's a JavaScript-based config file.
 module.exports = {
   diff: true,
+  bail: true, 
   extension: ['js'],
   opts: false,
   package: './package.json',
