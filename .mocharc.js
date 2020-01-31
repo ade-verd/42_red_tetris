@@ -13,5 +13,5 @@ module.exports = {
   timeout: 2000,
   exit: true,
   ui: 'bdd',
-  'watch-files': ['src'],
+  'watch-files': ['src', 'test'],
 };
