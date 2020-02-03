@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 
-const { GAME_STATUS } = require('../../src/server/constants')
+const { GAME_STATUS } = require('../../src/constants')
 
 const toBeInsertedDirectly = () => ([
 	{

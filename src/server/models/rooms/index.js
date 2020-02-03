@@ -4,7 +4,7 @@ const Joi = require('@hapi/joi');
 const { ObjectId } = require('mongodb');
 
 const { COLLECTION, INDEXES } = require('./definition');
-const { GAME_STATUS } = require('../../constants');
+const { GAME_STATUS } = require('../../../constants');
 const { getDb } = require('../../lib/mongodb');
 const dateLib = require('../../lib/utils/date');
 
