@@ -7,11 +7,14 @@ import { Provider } from 'react-redux'
 import {storeStateMiddleWare} from './middleware/storeStateMiddleWare'
 import reducer from './reducers'
 import App from './containers/app'
-import {alert} from './actions/alert'
+import { alert } from './actions/alert'
 
-import { socket } from './socketio'
+import { ping } from './actions/server'
 
-const initialState = { db: [] }
+import openSocket from 'socket.io-client'
+const socket = openSocket('http://localhost:3004')
+
+const initialState = { }
 
 const store = createStore(
 	reducer,
@@ -26,6 +29,6 @@ ReactDom.render((
 ), document.getElementById('tetris'))
 
 store.dispatch(alert('Soon, will be here a fantastic te-Tetris ...'))
-socket.on('db', db => {
-	store.dispatch({ type: 'DB', db: db })
-});
+
+socket.emit('action', ping())
+socket.on('action', (action) => { console.log(action) })

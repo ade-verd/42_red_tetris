@@ -1,15 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-const App = ({message, db}) => {
-	console.log('onur', message, db)
+const App = ({message}) => {
   return (
 		<span>
 			<p>
 				{ message }
-			</p>
-			<p>
-				{ db }
 			</p>
 		</span>
   )
@@ -17,8 +13,7 @@ const App = ({message, db}) => {
 
 const mapStateToProps = (state) => {
   return {
-		message: state.message,
-		db: state.db
+		message: state.message
   }
 }
 export default connect(mapStateToProps, null)(App)
