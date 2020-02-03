@@ -10,7 +10,7 @@ const dateLib = require('../../../../src/server/lib/utils/date.js');
 const roomsModels = require('../../../../src/server/models/rooms');
 
 const fixtures = require('../../../fixtures/rooms.fixtures');
-const { GAME_STATUS } = require('../../../../src/server/constants');
+const { GAME_STATUS } = require('../../../../src/constants');
 
 describe('models/rooms', () => {
 	const sandbox = sinon.createSandbox();

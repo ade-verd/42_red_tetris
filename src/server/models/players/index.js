@@ -7,7 +7,6 @@ const { getDb } = require('../../lib/mongodb');
 const dateLib = require('../../lib/utils/date');
 
 const { COLLECTION, INDEXES } = require('./definition');
-const { GAME_STATUS } = require('../../constants');
 
 function _validate(player) {
   const schema = Joi.object({
