@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 
-const { GAME_STATUS } = require('../../src/constants')
+const { GAME_STATUS, TETRIMINOS } = require('../../src/constants');
 
 const toBeInsertedDirectly = () => ([
 	{
@@ -10,7 +10,7 @@ const toBeInsertedDirectly = () => ([
 			'00000000000000000000000a',
 		],
 		game_status: GAME_STATUS.WAITING,
-		block_list: [],
+		blocks_list: [],
 		settings: {},
 		created_at: new Date('2020-01-01T10:00:00Z'),
 		updated_at: new Date('2020-01-01T10:00:00Z'),
@@ -23,7 +23,7 @@ const toBeInsertedDirectly = () => ([
 			'00000000000000000000000b',
 		],
 		game_status: GAME_STATUS.WAITING,
-		block_list: [],
+		blocks_list: [],
 		settings: {},
 		created_at: new Date('2020-01-01T10:00:00Z'),
 		updated_at: new Date('2020-01-01T10:00:00Z'),
@@ -37,7 +37,7 @@ const toBeInsertedDirectly = () => ([
 			'00000000000000000000000c',
 		],
 		game_status: GAME_STATUS.WAITING,
-		block_list: [],
+		blocks_list: [],
 		settings: {},
 		created_at: new Date('2020-01-01T10:00:00Z'),
 		updated_at: new Date('2020-01-01T10:00:00Z'),
@@ -50,7 +50,7 @@ const room1Player = () => ({
 		'00000000000000000000000a',
 	],
 	game_status: GAME_STATUS.WAITING,
-	block_list: [],
+	blocks_list: [],
 	settings: {},
 });
 
@@ -61,7 +61,7 @@ const room2Players = () => ({
 		'00000000000000000000000b',
 	],
 	game_status: GAME_STATUS.PLAYING,
-	block_list: [],
+	blocks_list: [],
 	settings: {},
 });
 
@@ -73,13 +73,19 @@ const room3Players = () => ({
 		'00000000000000000000000c',
 	],
 	game_status: GAME_STATUS.OFFLINE,
-	block_list: [],
+	blocks_list: [],
 	settings: {},
 });
+
+const blocksList = () => ([
+	{ ...TETRIMINOS.I },
+	{ ...TETRIMINOS.O },
+]);
 
 module.exports = {
 	default: toBeInsertedDirectly,
 	room1Player,
 	room2Players,
 	room3Players,
+	blocksList,
 }
