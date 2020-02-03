@@ -37,6 +37,7 @@ function collection() {
  */
 async function createIndexes() {
   await collection().createIndexes(INDEXES);
+  console.log('[spectrums] collection and indexes created');
 }
 
 /**
