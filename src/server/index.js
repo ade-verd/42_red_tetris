@@ -2,6 +2,7 @@ const fs = require('fs');
 const debug = require('debug');
 
 const mongodb = require('./lib/mongodb');
+const models = require('./models');
 
 const logerror = debug('tetris:error')
   , loginfo = debug('tetris:info')
@@ -21,7 +22,9 @@ const initApp = (app, params, cb) => {
     })
   }
 
-  mongodb.connect();
+  new Promise((resolve, reject) => {
+    resolve(mongodb.connect())
+  }).then(() => models.createCollectionsIndexes())
 
   app.on('request', handler)
 
