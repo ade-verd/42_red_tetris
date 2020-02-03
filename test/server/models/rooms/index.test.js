@@ -10,6 +10,7 @@ const dateLib = require('../../../../src/server/lib/utils/date.js');
 const roomsModels = require('../../../../src/server/models/rooms');
 
 const fixtures = require('../../../fixtures/rooms.fixtures');
+
 const { GAME_STATUS } = require('../../../../src/constants');
 
 describe('models/rooms', () => {
@@ -74,7 +75,7 @@ describe('models/rooms', () => {
 					room_name: 'room_1',
 					players_ids: ['00000000000000000000000a'],
 					game_status: 'waiting',
-					block_list: [],
+					blocks_list: [],
 					settings: {},
 					created_at: new Date("2020-01-01T10:00:00Z"),
 					updated_at: new Date("2020-01-01T10:00:00Z"),
@@ -87,7 +88,7 @@ describe('models/rooms', () => {
 						'00000000000000000000000b',
 					],
 					game_status: 'waiting',
-					block_list: [],
+					blocks_list: [],
 					settings: {},
 					created_at: new Date("2020-01-01T10:00:00Z"),
 					updated_at: new Date("2020-01-01T10:00:00Z"),
@@ -101,7 +102,7 @@ describe('models/rooms', () => {
 						'00000000000000000000000c',
 					],
 					game_status: 'waiting',
-					block_list: [],
+					blocks_list: [],
 					settings: {},
 					created_at: new Date("2020-01-01T10:00:00Z"),
 					updated_at: new Date("2020-01-01T10:00:00Z"),
@@ -119,7 +120,7 @@ describe('models/rooms', () => {
 					room_name: 'room_1',
 					players_ids: ['00000000000000000000000a'],
 					game_status: 'waiting',
-					block_list: [],
+					blocks_list: [],
 					settings: {},
 					created_at: new Date("2020-01-01T10:00:00Z"),
 					updated_at: new Date("2020-01-01T10:00:00Z"),
@@ -152,7 +153,7 @@ describe('models/rooms', () => {
 				room_name: 'room_1',
 				players_ids: ['00000000000000000000000a'],
 				game_status: 'waiting',
-				block_list: [],
+				blocks_list: [],
 				settings: {},
 				created_at: new Date("2020-01-01T10:00:00Z"),
 				updated_at: new Date("2020-01-01T10:00:00Z"),
@@ -196,7 +197,7 @@ describe('models/rooms', () => {
 					'00000000000000000000000a',
 				],
 				game_status: 'waiting',
-				block_list: [],
+				blocks_list: [],
 				settings: {},
 				created_at: new Date("2000-01-01T10:00:00Z"),
 				updated_at: new Date("2000-01-01T10:00:00Z"),
@@ -266,7 +267,7 @@ describe('models/rooms', () => {
 					'00000000000000000000000a',
 				],
 				game_status: GAME_STATUS.PLAYING,
-				block_list: [],
+				blocks_list: [],
 				settings: {},
 				created_at: new Date("2020-01-01T10:00:00Z"),
 				updated_at: new Date("2050-01-01T10:00:00Z")
@@ -286,6 +287,84 @@ describe('models/rooms', () => {
 
 			expect(result.matchedCount).to.equal(0);
 			expect(result.modifiedCount).to.equal(0);
+		});
+	});
+
+	describe('#updateRoomBlockList()', () => {
+		beforeEach(async () => {
+			await roomsModels.collection().insertMany(fixtures.default());
+		});
+
+		it('should update successfully a room\'s blocks list', async () => {
+			const FAKE_DATE = new Date('2050-01-01T10:00:00Z');
+			const dateStub = sandbox.stub(dateLib, 'newDate').returns(FAKE_DATE);
+
+			const ROOM_ID = '000000000000000000000001';
+			const blockList = fixtures.blocksList();
+
+			const result = await roomsModels.updateRoomBlockList(ROOM_ID, blockList);
+
+			const expectedRoom = {
+				_id: new ObjectId('000000000000000000000001'),
+				room_name: 'room_1',
+				players_ids: [
+					'00000000000000000000000a',
+				],
+				game_status: GAME_STATUS.WAITING,
+				blocks_list: [
+					{
+						shape: [
+							[0, 'I', 0, 0],
+							[0, 'I', 0, 0],
+							[0, 'I', 0, 0],
+							[0, 'I', 0, 0],
+						],
+						color: '29, 174, 236',
+						rotationsPossible: 2,
+					},
+					{
+						shape: [
+							['O', 'O'],
+							['O', 'O'],
+						],
+						color: '255, 239, 53',
+						rotationsPossible: 1,
+					},
+				],
+				settings: {},
+				created_at: new Date("2020-01-01T10:00:00Z"),
+				updated_at: new Date("2050-01-01T10:00:00Z")
+			};
+			const roomFound = await roomsModels.findOneById(ROOM_ID);
+
+			expect(dateStub.callCount).to.equal(1);
+			expect(result.modifiedCount).to.equal(1);
+			expect(roomFound).to.deep.equal(expectedRoom);
+		});
+
+		it('should not update anything if the room does not exist', async () => {
+			const ROOM_ID = 'ffffffffffffffffffffffff';
+			const result = await roomsModels.updateRoomBlockList(ROOM_ID, ['0']);
+
+			expect(result.matchedCount).to.equal(0);
+			expect(result.modifiedCount).to.equal(0);
+		});
+
+		it('should throw if the blocks list to push is not an array', async () => {
+			const ROOM_ID = '000000000000000000000001';
+			const BLOCKS_LIST = {};
+
+			let error;
+			try {
+				await roomsModels.updateRoomBlockList(ROOM_ID, BLOCKS_LIST);
+			} catch (err) {
+				error = err;
+			}
+
+			expect(error).to.be.instanceOf(MongoError);
+			expect(error.message).to.satisfy(msg =>
+				msg.startsWith('The argument to $each in $push must be an array')
+			);
 		});
 	});
 });

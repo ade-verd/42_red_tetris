@@ -1,4 +1,5 @@
 const TETRIMINOS = {
+	BLOCK_NAMES: 'IOJLSZP',
 	0: {
 		shape: [
 			[0]
@@ -13,6 +14,7 @@ const TETRIMINOS = {
 			[0, 'I', 0, 0],
 		],
 		color: '29, 174, 236',
+		rotationsPossible: 2,
 	},
 	O: {
 		shape: [
@@ -20,6 +22,7 @@ const TETRIMINOS = {
 			['O', 'O'],
 		],
 		color: '255, 239, 53',
+		rotationsPossible: 1,
 	},
 	J: {
 		shape: [
@@ -28,6 +31,7 @@ const TETRIMINOS = {
 			['J', 'J', 0],
 		],
 		color: '34, 118, 185',
+		rotationsPossible: 4,
 	},
 	L: {
 		shape: [
@@ -36,6 +40,7 @@ const TETRIMINOS = {
 			[0, 'L', 'L'],
 		],
 		color: '244, 146, 49',
+		rotationsPossible: 4,
 	},
 	S: {
 		shape: [
@@ -44,6 +49,7 @@ const TETRIMINOS = {
 			[0, 0, 0],
 		],
 		color: '141, 196, 73',
+		rotationsPossible: 2,
 	},
 	Z: {
 		shape: [
@@ -52,6 +58,7 @@ const TETRIMINOS = {
 			[0, 0, 0],
 		],
 		color: '234, 32, 45',
+		rotationsPossible: 2,
 	},
 	T: {
 		shape: [
@@ -60,6 +67,7 @@ const TETRIMINOS = {
 			[0, 0, 0],
 		],
 		color: '101, 49, 142',
+		rotationsPossible: 4,
 	},
 };
 
