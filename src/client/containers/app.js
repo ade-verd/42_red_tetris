@@ -18,8 +18,8 @@ const App = ({message, field}) => {
 const mapStateToProps = (state) => {
 	console.log('state = ', state)
   return {
-		message: state.message,
-		field: state.field
+		message: state.alt.message,
+		field: state.fld.field
   }
 }
 export default connect(mapStateToProps, null)(App)
