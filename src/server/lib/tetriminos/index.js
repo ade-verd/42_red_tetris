@@ -10,7 +10,7 @@ const { TETRIMINOS } = require('../../../constants');
 function _getRandomRotation(initialTetrimino) {
 	const tetrimino = { ...initialTetrimino };
 
-	const rotationsPossible = tetrimino.rotationsPossible || 1;
+	const rotationsPossible = tetrimino.rotationsPossible;
 
 	if (rotationsPossible === 1) return tetrimino;
 
@@ -32,11 +32,9 @@ function getRandomTetrimino() {
 async function createNewRandomTetriminos(roomId, numberToCreate) {
 	let blocksToPush = [];
 	for (let i = 0; i < numberToCreate ; i += 1) {
-		blocksToPush.push(getRandomTetrimino());
+		blocksToPush.push(this.getRandomTetrimino());
 	}
 	
-	console.log('blocksToPush:', blocksToPush);
-
 	const result = await roomsModels.updateRoomBlockList(roomId, blocksToPush);
 	return { ...result, blockList: blocksToPush };
 }
