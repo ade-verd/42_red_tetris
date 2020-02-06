@@ -22,7 +22,7 @@ Install [node](https://nodejs.org/en/) first. After that:
 $ npm install
 ```
 
-Edit `params.js` for your needs.
+Edit `src/server/config/index.js` for your needs.
 
 
 ### Development Mode

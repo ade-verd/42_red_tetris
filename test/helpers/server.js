@@ -25,8 +25,10 @@ const myMiddleware = (types={}) => {
   return store => next => action => {
     const result = next(action)
     const cb = types[action.type]
-    if(cb && !fired[action.type]){
-      if(!isFunction(cb)) throw new Error("action's type value must be a function")
+    if (cb && !fired[action.type]){
+      if (!isFunction(cb)) {
+        throw new Error("action's type value must be a function")
+      }
       fired[action.type] = true
       cb({getState: store.getState, dispatch: store.dispatch, action})
     }
@@ -35,9 +37,11 @@ const myMiddleware = (types={}) => {
 }
 
 const socketIoMiddleWare = socket => ({dispatch, getState}) => {
-  if(socket) socket.on('action', dispatch)
+  if (socket) socket.on('action', dispatch)
   return next => action => {
-    if(socket && action.type && action.type.indexOf('server/') === 0) socket.emit('action', action)
+    if (socket && action.type && action.type.indexOf('server/') === 0) {
+      socket.emit('action', action)
+    }
     return next(action)
   }
 }

@@ -1,16 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-
 const App = ({message}) => {
   return (
-    <span>{message}</span>
+		<span>
+			<p>
+				{ message }
+			</p>
+		</span>
   )
 }
 
 const mapStateToProps = (state) => {
   return {
-    message: state.message
+		message: state.message
   }
 }
 export default connect(mapStateToProps, null)(App)

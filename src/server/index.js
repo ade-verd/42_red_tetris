@@ -4,8 +4,10 @@ const debug = require('debug');
 const mongodb = require('./lib/mongodb');
 const models = require('./models');
 
+const { initSocketIo } = require('./socket');
+
 const logerror = debug('tetris:error')
-  , loginfo = debug('tetris:info')
+    , loginfo = debug('tetris:info');
 
 const initApp = (app, params, cb) => {
   const {host, port} = params
@@ -34,17 +36,6 @@ const initApp = (app, params, cb) => {
   })
 }
 
-const initEngine = io => {
-  io.on('connection', function(socket){
-    loginfo("Socket connected: " + socket.id)
-    socket.on('action', (action) => {
-      if(action.type === 'server/ping'){
-        socket.emit('action', {type: 'pong'})
-      }
-    })
-  })
-}
-
 function create(params){
   const promise = new Promise( (resolve, reject) => {
     const app = require('http').createServer()
@@ -62,7 +53,7 @@ function create(params){
         cb()
       }
 
-      initEngine(io)
+      initSocketIo(io);
       resolve({stop})
     });
 
@@ -72,5 +63,7 @@ function create(params){
 }
 
 module.exports = {
-  create
+  create,
+  loginfo,
+  logerror,
 }

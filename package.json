@@ -15,6 +15,7 @@
     "test": "cross-env NODE_ENV=test nyc mocha"
   },
   "dependencies": {
+    "@hapi/hoek": "^9.0.2",
     "@hapi/joi": "17.1.0",
     "ajv": "6.11.0",
     "co": "4.6.0",
@@ -27,7 +28,8 @@
     "redux": "3.5.2",
     "redux-logger": "2.6.1",
     "redux-thunk": "2.0.1",
-    "socket.io": "1.4.6"
+    "socket.io": "1.4.6",
+    "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
     "@babel/cli": "7.8.4",
@@ -70,6 +72,7 @@
     "nyc": "^15.0.0",
     "react-addons-test-utils": "15.3.2",
     "sinon": "8.1.1",
+    "socket-tester": "^1.2.1",
     "webpack": "4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-middleware": "3.7.2",
