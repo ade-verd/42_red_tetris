@@ -2,7 +2,9 @@
 
 // Here's a JavaScript-based config file.
 module.exports = {
-  diff: true,
+  color: true, 
+  diff: true, 
+  'inline-diffs': true, 
   bail: true, 
   extension: ['js'],
   opts: false,

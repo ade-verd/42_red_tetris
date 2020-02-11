@@ -3,7 +3,9 @@ import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 
 export const startServer = (params, cb) => {
-  server.create(params)
+  const config = { ...params, startMongodb: params.startMongodb === true };
+
+  server.create(config)
     .then( server => cb(null, server) )
     .catch( err => cb(err) )
 }

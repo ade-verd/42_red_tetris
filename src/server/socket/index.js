@@ -6,7 +6,6 @@ const handlers = Object.values({
 	...serverTestHandler,
 });
 
-
 export const initSocketIo = (io) => {
 	io.on("connection", (socket) => {
 		console.log('Socket connected:', socket.id);

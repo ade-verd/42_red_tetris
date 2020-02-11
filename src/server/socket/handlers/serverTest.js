@@ -9,7 +9,6 @@ const schema = {
 }; 
 
 const emitPong = (socket, payload) => {
-	console.log('emitPong', payload);
 	if (payload.type === 'server/ping') {
 		socket.emit('action', { type: 'pong' });
 	}

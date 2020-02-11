@@ -10,7 +10,7 @@ const logerror = debug('tetris:error')
     , loginfo = debug('tetris:info');
 
 const initApp = (app, params, cb) => {
-  const {host, port} = params
+  const {host, port, startMongodb = true} = params
   const handler = (req, res) => {
     const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html'
     fs.readFile(__dirname + file, (err, data) => {
@@ -24,9 +24,11 @@ const initApp = (app, params, cb) => {
     })
   }
 
-  new Promise((resolve, reject) => {
-    resolve(mongodb.connect())
-  }).then(() => models.createCollectionsIndexes())
+  if (startMongodb) {
+    new Promise((resolve, reject) => {
+      resolve(mongodb.connect())
+    }).then(() => models.createCollectionsIndexes())
+  }
 
   app.on('request', handler)
 

@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const io = require('socket.io-client');
 
-const { startServer, configureStore } = require('../../../helpers/server');
+const { startServer } = require('../../../helpers/server');
 const config = require('../../../../src/server/config');
 
 const { ping } = require('../../../../src/client/actions/server');
