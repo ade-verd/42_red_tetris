@@ -4,7 +4,7 @@ const Joi = require('@hapi/joi');
 const { ObjectId } = require('mongodb');
 
 const { COLLECTION, INDEXES } = require('./definition');
-const { GAME_STATUS } = require('../../constants');
+const { GAME_STATUS } = require('../../../constants');
 const { getDb } = require('../../lib/mongodb');
 const dateLib = require('../../lib/utils/date');
 
@@ -17,7 +17,7 @@ function _validate(room) {
     game_status: Joi.string().valid(
       ...Object.keys(GAME_STATUS).map(status => GAME_STATUS[status])
     ).required(),
-    block_list: Joi.array().required(),
+    blocks_list: Joi.array().required(),
     settings: Joi.object().required(),
     created_at: Joi.date().default(dateLib.newDate()),
     updated_at: Joi.date().default(dateLib.newDate()),
@@ -102,6 +102,25 @@ async function updateOne(roomId, updatedFields) {
   return result;
 }
 
+/**
+ * Push block in blocks_list of a specific room
+ *
+ * @param {ObjectId} roomId     - identifier of the updated room
+ * @param {Array} blocksToPush  - Array to push
+ *
+ * @returns {Object/null} result of update if succeeded, null otherwise
+ */
+async function updateRoomBlockList(roomId, blocksToPush) {
+  const result = await collection().updateOne(
+    { _id: ObjectId.createFromHexString(roomId) },
+    {
+      $push: { blocks_list: { $each: blocksToPush } },
+      $set: { updated_at: dateLib.newDate() }
+    },
+  );
+  return result;
+}
+
 module.exports = {
   collection,
   createIndexes,
@@ -109,4 +128,5 @@ module.exports = {
   findOneById,
   insertOne,
   updateOne,
+  updateRoomBlockList,
 };

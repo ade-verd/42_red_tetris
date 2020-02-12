@@ -9,7 +9,7 @@
     "src/**/*.js"
   ],
   "reporter": [
-    "text-summary",
+    "text",
     "lcov"
   ],
   "exclude": [

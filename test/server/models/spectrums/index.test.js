@@ -16,7 +16,6 @@ describe('models/spectrums', () => {
 
 	before(async () => {
 		await dbLib.connect();
-		await spectrumsModels.collection().drop();
 		await spectrumsModels.createIndexes();
 	});
 

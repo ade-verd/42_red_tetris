@@ -1,5 +1,7 @@
 'use strict';
 
+const { TETRIMINOS } = require('./tetriminos.js');
+
 const GAME_STATUS = {
 	WAITING: 'waiting',
 	PLAYING: 'playing',
@@ -8,4 +10,5 @@ const GAME_STATUS = {
 
 module.exports = {
 	GAME_STATUS,
+	TETRIMINOS,
 }
