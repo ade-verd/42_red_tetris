@@ -3,12 +3,12 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-const tetriminosLib = require('../../../../src/server/lib/tetriminos');
+const randomTetriminosLib = require('../../../../src/server/lib/pieces/randomPieces.js');
 const randomLib = require('../../../../src/server/lib/utils/random');
 const roomsModels = require('../../../../src/server/models/rooms');
 
 const fixtures = require('../../../fixtures/tetriminos.fixtures.js');
-describe('lib/tetriminos', () => {
+describe('lib/pieces/randomPieces', () => {
 	const sandbox = sinon.createSandbox();
 
 	afterEach(() => {
@@ -16,8 +16,8 @@ describe('lib/tetriminos', () => {
 	});
 
 	describe('#_getRandomRotation()', () => {
-		it('should return the same tetrimino if there is only one rotation possible', async () => {
-			const res = await tetriminosLib.__TESTS__._getRandomRotation(fixtures.tetriminos().O);
+		it('should return the same tetrimino if there is only one rotation possible', () => {
+			const res = randomTetriminosLib.__TESTS__._getRandomRotation(fixtures.tetriminos().O);
 
 			expect(res).to.deep.equal({
 				shape: [
@@ -29,10 +29,10 @@ describe('lib/tetriminos', () => {
 			});
 		});
 
-		it('should return the same tetrimino if the rotation 1 is randomly chosen', async () => {
+		it('should return the same tetrimino if the rotation 1 is randomly chosen', () => {
 			const randomIntStub = sandbox.stub(randomLib, 'getRandomInt').returns(1);
 
-			const res = await tetriminosLib.__TESTS__._getRandomRotation(fixtures.tetriminos().J);
+			const res = randomTetriminosLib.__TESTS__._getRandomRotation(fixtures.tetriminos().J);
 
 			expect(randomIntStub.callCount).to.equal(1);
 			expect(res).to.deep.equal({
@@ -46,10 +46,10 @@ describe('lib/tetriminos', () => {
 			});
 		});
 
-		it('should return the rotated tetrimino if the rotation 3 is randomly chosen', async () => {
+		it('should return the rotated tetrimino if the rotation 3 is randomly chosen', () => {
 			const randomIntStub = sandbox.stub(randomLib, 'getRandomInt').returns(3);
 
-			const res = await tetriminosLib.__TESTS__._getRandomRotation(fixtures.tetriminos().J);
+			const res = randomTetriminosLib.__TESTS__._getRandomRotation(fixtures.tetriminos().J);
 
 			expect(randomIntStub.callCount).to.equal(1);
 			expect(res).to.deep.equal({
@@ -65,11 +65,11 @@ describe('lib/tetriminos', () => {
 	});
 
 	describe('#getRandomTetrimino()', () => {
-		it('should return the same tetrimino if there is only one rotation possible', async () => {
+		it('should return the same tetrimino if there is only one rotation possible', () => {
 			const indexBlockO = fixtures.tetriminos().BLOCK_NAMES.indexOf('O');
 			const randomIntStub = sandbox.stub(randomLib, 'getRandomInt').returns(indexBlockO);
 
-			const randomTetrimino = await tetriminosLib.getRandomTetrimino();
+			const randomTetrimino = randomTetriminosLib.getRandomTetrimino();
 
 			expect(randomIntStub.callCount).to.equal(1);
 			expect(randomTetrimino).to.deep.equal({
@@ -82,13 +82,13 @@ describe('lib/tetriminos', () => {
 			});
 		});
 
-		it('should return the rotated tetrimino', async () => {
+		it('should return the rotated tetrimino', () => {
 			const indexBlockO = fixtures.tetriminos().BLOCK_NAMES.indexOf('J');
 			const randomIntStub = sandbox.stub(randomLib, 'getRandomInt');
 			randomIntStub.onCall(0).returns(indexBlockO);
 			randomIntStub.onCall(1).returns(2);
 
-			const randomTetrimino = await tetriminosLib.getRandomTetrimino();
+			const randomTetrimino = randomTetriminosLib.getRandomTetrimino();
 
 			expect(randomIntStub.callCount).to.equal(2);
 			expect(randomTetrimino).to.deep.equal({
@@ -106,7 +106,7 @@ describe('lib/tetriminos', () => {
 	describe('#createNewRandomTetriminos()', () => {
 		it('should create one new random tetrimino and update the collection', async () => {
 			const randomTetriminoStub = sandbox
-				.stub(tetriminosLib, 'getRandomTetrimino')
+				.stub(randomTetriminosLib, 'getRandomTetrimino')
 				.returns(fixtures.tetriminos().O);
 			const updateBlocksListStub = sandbox.stub(roomsModels, 'updateRoomBlockList').resolves({
 				matchedCount: 1,
@@ -115,7 +115,7 @@ describe('lib/tetriminos', () => {
 
 			const ROOM_ID = '000000000000000000000001';
 			const numberToCreate = 1;
-			const res = await tetriminosLib.createNewRandomTetriminos(ROOM_ID, numberToCreate);
+			const res = await randomTetriminosLib.createNewRandomTetriminos(ROOM_ID, numberToCreate);
 
 			expect(randomTetriminoStub.callCount).to.equal(1);
 			expect(updateBlocksListStub.args).to.deep.equal([[

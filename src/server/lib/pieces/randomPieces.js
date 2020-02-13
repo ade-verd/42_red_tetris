@@ -7,6 +7,8 @@ const matrixLib = require('../utils/matrix.js');
 
 const { TETRIMINOS } = require('../../../constants');
 
+const Piece = require('./classPiece');
+
 function _getRandomRotation(initialTetrimino) {
 	const tetrimino = { ...initialTetrimino };
 
@@ -32,7 +34,7 @@ function getRandomTetrimino() {
 async function createNewRandomTetriminos(roomId, numberToCreate) {
 	let blocksToPush = [];
 	for (let i = 0; i < numberToCreate ; i += 1) {
-		blocksToPush.push(this.getRandomTetrimino());
+		blocksToPush.push(new Piece().tetrimino());
 	}
 	
 	const result = await roomsModels.updateRoomBlockList(roomId, blocksToPush);
