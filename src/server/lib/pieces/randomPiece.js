@@ -1,13 +1,11 @@
 'use strict';
 
-const roomsModels = require('../../models/rooms');
 
 const randomLib = require('../utils/random.js');
 const matrixLib = require('../utils/matrix.js');
 
 const { TETRIMINOS } = require('../../../constants');
 
-const Piece = require('./classPiece');
 
 function _getRandomRotation(initialTetrimino) {
 	const tetrimino = { ...initialTetrimino };
@@ -26,24 +24,14 @@ function _getRandomRotation(initialTetrimino) {
 function getRandomTetrimino() {
 	const blockNames = TETRIMINOS.BLOCK_NAMES;
 
-	const randomBlockName = blockNames[randomLib.getRandomInt(0, blockNames.length - 1)];
+	const randomInt = randomLib.getRandomInt(0, blockNames.length - 1);
+	const randomBlockName = blockNames[randomInt];
 	const randomTetrimino = TETRIMINOS[randomBlockName];
 	return _getRandomRotation(randomTetrimino)
 }
 
-async function createNewRandomTetriminos(roomId, numberToCreate) {
-	let blocksToPush = [];
-	for (let i = 0; i < numberToCreate ; i += 1) {
-		blocksToPush.push(new Piece().tetrimino());
-	}
-	
-	const result = await roomsModels.updateRoomBlockList(roomId, blocksToPush);
-	return { ...result, blockList: blocksToPush };
-}
-
 module.exports = {
 	getRandomTetrimino,
-	createNewRandomTetriminos,
 	__TESTS__: {
 		_getRandomRotation
 	}

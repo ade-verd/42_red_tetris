@@ -1,5 +1,7 @@
 'use strict';
 
+const randomPiecesLib = require('./randomPiece.js')
+
 class Piece {
 	constructor() {
 		this._piece = randomPiecesLib.getRandomTetrimino();
@@ -23,6 +25,3 @@ class Piece {
 }
 
 module.exports = Piece;
-
-// placed here to avoid circular dependency
-const randomPiecesLib = require('./randomPieces.js')

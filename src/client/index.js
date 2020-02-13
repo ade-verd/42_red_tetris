@@ -32,3 +32,10 @@ store.dispatch(alert('Soon, will be here a fantastic te-Tetris ...'))
 
 socket.emit('action', ping())
 socket.on('action', (action) => { console.log(action) })
+
+socket.emit('tetriminos:get_random', {
+  room_id: '000000000000000000000001',
+  pieces_position: 0,
+  number: 10,
+});
+socket.on('tetriminos:get_random', (pieces) => { console.log(pieces) })

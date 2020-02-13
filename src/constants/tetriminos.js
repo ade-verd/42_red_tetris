@@ -1,5 +1,5 @@
 const TETRIMINOS = {
-	BLOCK_NAMES: 'IOJLSZP',
+	BLOCK_NAMES: 'IOJLSZT',
 	0: {
 		shape: [
 			[0]
