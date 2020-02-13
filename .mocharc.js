@@ -4,7 +4,7 @@
 module.exports = {
   color: true, 
   diff: true, 
-  'inline-diffs': true, 
+  'inline-diffs': false, 
   bail: true, 
   extension: ['js'],
   opts: false,
