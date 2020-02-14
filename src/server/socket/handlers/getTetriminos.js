@@ -4,7 +4,7 @@ const Joi = require('@hapi/joi');
 
 const helpers = require('../eventHelpers');
 
-const createNRandomLib = require('../../lib/pieces/createNRandomPieces.js');
+const getPiecesLib = require('../../lib/pieces/getPieces');
 
 const schema = {
 	room_id: Joi.string().required(),
@@ -15,7 +15,7 @@ const schema = {
 const emitNewPieces = async (socket, payload) => {
 	const [roomId, numberToCreate] = [payload.room_id, payload.number];
 	try {
-		const creationResult = await createNRandomLib.createNewRandomTetriminos(roomId, numberToCreate);
+		const creationResult = await getPiecesLib.createNewRandomTetriminos(roomId, numberToCreate);
 		socket.emit('tetriminos:get_random', creationResult.blockList);
 	} catch (err) {
 		console.error('[getTetriminos]', err);

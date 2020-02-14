@@ -82,10 +82,24 @@ const blocksList = () => ([
 	{ ...TETRIMINOS.O },
 ]);
 
+const generateBlocksList = (piecesNumber) => {
+	const blocksList = [];
+
+	let letter = 0;
+	const blocksNames = TETRIMINOS.BLOCK_NAMES;
+	for (let i = 0; i < piecesNumber; i += 1) {
+		const piece = TETRIMINOS[blocksNames[letter]];
+		blocksList.push(piece);
+		letter = letter + 1 >= blocksNames.length ? 0 : letter + 1;
+	}
+	return blocksList;
+};
+
 module.exports = {
 	default: toBeInsertedDirectly,
 	room1Player,
 	room2Players,
 	room3Players,
 	blocksList,
+	generateBlocksList,
 }
