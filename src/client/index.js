@@ -10,6 +10,7 @@ import App from './containers/app'
 import { alert } from './actions/alert'
 
 import { ping } from './actions/server'
+import { getTetriminos } from './actions/getTetriminos'
 
 import openSocket from 'socket.io-client'
 const socket = openSocket('http://localhost:3004')
@@ -33,9 +34,5 @@ store.dispatch(alert('Soon, will be here a fantastic te-Tetris ...'))
 socket.emit('action', ping())
 socket.on('action', (action) => { console.log(action) })
 
-socket.emit('tetriminos:get_random', {
-  room_id: '000000000000000000000001',
-  pieces_position: 0,
-  number: 10,
-});
+socket.emit('tetriminos:get_random', getTetriminos('000000000000000000000001', 0, 1));
 socket.on('tetriminos:get_random', (pieces) => { console.log(pieces) })

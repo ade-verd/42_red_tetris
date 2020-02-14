@@ -7,7 +7,7 @@ const config = require('../../../../src/server/config');
 const { ping } = require('../../../../src/client/actions/server');
 
 
-describe("Server test", function () {
+describe("socket/handlers/server test", function () {
 	const socketUrl = config.server.url;
 	const options = {
 		transports: ['websocket'],
@@ -44,6 +44,9 @@ describe("Server test", function () {
 		client.on('action', () => {
 			throw new Error('should not be call')
 		});
-		setTimeout(() => done(), 50);
+		setTimeout(() => {
+			client.disconnect();
+			done();
+		}, 50);
 	});
 });

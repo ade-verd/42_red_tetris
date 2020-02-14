@@ -8,15 +8,20 @@ const getPiecesLib = require('../../lib/pieces/getPieces');
 
 const schema = {
 	room_id: Joi.string().required(),
-	number: Joi.number().default(1),
 	pieces_position: Joi.number().required(),
+	number: Joi.number().default(1),
 };
 
 const emitNewPieces = async (socket, payload) => {
-	const [roomId, numberToCreate] = [payload.room_id, payload.number];
+	const [roomId, piecePosition, piecesNumber] = [
+		payload.room_id,
+		payload.pieces_position,
+		payload.number
+	];
 	try {
-		const creationResult = await getPiecesLib.createNewRandomTetriminos(roomId, numberToCreate);
-		socket.emit('tetriminos:get_random', creationResult.blockList);
+		const pieces = await getPiecesLib
+			.getTetriminos(roomId, piecePosition, piecesNumber);
+		socket.emit('tetriminos:get_random', pieces);
 	} catch (err) {
 		console.error('[getTetriminos]', err);
 	}
