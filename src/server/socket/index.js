@@ -10,7 +10,7 @@ const handlers = Object.values({
 export const initSocketIo = (io) => {
 	io.on("connection", (socket) => {
 		console.log('Socket connected:', socket.id);
-		socket.emit('server/start')
+		io.emit('server/start')
 		handlers.forEach((handler) => {
 			bindEvent(socket, handler);
 		});

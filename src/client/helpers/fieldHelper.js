@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { store } from '../index'
 
 export const FIELD_WIDTH = 10
 export const FIELD_HEIGHT = 20
@@ -26,7 +26,7 @@ export const updateField = (prevField, player) => {
 	})
 	// Then check if we collided
 	if (player.collided) {
-		resetPlayer()
+		store.dispatch({ type: 'reset' })
 		return sweepRows(newStage)
 	}
 	return newField
