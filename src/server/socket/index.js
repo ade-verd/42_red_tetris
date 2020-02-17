@@ -6,17 +6,17 @@ import * as roomsHandlers from './handlers/rooms';
 import * as serverTestHandler from './handlers/serverTest';
 
 const handlers = Object.values({
-	...piecesHandlers,
-	...playersHandlers,
-	...roomsHandlers,
-	...serverTestHandler,
+    ...piecesHandlers,
+    ...playersHandlers,
+    ...roomsHandlers,
+    ...serverTestHandler,
 });
 
-export const initSocketIo = (io) => {
-	io.on("connection", (socket) => {
-		console.log('Socket connected:', socket.id);
-		handlers.forEach((handler) => {
-			bindEvent(socket, handler);
-		});
-	});
+export const initSocketIo = io => {
+    io.on('connection', socket => {
+        console.log('Socket connected:', socket.id);
+        handlers.forEach(handler => {
+            bindEvent(socket, handler);
+        });
+    });
 };

@@ -9,21 +9,21 @@ const { getDb } = require('../../lib/mongodb');
 const dateLib = require('../../lib/utils/date');
 
 function _validate(room) {
-  const schema = Joi.object({
-    room_name: Joi.string().required(),
-    players_ids: Joi.array().items(
-      Joi.string().required(),
-    ).required(),
-    game_status: Joi.string().valid(
-      ...Object.keys(GAME_STATUS).map(status => GAME_STATUS[status])
-    ).required(),
-    blocks_list: Joi.array().required(),
-    settings: Joi.object().required(),
-    created_at: Joi.date().default(dateLib.newDate()),
-    updated_at: Joi.date().default(dateLib.newDate()),
-  }).required();
+    const schema = Joi.object({
+        room_name: Joi.string().required(),
+        players_ids: Joi.array()
+            .items(Joi.string().required())
+            .required(),
+        game_status: Joi.string()
+            .valid(...Object.keys(GAME_STATUS).map(status => GAME_STATUS[status]))
+            .required(),
+        blocks_list: Joi.array().required(),
+        settings: Joi.object().required(),
+        created_at: Joi.date().default(dateLib.newDate()),
+        updated_at: Joi.date().default(dateLib.newDate()),
+    }).required();
 
-  return Joi.attempt(room, schema);
+    return Joi.attempt(room, schema);
 }
 
 /**
@@ -32,7 +32,7 @@ function _validate(room) {
  * @returns {Object} object to manipulate rooms collection
  */
 function collection() {
-  return getDb().collection(COLLECTION);
+    return getDb().collection(COLLECTION);
 }
 
 /**
@@ -41,8 +41,8 @@ function collection() {
  * @returns {void}
  */
 async function createIndexes() {
-  await collection().createIndex(INDEXES.KEYS, INDEXES.OPTIONS);
-  console.log('[rooms] collection and indexes created');
+    await collection().createIndex(INDEXES.KEYS, INDEXES.OPTIONS);
+    console.log('[rooms] collection and indexes created');
 }
 
 /**
@@ -54,7 +54,7 @@ async function createIndexes() {
  * @returns {Promise<Cursor>} The cursor to iterate on messages
  */
 function find(query = {}, projection = {}) {
-  return collection().find(query, { projection });
+    return collection().find(query, { projection });
 }
 
 /**
@@ -66,10 +66,7 @@ function find(query = {}, projection = {}) {
  * @returns {Object} The mongo document
  */
 function findOneById(roomId, projection = {}) {
-  return collection().findOne(
-    {_id: ObjectId.createFromHexString(roomId) },
-    { projection } 
-  );
+    return collection().findOne({ _id: ObjectId.createFromHexString(roomId) }, { projection });
 }
 
 /**
@@ -80,10 +77,10 @@ function findOneById(roomId, projection = {}) {
  * @returns {Object} the inserted room
  */
 async function insertOne(room) {
-  const validatedRoom = _validate(room);
-  const res = await collection().insert(validatedRoom);
+    const validatedRoom = _validate(room);
+    const res = await collection().insert(validatedRoom);
 
-  return res.ops[0];
+    return res.ops[0];
 }
 
 /**
@@ -95,11 +92,11 @@ async function insertOne(room) {
  * @returns {Object/null} result of update if succeeded, null otherwise
  */
 async function updateOne(roomId, updatedFields) {
-  const result = await collection().updateOne(
-    { _id: ObjectId.createFromHexString(roomId) },
-    { $set: { ...updatedFields, updated_at: dateLib.newDate() } },
-  );
-  return result;
+    const result = await collection().updateOne(
+        { _id: ObjectId.createFromHexString(roomId) },
+        { $set: { ...updatedFields, updated_at: dateLib.newDate() } },
+    );
+    return result;
 }
 
 /**
@@ -111,22 +108,22 @@ async function updateOne(roomId, updatedFields) {
  * @returns {Object/null} result of update if succeeded, null otherwise
  */
 async function updateRoomBlockList(roomId, blocksToPush) {
-  const result = await collection().updateOne(
-    { _id: ObjectId.createFromHexString(roomId) },
-    {
-      $push: { blocks_list: { $each: blocksToPush } },
-      $set: { updated_at: dateLib.newDate() }
-    },
-  );
-  return result;
+    const result = await collection().updateOne(
+        { _id: ObjectId.createFromHexString(roomId) },
+        {
+            $push: { blocks_list: { $each: blocksToPush } },
+            $set: { updated_at: dateLib.newDate() },
+        },
+    );
+    return result;
 }
 
 module.exports = {
-  collection,
-  createIndexes,
-  find,
-  findOneById,
-  insertOne,
-  updateOne,
-  updateRoomBlockList,
+    collection,
+    createIndexes,
+    find,
+    findOneById,
+    insertOne,
+    updateOne,
+    updateRoomBlockList,
 };

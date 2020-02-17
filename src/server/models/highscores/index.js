@@ -7,14 +7,14 @@ const { getDb } = require('../../lib/mongodb');
 const dateLib = require('../../lib/utils/date');
 
 function _validate(room) {
-  const schema = Joi.object({
-    player_id: Joi.string().required(),
-    player_name: Joi.string().required(),
-    score: Joi.number().required(),
-    created_at: Joi.date().default(dateLib.newDate()),
-  }).required();
+    const schema = Joi.object({
+        player_id: Joi.string().required(),
+        player_name: Joi.string().required(),
+        score: Joi.number().required(),
+        created_at: Joi.date().default(dateLib.newDate()),
+    }).required();
 
-  return Joi.attempt(room, schema);
+    return Joi.attempt(room, schema);
 }
 
 /**
@@ -23,7 +23,7 @@ function _validate(room) {
  * @returns {Object} object to manipulate highscores collection
  */
 function collection() {
-  return getDb().collection(COLLECTION);
+    return getDb().collection(COLLECTION);
 }
 
 /**
@@ -32,8 +32,8 @@ function collection() {
  * @returns {void}
  */
 async function createIndexes() {
-  await collection().createIndex(INDEXES.KEYS, INDEXES.OPTIONS);
-  console.log('[highscores] collection and indexes created');
+    await collection().createIndex(INDEXES.KEYS, INDEXES.OPTIONS);
+    console.log('[highscores] collection and indexes created');
 }
 
 /**
@@ -41,15 +41,18 @@ async function createIndexes() {
  *
  * @param {Number} limitNumber        limit scores to return
  *
- * @returns {Array} Highscores as sorted array 
+ * @returns {Array} Highscores as sorted array
  */
 function findHighScores(limitNumber) {
-  return collection().find(
-    {},
-    {
-      limit: limitNumber,
-      sort: [['score', -1]],
-    }).toArray();
+    return collection()
+        .find(
+            {},
+            {
+                limit: limitNumber,
+                sort: [['score', -1]],
+            },
+        )
+        .toArray();
 }
 
 /**
@@ -60,15 +63,15 @@ function findHighScores(limitNumber) {
  * @returns {Object} the inserted score
  */
 async function insertOne(highscoreObject) {
-  const validatedHighscore = _validate(highscoreObject);
-  const res = await collection().insert(validatedHighscore);
+    const validatedHighscore = _validate(highscoreObject);
+    const res = await collection().insert(validatedHighscore);
 
-  return res.ops[0];
+    return res.ops[0];
 }
 
 module.exports = {
-  collection,
-  createIndexes,
-  findHighScores,
-  insertOne,
+    collection,
+    createIndexes,
+    findHighScores,
+    insertOne,
 };

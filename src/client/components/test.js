@@ -1,18 +1,14 @@
 const React = require('react');
 
 const Tetris = () => {
-  return (
-    <Board/>
-  )
-}
+    return <Board />;
+};
 
 const Board = () => {
-  return (
-    <div/>
-  )
-}
+    return <div />;
+};
 
 module.exports = {
-  Tetris, 
-  Board
-}
+    Tetris,
+    Board,
+};

@@ -1,1 +1,1 @@
-export const createPlayer = (name) => ({ name });
+export const createPlayer = name => ({ name });

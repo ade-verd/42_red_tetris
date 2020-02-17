@@ -11,15 +11,15 @@ const Joi = require('@hapi/joi');
  * @returns {Object} The event Object
  */
 function createEvent(name, rules, fn) {
-	hoek.assert(!!name, '[helpers] createEvent() must have a name');
-	hoek.assert(typeof fn === 'function', '[helpers] createEvent() must have a function');
+    hoek.assert(!!name, '[helpers] createEvent() must have a name');
+    hoek.assert(typeof fn === 'function', '[helpers] createEvent() must have a function');
 
-	return {
-		name,
-		fn,
-		validation: rules && Joi.object().keys(rules)
-	};
-};
+    return {
+        name,
+        fn,
+        validation: rules && Joi.object().keys(rules),
+    };
+}
 
 /**
  * Bind an event to a socket
@@ -28,20 +28,20 @@ function createEvent(name, rules, fn) {
  * @param {Function} fn - The function to be called on event
  */
 function bindEvent(socket, { name, validation, fn }) {
-	socket.on(name, (payload = {}) => {
-		console.log('[socket event received]', name, payload);
+    socket.on(name, (payload = {}) => {
+        console.log('[socket event received]', name, payload);
 
-		if (validation) {
-			const { error } = validation.validate(payload);
-			if (error) {
-				return socket.emit(name, { error });
-			}
-		}
-		return fn(socket, payload);
-	});
-};
+        if (validation) {
+            const { error } = validation.validate(payload);
+            if (error) {
+                return socket.emit(name, { error });
+            }
+        }
+        return fn(socket, payload);
+    });
+}
 
 module.exports = {
-	createEvent,
-	bindEvent,
-}
+    createEvent,
+    bindEvent,
+};
