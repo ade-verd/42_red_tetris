@@ -10,6 +10,7 @@ import App from './containers/app'
 import { alert } from './actions/alert'
 
 import { createPlayer } from './actions/createPlayer'
+import { createRoom } from './actions/createRoom'
 import { getTetriminos } from './actions/getTetriminos'
 import { ping } from './actions/server'
 
@@ -40,3 +41,6 @@ socket.on('tetriminos:get_random', (pieces) => { console.log(pieces) })
 
 socket.emit('players:create', createPlayer('Waldo'));
 socket.on('players:created', (player) => { console.log(player) });
+
+socket.emit('rooms:create', createRoom('A good name for a room', '00000000000000000000000f'));
+socket.on('rooms:created', (room) => { console.log(room) });

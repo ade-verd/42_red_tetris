@@ -1,12 +1,14 @@
 import { bindEvent } from './eventHelpers';
 
-import * as createPlayerHandler from './handlers/createPlayer';
-import * as getTetriminosHandler from './handlers/getTetriminos';
+import * as piecesHandlers from './handlers/pieces';
+import * as playersHandlers from './handlers/players';
+import * as roomsHandlers from './handlers/rooms';
 import * as serverTestHandler from './handlers/serverTest';
 
 const handlers = Object.values({
-	...createPlayerHandler,
-	...getTetriminosHandler,
+	...piecesHandlers,
+	...playersHandlers,
+	...roomsHandlers,
 	...serverTestHandler,
 });
 

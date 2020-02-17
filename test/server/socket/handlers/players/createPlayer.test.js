@@ -3,16 +3,16 @@ const { ObjectId } = require('mongodb');
 const sinon = require('sinon');
 const io = require('socket.io-client');
 
-const { startServer } = require('../../../helpers/server');
-const config = require('../../../../src/server/config');
+const { startServer } = require('../../../../helpers/server');
+const config = require('../../../../../src/server/config');
 
-const actionClient = require('../../../../src/client/actions/createPlayer');
+const actionClient = require('../../../../../src/client/actions/createPlayer');
 
-const playersLib = require('../../../../src/server/models/players');
+const playersLib = require('../../../../../src/server/models/players');
 
-const fixtures = require('../../../fixtures/players.fixtures.js');
+const fixtures = require('../../../../fixtures/players.fixtures.js');
 
-describe("socket/handlers/createPlayer", function () {
+describe("socket/handlers/players/createPlayer", function () {
 	const sandbox = sinon.createSandbox();
 
 	const socketUrl = config.server.url;
@@ -80,12 +80,10 @@ describe("socket/handlers/createPlayer", function () {
 			actionClient.createPlayer('Waldo'),
 		);
 		client.on('players:created', (payload) => {
-			throw new Error('should not be call');
-		});
-		setTimeout(() => {
 			expect(insertStub.args).to.deep.equal([[{ name: 'Waldo' }]]);
+			expect(payload).to.deep.equal({ error: 'Error: something happened'});
 			client.disconnect();
 			done();
-		}, 50)
+		});
 	});
 });

@@ -2,19 +2,19 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const io = require('socket.io-client');
 
-const { startServer } = require('../../../helpers/server');
-const config = require('../../../../src/server/config');
+const { startServer } = require('../../../../helpers/server');
+const config = require('../../../../../src/server/config');
 
-const actionClient = require('../../../../src/client/actions/getTetriminos.js');
+const actionClient = require('../../../../../src/client/actions/getTetriminos.js');
 
-const getPiecesLib = require('../../../../src/server/lib/pieces/getPieces');
+const getPiecesLib = require('../../../../../src/server/lib/pieces/getPieces');
 
 const fixtures = {
-	...require('../../../fixtures/tetriminos.fixtures.js'),
-	...require('../../../fixtures/rooms.fixtures.js'),
+	...require('../../../../fixtures/tetriminos.fixtures.js'),
+	...require('../../../../fixtures/rooms.fixtures.js'),
 };
 
-describe("socket/handlers/getTetriminos", function () {
+describe("socket/handlers/pieces/getTetriminos", function () {
 	const sandbox = sinon.createSandbox();
 
 	const socketUrl = config.server.url;
@@ -88,15 +88,13 @@ describe("socket/handlers/getTetriminos", function () {
 			'tetriminos:get_random',
 			actionClient.getTetriminos(ROOM_ID, PIECE_POSITION, NUMBER),
 		);
-		client.on('tetriminos:get_random', () => {
-			throw new Error('should not be call');
-		});
-		setTimeout(() => {
+		client.on('tetriminos:get_random', (payload) => {
 			expect(getTetriminosStub.args).to.deep.equal([
 				['000000000000000000000001', 0, 1],
 			]);
+			expect(payload).to.deep.equal({ error: 'Error: something happened'});
 			client.disconnect();
-			done();
-		}, 50)
+			done()
+		});
 	});
 });

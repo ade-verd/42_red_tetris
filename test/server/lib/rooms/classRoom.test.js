@@ -124,21 +124,6 @@ describe('lib/rooms/classRoom', () => {
 
 	describe('#update() method', () => {
 		it('should update a room', async () => {
-			// const insertStub = sandbox
-			// 	.stub(playersLib, 'insertOne')
-			// 	.resolves(fixtures.insertedPlayer());
-			// const updateStub = sandbox
-			// 	.stub(playersLib, 'updateOne')
-			// 	.resolves({ modifiedCount: 1 });
-
-			// const player = await new Player('Waldo');
-			// const updateResult = await player.update({ blocks_consumed: 1 });
-
-			// expect(insertStub.args).to.deep.equal([[{ name: 'Waldo' }]]);
-			// expect(updateStub.args).to.deep.equal([
-			// 	['000000000000000000000004', { blocks_consumed: 1 }]
-			// ]);
-			// expect(updateResult).to.deep.equal({ modifiedCount: 1 });
 			const randomPiecesStub = sandbox
 				.stub(getPieces, 'createNewRandomTetriminos')
 				.resolves(fixtures.generateBlocksList(2));
