@@ -76,7 +76,7 @@ describe('lib/pieces/getPieces', () => {
 		});
 	});
 
-	describe('#__TEST__._createNewRandomTetriminos()', () => {
+	describe('#createNewRandomTetriminos()', () => {
 		it('should create one new random tetrimino and update the collection', async () => {
 			const randomTetriminoStub = sandbox
 				.stub(randomTetriminosLib, 'getRandomTetrimino')
@@ -88,7 +88,7 @@ describe('lib/pieces/getPieces', () => {
 
 			const ROOM_ID = '000000000000000000000001';
 			const numberToCreate = 1;
-			const res = await getPiecesLib._createNewRandomTetriminos(ROOM_ID, numberToCreate);
+			const res = await getPiecesLib.createNewRandomTetriminos(ROOM_ID, numberToCreate);
 
 			expect(randomTetriminoStub.callCount).to.equal(1);
 			expect(updateBlocksListStub.args).to.deep.equal([[
@@ -116,10 +116,30 @@ describe('lib/pieces/getPieces', () => {
 			});
 		});
 
+		it('should create one new random tetrimino and not update the collection if the roomId is null', async () => {
+			const randomTetriminoStub = sandbox
+				.stub(randomTetriminosLib, 'getRandomTetrimino')
+				.returns(fixtures.tetriminos().O);
+
+			const NULL_ROOM_ID = null;
+			const numberToCreate = 1;
+			const res = await getPiecesLib.createNewRandomTetriminos(NULL_ROOM_ID, numberToCreate);
+
+			expect(randomTetriminoStub.callCount).to.equal(1);
+			expect(res).to.deep.equal([{
+				shape: [
+					['O', 'O'],
+					['O', 'O'],
+				],
+				color: '255, 239, 53',
+				rotationsPossible: 1,
+			}]);
+		});
+
 		it('should return null if the number is negative', async () => {
 			const ROOM_ID = '000000000000000000000001';
 			const numberToCreate = -1;
-			const res = await getPiecesLib._createNewRandomTetriminos(ROOM_ID, numberToCreate);
+			const res = await getPiecesLib.createNewRandomTetriminos(ROOM_ID, numberToCreate);
 
 			expect(res).to.be.null;
 		});
@@ -127,7 +147,7 @@ describe('lib/pieces/getPieces', () => {
 		it('should return null if the number equals zero', async () => {
 			const ROOM_ID = '000000000000000000000001';
 			const numberToCreate = 0;
-			const res = await getPiecesLib._createNewRandomTetriminos(ROOM_ID, numberToCreate);
+			const res = await getPiecesLib.createNewRandomTetriminos(ROOM_ID, numberToCreate);
 
 			expect(res).to.be.null;
 		});
@@ -139,7 +159,7 @@ describe('lib/pieces/getPieces', () => {
 				.stub(getPiecesLib, '_getAvailableTetriminos')
 				.resolves(fixtures.generateBlocksList(2));
 			const createNewPiecesStub = sandbox
-				.stub(getPiecesLib, '_createNewRandomTetriminos')
+				.stub(getPiecesLib, 'createNewRandomTetriminos')
 				.rejects(new Error('should not be called'));
 
 			const ROOM_ID = '000000000000000000000001';
@@ -179,7 +199,7 @@ describe('lib/pieces/getPieces', () => {
 				.onCall(0).resolves([])
 				.onCall(1).resolves(fixtures.generateBlocksList(2));
 			const createNewPiecesStub = sandbox
-				.stub(getPiecesLib, '_createNewRandomTetriminos')
+				.stub(getPiecesLib, 'createNewRandomTetriminos')
 				.resolves({ blocks_list: fixtures.generateBlocksList(2) });
 
 			const ROOM_ID = '000000000000000000000001';
@@ -222,7 +242,7 @@ describe('lib/pieces/getPieces', () => {
 				.onCall(0).resolves(fixtures.generateBlocksList(1))
 				.onCall(1).resolves(fixtures.generateBlocksList(2));
 			const createNewPiecesStub = sandbox
-				.stub(getPiecesLib, '_createNewRandomTetriminos')
+				.stub(getPiecesLib, 'createNewRandomTetriminos')
 				.resolves({ blocks_list: fixtures.tetriminos().O });
 
 			const ROOM_ID = '000000000000000000000001';

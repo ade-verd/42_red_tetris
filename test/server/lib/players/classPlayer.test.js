@@ -9,7 +9,7 @@ const playersLib = require('../../../../src/server/models/players');
 
 const fixtures = require('../../../fixtures/players.fixtures.js');
 
-describe('lib/players/classP', () => {
+describe('lib/players/classPlayer', () => {
 	const sandbox = sinon.createSandbox();
 
 	afterEach(() => {

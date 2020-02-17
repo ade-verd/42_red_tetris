@@ -8,7 +8,7 @@ async function getTetriminos(roomId, piecePosition, piecesNumber) {
 	const availablePieces = await this._getAvailableTetriminos(roomId, piecePosition, piecesNumber);
 	const piecesNumberToCreate = piecesNumber - availablePieces.length;
 	if (piecesNumberToCreate) {
-		await this._createNewRandomTetriminos(roomId, piecesNumberToCreate);
+		await this.createNewRandomTetriminos(roomId, piecesNumberToCreate);
 		return this._getAvailableTetriminos(roomId, piecePosition, piecesNumber);
 	}
 	return availablePieces;
@@ -24,12 +24,16 @@ async function _getAvailableTetriminos(roomId, piecePosition, piecesNumber) {
 	return blocksList.slice(piecePosition, piecePosition + piecesNumber);
 }
 
-async function _createNewRandomTetriminos(roomId, numberToCreate) {
+async function createNewRandomTetriminos(roomId, numberToCreate) {
 	if (numberToCreate <= 0) return null;
 
 	let blocksToPush = [];
 	for (let i = 0; i < numberToCreate; i += 1) {
 		blocksToPush.push(new Piece().tetrimino());
+	}
+
+	if (roomId === null) {
+		return blocksToPush;
 	}
 
 	const result = await roomsModels.updateRoomBlockList(roomId, blocksToPush);
@@ -39,5 +43,5 @@ async function _createNewRandomTetriminos(roomId, numberToCreate) {
 module.exports = {
 	getTetriminos,
 	_getAvailableTetriminos,
-	_createNewRandomTetriminos,
+	createNewRandomTetriminos,
 };

@@ -44,6 +44,19 @@ const toBeInsertedDirectly = () => ([
 	}
 ]);
 
+const insertedRoom = () => ({
+	_id: new ObjectId('000000000000000000000004'),
+	room_name: 'room_1',
+	players_ids: [
+		'00000000000000000000000a',
+	],
+	game_status: GAME_STATUS.WAITING,
+	blocks_list: generateBlocksList(2),
+	settings: {},
+	created_at: new Date('2020-01-01T10:00:00Z'),
+	updated_at: new Date('2020-01-01T10:00:00Z'),
+});
+
 const room1Player = () => ({
 	room_name: 'room_4',
 	players_ids: [
@@ -97,6 +110,7 @@ const generateBlocksList = (piecesNumber) => {
 
 module.exports = {
 	default: toBeInsertedDirectly,
+	insertedRoom,
 	room1Player,
 	room2Players,
 	room3Players,

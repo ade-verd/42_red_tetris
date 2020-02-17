@@ -8,7 +8,10 @@ const GAME_STATUS = {
 	OFFLINE: 'offline',
 }
 
+const PIECES_NUMBER_AT_ROOM_CREATION = 20;
+
 module.exports = {
 	GAME_STATUS,
+	PIECES_NUMBER_AT_ROOM_CREATION,
 	TETRIMINOS,
 }
