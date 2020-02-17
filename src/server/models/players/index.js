@@ -11,7 +11,7 @@ const { COLLECTION, INDEXES } = require('./definition');
 function _validate(player) {
   const schema = Joi.object({
     name: Joi.string().required(),
-    blocks_consumed: Joi.number().min(0).required(),
+    blocks_consumed: Joi.number().min(0).default(0),
     created_at: Joi.date().default(dateLib.newDate()),
     updated_at: Joi.date().default(dateLib.newDate()),
   }).required();

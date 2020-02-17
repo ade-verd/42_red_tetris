@@ -9,8 +9,9 @@ import reducer from './reducers'
 import App from './containers/app'
 import { alert } from './actions/alert'
 
-import { ping } from './actions/server'
+import { createPlayer } from './actions/createPlayer'
 import { getTetriminos } from './actions/getTetriminos'
+import { ping } from './actions/server'
 
 import openSocket from 'socket.io-client'
 const socket = openSocket('http://localhost:3004')
@@ -36,3 +37,6 @@ socket.on('action', (action) => { console.log(action) })
 
 socket.emit('tetriminos:get_random', getTetriminos('000000000000000000000001', 0, 1));
 socket.on('tetriminos:get_random', (pieces) => { console.log(pieces) })
+
+socket.emit('players:create', createPlayer('Waldo'));
+socket.on('players:created', (player) => { console.log(player) });
