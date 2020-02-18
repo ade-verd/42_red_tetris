@@ -8,7 +8,7 @@ const { GAME_STATUS } = require('../../../constants');
 const { getDb } = require('../../lib/mongodb');
 const dateLib = require('../../lib/utils/date');
 
-function _validate(room) {
+function validate(room) {
     const schema = Joi.object({
         room_name: Joi.string().required(),
         players_ids: Joi.array()
@@ -51,9 +51,23 @@ async function createIndexes() {
  * @param {object} query       - mongo query
  * @param {object} projections - optional projection of results fields
  *
- * @returns {Promise<Cursor>} The cursor to iterate on messages
+ * @returns {Promise<Cursor>} The cursor to iterate
  */
 function find(query = {}, projection = {}) {
+    return collection().find(query, { projection });
+}
+
+/**
+ * Returns a cursor of rooms for a specific game status.
+ *
+ * @param {string} gameStatusRegex       regex
+ * @param {object} projections - optional projection of results fields
+ *
+ * @returns {Promise<Cursor>} The cursor to iterate
+ */
+function findRoomsByGameStatus(gameStatusRegex, projection = {}) {
+    const query = { game_status: { $regex: gameStatusRegex } };
+    console.log(query, projection);
     return collection().find(query, { projection });
 }
 
@@ -77,7 +91,7 @@ function findOneById(roomId, projection = {}) {
  * @returns {Object} the inserted room
  */
 async function insertOne(room) {
-    const validatedRoom = _validate(room);
+    const validatedRoom = validate(room);
     const res = await collection().insert(validatedRoom);
 
     return res.ops[0];
@@ -119,9 +133,11 @@ async function updateRoomBlockList(roomId, blocksToPush) {
 }
 
 module.exports = {
+    validate,
     collection,
     createIndexes,
     find,
+    findRoomsByGameStatus,
     findOneById,
     insertOne,
     updateOne,

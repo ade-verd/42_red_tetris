@@ -147,6 +147,67 @@ describe('models/rooms', () => {
         });
     });
 
+    describe('#findRoomsByGameStatus()', () => {
+        beforeEach(async () => {
+            sandbox.stub(dateLib, 'newDate').returns(new Date('2020-01-01T10:00:00Z'));
+            const fixturesWithDifferentGameStatus = [
+                fixtures.room1Player(),
+                fixtures.room2Players(),
+                fixtures.room3Players(),
+            ].map(room => roomsModels.validate(room));
+            await roomsModels.collection().insertMany(fixturesWithDifferentGameStatus);
+        });
+
+        it('should find all rooms by game status', async () => {
+            const res = await roomsModels.findRoomsByGameStatus(GAME_STATUS.PLAYING).toArray();
+
+            expect(res).to.deep.equal([
+                {
+                    _id: res[0]._id,
+                    room_name: 'room_5',
+                    players_ids: ['00000000000000000000000a', '00000000000000000000000b'],
+                    game_status: GAME_STATUS.PLAYING,
+                    blocks_list: [],
+                    settings: {},
+                    created_at: new Date('2020-01-01T10:00:00Z'),
+                    updated_at: new Date('2020-01-01T10:00:00Z'),
+                },
+            ]);
+        });
+
+        it('should find all non offline rooms', async () => {
+            const regex = `^(?!${GAME_STATUS.OFFLINE})`;
+            const projection = { _id: 0, created_at: 0, updated_at: 0 };
+            const res = await roomsModels.findRoomsByGameStatus(regex, projection).toArray();
+
+            console.log(res);
+            expect(res).to.deep.equal([
+                {
+                    room_name: 'room_4',
+                    players_ids: ['00000000000000000000000a'],
+                    game_status: GAME_STATUS.WAITING,
+                    blocks_list: [],
+                    settings: {},
+                },
+                {
+                    room_name: 'room_5',
+                    players_ids: ['00000000000000000000000a', '00000000000000000000000b'],
+                    game_status: GAME_STATUS.PLAYING,
+                    blocks_list: [],
+                    settings: {},
+                },
+            ]);
+        });
+
+        it('should apply the projection', async () => {
+            const res = await roomsModels
+                .findRoomsByGameStatus(GAME_STATUS.OFFLINE, { _id: 0, room_name: 1 })
+                .toArray();
+
+            expect(res).to.deep.equal([{ room_name: 'room_6' }]);
+        });
+    });
+
     describe('#findOneById()', () => {
         beforeEach(async () => {
             await roomsModels.collection().insertMany(fixtures.default());
