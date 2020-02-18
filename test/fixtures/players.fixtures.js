@@ -24,6 +24,14 @@ const toBeInsertedDirectly = () => ([
 	}
 ]);
 
+const insertedPlayer = () => ({
+	_id: new ObjectId('000000000000000000000004'),
+	name: 'Waldo',
+	blocks_consumed: 0,
+	created_at: new Date('2020-01-01T10:00:00Z'),
+	updated_at: new Date('2020-01-01T10:00:00Z'),
+});
+
 const player1 = () => ({
 	name: 'Chandler',
 	blocks_consumed: 15,
@@ -51,6 +59,7 @@ const player5 = () => ({
 
 module.exports = {
 	default: toBeInsertedDirectly,
+	insertedPlayer,
 	player1,
 	player2,
 	player3,

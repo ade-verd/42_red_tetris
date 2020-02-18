@@ -2,7 +2,7 @@
 |     | To do | Comments |
 | --- | ----- | -------- |
 | [ ] | Utiliser Redux | |
-| [ ] | Utiliser des flexbox | "Le code HTML doit être exclusivement construit à partir d'un layout [flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)" |
+| [x] | Utiliser des flexbox | "Le code HTML doit être exclusivement construit à partir d'un layout [flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)" |
 | [ ] | Voir le spectre du terrain des autres joueurs | |
 | [ ] | S'identifier avec un nom | |
 | [ ] | Permettre de voir toutes les salles disponibles | |
