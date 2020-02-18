@@ -7,7 +7,7 @@ const Home = () => {
     const onEnterkey = event => {
         if (event.key === 'Enter') {
             history.push({
-                pathname: '/rooms',
+                pathname: '/playground',
                 name: event.target.value,
             });
         }
