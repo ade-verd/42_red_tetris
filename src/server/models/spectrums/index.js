@@ -8,17 +8,21 @@ const { getDb } = require('../../lib/mongodb');
 const dateLib = require('../../lib/utils/date');
 
 function _validate(spectrum) {
-  const schema = Joi.object({
-    room_id: Joi.string().required(),
-    player_id: Joi.string().required(),
-    spectrum: Joi.array().items(
-      Joi.number().min(0).required(),
-    ).required(),
-    created_at: Joi.date().default(dateLib.newDate()),
-    updated_at: Joi.date().default(dateLib.newDate()),
-  }).required();
+    const schema = Joi.object({
+        room_id: Joi.string().required(),
+        player_id: Joi.string().required(),
+        spectrum: Joi.array()
+            .items(
+                Joi.number()
+                    .min(0)
+                    .required(),
+            )
+            .required(),
+        created_at: Joi.date().default(dateLib.newDate()),
+        updated_at: Joi.date().default(dateLib.newDate()),
+    }).required();
 
-  return Joi.attempt(spectrum, schema);
+    return Joi.attempt(spectrum, schema);
 }
 
 /**
@@ -27,7 +31,7 @@ function _validate(spectrum) {
  * @returns {Object} object to manipulate spectrums collection
  */
 function collection() {
-  return getDb().collection(COLLECTION);
+    return getDb().collection(COLLECTION);
 }
 
 /**
@@ -36,8 +40,8 @@ function collection() {
  * @returns {void}
  */
 async function createIndexes() {
-  await collection().createIndexes(INDEXES);
-  console.log('[spectrums] collection and indexes created');
+    await collection().createIndexes(INDEXES);
+    console.log('[spectrums] collection and indexes created');
 }
 
 /**
@@ -49,7 +53,7 @@ async function createIndexes() {
  * @returns {Promise<Cursor>} The cursor to iterate on spectrums
  */
 function find(query = {}, projection = {}) {
-  return collection().find(query, { projection });
+    return collection().find(query, { projection });
 }
 
 /**
@@ -61,10 +65,7 @@ function find(query = {}, projection = {}) {
  * @returns {Promise<Cursor>} The cursor to iterate on spectrums
  */
 function findSpectrumsByRoomId(roomId, projection = {}) {
-  return collection().find(
-    { room_id: roomId },
-    { projection } 
-  );
+    return collection().find({ room_id: roomId }, { projection });
 }
 
 /**
@@ -75,10 +76,10 @@ function findSpectrumsByRoomId(roomId, projection = {}) {
  * @returns {Object} the inserted spectrum
  */
 async function insertOne(playerSpectrum) {
-  const validatedPlayerSpectrum = _validate(playerSpectrum);
-  const res = await collection().insert(validatedPlayerSpectrum);
+    const validatedPlayerSpectrum = _validate(playerSpectrum);
+    const res = await collection().insert(validatedPlayerSpectrum);
 
-  return res.ops[0];
+    return res.ops[0];
 }
 
 /**
@@ -90,21 +91,21 @@ async function insertOne(playerSpectrum) {
  * @returns {Object/null} result of update if succeeded, null otherwise
  */
 async function updateOneSpectrum(roomId, playerId, spectrum) {
-  const result = await collection().updateOne(
-    {
-      room_id: roomId,
-      player_id: playerId,
-    },
-    { $set: { spectrum, updated_at: dateLib.newDate() } },
-  );
-  return result;
+    const result = await collection().updateOne(
+        {
+            room_id: roomId,
+            player_id: playerId,
+        },
+        { $set: { spectrum, updated_at: dateLib.newDate() } },
+    );
+    return result;
 }
 
 module.exports = {
-  collection,
-  createIndexes,
-  find,
-  findSpectrumsByRoomId,
-  insertOne,
-  updateOneSpectrum,
+    collection,
+    createIndexes,
+    find,
+    findSpectrumsByRoomId,
+    insertOne,
+    updateOneSpectrum,
 };

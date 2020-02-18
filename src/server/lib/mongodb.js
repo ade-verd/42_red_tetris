@@ -25,10 +25,10 @@ async function connect() {
  * @returns {void}
  */
 async function disconnect() {
-  if (isConnected()) {
-    await client.close();
-    console.log({ db: config.db.name }, '> Mongodb disconnected');
-  }
+    if (isConnected()) {
+        await client.close();
+        console.log({ db: config.db.name }, '> Mongodb disconnected');
+    }
 }
 
 /**
@@ -37,7 +37,7 @@ async function disconnect() {
  * @returns {Object} database connection
  */
 function getDb() {
-  return db;
+    return db;
 }
 
 /**
@@ -46,12 +46,12 @@ function getDb() {
  * @returns {boolean} True if connected
  */
 function isConnected() {
-  return !!db && !!db.topology && db.topology.isConnected()
+    return !!db && !!db.topology && db.topology.isConnected();
 }
 
 module.exports = {
-  connect,
-  disconnect,
-  getDb,
-  isConnected,
+    connect,
+    disconnect,
+    getDb,
+    isConnected,
 };

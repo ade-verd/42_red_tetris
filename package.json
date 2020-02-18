@@ -12,7 +12,9 @@
     "srv-dev": "DEBUG=tetris:* babel-watch -w src src/server/main.js",
     "srv-dist": "DEBUG=tetris:* babel src --out-dir dist",
     "mocha": "mocha",
-    "test": "cross-env NODE_ENV=test nyc mocha"
+    "prettier": "prettier --check 'src/**/*.js'",
+    "prettier:write": "prettier --write 'src/**/*.js'",
+    "test": "npm run prettier && cross-env NODE_ENV=test nyc mocha"
   },
   "dependencies": {
     "@hapi/hoek": "^9.0.2",
@@ -74,6 +76,7 @@
     "eslint-plugin-react": "5.2.2",
     "mocha": "7.0.1",
     "nyc": "^15.0.0",
+    "prettier": "^1.19.1",
     "react-addons-test-utils": "15.3.2",
     "sinon": "8.1.1",
     "socket-tester": "^1.2.1",

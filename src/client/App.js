@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Playground from './containers/Playground'
-import Rooms from './containers/Rooms'
-import Home from './containers/Home'
+import Playground from './containers/Playground';
+import Rooms from './containers/Rooms';
+import Home from './containers/Home';
 
 // const playing = 1
 
@@ -17,7 +17,7 @@ import Home from './containers/Home'
 // 		default:
 // 			return (
 // 				<div>
-// 					<label for="name">Name</label> 
+// 					<label for="name">Name</label>
 // 					<input type="text" id="name" name="name" required />
 // 				</div>
 // 			)
@@ -25,13 +25,13 @@ import Home from './containers/Home'
 // }
 
 const App = () => (
-	<div className='App'>
-		<Switch>
-			<Route path="/playground" component={Playground} />
-			<Route path="/rooms" component={Rooms} />
-			<Route path="/" exact component={Home} />
-		</Switch>
-	</div>
-)
+    <div className="App">
+        <Switch>
+            <Route path="/playground" component={Playground} />
+            <Route path="/rooms" component={Rooms} />
+            <Route path="/" exact component={Home} />
+        </Switch>
+    </div>
+);
 
-export default App
+export default App;

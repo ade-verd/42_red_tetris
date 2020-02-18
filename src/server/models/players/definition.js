@@ -5,13 +5,13 @@ const COLLECTION = 'players';
 const COLLECTION_OPTIONS = {};
 
 const INDEXES = {
-	 KEYS: { _id: 1 },
-	 OPTIONS: {},
+    KEYS: { _id: 1 },
+    OPTIONS: {},
 };
 
 module.exports = {
-	DATABASE,
-	COLLECTION,
-	COLLECTION_OPTIONS,
-	INDEXES,
+    DATABASE,
+    COLLECTION,
+    COLLECTION_OPTIONS,
+    INDEXES,
 };

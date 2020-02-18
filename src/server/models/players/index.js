@@ -9,14 +9,16 @@ const dateLib = require('../../lib/utils/date');
 const { COLLECTION, INDEXES } = require('./definition');
 
 function _validate(player) {
-  const schema = Joi.object({
-    name: Joi.string().required(),
-    blocks_consumed: Joi.number().min(0).required(),
-    created_at: Joi.date().default(dateLib.newDate()),
-    updated_at: Joi.date().default(dateLib.newDate()),
-  }).required();
+    const schema = Joi.object({
+        name: Joi.string().required(),
+        blocks_consumed: Joi.number()
+            .min(0)
+            .required(),
+        created_at: Joi.date().default(dateLib.newDate()),
+        updated_at: Joi.date().default(dateLib.newDate()),
+    }).required();
 
-  return Joi.attempt(player, schema);
+    return Joi.attempt(player, schema);
 }
 
 /**
@@ -25,7 +27,7 @@ function _validate(player) {
  * @returns {Object} object to manipulate players collection
  */
 function collection() {
-  return getDb().collection(COLLECTION);
+    return getDb().collection(COLLECTION);
 }
 
 /**
@@ -34,8 +36,8 @@ function collection() {
  * @returns {void}
  */
 async function createIndexes() {
-  await collection().createIndex(INDEXES.KEYS, INDEXES.OPTIONS);
-  console.log('[players] collection and indexes created');
+    await collection().createIndex(INDEXES.KEYS, INDEXES.OPTIONS);
+    console.log('[players] collection and indexes created');
 }
 
 /**
@@ -47,7 +49,7 @@ async function createIndexes() {
  * @returns {Promise<Cursor>} The cursor to iterate on messages
  */
 function find(query = {}, projection = {}) {
-  return collection().find(query, { projection });
+    return collection().find(query, { projection });
 }
 
 /**
@@ -59,10 +61,7 @@ function find(query = {}, projection = {}) {
  * @returns {Object} The mongo document
  */
 function findOneById(playerId, projection = {}) {
-  return collection().findOne(
-    {_id: ObjectId.createFromHexString(playerId) },
-    { projection } 
-  );
+    return collection().findOne({ _id: ObjectId.createFromHexString(playerId) }, { projection });
 }
 
 /**
@@ -73,10 +72,10 @@ function findOneById(playerId, projection = {}) {
  * @returns {Object} the inserted player
  */
 async function insertOne(player) {
-  const validatedRoom = _validate(player);
-  const res = await collection().insert(validatedRoom);
+    const validatedRoom = _validate(player);
+    const res = await collection().insert(validatedRoom);
 
-  return res.ops[0];
+    return res.ops[0];
 }
 
 /**
@@ -88,18 +87,18 @@ async function insertOne(player) {
  * @returns {Object/null} result of update if succeeded, null otherwise
  */
 async function updateOne(playerId, updatedFields) {
-  const result = await collection().updateOne(
-    { _id: ObjectId.createFromHexString(playerId) },
-    { $set: { ...updatedFields, updated_at: dateLib.newDate() } },
-  );
-  return result;
+    const result = await collection().updateOne(
+        { _id: ObjectId.createFromHexString(playerId) },
+        { $set: { ...updatedFields, updated_at: dateLib.newDate() } },
+    );
+    return result;
 }
 
 module.exports = {
-  collection,
-  createIndexes,
-  find,
-  findOneById,
-  insertOne,
-  updateOne,
+    collection,
+    createIndexes,
+    find,
+    findOneById,
+    insertOne,
+    updateOne,
 };
