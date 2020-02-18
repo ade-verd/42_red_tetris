@@ -4,7 +4,7 @@ import { randomTetromino } from '../helpers/tetrominos';
 const reducer = (state = {}, action) => {
     switch (action.type) {
         case 'start':
-            console.log('STARTED PLAYER REDUCER');
+            console.log('STARTED PIECE REDUCER');
             return {
                 pos: { x: FIELD_WIDTH / 2 - 2, y: 0 },
                 tetromino: randomTetromino().shape,
@@ -13,7 +13,7 @@ const reducer = (state = {}, action) => {
         case 'rotate':
             return {
                 ...state,
-                // player: updateField()
+                // piece: updateField()
             };
         case 'reset':
             return {
