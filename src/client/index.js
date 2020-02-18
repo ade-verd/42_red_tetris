@@ -6,6 +6,10 @@ import thunk from 'redux-thunk';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
+// import { createPlayer } from './actions/createPlayer';
+// import { createRoom } from './actions/createRoom';
+// import { getTetriminos } from './actions/getTetriminos';
+
 import alertReducer from './reducers/alert';
 import fieldReducer from './reducers/field';
 import playerReducer from './reducers/player';
@@ -36,24 +40,17 @@ ReactDom.render(
     document.getElementById('tetris'),
 );
 
-store.dispatch(alert('Soon, will be here a fantastic te-Tetris ...'));
+// socket.emit('tetriminos:get_random', getTetriminos('000000000000000000000001', 0, 1));
+// socket.on('tetriminos:get_random', pieces => {
+//     console.log(pieces);
+// });
 
-socket.emit('action', ping());
-socket.on('action', action => {
-    console.log(action);
-});
+// socket.emit('players:create', createPlayer('Waldo'));
+// socket.on('players:created', player => {
+//     console.log(player);
+// });
 
-socket.emit('tetriminos:get_random', getTetriminos('000000000000000000000001', 0, 1));
-socket.on('tetriminos:get_random', pieces => {
-    console.log(pieces);
-});
-
-socket.emit('players:create', createPlayer('Waldo'));
-socket.on('players:created', player => {
-    console.log(player);
-});
-
-socket.emit('rooms:create', createRoom('A good name for a room', '00000000000000000000000f'));
-socket.on('rooms:created', room => {
-    console.log(room);
-});
+// socket.emit('rooms:create', createRoom('A good name for a room', '00000000000000000000000f'));
+// socket.on('rooms:created', room => {
+//     console.log(room);
+// });
