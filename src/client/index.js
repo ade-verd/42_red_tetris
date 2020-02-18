@@ -1,29 +1,37 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { storeStateMiddleWare } from './middleware/storeStateMiddleWare';
-import reducer from './reducers';
-import App from './containers/app';
-import { alert } from './actions/alert';
 
-import { createPlayer } from './actions/createPlayer';
-import { createRoom } from './actions/createRoom';
-import { getTetriminos } from './actions/getTetriminos';
-import { ping } from './actions/server';
-
-import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:3004');
+import alertReducer from './reducers/alert';
+import fieldReducer from './reducers/field';
+import playerReducer from './reducers/player';
+import App from './App';
 
 const initialState = {};
 
-const store = createStore(reducer, initialState, applyMiddleware(thunk, createLogger()));
+console.log('OK7');
+
+const rootReducer = combineReducers({
+    alt: alertReducer,
+    fld: fieldReducer,
+    ply: playerReducer,
+});
+
+console.log('OK8');
+
+export const store = createStore(rootReducer, initialState, applyMiddleware(thunk, createLogger()));
+
+console.log('OK9');
 
 ReactDom.render(
     <Provider store={store}>
-        <App />
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </Provider>,
     document.getElementById('tetris'),
 );

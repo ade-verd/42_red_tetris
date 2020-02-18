@@ -9,6 +9,10 @@ const schema = {
 };
 
 const emitPong = (socket, payload) => {
+<<<<<<< HEAD
+=======
+    console.log('emitPong', payload);
+>>>>>>> playgrid
     if (payload.type === 'server/ping') {
         socket.emit('action', { type: 'pong' });
     }
