@@ -14,22 +14,22 @@ const socket = openSocket('http://localhost:3004');
 socket.emit('action', ping());
 console.log('OK2');
 
-const Playground = ({ playing, message, field, player, ...dispatchs }) => {
+const Playground = ({ playing, message, field, piece, ...dispatchs }) => {
     console.log('OK1', playing);
     socket.on('server/start', () => {
         console.log('ENTERED SERVER/START on socket');
         dispatchs.onStart();
         dispatchs.onAlert();
     });
-    console.log('[App] State = ', field, player, dispatchs);
+    console.log('[App] State = ', field, piece, dispatchs);
 
     useEffect(() => {
         console.log('useEffect');
         if (field) {
-            console.log('player inside useEffect', player);
-            dispatchs.fieldUpdate(player);
+            console.log('piece inside useEffect', piece);
+            dispatchs.fieldUpdate(piece);
         }
-    }, [player]);
+    }, [piece]);
 
     playing = 0;
     console.log('playing', playing);
@@ -54,7 +54,7 @@ const mapStateToProps = state => {
     return {
         message: state.alt.message,
         field: state.fld.field,
-        player: state.ply,
+        piece: state.pce,
     };
 };
 
@@ -64,7 +64,7 @@ const mapDispatchToProps = dispatch => {
     return {
         onAlert: () => dispatch(alert('Soon, will be here a fantastic te-Tetris ...')),
         onStart: () => dispatch({ type: 'start' }),
-        fieldUpdate: player => dispatch({ type: 'update', player: player }),
+        fieldUpdate: piece => dispatch({ type: 'update', piece: piece }),
     };
 };
 

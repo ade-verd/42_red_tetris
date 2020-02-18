@@ -6,24 +6,24 @@ export const FIELD_HEIGHT = 20;
 export const createField = () =>
     Array.from(Array(FIELD_HEIGHT), () => new Array(FIELD_WIDTH).fill([0, 'clear']));
 
-export const updateField = (prevField, player) => {
+export const updateField = (prevField, pliece) => {
     // First flush the stage
     const newField = prevField.map(row =>
         row.map(cell => (cell[1] === 'clear' ? [0, 'clear'] : cell)),
     );
     // Then draw the tetromino
-    player.tetromino.forEach((row, y) => {
+    piece.tetromino.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
-                newField[y + player.pos.y][x + player.pos.x] = [
+                newField[y + piece.pos.y][x + piece.pos.x] = [
                     value,
-                    `${player.collided ? 'merged' : 'clear'}`,
+                    `${piece.collided ? 'merged' : 'clear'}`,
                 ];
             }
         });
     });
     // Then check if we collided
-    if (player.collided) {
+    if (piece.collided) {
         store.dispatch({ type: 'reset' });
         return sweepRows(newStage);
     }
