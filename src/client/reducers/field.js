@@ -11,7 +11,7 @@ const reducer = (state = {}, action) => {
         case 'update':
             return {
                 ...state,
-                field: updateField(state.field, action.player),
+                field: updateField(state.field, action.piece),
             };
         default:
             return state;

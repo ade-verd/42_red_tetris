@@ -6,25 +6,25 @@ const rotate = (matrix, dir) => {
     return rotatedTetro.reverse();
 };
 
-const playerRotate = (stage, dir) => {
-    const clonedPlayer = JSON.parse(JSON.stringify(player));
-    clonedPlayer.tetromino = rotate(clonedPlayer.tetromino, dir);
+const pieceRotate = (stage, dir) => {
+    const clonedPiece = JSON.parse(JSON.stringify(piece));
+    clonedPiece.tetromino = rotate(clonedPiece.tetromino, dir);
 
-    const pos = clonedPlayer.pos.x;
+    const pos = clonedPiece.pos.x;
     let offset = 1;
-    while (checkCollision(clonedPlayer, stage, { x: 0, y: 0 })) {
-        clonedPlayer.pos.x += offset;
+    while (checkCollision(clonedPiece, stage, { x: 0, y: 0 })) {
+        clonedPiece.pos.x += offset;
         offset = -(offset + (offset > 0 ? 1 : -1));
-        if (offset > clonedPlayer.tetromino[0].length) {
-            rotate(clonedPlayer.tetromino, -dir);
-            clonedPlayer.pos.x = pos;
+        if (offset > clonedPiece.tetromino[0].length) {
+            rotate(clonedPiece.tetromino, -dir);
+            clonedPiece.pos.x = pos;
             return;
         }
     }
-    setPlayer(clonedPlayer);
+    setPlayer(clonedPiece);
 };
 
-const updatePlayerPos = ({ x, y, collided }) => {
+const updatePiecePos = ({ x, y, collided }) => {
     setPlayer(prev => ({
         ...prev,
         pos: { x: (prev.pos.x += x), y: (prev.pos.y += y) },

@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 
 import alertReducer from './reducers/alert';
 import fieldReducer from './reducers/field';
-import playerReducer from './reducers/player';
+import pieceReducer from './reducers/piece';
 import App from './App';
 
 const initialState = {};
@@ -18,7 +18,7 @@ console.log('OK7');
 const rootReducer = combineReducers({
     alt: alertReducer,
     fld: fieldReducer,
-    ply: playerReducer,
+    pce: pieceReducer,
 });
 
 console.log('OK8');
