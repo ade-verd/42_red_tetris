@@ -1,13 +1,14 @@
 import { FIELD_WIDTH } from '../helpers/fieldHelper';
 import { randomTetromino } from '../helpers/tetrominos';
+const tetriminosLib = require('../../server/lib/tetriminos');
 
 const reducer = (state = {}, action) => {
     switch (action.type) {
         case 'start':
-            console.log('STARTED PIECE REDUCER');
+						console.log('STARTED PIECE REDUCER');
             return {
                 pos: { x: FIELD_WIDTH / 2 - 2, y: 0 },
-                tetromino: randomTetromino().shape,
+                tetromino: tetriminosLib.getRandomTetrimino().shape,
                 collided: false,
             };
         case 'rotate':
