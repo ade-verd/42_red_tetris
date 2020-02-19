@@ -5,11 +5,19 @@ const roomsModels = require('../../models/rooms');
 const Piece = require('./classPiece');
 
 async function getTetriminos(roomId, piecePosition, piecesNumber) {
-    const availablePieces = await this._getAvailableTetriminos(roomId, piecePosition, piecesNumber);
-    const piecesNumberToCreate = piecesNumber - availablePieces.length;
+    const { availablePieces, piecesNumberToCreate } = await this._getAvailableTetriminos(
+        roomId,
+        piecePosition,
+        piecesNumber,
+    );
     if (piecesNumberToCreate) {
         await this.createNewRandomTetriminos(roomId, piecesNumberToCreate);
-        return this._getAvailableTetriminos(roomId, piecePosition, piecesNumber);
+        const { availablePieces: pieces } = await this._getAvailableTetriminos(
+            roomId,
+            piecePosition,
+            piecesNumber,
+        );
+        return pieces;
     }
     return availablePieces;
 }
@@ -20,7 +28,9 @@ async function _getAvailableTetriminos(roomId, piecePosition, piecesNumber) {
         blocks_list: 1,
     });
 
-    return blocksList.slice(piecePosition, piecePosition + piecesNumber);
+    const availablePieces = blocksList.slice(piecePosition, piecePosition + piecesNumber);
+    const piecesNumberToCreate = Math.max(0, piecePosition - blocksList.length + piecesNumber);
+    return { availablePieces, piecesNumberToCreate };
 }
 
 async function createNewRandomTetriminos(roomId, numberToCreate) {

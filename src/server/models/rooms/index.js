@@ -67,7 +67,6 @@ function find(query = {}, projection = {}) {
  */
 function findRoomsByGameStatus(gameStatusRegex, projection = {}) {
     const query = { game_status: { $regex: gameStatusRegex } };
-    console.log(query, projection);
     return collection().find(query, { projection });
 }
 
