@@ -8,7 +8,11 @@ const Room = require('../../../../src/server/lib/rooms/classRoom.js');
 const roomsLib = require('../../../../src/server/models/rooms');
 const getPieces = require('../../../../src/server/lib/pieces/getPieces');
 
-const { GAME_STATUS, PIECES_NUMBER_AT_ROOM_CREATION } = require('../../../../src/constants');
+const {
+    GAME_STATUS,
+    MAX_PLAYERS,
+    PIECES_NUMBER_AT_ROOM_CREATION,
+} = require('../../../../src/constants');
 const fixtures = require('../../../fixtures/rooms.fixtures.js');
 
 describe('lib/rooms/classRoom', () => {
@@ -201,6 +205,150 @@ describe('lib/rooms/classRoom', () => {
                 ['000000000000000000000004', { game_status: GAME_STATUS.PLAYING }],
             ]);
             expect(updateResult).to.deep.equal({ modifiedCount: 1 });
+        });
+    });
+
+    describe.only('join() method', () => {
+        it('should join a room', async () => {
+            const findStub = sandbox.stub(roomsLib, 'find').resolves(fixtures.insertedRoom());
+            const updateJoinStub = sandbox
+                .stub(roomsLib, 'updateJoinRoom')
+                .resolves({ modifiedCount: 1 });
+
+            const room = await new Room({
+                roomId: '000000000000000000000001',
+            });
+            const PLAYER_ID = '00000000000000000000000b';
+            const updateResult = await room.join(PLAYER_ID);
+
+            expect(findStub.args).to.deep.equal([[{}, { _id: 0, players_ids: 1 }]]);
+            expect(updateJoinStub.args).to.deep.equal([
+                ['000000000000000000000001', '00000000000000000000000b'],
+            ]);
+            expect(updateResult).to.deep.equal({ modifiedCount: 1 });
+        });
+
+        it('should throw if the room is full', async () => {
+            const playersIds = number => {
+                const array = [];
+                for (let i = 0; i < number; i++) array.push(new ObjectId());
+                return array;
+            };
+            const findStub = sandbox.stub(roomsLib, 'find').resolves({
+                ...fixtures.insertedRoom(),
+                players_ids: playersIds(MAX_PLAYERS),
+            });
+
+            const room = await new Room({
+                roomId: '000000000000000000000001',
+            });
+            const PLAYER_ID = '00000000000000000000000b';
+            try {
+                await room.join(PLAYER_ID);
+            } catch (err) {
+                expect(findStub.args).to.deep.equal([[{}, { _id: 0, players_ids: 1 }]]);
+                expect(err)
+                    .to.be.an.instanceOf(Error)
+                    .with.property(
+                        'message',
+                        `a room can not accept more than ${MAX_PLAYERS} players`,
+                    );
+            }
+        });
+
+        it('should throw if there is no modification', async () => {
+            const findStub = sandbox.stub(roomsLib, 'find').resolves(fixtures.insertedRoom());
+            const updateJoinStub = sandbox
+                .stub(roomsLib, 'updateJoinRoom')
+                .resolves({ modifiedCount: 0 });
+
+            const room = await new Room({
+                roomId: '000000000000000000000001',
+            });
+            const PLAYER_ID = '00000000000000000000000b';
+
+            try {
+                await room.join(PLAYER_ID);
+            } catch (err) {
+                expect(findStub.args).to.deep.equal([[{}, { _id: 0, players_ids: 1 }]]);
+                expect(updateJoinStub.args).to.deep.equal([
+                    ['000000000000000000000001', '00000000000000000000000b'],
+                ]);
+                expect(err)
+                    .to.be.an.instanceOf(Error)
+                    .with.property('message', 'the room has not been updated');
+            }
+        });
+    });
+
+    describe.only('leave() method', () => {
+        it('should leave a room', async () => {
+            const updateLeaveStub = sandbox
+                .stub(roomsLib, 'updateLeaveRoom')
+                .resolves({ modifiedCount: 1 });
+            const findStub = sandbox.stub(roomsLib, 'find').resolves(fixtures.insertedRoom());
+            const updateStatusStub = sandbox.stub(roomsLib, 'updateOne');
+
+            const room = await new Room({
+                roomId: '000000000000000000000001',
+            });
+            const PLAYER_ID = '00000000000000000000000a';
+            const updateResult = await room.leave(PLAYER_ID);
+
+            expect(updateLeaveStub.args).to.deep.equal([
+                ['000000000000000000000001', '00000000000000000000000a'],
+            ]);
+            expect(findStub.args).to.deep.equal([[{}, { _id: 0, players_ids: 1 }]]);
+            expect(updateStatusStub.args).to.deep.equal([]);
+            expect(updateResult).to.deep.equal({ modifiedCount: 1 });
+        });
+
+        it('should leave a room and set the game status to offline if there is no more players', async () => {
+            const updateLeaveStub = sandbox
+                .stub(roomsLib, 'updateLeaveRoom')
+                .resolves({ modifiedCount: 1 });
+            const findStub = sandbox
+                .stub(roomsLib, 'find')
+                .resolves({ ...fixtures.insertedRoom(), players_ids: [] });
+            const updateStatusStub = sandbox
+                .stub(roomsLib, 'updateOne')
+                .resolves({ modifiedCount: 1 });
+
+            const room = await new Room({
+                roomId: '000000000000000000000001',
+            });
+            const PLAYER_ID = '00000000000000000000000a';
+            const updateResult = await room.leave(PLAYER_ID);
+
+            expect(updateLeaveStub.args).to.deep.equal([
+                ['000000000000000000000001', '00000000000000000000000a'],
+            ]);
+            expect(findStub.args).to.deep.equal([[{}, { _id: 0, players_ids: 1 }]]);
+            expect(updateStatusStub.args).to.deep.equal([
+                ['000000000000000000000001', { game_status: GAME_STATUS.OFFLINE }],
+            ]);
+            expect(updateResult).to.deep.equal({ modifiedCount: 1 });
+        });
+
+        it('should throw if there is no modification', async () => {
+            const updateLeaveStub = sandbox
+                .stub(roomsLib, 'updateLeaveRoom')
+                .resolves({ modifiedCount: 0 });
+
+            const room = await new Room({
+                roomId: '000000000000000000000001',
+            });
+            const PLAYER_ID = '00000000000000000000000a';
+            try {
+                await room.leave(PLAYER_ID);
+            } catch (err) {
+                expect(updateLeaveStub.args).to.deep.equal([
+                    ['000000000000000000000001', '00000000000000000000000a'],
+                ]);
+                expect(err)
+                    .to.be.an.instanceOf(Error)
+                    .with.property('message', 'the room has not been updated');
+            }
         });
     });
 });

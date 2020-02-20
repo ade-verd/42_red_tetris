@@ -10,8 +10,11 @@ const GAME_STATUS = {
 
 const PIECES_NUMBER_AT_ROOM_CREATION = 20;
 
+const MAX_PLAYERS = 5;
+
 module.exports = {
     GAME_STATUS,
+    MAX_PLAYERS,
     PIECES_NUMBER_AT_ROOM_CREATION,
     TETRIMINOS,
 };
