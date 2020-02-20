@@ -7,7 +7,6 @@ const COLLECTION_OPTIONS = {};
 const INDEXES = [
     {
         key: { room_name: 1 },
-        unique: true,
         background: true,
     },
     {

@@ -51,7 +51,6 @@ describe('models/rooms', () => {
                 { v: 2, key: { _id: 1 }, name: '_id_', ns: 'redtetris.rooms' },
                 {
                     v: 2,
-                    unique: true,
                     key: { room_name: 1 },
                     name: 'room_name_1',
                     ns: 'redtetris.rooms',
@@ -295,25 +294,6 @@ describe('models/rooms', () => {
             const roomsFound = await roomsModels.find({}).toArray();
             expect(roomsFound).to.deep.equal([]);
         });
-
-        it('should throw and not insert if the room name already exists', async () => {
-            await roomsModels.insertOne(fixtures.room1Player());
-
-            let error;
-            try {
-                await roomsModels.insertOne(fixtures.room1Player());
-            } catch (err) {
-                error = err;
-            }
-
-            expect(error).to.be.instanceOf(MongoError);
-            expect(error.message).to.satisfy(msg =>
-                msg.startsWith('E11000 duplicate key error collection'),
-            );
-
-            const roomsFound = await roomsModels.find({}).toArray();
-            expect(roomsFound.length).to.equal(1);
-        });
     });
 
     describe('#updateOne()', () => {
@@ -431,6 +411,100 @@ describe('models/rooms', () => {
             expect(error.message).to.satisfy(msg =>
                 msg.startsWith('The argument to $each in $push must be an array'),
             );
+        });
+    });
+
+    describe('#updateJoinRoom()', () => {
+        beforeEach(async () => {
+            const roomsWithoutAnyPlayers = fixtures
+                .default()
+                .map(room => ({ ...room, players_ids: [] }));
+            await roomsModels.collection().insertMany(roomsWithoutAnyPlayers);
+        });
+
+        it('should join successfully a room', async () => {
+            const FAKE_DATE = new Date('2050-01-01T10:00:00Z');
+            const dateStub = sandbox.stub(dateLib, 'newDate').returns(FAKE_DATE);
+
+            const ROOM_ID = '000000000000000000000001';
+            const PLAYER_ID = '00000000000000000000000a';
+            const result = await roomsModels.updateJoinRoom(ROOM_ID, PLAYER_ID);
+
+            const expectedRoom = {
+                _id: new ObjectId('000000000000000000000001'),
+                room_name: 'room_1',
+                players_ids: ['00000000000000000000000a'],
+                game_status: GAME_STATUS.WAITING,
+                blocks_list: [],
+                settings: {},
+                created_at: new Date('2020-01-01T10:00:00Z'),
+                updated_at: new Date('2050-01-01T10:00:00Z'),
+            };
+            const roomFound = await roomsModels.findOneById(ROOM_ID);
+
+            expect(dateStub.callCount).to.equal(1);
+            expect(result.modifiedCount).to.equal(1);
+            expect(roomFound).to.deep.equal(expectedRoom);
+        });
+
+        it('should not update anything if the room does not exist', async () => {
+            const ROOM_ID = 'ffffffffffffffffffffffff';
+            const PLAYER_ID = '00000000000000000000000a';
+            const result = await roomsModels.updateJoinRoom(ROOM_ID, PLAYER_ID);
+
+            expect(result.matchedCount).to.equal(0);
+            expect(result.modifiedCount).to.equal(0);
+        });
+
+        it('should not update anything if the player already exists', async () => {
+            const insertedRoom = await roomsModels.insertOne(fixtures.room1Player());
+
+            const roomId = insertedRoom._id.toString();
+            const PLAYER_ID = '00000000000000000000000a';
+            const result = await roomsModels.updateJoinRoom(roomId, PLAYER_ID);
+
+            expect(result.matchedCount).to.equal(0);
+            expect(result.modifiedCount).to.equal(0);
+        });
+    });
+
+    describe('#updateLeaveRoom()', () => {
+        beforeEach(async () => {
+            await roomsModels.collection().insertMany(fixtures.default());
+        });
+
+        it('should leave successfully a room', async () => {
+            const FAKE_DATE = new Date('2050-01-01T10:00:00Z');
+            const dateStub = sandbox.stub(dateLib, 'newDate').returns(FAKE_DATE);
+
+            const ROOM_ID = '000000000000000000000001';
+            const PLAYER_ID = '00000000000000000000000a';
+            const result = await roomsModels.updateLeaveRoom(ROOM_ID, PLAYER_ID);
+
+            const expectedRoom = {
+                _id: new ObjectId('000000000000000000000001'),
+                room_name: 'room_1',
+                players_ids: [],
+                game_status: GAME_STATUS.WAITING,
+                blocks_list: [],
+                settings: {},
+                created_at: new Date('2020-01-01T10:00:00Z'),
+                updated_at: new Date('2050-01-01T10:00:00Z'),
+            };
+            const roomFound = await roomsModels.findOneById(ROOM_ID);
+
+            expect(dateStub.callCount).to.equal(1);
+            expect(result.modifiedCount).to.equal(1);
+            expect(roomFound).to.deep.equal(expectedRoom);
+        });
+
+        it('should not update anything if the room does not exist', async () => {
+            const ROOM_ID = 'ffffffffffffffffffffffff';
+            const PLAYER_ID = '00000000000000000000000a';
+            const result = await roomsModels.updateLeaveRoom(ROOM_ID, PLAYER_ID);
+
+            expect(result.matchedCount).to.equal(0);
+            expect(result.modifiedCount).to.equal(0);
         });
     });
 });

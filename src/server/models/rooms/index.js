@@ -105,11 +105,10 @@ async function insertOne(room) {
  * @returns {Object/null} result of update if succeeded, null otherwise
  */
 async function updateOne(roomId, updatedFields) {
-    const result = await collection().updateOne(
+    return collection().updateOne(
         { _id: ObjectId.createFromHexString(roomId) },
         { $set: { ...updatedFields, updated_at: dateLib.newDate() } },
     );
-    return result;
 }
 
 /**
@@ -121,14 +120,55 @@ async function updateOne(roomId, updatedFields) {
  * @returns {Object/null} result of update if succeeded, null otherwise
  */
 async function updateRoomBlockList(roomId, blocksToPush) {
-    const result = await collection().updateOne(
+    return collection().updateOne(
         { _id: ObjectId.createFromHexString(roomId) },
         {
             $push: { blocks_list: { $each: blocksToPush } },
             $set: { updated_at: dateLib.newDate() },
         },
     );
-    return result;
+}
+
+/**
+ * Join room while updating array players_ids
+ *
+ * @param {ObjectId} roomId     room identifier
+ * @param {String} playerId     player identifier
+ *
+ * @returns {Object/null} result of update if succeeded, null otherwise
+ */
+async function updateJoinRoom(roomId, playerId) {
+    return collection().updateOne(
+        {
+            _id: ObjectId.createFromHexString(roomId),
+            players_ids: { $nin: [playerId] },
+        },
+        {
+            $addToSet: { players_ids: playerId },
+            $set: { updated_at: dateLib.newDate() },
+        },
+    );
+}
+
+/**
+ * Leave room while updating array players_ids
+ *
+ * @param {ObjectId} roomId     room identifier
+ * @param {String} playerId     player identifier
+ *
+ * @returns {Object/null} result of update if succeeded, null otherwise
+ */
+async function updateLeaveRoom(roomId, playerId) {
+    return collection().updateOne(
+        {
+            _id: ObjectId.createFromHexString(roomId),
+            players_ids: { $in: [playerId] },
+        },
+        {
+            $pull: { players_ids: playerId },
+            $set: { updated_at: dateLib.newDate() },
+        },
+    );
 }
 
 module.exports = {
@@ -141,4 +181,6 @@ module.exports = {
     insertOne,
     updateOne,
     updateRoomBlockList,
+    updateJoinRoom,
+    updateLeaveRoom,
 };

@@ -37,6 +37,10 @@ class asyncRoom {
     update = async fieldsToUpdate => {
         return roomsLib.updateOne(this.id, fieldsToUpdate);
     };
+
+    // join = async playerId => {
+    //     return roomsLib.updateOne(this.id, )
+    // };
 }
 
 module.exports = asyncRoom;
