@@ -6,7 +6,11 @@ const getPiecesLib = require('../pieces/getPieces');
 const { GAME_STATUS, PIECES_NUMBER_AT_ROOM_CREATION } = require('../../../constants');
 
 class asyncRoom {
-    constructor(roomName, roomCreaterId) {
+    constructor({ roomName, roomCreaterId, roomId = null }) {
+        if (roomId) {
+            this.id = roomId;
+            return this;
+        }
         return (async () => {
             const blocksList = await getPiecesLib.createNewRandomTetriminos(
                 null,

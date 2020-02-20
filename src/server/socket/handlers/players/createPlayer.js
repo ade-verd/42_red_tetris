@@ -12,7 +12,7 @@ const schema = {
 
 const _createNewPlayer = async (socket, payload) => {
     try {
-        const newPlayer = await new Player(payload.name);
+        const newPlayer = await new Player({ name: payload.name });
         socket.emit('players:created', await newPlayer.find());
     } catch (err) {
         socket.emit('players:created', { error: err.toString() });
