@@ -8,21 +8,23 @@ const Room = require('../../../lib/rooms/classRoom');
 const getActiveRooms = require('./getActiveRooms.js');
 
 const schema = {
-    room_name: Joi.string().required(),
-    admin_id: Joi.string().required(),
+    room_id: Joi.string().required(),
+    player_id: Joi.string().required(),
 };
 
-const ON_EVENT = 'rooms:create';
-const EMIT_EVENT = 'rooms:created';
-const FUNCTION_NAME = '[createRoom]';
+const ON_EVENT = 'rooms:leave';
+const EMIT_EVENT = 'rooms:left';
+const FUNCTION_NAME = '[leaveRoom]';
 
-const _createNewRoom = async (socket, payload) => {
+const _leaveExistingRoom = async (socket, payload) => {
+    let res;
+
     try {
-        const newRoom = await new Room({
-            roomName: payload.room_name,
-            roomCreaterId: payload.admin_id,
+        const room = await new Room({
+            roomId: payload.room_id,
         });
-        socket.emit(EMIT_EVENT, { room_id: newRoom.id, room_name: payload.room_name });
+        res = await room.leave(payload.player_id);
+        socket.emit(EMIT_EVENT, { payload, update: res.result });
         await getActiveRooms.emitActiveRooms(socket, {});
     } catch (err) {
         socket.emit(EMIT_EVENT, { payload, error: err.toString() });
@@ -30,11 +32,11 @@ const _createNewRoom = async (socket, payload) => {
     }
 };
 
-export const createRoom = helpers.createEvent(
+export const leaveRoom = helpers.createEvent(
     ON_EVENT,
     EMIT_EVENT,
     schema,
     async (socket, payload) => {
-        await _createNewRoom(socket, payload);
+        await _leaveExistingRoom(socket, payload);
     },
 );

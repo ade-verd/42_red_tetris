@@ -208,9 +208,11 @@ describe('lib/rooms/classRoom', () => {
         });
     });
 
-    describe.only('join() method', () => {
+    describe('join() method', () => {
         it('should join a room', async () => {
-            const findStub = sandbox.stub(roomsLib, 'find').resolves(fixtures.insertedRoom());
+            const findStub = sandbox
+                .stub(roomsLib, 'findOneById')
+                .resolves(fixtures.insertedRoom());
             const updateJoinStub = sandbox
                 .stub(roomsLib, 'updateJoinRoom')
                 .resolves({ modifiedCount: 1 });
@@ -221,7 +223,9 @@ describe('lib/rooms/classRoom', () => {
             const PLAYER_ID = '00000000000000000000000b';
             const updateResult = await room.join(PLAYER_ID);
 
-            expect(findStub.args).to.deep.equal([[{}, { _id: 0, players_ids: 1 }]]);
+            expect(findStub.args).to.deep.equal([
+                ['000000000000000000000001', { _id: 0, players_ids: 1 }],
+            ]);
             expect(updateJoinStub.args).to.deep.equal([
                 ['000000000000000000000001', '00000000000000000000000b'],
             ]);
@@ -234,7 +238,7 @@ describe('lib/rooms/classRoom', () => {
                 for (let i = 0; i < number; i++) array.push(new ObjectId());
                 return array;
             };
-            const findStub = sandbox.stub(roomsLib, 'find').resolves({
+            const findStub = sandbox.stub(roomsLib, 'findOneById').resolves({
                 ...fixtures.insertedRoom(),
                 players_ids: playersIds(MAX_PLAYERS),
             });
@@ -246,7 +250,9 @@ describe('lib/rooms/classRoom', () => {
             try {
                 await room.join(PLAYER_ID);
             } catch (err) {
-                expect(findStub.args).to.deep.equal([[{}, { _id: 0, players_ids: 1 }]]);
+                expect(findStub.args).to.deep.equal([
+                    ['000000000000000000000001', { _id: 0, players_ids: 1 }],
+                ]);
                 expect(err)
                     .to.be.an.instanceOf(Error)
                     .with.property(
@@ -257,7 +263,9 @@ describe('lib/rooms/classRoom', () => {
         });
 
         it('should throw if there is no modification', async () => {
-            const findStub = sandbox.stub(roomsLib, 'find').resolves(fixtures.insertedRoom());
+            const findStub = sandbox
+                .stub(roomsLib, 'findOneById')
+                .resolves(fixtures.insertedRoom());
             const updateJoinStub = sandbox
                 .stub(roomsLib, 'updateJoinRoom')
                 .resolves({ modifiedCount: 0 });
@@ -270,7 +278,9 @@ describe('lib/rooms/classRoom', () => {
             try {
                 await room.join(PLAYER_ID);
             } catch (err) {
-                expect(findStub.args).to.deep.equal([[{}, { _id: 0, players_ids: 1 }]]);
+                expect(findStub.args).to.deep.equal([
+                    ['000000000000000000000001', { _id: 0, players_ids: 1 }],
+                ]);
                 expect(updateJoinStub.args).to.deep.equal([
                     ['000000000000000000000001', '00000000000000000000000b'],
                 ]);
@@ -281,12 +291,14 @@ describe('lib/rooms/classRoom', () => {
         });
     });
 
-    describe.only('leave() method', () => {
+    describe('leave() method', () => {
         it('should leave a room', async () => {
             const updateLeaveStub = sandbox
                 .stub(roomsLib, 'updateLeaveRoom')
                 .resolves({ modifiedCount: 1 });
-            const findStub = sandbox.stub(roomsLib, 'find').resolves(fixtures.insertedRoom());
+            const findStub = sandbox
+                .stub(roomsLib, 'findOneById')
+                .resolves(fixtures.insertedRoom());
             const updateStatusStub = sandbox.stub(roomsLib, 'updateOne');
 
             const room = await new Room({
@@ -298,7 +310,9 @@ describe('lib/rooms/classRoom', () => {
             expect(updateLeaveStub.args).to.deep.equal([
                 ['000000000000000000000001', '00000000000000000000000a'],
             ]);
-            expect(findStub.args).to.deep.equal([[{}, { _id: 0, players_ids: 1 }]]);
+            expect(findStub.args).to.deep.equal([
+                ['000000000000000000000001', { _id: 0, players_ids: 1 }],
+            ]);
             expect(updateStatusStub.args).to.deep.equal([]);
             expect(updateResult).to.deep.equal({ modifiedCount: 1 });
         });
@@ -308,7 +322,7 @@ describe('lib/rooms/classRoom', () => {
                 .stub(roomsLib, 'updateLeaveRoom')
                 .resolves({ modifiedCount: 1 });
             const findStub = sandbox
-                .stub(roomsLib, 'find')
+                .stub(roomsLib, 'findOneById')
                 .resolves({ ...fixtures.insertedRoom(), players_ids: [] });
             const updateStatusStub = sandbox
                 .stub(roomsLib, 'updateOne')
@@ -323,7 +337,9 @@ describe('lib/rooms/classRoom', () => {
             expect(updateLeaveStub.args).to.deep.equal([
                 ['000000000000000000000001', '00000000000000000000000a'],
             ]);
-            expect(findStub.args).to.deep.equal([[{}, { _id: 0, players_ids: 1 }]]);
+            expect(findStub.args).to.deep.equal([
+                ['000000000000000000000001', { _id: 0, players_ids: 1 }],
+            ]);
             expect(updateStatusStub.args).to.deep.equal([
                 ['000000000000000000000001', { game_status: GAME_STATUS.OFFLINE }],
             ]);

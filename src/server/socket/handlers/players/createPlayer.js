@@ -19,8 +19,8 @@ const _createNewPlayer = async (socket, payload) => {
         const newPlayer = await new Player({ name: payload.name });
         socket.emit(EMIT_EVENT, await newPlayer.find());
     } catch (err) {
-        socket.emit(EMIT_EVENT, { error: err.toString() });
-        console.error(FUNCTION_NAME, err);
+        socket.emit(EMIT_EVENT, { payload, error: err.toString() });
+        console.error(FUNCTION_NAME, { payload, err });
     }
 };
 

@@ -2,6 +2,7 @@
 
 const roomsLib = require('../../models/rooms');
 const getPiecesLib = require('../pieces/getPieces');
+const roomInOut = require('./roomInOut');
 
 const { GAME_STATUS, MAX_PLAYERS, PIECES_NUMBER_AT_ROOM_CREATION } = require('../../../constants');
 
@@ -39,28 +40,11 @@ class asyncRoom {
     };
 
     join = async playerId => {
-        const { players_ids: playersIds } = await roomsLib.find({}, { _id: 0, players_ids: 1 });
-        if (playersIds.length >= MAX_PLAYERS) {
-            throw new Error(`a room can not accept more than ${MAX_PLAYERS} players`);
-        }
-        const result = await roomsLib.updateJoinRoom(this.id, playerId);
-        if (result.modifiedCount === 0) {
-            throw new Error('the room has not been updated');
-        }
-        return result;
+        return roomInOut.join(this.id, playerId);
     };
 
     leave = async playerId => {
-        const result = await roomsLib.updateLeaveRoom(this.id, playerId);
-        if (result.modifiedCount === 0) {
-            throw new Error('the room has not been updated');
-        }
-
-        const { players_ids: playersIds } = await roomsLib.find({}, { _id: 0, players_ids: 1 });
-        if (playersIds.length === 0) {
-            await roomsLib.updateOne(this.id, { game_status: GAME_STATUS.OFFLINE });
-        }
-        return result;
+        return roomInOut.leave(this.id, playerId);
     };
 }
 

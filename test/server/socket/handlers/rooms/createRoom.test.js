@@ -82,6 +82,7 @@ describe('socket/handlers/rooms/createRoom', function() {
             ]);
             expect(payload).to.deep.equal({
                 room_id: '000000000000000000000004',
+                room_name: 'room_1',
             });
             client.disconnect();
             done();
@@ -98,7 +99,13 @@ describe('socket/handlers/rooms/createRoom', function() {
         client.emit('rooms:create', actionClient.createRoom('room_1', '00000000000000000000000a'));
         client.on('rooms:created', payload => {
             expect(randomPiecesStub.args).to.deep.equal([[null, PIECES_NUMBER_AT_ROOM_CREATION]]);
-            expect(payload).to.deep.equal({ error: 'Error: something happened' });
+            expect(payload).to.deep.equal({
+                payload: {
+                    room_name: 'room_1',
+                    admin_id: '00000000000000000000000a',
+                },
+                error: 'Error: something happened',
+            });
             client.disconnect();
             done();
         });

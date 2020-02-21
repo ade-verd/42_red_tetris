@@ -4,7 +4,7 @@ const Joi = require('@hapi/joi');
 const { ObjectId } = require('mongodb');
 
 const { COLLECTION, INDEXES } = require('./definition');
-const { GAME_STATUS } = require('../../../constants');
+const { GAME_STATUS, MAX_PLAYERS } = require('../../../constants');
 const { getDb } = require('../../lib/mongodb');
 const dateLib = require('../../lib/utils/date');
 
@@ -73,7 +73,7 @@ function findRoomsByGameStatus(gameStatusRegex, projection = {}) {
 /**
  * Returns a room found with its id
  *
- * @param {ObjectId} roomId   - identifier of the queried room
+ * @param {String} roomId   - identifier of the queried room
  * @param {Object} projections - optional projection of result fields
  *
  * @returns {Object} The mongo document
@@ -99,7 +99,7 @@ async function insertOne(room) {
 /**
  * Update a room
  *
- * @param {ObjectId} roomId     - identifier of the updated room
+ * @param {String} roomId     - identifier of the updated room
  * @param {Object} updatedFields - fields that are updated
  *
  * @returns {Object/null} result of update if succeeded, null otherwise
@@ -114,7 +114,7 @@ async function updateOne(roomId, updatedFields) {
 /**
  * Push block in blocks_list of a specific room
  *
- * @param {ObjectId} roomId     - identifier of the updated room
+ * @param {String} roomId     - identifier of the updated room
  * @param {Array} blocksToPush  - Array to push
  *
  * @returns {Object/null} result of update if succeeded, null otherwise
@@ -132,7 +132,7 @@ async function updateRoomBlockList(roomId, blocksToPush) {
 /**
  * Join room while updating array players_ids
  *
- * @param {ObjectId} roomId     room identifier
+ * @param {String} roomId     room identifier
  * @param {String} playerId     player identifier
  *
  * @returns {Object/null} result of update if succeeded, null otherwise
@@ -142,6 +142,7 @@ async function updateJoinRoom(roomId, playerId) {
         {
             _id: ObjectId.createFromHexString(roomId),
             players_ids: { $nin: [playerId] },
+            $where: `this.players_ids.length < ${MAX_PLAYERS}`,
         },
         {
             $addToSet: { players_ids: playerId },
@@ -153,7 +154,7 @@ async function updateJoinRoom(roomId, playerId) {
 /**
  * Leave room while updating array players_ids
  *
- * @param {ObjectId} roomId     room identifier
+ * @param {String} roomId     room identifier
  * @param {String} playerId     player identifier
  *
  * @returns {Object/null} result of update if succeeded, null otherwise

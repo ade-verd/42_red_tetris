@@ -12,7 +12,7 @@ const ON_EVENT = 'rooms:get_active';
 const EMIT_EVENT = 'rooms:get_active';
 const FUNCTION_NAME = '[getActiveRooms]';
 
-const _getActiveRooms = async (socket, payload) => {
+export const emitActiveRooms = async (socket, payload) => {
     try {
         const regex = `^(?!${GAME_STATUS.OFFLINE})`;
         const projection = { room_name: 1, players_ids: 1, game_status: 1, settings: 1 };
@@ -20,7 +20,7 @@ const _getActiveRooms = async (socket, payload) => {
         socket.emit(EMIT_EVENT, await activeRoomsCursor.toArray());
     } catch (err) {
         socket.emit(EMIT_EVENT, { error: err.toString() });
-        console.error(FUNCTION_NAME, err);
+        console.error(FUNCTION_NAME, { err });
     }
 };
 
@@ -29,6 +29,6 @@ export const getActiveRooms = helpers.createEvent(
     EMIT_EVENT,
     schema,
     async (socket, payload) => {
-        await _getActiveRooms(socket, payload);
+        await emitActiveRooms(socket, payload);
     },
 );

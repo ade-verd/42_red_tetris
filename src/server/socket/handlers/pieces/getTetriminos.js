@@ -24,10 +24,10 @@ const emitNewPieces = async (socket, payload) => {
     ];
     try {
         const pieces = await getPiecesLib.getTetriminos(roomId, piecePosition, piecesNumber);
-        socket.emit(EMIT_EVENT, pieces);
+        socket.emit(EMIT_EVENT, { payload, pieces });
     } catch (err) {
-        socket.emit(EMIT_EVENT, { error: err.toString() });
-        console.error(FUNCTION_NAME, err);
+        socket.emit(EMIT_EVENT, { payload, error: err.toString() });
+        console.error(FUNCTION_NAME, { payload, err });
     }
 };
 

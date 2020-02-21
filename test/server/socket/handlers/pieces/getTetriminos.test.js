@@ -56,18 +56,25 @@ describe('socket/handlers/pieces/getTetriminos', function() {
         );
         client.on('tetriminos:get_random', payload => {
             expect(getTetriminosStub.args).to.deep.equal([['000000000000000000000001', 0, 1]]);
-            expect(payload).to.deep.equal([
-                {
-                    shape: [
-                        [0, 'I', 0, 0],
-                        [0, 'I', 0, 0],
-                        [0, 'I', 0, 0],
-                        [0, 'I', 0, 0],
-                    ],
-                    color: '29, 174, 236',
-                    rotationsPossible: 2,
+            expect(payload).to.deep.equal({
+                payload: {
+                    room_id: '000000000000000000000001',
+                    pieces_position: 0,
+                    number: 1,
                 },
-            ]);
+                pieces: [
+                    {
+                        shape: [
+                            [0, 'I', 0, 0],
+                            [0, 'I', 0, 0],
+                            [0, 'I', 0, 0],
+                            [0, 'I', 0, 0],
+                        ],
+                        color: '29, 174, 236',
+                        rotationsPossible: 2,
+                    },
+                ],
+            });
             client.disconnect();
             done();
         });
@@ -89,7 +96,14 @@ describe('socket/handlers/pieces/getTetriminos', function() {
         );
         client.on('tetriminos:get_random', payload => {
             expect(getTetriminosStub.args).to.deep.equal([['000000000000000000000001', 0, 1]]);
-            expect(payload).to.deep.equal({ error: 'Error: something happened' });
+            expect(payload).to.deep.equal({
+                payload: {
+                    room_id: '000000000000000000000001',
+                    pieces_position: 0,
+                    number: 1,
+                },
+                error: 'Error: something happened',
+            });
             client.disconnect();
             done();
         });

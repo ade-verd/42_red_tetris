@@ -39,25 +39,48 @@ ReactDom.render(
 // import openSocket from 'socket.io-client';
 // const socket = openSocket('http://localhost:3004');
 
-// import { getTetriminos } from './actions/getTetriminos';
-// socket.emit('tetriminos:get_random', getTetriminos('000000000000000000000001', 0, 1));
-// socket.on('tetriminos:get_random', pieces => {
-//     console.log(pieces);
-// });
-
+// let playerId;
 // import { createPlayer } from './actions/createPlayer';
 // socket.emit('players:create', createPlayer('Waldo'));
 // socket.on('players:created', player => {
-//     console.log(player);
+//     console.log('players:created', player);
+//     playerId = player._id;
 // });
 
+// let roomId;
 // import { createRoom } from './actions/createRoom';
-// socket.emit('rooms:create', createRoom('A good name for a room', '00000000000000000000000f'));
+// setTimeout(() => socket.emit('rooms:create', createRoom('A good name for a room', playerId)), 2000);
 // socket.on('rooms:created', room => {
-//     console.log(room);
+//     console.log('rooms:created', room);
+//     roomId = room.room_id;
 // });
 
-// socket.emit('rooms:get_active', {});
+// import { joinRoomPayload } from './actions/joinRoom';
+// setTimeout(
+//     () => socket.emit('rooms:join', joinRoomPayload(roomId, '00000000000000000000000d')),
+//     3000,
+// );
+// socket.on('rooms:joined', result => {
+//     console.log('rooms:joined', result);
+// });
+
+// import { leaveRoomPayload } from './actions/leaveRoom';
+// socket.on('rooms:left', result => {
+//     console.log('rooms:left', result);
+// });
+// setTimeout(() => socket.emit('rooms:leave', leaveRoomPayload(roomId, playerId)), 4000);
+// setTimeout(
+//     () => socket.emit('rooms:leave', leaveRoomPayload(roomId, '00000000000000000000000d')),
+//     5000,
+// );
+
+// socket.emit('rooms:get_active');
 // socket.on('rooms:get_active', room => {
-//     console.log(room);
+//     console.log('rooms:get_active', room);
+// });
+
+// import { getTetriminos } from './actions/getTetriminos';
+// socket.emit('tetriminos:get_random', getTetriminos(playerId, 0, 1));
+// socket.on('tetriminos:get_random', pieces => {
+//     console.log('tetriminos:get_random', pieces);
 // });
