@@ -12,6 +12,10 @@ const schema = {
     number: Joi.number().default(1),
 };
 
+const ON_EVENT = 'tetriminos:get_random';
+const EMIT_EVENT = 'tetriminos:get_random';
+const FUNCTION_NAME = '[getTetriminos]';
+
 const emitNewPieces = async (socket, payload) => {
     const [roomId, piecePosition, piecesNumber] = [
         payload.room_id,
@@ -20,15 +24,16 @@ const emitNewPieces = async (socket, payload) => {
     ];
     try {
         const pieces = await getPiecesLib.getTetriminos(roomId, piecePosition, piecesNumber);
-        socket.emit('tetriminos:get_random', pieces);
+        socket.emit(EMIT_EVENT, pieces);
     } catch (err) {
-        socket.emit('tetriminos:get_random', { error: err.toString() });
-        console.error('[getTetriminos]', err);
+        socket.emit(EMIT_EVENT, { error: err.toString() });
+        console.error(FUNCTION_NAME, err);
     }
 };
 
 export const getRandomTetriminos = helpers.createEvent(
-    'tetriminos:get_random',
+    ON_EVENT,
+    EMIT_EVENT,
     schema,
     async (socket, payload) => {
         await emitNewPieces(socket, payload);

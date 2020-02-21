@@ -11,7 +11,8 @@ const eventHelpers = require('../../../../src/server/socket/eventHelpers');
 describe('Socket event helpers', function() {
     describe('#createEvent()', function() {
         it('should validate the schema and create an object event', () => {
-            const EVENT_NAME = 'action';
+            const ON_EVENT = 'action';
+            const EMIT_EVENT = 'action';
             const RULES = {
                 someString: Joi.string().required(),
                 someNumber: Joi.number()
@@ -19,10 +20,11 @@ describe('Socket event helpers', function() {
                     .required(),
             };
             const fn = () => 'some function';
-            const eventResult = eventHelpers.createEvent(EVENT_NAME, RULES, fn);
+            const eventResult = eventHelpers.createEvent(ON_EVENT, EMIT_EVENT, RULES, fn);
 
             const expectedResult = {
-                name: 'action',
+                onEventName: 'action',
+                emitEventName: 'action',
                 fn,
                 validation: Joi.object({
                     someString: Joi.string().required(),
@@ -34,13 +36,29 @@ describe('Socket event helpers', function() {
             expect(JSON.stringify(eventResult)).to.deep.equal(JSON.stringify(expectedResult));
         });
 
-        it('should throw if the name is not truthy', () => {
+        it('should throw if the event name to listen on is not truthy', () => {
             try {
-                eventHelpers.createEvent(undefined, {}, () => {});
+                eventHelpers.createEvent(undefined, 'emit event name', {}, () => {});
             } catch (err) {
                 expect(err)
                     .to.be.an.instanceOf(Error)
-                    .with.property('message', '[helpers] createEvent() must have a name');
+                    .with.property(
+                        'message',
+                        '[helpers] createEvent() must have an event name to listen on',
+                    );
+            }
+        });
+
+        it('should throw if the event name to emit on is not truthy', () => {
+            try {
+                eventHelpers.createEvent('on event name', undefined, {}, () => {});
+            } catch (err) {
+                expect(err)
+                    .to.be.an.instanceOf(Error)
+                    .with.property(
+                        'message',
+                        '[helpers] createEvent() must have an event name to emit on',
+                    );
             }
         });
 
@@ -77,7 +95,8 @@ describe('Socket event helpers', function() {
             const client = ioClient.connect(socketUrl, options);
 
             const event = {
-                name: 'should_bind_event',
+                onEventName: 'should_bind_event',
+                emitEventName: 'should_bind_event',
                 fakeFunction: sinon.fake.returns('42'),
                 rules: {
                     string: Joi.string().required(),
@@ -87,7 +106,8 @@ describe('Socket event helpers', function() {
                 },
             };
             const eventCreated = eventHelpers.createEvent(
-                event.name,
+                event.onEventName,
+                event.emitEventName,
                 event.rules,
                 event.fakeFunction,
             );

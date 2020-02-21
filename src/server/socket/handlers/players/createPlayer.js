@@ -10,18 +10,23 @@ const schema = {
     name: Joi.string().required(),
 };
 
+const ON_EVENT = 'players:create';
+const EMIT_EVENT = 'players:created';
+const FUNCTION_NAME = '[createPlayer]';
+
 const _createNewPlayer = async (socket, payload) => {
     try {
         const newPlayer = await new Player({ name: payload.name });
-        socket.emit('players:created', await newPlayer.find());
+        socket.emit(EMIT_EVENT, await newPlayer.find());
     } catch (err) {
-        socket.emit('players:created', { error: err.toString() });
-        console.error('[createPlayer]', err);
+        socket.emit(EMIT_EVENT, { error: err.toString() });
+        console.error(FUNCTION_NAME, err);
     }
 };
 
 export const createPlayer = helpers.createEvent(
-    'players:create',
+    ON_EVENT,
+    EMIT_EVENT,
     schema,
     async (socket, payload) => {
         await _createNewPlayer(socket, payload);
