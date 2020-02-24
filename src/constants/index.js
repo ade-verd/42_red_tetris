@@ -6,6 +6,7 @@ const GAME_STATUS = {
     WAITING: 'waiting',
     PLAYING: 'playing',
     OFFLINE: 'offline',
+    PAUSE: 'pause',
 };
 
 const PIECES_NUMBER_AT_ROOM_CREATION = 20;

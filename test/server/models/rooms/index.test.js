@@ -288,7 +288,7 @@ describe('models/rooms', () => {
                 .to.be.instanceOf(Error)
                 .with.property(
                     'message',
-                    '"game_status" must be one of [waiting, playing, offline]',
+                    '"game_status" must be one of [waiting, playing, offline, pause]',
                 );
 
             const roomsFound = await roomsModels.find({}).toArray();
