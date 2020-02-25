@@ -4,8 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { handleSocket } from './middleware/handleSocket'
-import { storeStateMiddleWare } from './middleware/storeStateMiddleWare'
+import { handleSocket } from './middleware/handleSocket';
+import { storeStateMiddleWare } from './middleware/storeStateMiddleWare';
 import { Provider } from 'react-redux';
 
 import alertReducer from './reducers/alert';
@@ -15,8 +15,6 @@ import App from './App';
 
 const initialState = {};
 
-console.log('OK7');
-
 const rootReducer = combineReducers({
     alt: alertReducer,
     fld: fieldReducer,
@@ -25,9 +23,11 @@ const rootReducer = combineReducers({
 
 console.log('OK8');
 
-export const store = createStore(rootReducer, initialState, applyMiddleware(thunk, createLogger(), handleSocket()));
-
-console.log('OK9');
+export const store = createStore(
+    rootReducer,
+    initialState,
+    applyMiddleware(thunk, createLogger(), handleSocket()),
+);
 
 ReactDom.render(
     <Provider store={store}>
