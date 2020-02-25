@@ -36,24 +36,24 @@ ReactDom.render(
     document.getElementById('tetris'),
 );
 
-// import openSocket from 'socket.io-client';
-// const socket = openSocket('http://localhost:3004');
+import openSocket from 'socket.io-client';
+const socket = openSocket('http://localhost:3004');
 
-// let playerId;
-// import { createPlayer } from './actions/createPlayer';
-// socket.emit('players:create', createPlayer('Waldo'));
-// socket.on('players:created', player => {
-//     console.log('players:created', player);
-//     playerId = player._id;
-// });
+let playerId;
+import { createPlayer } from './actions/createPlayer';
+socket.emit('players:create', createPlayer('Waldo'));
+socket.on('players:created', player => {
+    console.log('players:created', player);
+    playerId = player._id;
+});
 
-// let roomId;
-// import { createRoom } from './actions/createRoom';
-// setTimeout(() => socket.emit('rooms:create', createRoom('A good name for a room', playerId)), 2000);
-// socket.on('rooms:created', room => {
-//     console.log('rooms:created', room);
-//     roomId = room.room_id;
-// });
+let roomId;
+import { createRoom } from './actions/createRoom';
+setTimeout(() => socket.emit('rooms:create', createRoom('A good name for a room', playerId)), 2000);
+socket.on('rooms:created', room => {
+    console.log('rooms:created', room);
+    roomId = room.room_id;
+});
 
 // import { joinRoomPayload } from './actions/joinRoom';
 // setTimeout(
@@ -84,3 +84,12 @@ ReactDom.render(
 // socket.on('tetriminos:get_random', pieces => {
 //     console.log('tetriminos:get_random', pieces);
 // });
+
+import { gameActionPayload } from './actions/gameAction';
+import { GAME_ACTIONS } from '../constants';
+setTimeout(() => {
+    socket.emit('games:action:run', gameActionPayload(roomId, GAME_ACTIONS.START));
+}, 5000);
+socket.on('games:action:ran', payload => {
+    console.log('games:action:ran', payload);
+});

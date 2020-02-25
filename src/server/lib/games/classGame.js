@@ -1,6 +1,7 @@
 'use strict';
 
 const gameActions = require('./gameActions.js');
+const roomsLib = require('../../models/rooms');
 
 class Game {
     constructor({ roomId }) {
@@ -21,6 +22,14 @@ class Game {
 
     stop = async () => {
         return gameActions.stop(this.roomId);
+    };
+
+    status = async () => {
+        const { game_status: status } = await roomsLib.findOneById(this.roomId, {
+            _id: 0,
+            game_status: 1,
+        });
+        return status;
     };
 }
 

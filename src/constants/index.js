@@ -9,11 +9,19 @@ const GAME_STATUS = {
     PAUSE: 'pause',
 };
 
+const GAME_ACTIONS = {
+    START: 'start',
+    PAUSE: 'pause',
+    RESUME: 'resume',
+    STOP: 'stop',
+};
+
 const PIECES_NUMBER_AT_ROOM_CREATION = 20;
 
 const MAX_PLAYERS = 5;
 
 module.exports = {
+    GAME_ACTIONS,
     GAME_STATUS,
     MAX_PLAYERS,
     PIECES_NUMBER_AT_ROOM_CREATION,
