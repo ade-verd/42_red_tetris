@@ -9,7 +9,6 @@ const reducer = (state = {}, action) => {
             return {
                 pos: { x: FIELD_WIDTH / 2 - 2, y: 0 },
 								tetromino: action.piece,
-								
                 collided: false,
             };
         case 'rotate':

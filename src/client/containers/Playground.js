@@ -74,7 +74,7 @@ const mapDispatchToProps = dispatch => {
         onAlert: () => dispatch(alert('Soon, will be here a fantastic te-Tetris ...')),
         onStart: () => {
 					dispatch({ emit: true, event: 'tetriminos:get_random', data: getTetriminos('5e56465d5cf26ead56afcd87', 1, 20) });
-					dispatch({ event: 'tetriminos:get_random', handle: (pieces) => { dispatch({ type: 'start', piece: pieces[0].shape }) }});
+					dispatch({ event: 'tetriminos:get_random', handle: ({ pieces }) => { dispatch({ type: 'start', piece: pieces[0].shape }) }});
 				},
         fieldUpdate: piece => dispatch({ type: 'update', piece: piece }),
     };
