@@ -14,7 +14,7 @@ const schema = {
 const _createNewRoom = async (socket, payload) => {
     try {
         const newRoom = await new Room(payload.room_name, payload.admin_id);
-        socket.emit('rooms:created', { room_id: newRoom.id });
+				socket.emit('rooms:created', { room_id: newRoom.id });
     } catch (err) {
         socket.emit('rooms:created', { error: err.toString() });
         console.error('[createRoom]', err);

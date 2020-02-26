@@ -19,7 +19,7 @@ const emitNewPieces = async (socket, payload) => {
         payload.number,
     ];
     try {
-        const pieces = await getPiecesLib.getTetriminos(roomId, piecePosition, piecesNumber);
+				const pieces = await getPiecesLib.getTetriminos(roomId, piecePosition, piecesNumber);
         socket.emit('tetriminos:get_random', pieces);
     } catch (err) {
         socket.emit('tetriminos:get_random', { error: err.toString() });

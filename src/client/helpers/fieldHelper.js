@@ -6,7 +6,7 @@ export const FIELD_HEIGHT = 20;
 export const createField = () =>
     Array.from(Array(FIELD_HEIGHT), () => new Array(FIELD_WIDTH).fill([0, 'clear']));
 
-export const updateField = (prevField, pliece) => {
+export const updateField = (prevField, piece) => {
     // First flush the stage
     const newField = prevField.map(row =>
         row.map(cell => (cell[1] === 'clear' ? [0, 'clear'] : cell)),

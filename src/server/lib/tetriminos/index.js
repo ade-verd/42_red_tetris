@@ -25,7 +25,8 @@ function getRandomTetrimino() {
     const blockNames = TETRIMINOS.BLOCK_NAMES;
 
     const randomBlockName = blockNames[randomLib.getRandomInt(0, blockNames.length - 1)];
-    const randomTetrimino = TETRIMINOS[randomBlockName];
+		const randomTetrimino = TETRIMINOS[randomBlockName];
+		console.log('test', randomTetrimino)
     return _getRandomRotation(randomTetrimino);
 }
 

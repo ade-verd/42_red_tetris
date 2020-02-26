@@ -10,7 +10,7 @@ async function getTetriminos(roomId, piecePosition, piecesNumber) {
     if (piecesNumberToCreate) {
         await this.createNewRandomTetriminos(roomId, piecesNumberToCreate);
         return this._getAvailableTetriminos(roomId, piecePosition, piecesNumber);
-    }
+		}
     return availablePieces;
 }
 
