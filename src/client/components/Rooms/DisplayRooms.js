@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { MAX_PLAYERS } from '../../../constants';
-import './Rooms.css';
+import './DisplayRooms.css';
 
 const Row = props => {
     const className = props.isTitle ? 'title-bar room-container' : 'room-container';
@@ -20,7 +20,7 @@ const Row = props => {
     );
 };
 
-const buildHeadTable = () => <Row isTitle="true" />;
+const buildHeadTable = () => <Row key={new Date().valueOf()} isTitle="true" />;
 
 const buildRoomsTable = activeRooms => {
     const activeRoomsArray = Object.values(activeRooms);
