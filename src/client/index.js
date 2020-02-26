@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import alertReducer from './reducers/alert';
 import fieldReducer from './reducers/field';
 import pieceReducer from './reducers/piece';
+import roomsReducer from './reducers/rooms';
 import App from './App';
 
 import './index.css';
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     alt: alertReducer,
     fld: fieldReducer,
     pce: pieceReducer,
+    rms: roomsReducer,
 });
 
 console.log('OK8');
