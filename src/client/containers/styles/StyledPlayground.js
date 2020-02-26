@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import bgImage from '../../img/bg.png';
+import bgImage from '../../assets/img/bg.png';
 
 export const StyledPlaygroundWrapper = styled.div`
     width: 100vw;

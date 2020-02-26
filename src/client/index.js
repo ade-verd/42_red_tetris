@@ -13,6 +13,8 @@ import fieldReducer from './reducers/field';
 import pieceReducer from './reducers/piece';
 import App from './App';
 
+import './index.css';
+
 const initialState = {};
 
 const rootReducer = combineReducers({

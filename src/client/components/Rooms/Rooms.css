@@ -1,0 +1,26 @@
+.main-container {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    border: 1px solid #000;
+}
+
+.title-bar {
+    background-color: lightskyblue;
+    color: #000;
+}
+
+.room-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: start;
+    align-content: start;
+}
+
+.item {
+    flex: 1 0;
+    margin: 1px;
+    padding: 1em;
+    border: 1px solid #000;
+}

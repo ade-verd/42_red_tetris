@@ -15,7 +15,7 @@ const Home = () => {
 
     return (
         <div>
-            <label>You name :</label>
+            <label>Create player:</label>
             <input type="text" id="name" onKeyDown={onEnterkey} required />
         </div>
     );

@@ -1,7 +1,7 @@
 import React from 'react';
 import openSocket from 'socket.io-client';
 
-import ActiveRooms from '../components/ActiveRooms';
+import RoomsComponent from '../components/Rooms';
 
 const socket = openSocket('http://localhost:3004');
 
@@ -16,7 +16,7 @@ const Rooms = props => {
     return (
         <div>
             ROOMS:
-            <ActiveRooms activeRooms={activeRooms} />
+            <RoomsComponent activeRooms={activeRooms} />
         </div>
     );
 };

@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'arcade';
+    src: url('./assets/font/ArcadeNormal-ZDZ.ttf') format('truetype');
+    /*url('./font/ArcadeRounded-3DM.ttf') format("truetype");*/
+}
+
+body {
+    margin: 0;
+    /*    background-color: #000;
+    background-image: url('./assets/img/bg.png'); */
+    font-family: 'arcade' !important;
+}
+
+input[type='text'] {
+    font-family: 'arcade';
+}
