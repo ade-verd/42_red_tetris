@@ -27,12 +27,13 @@ socket.emit('rooms:create', createRoom('A good name for a room', '00000000000000
 console.log('OK2');
 
 const Playground = ({ message, field, piece, ...dispatchs }) => {
-    console.log('OK1');
-    socket.on('server/start', () => {
-				console.log('ENTERED SERVER/START on socket');
-				dispatchs.onStart();
-        dispatchs.onAlert();
-    });
+		console.log('OK1');
+		dispatchs.onStart();
+    // socket.on('server/start', () => {
+		// 		console.log('ENTERED SERVER/START on socket');
+		// 		dispatchs.onStart();
+    //     dispatchs.onAlert();
+    // });
     console.log('[Playground] State = ', field, piece, dispatchs);
 
     useEffect(() => {
@@ -71,10 +72,13 @@ console.log('OK4');
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAlert: () => dispatch(alert('Soon, will be here a fantastic te-Tetris ...')),
+        // onAlert: () => dispatch(alert('Soon, will be here a fantastic te-Tetris ...')),
         onStart: () => {
-					dispatch({ emit: true, event: 'tetriminos:get_random', data: getTetriminos('5e56465d5cf26ead56afcd87', 1, 20) });
-					dispatch({ event: 'tetriminos:get_random', handle: ({ pieces }) => { dispatch({ type: 'start', piece: pieces[0].shape }) }});
+					dispatch({ event: 'server/start', handle: () => {
+						dispatch(alert('Soon, will be here a fantastic te-Tetris ...'))
+						dispatch({ emit: true, event: 'tetriminos:get_random', data: getTetriminos('5e56465d5cf26ead56afcd87', 1, 20) });
+						dispatch({ event: 'tetriminos:get_random', handle: ({ pieces }) => { dispatch({ type: 'start', piece: pieces[0].shape }) }});
+					}})
 				},
         fieldUpdate: piece => dispatch({ type: 'update', piece: piece }),
     };
