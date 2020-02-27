@@ -16,9 +16,9 @@ const GAME_ACTIONS = {
     STOP: 'stop',
 };
 
-const PIECES_NUMBER_AT_ROOM_CREATION = 20;
-
 const MAX_PLAYERS = 5;
+
+const PIECES_NUMBER_AT_ROOM_CREATION = 20;
 
 module.exports = {
     GAME_ACTIONS,

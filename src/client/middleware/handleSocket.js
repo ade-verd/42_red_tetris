@@ -2,40 +2,42 @@ import openSocket from 'socket.io-client';
 
 import config from '../config';
 
+export const ACTIONS = {
+    EMIT: 'emit',
+    LISTEN: 'listen',
+    REDUCE: 'reduce',
+    CONNECT: 'connect',
+    QUIT: 'quit',
+};
+
 export const handleSocket = () => {
-    // const socket = io.connect(serverURI, options);
-    const socket = openSocket('http://localhost:3004');
+    const socket = openSocket(config.server.url);
 
-    console.log('TEST1');
-
-    return ({ getState }) => next => action => {
+    return ({ getState }) => next => payload => {
         console.log('[handleSocket]', getState());
-        if (typeof action === 'function') {
-            return next(action);
+        if (typeof payload === 'function') {
+            return next(payload);
         }
-        const { event, leave, handle, emit, connect, data } = action;
+        const { action, event, fn, data } = payload;
 
-        if (!event) {
-            return next(action);
+        const state = getState();
+        console.debug('[handleSocket] State', state);
+        switch (action) {
+            case ACTIONS.EMIT:
+                console.debug(`[handleSocket][emit][${event}]`, data);
+                return socket.emit(event, { ...data });
+            case ACTIONS.ON:
+                console.debug(`[handleSocket][on][${event}]`);
+                return socket.on(event, fn);
+            case ACTIONS.REDUCE:
+                console.debug('[handleSocket][reduce]', payload);
+                return next(payload);
+            case ACTIONS.CONNECT:
+                console.debug('[handleSocket][connect]');
+                return socket.connect();
+            case ACTIONS.QUIT:
+                console.debug(`[handleSocket][quit][${event}]`);
+                return socket.removeEventListener(event);
         }
-
-        if (emit) {
-            // const { gameReducer } = getState();
-            // const { currentPlayer, room } = gameReducer;
-            const state = getState();
-            console.log(state);
-
-            return socket.emit(event, { ...data });
-        }
-
-        if (connect) {
-            return socket.connect();
-        }
-
-        if (leave) {
-            return socket.removeEventListener(event);
-        }
-
-        return socket.on(event, handle);
     };
 };

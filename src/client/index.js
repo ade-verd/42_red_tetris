@@ -14,6 +14,7 @@ import pieceReducer from './reducers/piece';
 import roomsReducer from './reducers/rooms';
 import App from './App';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 
 const initialState = {};
@@ -81,8 +82,8 @@ ReactDom.render(
 // // );
 
 // // socket.emit('rooms:get_active');
-// // socket.on('rooms:get_active', room => {
-// //     console.log('rooms:get_active', room);
+// // socket.on('rooms:got_active', rooms => {
+// //     console.log('rooms:got_active', rooms);
 // // });
 
 // // import { getTetriminos } from './actions/getTetriminos';

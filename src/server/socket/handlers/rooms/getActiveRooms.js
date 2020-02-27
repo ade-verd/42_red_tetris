@@ -9,7 +9,7 @@ const { GAME_STATUS } = require('../../../../constants');
 const schema = {};
 
 const ON_EVENT = 'rooms:get_active';
-const EMIT_EVENT = 'rooms:get_active';
+const EMIT_EVENT = 'rooms:got_active';
 const FUNCTION_NAME = '[getActiveRooms]';
 
 export const emitActiveRooms = async (socket, payload) => {

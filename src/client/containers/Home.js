@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 const Home = () => {
     const history = useHistory();
@@ -13,10 +14,19 @@ const Home = () => {
         }
     };
 
+    const goToPlayground = () => {
+        history.push({ pathname: '/playground' });
+    };
+
     return (
         <div>
             <label>Create player:</label>
             <input type="text" id="name" onKeyDown={onEnterkey} required />
+            <br />
+            <br />
+            <Button variant="primary" onClick={goToPlayground}>
+                Playground
+            </Button>
         </div>
     );
 };

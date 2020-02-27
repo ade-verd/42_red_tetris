@@ -12,6 +12,8 @@ import { createRoom } from '../actions/createRoom';
 import { alert } from '../actions/alert';
 import { ping } from '../actions/server';
 
+import { ACTIONS } from '../middleware/handleSocket';
+
 const socket = openSocket('http://localhost:3004');
 
 socket.emit('action', ping());
@@ -59,7 +61,7 @@ const Playground = ({ message, field, piece, ...dispatchs }) => {
 console.log('OK3');
 
 const mapStateToProps = state => {
-    console.log('[mapStateToProps] State = ', state);
+    console.log('[Playground][mapStateToProps] State = ', state);
     return {
         message: state.alt.message,
         field: state.fld.field,
@@ -74,24 +76,30 @@ const mapDispatchToProps = dispatch => {
         // onAlert: () => dispatch(alert('Soon, will be here a fantastic te-Tetris ...')),
         onStart: () => {
             dispatch({
+                action: ACTIONS.LISTEN,
                 event: 'server/start',
-                handle: () => {
+                fn: () => {
                     dispatch(alert('Soon, will be here a fantastic te-Tetris ...'));
                     dispatch({
-                        emit: true,
+                        action: ACTIONS.EMIT,
                         event: 'tetriminos:get_random',
                         data: getTetriminos('5e5790717e915983669fa4b8', 1, 20),
                     });
                     dispatch({
+                        action: ACTIONS.LISTEN,
                         event: 'tetriminos:get_random',
-                        handle: ({ pieces }) => {
-                            dispatch({ type: 'start', piece: pieces[0].shape });
+                        fn: ({ pieces }) => {
+                            dispatch({
+                                action: ACTIONS.REDUCE,
+                                type: 'start',
+                                piece: pieces[0].shape,
+                            });
                         },
                     });
                 },
             });
         },
-        fieldUpdate: piece => dispatch({ type: 'update', piece: piece }),
+        fieldUpdate: piece => dispatch({ action: ACTIONS.REDUCE, type: 'update', piece: piece }),
     };
 };
 
