@@ -23,6 +23,8 @@ const Row = props => {
 const buildHeadTable = () => <Row key={new Date().valueOf()} isTitle="true" />;
 
 const buildRoomsTable = activeRooms => {
+    if (typeof activeRooms === 'null' || typeof activeRooms === 'undefined') return [];
+
     const activeRoomsArray = Object.values(activeRooms);
     return activeRoomsArray.map(room => {
         return (

@@ -5,10 +5,10 @@ import { randomTetromino } from '../helpers/tetrominos';
 const reducer = (state = {}, action) => {
     switch (action.type) {
         case 'start':
-						console.log('STARTED PIECE REDUCER');
+            console.log('STARTED PIECE REDUCER');
             return {
                 pos: { x: FIELD_WIDTH / 2 - 2, y: 0 },
-								tetromino: action.piece,
+                tetromino: action.piece,
                 collided: false,
             };
         case 'rotate':

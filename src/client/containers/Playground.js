@@ -6,17 +6,16 @@ import Field from '../components/Field';
 import StartButton from '../components/StartButton';
 import { StyledPlaygroundWrapper, StyledPlayground } from './styles/StyledPlayground';
 
-import { getTetriminos } from '../actions/getTetriminos'
-import { createRoom } from '../actions/createRoom'
+import { getTetriminos } from '../actions/getTetriminos';
+import { createRoom } from '../actions/createRoom';
 
 import { alert } from '../actions/alert';
 import { ping } from '../actions/server';
 
 const socket = openSocket('http://localhost:3004');
 
-
 socket.emit('action', ping());
-socket.emit('rooms:create', createRoom('A good name for a room', '000000000000000000000001'));
+//socket.emit('rooms:create', createRoom('A good name for a room', '000000000000000000000001'));
 // let roomId;
 // socket.on('rooms:created', (payload) => {
 // 	console.log(payload)
@@ -27,11 +26,11 @@ socket.emit('rooms:create', createRoom('A good name for a room', '00000000000000
 console.log('OK2');
 
 const Playground = ({ message, field, piece, ...dispatchs }) => {
-		console.log('OK1');
-		dispatchs.onStart();
+    console.log('OK1');
+    dispatchs.onStart();
     // socket.on('server/start', () => {
-		// 		console.log('ENTERED SERVER/START on socket');
-		// 		dispatchs.onStart();
+    // 		console.log('ENTERED SERVER/START on socket');
+    // 		dispatchs.onStart();
     //     dispatchs.onAlert();
     // });
     console.log('[Playground] State = ', field, piece, dispatchs);
@@ -74,12 +73,24 @@ const mapDispatchToProps = dispatch => {
     return {
         // onAlert: () => dispatch(alert('Soon, will be here a fantastic te-Tetris ...')),
         onStart: () => {
-					dispatch({ event: 'server/start', handle: () => {
-						dispatch(alert('Soon, will be here a fantastic te-Tetris ...'))
-						dispatch({ emit: true, event: 'tetriminos:get_random', data: getTetriminos('5e56465d5cf26ead56afcd87', 1, 20) });
-						dispatch({ event: 'tetriminos:get_random', handle: ({ pieces }) => { dispatch({ type: 'start', piece: pieces[0].shape }) }});
-					}})
-				},
+            dispatch({
+                event: 'server/start',
+                handle: () => {
+                    dispatch(alert('Soon, will be here a fantastic te-Tetris ...'));
+                    dispatch({
+                        emit: true,
+                        event: 'tetriminos:get_random',
+                        data: getTetriminos('5e56465d5cf26ead56afcd87', 1, 20),
+                    });
+                    dispatch({
+                        event: 'tetriminos:get_random',
+                        handle: ({ pieces }) => {
+                            dispatch({ type: 'start', piece: pieces[0].shape });
+                        },
+                    });
+                },
+            });
+        },
         fieldUpdate: piece => dispatch({ type: 'update', piece: piece }),
     };
 };

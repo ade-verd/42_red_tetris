@@ -27,9 +27,9 @@ import Home from './containers/Home';
 const App = () => (
     <div className="App">
         <Switch>
-            <Route path="/" component={Playground} />
+            <Route path="/playground" component={Playground} />
             <Route path="/rooms" component={Rooms} />
-            {/* <Route path="/" exact component={Home} /> */}
+            <Route path="/" exact component={Home} />
         </Switch>
     </div>
 );
