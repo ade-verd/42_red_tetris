@@ -7,7 +7,7 @@ export const handleSocket = () => {
 	console.log('TEST1')
 
 	return ({ getState }) => next => (action) => {
-		console.log('[testMiddleWare]', getState())
+		console.log('[handleSocket]', getState())
 		if (typeof action === 'function') {
 			return next(action);
 		}

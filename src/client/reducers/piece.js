@@ -3,6 +3,7 @@ import { randomTetromino } from '../helpers/tetrominos';
 // const tetriminosLib = require('../../server/lib/tetriminos');
 
 const reducer = (state = {}, action) => {
+	console.log('[pieceReducer] State = ', state);
     switch (action.type) {
         case 'start':
 						console.log('STARTED PIECE REDUCER');

@@ -34,7 +34,7 @@ const Playground = ({ message, field, piece, ...dispatchs }) => {
 		// 		dispatchs.onStart();
     //     dispatchs.onAlert();
     // });
-    console.log('[Playground] State = ', field, piece, dispatchs);
+    console.log('[Playground] State: field =', field, 'piece =', piece, 'dispatchs =' , dispatchs);
 
     useEffect(() => {
         console.log('useEffect');
@@ -76,7 +76,7 @@ const mapDispatchToProps = dispatch => {
         onStart: () => {
 					dispatch({ event: 'server/start', handle: () => {
 						dispatch(alert('Soon, will be here a fantastic te-Tetris ...'))
-						dispatch({ emit: true, event: 'tetriminos:get_random', data: getTetriminos('5e56465d5cf26ead56afcd87', 1, 20) });
+						dispatch({ emit: true, event: 'tetriminos:get_random', data: getTetriminos('5e5790717e915983669fa4b8', 1, 20) });
 						dispatch({ event: 'tetriminos:get_random', handle: ({ pieces }) => { dispatch({ type: 'start', piece: pieces[0].shape }) }});
 					}})
 				},
