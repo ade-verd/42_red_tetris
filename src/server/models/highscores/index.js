@@ -64,7 +64,7 @@ function findHighScores(limitNumber) {
  */
 async function insertOne(highscoreObject) {
     const validatedHighscore = _validate(highscoreObject);
-    const res = await collection().insert(validatedHighscore);
+    const res = await collection().insertOne(validatedHighscore);
 
     return res.ops[0];
 }

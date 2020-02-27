@@ -73,7 +73,7 @@ function findOneById(playerId, projection = {}) {
  */
 async function insertOne(player) {
     const validatedRoom = _validate(player);
-    const res = await collection().insert(validatedRoom);
+    const res = await collection().insertOne(validatedRoom);
 
     return res.ops[0];
 }

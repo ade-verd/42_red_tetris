@@ -77,7 +77,7 @@ function findSpectrumsByRoomId(roomId, projection = {}) {
  */
 async function insertOne(playerSpectrum) {
     const validatedPlayerSpectrum = _validate(playerSpectrum);
-    const res = await collection().insert(validatedPlayerSpectrum);
+    const res = await collection().insertOne(validatedPlayerSpectrum);
 
     return res.ops[0];
 }

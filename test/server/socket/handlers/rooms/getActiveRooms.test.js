@@ -46,8 +46,8 @@ describe('socket/handlers/rooms/getActiveRooms', function() {
 
         const client = io.connect(socketUrl, options);
 
-        client.emit('rooms:got_active');
-        client.on('rooms:get_active', payload => {
+        client.emit('rooms:get_active');
+        client.on('rooms:got_active', payload => {
             const expectedRegex = `^(?!${GAME_STATUS.OFFLINE})`;
             const expectedProjection = {
                 room_name: 1,
@@ -82,8 +82,8 @@ describe('socket/handlers/rooms/getActiveRooms', function() {
 
         const client = io.connect(socketUrl, options);
 
-        client.emit('rooms:got_active');
-        client.on('rooms:get_active', payload => {
+        client.emit('rooms:get_active');
+        client.on('rooms:got_active', payload => {
             const expectedRegex = `^(?!${GAME_STATUS.OFFLINE})`;
             const expectedProjection = {
                 room_name: 1,
