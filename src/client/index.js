@@ -8,9 +8,7 @@ import { handleSocket } from './middleware/handleSocket'
 import { storeStateMiddleWare } from './middleware/storeStateMiddleWare'
 import { Provider } from 'react-redux';
 
-import alertReducer from './reducers/alert';
-import fieldReducer from './reducers/field';
-import pieceReducer from './reducers/piece';
+import reducers from './reducers/index';
 import App from './App';
 
 const initialState = {};
@@ -18,9 +16,10 @@ const initialState = {};
 console.log('OK7');
 
 const rootReducer = combineReducers({
-    alt: alertReducer,
-    fld: fieldReducer,
-    pce: pieceReducer,
+    alt: reducers.alertReducer,
+		fld: reducers.fieldReducer,
+		gme: reducers.gameStatusReducer,
+    pce: reducers.pieceReducer,
 });
 
 console.log('OK8');
