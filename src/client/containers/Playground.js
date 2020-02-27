@@ -4,6 +4,7 @@ import openSocket from 'socket.io-client';
 
 import Field from '../components/Field';
 import StartButton from '../components/StartButton';
+import Display from '../components/Display';
 import { StyledPlaygroundWrapper, StyledPlayground } from './styles/StyledPlayground';
 
 import { getTetriminos } from '../actions/getTetriminos';
@@ -27,15 +28,16 @@ socket.emit('action', ping());
 // console.log(roomId)
 console.log('OK2');
 
-const Playground = ({ message, field, piece, ...dispatchs }) => {
-    console.log('OK1');
-    dispatchs.onStart();
+const Playground = ({ message, field, gameStatus, piece, ...dispatchs }) => {
+		const { gameOver, score, rows, level } = gameStatus
+		console.log('OK1');
+		dispatchs.onStart();
     // socket.on('server/start', () => {
     // 		console.log('ENTERED SERVER/START on socket');
     // 		dispatchs.onStart();
     //     dispatchs.onAlert();
     // });
-    console.log('[Playground] State: field =', field, 'piece =', piece, 'dispatchs =', dispatchs);
+    console.log('[Playground] State: field =', field, 'gameStatus', gameStatus, 'piece =', piece, 'dispatchs =' , dispatchs);
 
     useEffect(() => {
         console.log('useEffect');
@@ -51,6 +53,15 @@ const Playground = ({ message, field, piece, ...dispatchs }) => {
                 <p>{message}</p>
                 <Field field={field} />
                 <aside>
+										{gameOver ? (
+											<Display gameOver={gameOver} text="Game Over" />
+										) : (
+											<div>
+												<Display text={`Score: ${ score }`} />
+												<Display text={`Rows: ${ rows }`} />
+												<Display text={`Level: ${ level }`} />
+											</div>
+										)}
                     <StartButton callback={dispatchs.onStart} />
                 </aside>
             </StyledPlayground>
@@ -64,7 +75,8 @@ const mapStateToProps = state => {
     console.log('[Playground][mapStateToProps] State = ', state);
     return {
         message: state.alt.message,
-        field: state.fld.field,
+				field: state.fld.field,
+				gameStatus: state.gme,
         piece: state.pce,
     };
 };

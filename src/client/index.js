@@ -8,10 +8,7 @@ import { handleSocket } from './middleware/handleSocket';
 import { storeStateMiddleWare } from './middleware/storeStateMiddleWare';
 import { Provider } from 'react-redux';
 
-import alertReducer from './reducers/alert';
-import fieldReducer from './reducers/field';
-import pieceReducer from './reducers/piece';
-import roomsReducer from './reducers/rooms';
+import reducers from './reducers/index';
 import App from './App';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -20,10 +17,11 @@ import './index.css';
 const initialState = {};
 
 const rootReducer = combineReducers({
-    alt: alertReducer,
-    fld: fieldReducer,
-    pce: pieceReducer,
-    rms: roomsReducer,
+    alt: reducers.alertReducer,
+		fld: reducers.fieldReducer,
+		gme: reducers.gameStatusReducer,
+		pce: reducers.pieceReducer,
+		rms: reducers.roomsReducer,
 });
 
 console.log('OK8');
