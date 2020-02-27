@@ -4,12 +4,12 @@ import config from '../config';
 
 export const handleSocket = () => {
     // const socket = io.connect(serverURI, options);
-    const socket = openSocket(config.server.url);
+    const socket = openSocket('http://localhost:3004');
 
     console.log('TEST1');
 
     return ({ getState }) => next => action => {
-        console.log('[testMiddleWare]', getState());
+        console.log('[handleSocket]', getState());
         if (typeof action === 'function') {
             return next(action);
         }

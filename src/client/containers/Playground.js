@@ -33,7 +33,7 @@ const Playground = ({ message, field, piece, ...dispatchs }) => {
     // 		dispatchs.onStart();
     //     dispatchs.onAlert();
     // });
-    console.log('[Playground] State = ', field, piece, dispatchs);
+    console.log('[Playground] State: field =', field, 'piece =', piece, 'dispatchs =', dispatchs);
 
     useEffect(() => {
         console.log('useEffect');
@@ -80,7 +80,7 @@ const mapDispatchToProps = dispatch => {
                     dispatch({
                         emit: true,
                         event: 'tetriminos:get_random',
-                        data: getTetriminos('5e56465d5cf26ead56afcd87', 1, 20),
+                        data: getTetriminos('5e5790717e915983669fa4b8', 1, 20),
                     });
                     dispatch({
                         event: 'tetriminos:get_random',
