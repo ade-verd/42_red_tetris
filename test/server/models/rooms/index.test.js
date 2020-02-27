@@ -54,6 +54,7 @@ describe('models/rooms', () => {
                     key: { room_name: 1 },
                     name: 'room_name_1',
                     ns: 'redtetris.rooms',
+                    unique: true,
                     background: true,
                 },
                 {
