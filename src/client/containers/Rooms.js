@@ -1,31 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import openSocket from 'socket.io-client';
 
 import CreateRoom from '../components/Rooms/CreateRoom';
 import DisplayRooms from '../components/Rooms/DisplayRooms';
 
-const socket = openSocket('http://localhost:3004');
+import { createRoom } from '../actions/createRoom';
 
-let activeRooms;
+import { ACTIONS } from '../middleware/handleSocket';
 
-socket.emit('rooms:get_active');
-socket.on('rooms:got_active', payload => {
-    console.log('rooms:got_active', payload);
-    activeRooms = payload;
-});
-socket.on('rooms:created', payload => {
-    console.log('rooms:created', payload);
-});
+const Rooms = ({ rooms, ...dispatchs }) => {
+    useEffect(() => {
+        console.debug('[Rooms] ONLY FIRST TIME');
+        dispatchs.listen();
+        dispatchs.emitGetActiveRooms();
+    }, []);
 
-const Rooms = ({ activeRooms: rooms, ...dispatchs }) => {
-    dispatchs.onStart();
+    useEffect(() => {
+        console.debug('[Rooms] rendering');
+    }, [rooms]);
 
     return (
         <div>
-            <CreateRoom socket={socket} />
+            <CreateRoom createRoom={dispatchs.emitCreateRoom} />
             ROOMS:
-            <DisplayRooms activeRooms={activeRooms} />
+            <DisplayRooms activeRooms={rooms} />
         </div>
     );
 };
@@ -37,27 +35,36 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        // onAlert: () => dispatch(alert('Soon, will be here a fantastic te-Tetris ...')),
-        onStart: () => {
+        listen: () => {
             dispatch({
-                event: 'server/start',
-                handle: () => {
-                    dispatch(alert('Soon, will be here a fantastic te-Tetris ...'));
+                action: ACTIONS.LISTEN,
+                event: 'rooms:got_active',
+                fn: rooms => {
                     dispatch({
-                        emit: true,
-                        event: 'tetriminos:get_random',
-                        data: getTetriminos('5e5790717e915983669fa4b8', 1, 20),
-                    });
-                    dispatch({
-                        event: 'tetriminos:get_random',
-                        handle: ({ pieces }) => {
-                            dispatch({ type: 'start', piece: pieces[0].shape });
-                        },
+                        action: ACTIONS.REDUCE,
+                        type: 'UPDATE_ACTIVE_ROOMS',
+                        rooms,
                     });
                 },
             });
+            dispatch({
+                action: ACTIONS.LISTEN,
+                event: 'rooms:created',
+                fn: payload => console.log('rooms:created', payload),
+            });
         },
-        fieldUpdate: piece => dispatch({ type: 'update', piece: piece }),
+        emitGetActiveRooms: () =>
+            dispatch({
+                action: ACTIONS.EMIT,
+                event: 'rooms:get_active',
+            }),
+
+        emitCreateRoom: (roomName, roomCreaterId) =>
+            dispatch({
+                action: ACTIONS.EMIT,
+                event: 'rooms:create',
+                data: createRoom(roomName, roomCreaterId),
+            }),
     };
 };
 

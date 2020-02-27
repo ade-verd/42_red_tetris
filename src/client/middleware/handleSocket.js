@@ -14,19 +14,19 @@ export const handleSocket = () => {
     const socket = openSocket(config.server.url);
 
     return ({ getState }) => next => payload => {
-        console.log('[handleSocket]', getState());
         if (typeof payload === 'function') {
             return next(payload);
         }
-        const { action, event, fn, data } = payload;
+        const { action, event, fn, data = {} } = payload;
 
         const state = getState();
         console.debug('[handleSocket] State', state);
+
         switch (action) {
             case ACTIONS.EMIT:
                 console.debug(`[handleSocket][emit][${event}]`, data);
                 return socket.emit(event, { ...data });
-            case ACTIONS.ON:
+            case ACTIONS.LISTEN:
                 console.debug(`[handleSocket][on][${event}]`);
                 return socket.on(event, fn);
             case ACTIONS.REDUCE:

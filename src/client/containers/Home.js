@@ -18,10 +18,18 @@ const Home = () => {
         history.push({ pathname: '/playground' });
     };
 
+    const goToRooms = () => {
+        history.push({ pathname: '/rooms' });
+    };
+
     return (
         <div>
             <label>Create player:</label>
             <input type="text" id="name" onKeyDown={onEnterkey} required />
+            <br />
+            <Button variant="primary" onClick={goToRooms}>
+                Rooms
+            </Button>
             <br />
             <br />
             <Button variant="primary" onClick={goToPlayground}>

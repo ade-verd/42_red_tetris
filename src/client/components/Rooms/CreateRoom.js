@@ -7,7 +7,8 @@ const CreateRoom = props => {
         if (event.key === 'Enter') {
             const roomName = event.target.value;
             const playerId = 'to be defined';
-            props.socket.emit('rooms:create', createRoom(roomName, playerId));
+            props.createRoom(roomName, playerId);
+            // props.socket.emit('rooms:create', createRoom(roomName, playerId));
         }
     };
 
