@@ -13,20 +13,9 @@ class asyncRoom {
             return this;
         }
         return (async () => {
-            const blocksList = await getPiecesLib.createNewRandomTetriminos(
-                null,
-                PIECES_NUMBER_AT_ROOM_CREATION,
-            );
-            const roomToInsert = {
-                room_name: roomName,
-                players_ids: [roomCreaterId],
-                game_status: GAME_STATUS.WAITING,
-                blocks_list: blocksList,
-                settings: {},
-            };
-
-            const insertedRoom = await roomsLib.insertOne(roomToInsert);
-            this.id = insertedRoom._id.toString();
+            const room = await roomInOut.joinOrCreate(roomName, roomCreaterId);
+            Object.assign(this, { ...room });
+            this.id = room._id.toString();
             return this;
         })();
     }

@@ -479,20 +479,25 @@ describe('models/rooms', () => {
                 created_at: new Date('2020-01-01T10:00:00Z'),
                 updated_at: new Date('2050-01-01T10:00:00Z'),
             };
-            const roomFound = await roomsModels.findOneById(ROOM_ID);
 
             expect(dateStub.callCount).to.equal(1);
-            expect(result.modifiedCount).to.equal(1);
-            expect(roomFound).to.deep.equal(expectedRoom);
+            expect(result).to.deep.equal({
+                lastErrorObject: { n: 1, updatedExisting: true },
+                value: expectedRoom,
+                ok: 1,
+            });
         });
 
         it('should not update anything if the room does not exist', async () => {
             const ROOM_ID = 'ffffffffffffffffffffffff';
             const PLAYER_ID = '00000000000000000000000a';
-            const result = await roomsModels.updateJoinRoom(ROOM_ID, PLAYER_ID);
+            const result = await roomsModels.updateJoinRoom(ROOM_ID, PLAYER_ID, {});
 
-            expect(result.matchedCount).to.equal(0);
-            expect(result.modifiedCount).to.equal(0);
+            expect(result).to.deep.equal({
+                lastErrorObject: { n: 0, updatedExisting: false },
+                value: null,
+                ok: 1,
+            });
         });
 
         it('should not update anything if the player already exists', async () => {
@@ -502,8 +507,11 @@ describe('models/rooms', () => {
             const PLAYER_ID = '00000000000000000000000a';
             const result = await roomsModels.updateJoinRoom(roomId, PLAYER_ID);
 
-            expect(result.matchedCount).to.equal(0);
-            expect(result.modifiedCount).to.equal(0);
+            expect(result).to.deep.equal({
+                lastErrorObject: { n: 0, updatedExisting: false },
+                value: null,
+                ok: 1,
+            });
         });
     });
 
@@ -530,11 +538,13 @@ describe('models/rooms', () => {
                 created_at: new Date('2020-01-01T10:00:00Z'),
                 updated_at: new Date('2050-01-01T10:00:00Z'),
             };
-            const roomFound = await roomsModels.findOneById(ROOM_ID);
 
             expect(dateStub.callCount).to.equal(1);
-            expect(result.modifiedCount).to.equal(1);
-            expect(roomFound).to.deep.equal(expectedRoom);
+            expect(result).to.deep.equal({
+                lastErrorObject: { n: 1, updatedExisting: true },
+                value: expectedRoom,
+                ok: 1,
+            });
         });
 
         it('should not update anything if the room does not exist', async () => {
@@ -542,8 +552,11 @@ describe('models/rooms', () => {
             const PLAYER_ID = '00000000000000000000000a';
             const result = await roomsModels.updateLeaveRoom(ROOM_ID, PLAYER_ID);
 
-            expect(result.matchedCount).to.equal(0);
-            expect(result.modifiedCount).to.equal(0);
+            expect(result).to.deep.equal({
+                lastErrorObject: { n: 0, updatedExisting: false },
+                value: null,
+                ok: 1,
+            });
         });
     });
 });

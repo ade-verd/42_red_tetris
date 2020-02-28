@@ -145,12 +145,13 @@ async function updateRoomBlockList(roomId, blocksToPush) {
  * Join room while updating array players_ids
  *
  * @param {String} roomId     room identifier
- * @param {String} playerId     player identifier
+ * @param {String} playerId   player identifier
+ * @param {Object} [otherFields] other fields to update
  *
  * @returns {Object/null} result of update if succeeded, null otherwise
  */
-async function updateJoinRoom(roomId, playerId) {
-    return collection().updateOne(
+async function updateJoinRoom(roomId, playerId, otherFields = {}) {
+    return collection().findOneAndUpdate(
         {
             _id: ObjectId.createFromHexString(roomId),
             players_ids: { $nin: [playerId] },
@@ -158,8 +159,9 @@ async function updateJoinRoom(roomId, playerId) {
         },
         {
             $addToSet: { players_ids: playerId },
-            $set: { updated_at: dateLib.newDate() },
+            $set: { ...otherFields, updated_at: dateLib.newDate() },
         },
+        { returnOriginal: false },
     );
 }
 
@@ -172,7 +174,7 @@ async function updateJoinRoom(roomId, playerId) {
  * @returns {Object/null} result of update if succeeded, null otherwise
  */
 async function updateLeaveRoom(roomId, playerId) {
-    return collection().updateOne(
+    return collection().findOneAndUpdate(
         {
             _id: ObjectId.createFromHexString(roomId),
             players_ids: { $in: [playerId] },
@@ -181,6 +183,7 @@ async function updateLeaveRoom(roomId, playerId) {
             $pull: { players_ids: playerId },
             $set: { updated_at: dateLib.newDate() },
         },
+        { returnOriginal: false },
     );
 }
 
