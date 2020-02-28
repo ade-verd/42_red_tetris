@@ -83,6 +83,18 @@ function findOneById(roomId, projection = {}) {
 }
 
 /**
+ * Returns a room found with its name
+ *
+ * @param {String} roomName   - name of the queried room
+ * @param {Object} projections - optional projection of result fields
+ *
+ * @returns {Object} The mongo document
+ */
+function findOneByName(roomName, projection = {}) {
+    return collection().findOne({ room_name: roomName }, { projection });
+}
+
+/**
  * Insert a new room into the database
  *
  * @param {Object} room - data about the inserted room
@@ -179,6 +191,7 @@ module.exports = {
     find,
     findRoomsByGameStatus,
     findOneById,
+    findOneByName,
     insertOne,
     updateOne,
     updateRoomBlockList,

@@ -246,6 +246,44 @@ describe('models/rooms', () => {
         });
     });
 
+    describe('#findOneByName()', () => {
+        beforeEach(async () => {
+            await roomsModels.collection().insertMany(fixtures.default());
+        });
+
+        it('should find one room by its id', async () => {
+            const ROOM_NAME = 'room_1';
+            const res = await roomsModels.findOneByName(ROOM_NAME);
+
+            expect(res).to.deep.equal({
+                _id: new ObjectId('000000000000000000000001'),
+                room_name: 'room_1',
+                players_ids: ['00000000000000000000000a'],
+                game_status: 'waiting',
+                blocks_list: [],
+                settings: {},
+                created_at: new Date('2020-01-01T10:00:00Z'),
+                updated_at: new Date('2020-01-01T10:00:00Z'),
+            });
+        });
+
+        it('should apply the projection', async () => {
+            const ROOM_NAME = 'room_1';
+            const res = await roomsModels.findOneByName(ROOM_NAME, { _id: 1 });
+
+            expect(res).to.deep.equal({
+                _id: new ObjectId('000000000000000000000001'),
+            });
+        });
+
+        it('should return null if no rooms is found', async () => {
+            const ROOM_NAME = 'unknown_room';
+            const res = await roomsModels.findOneByName(ROOM_NAME);
+
+            expect(res).to.be.null;
+        });
+    });
+
     describe('#insertOne()', () => {
         beforeEach(async () => {
             await roomsModels.collection().deleteMany({});
