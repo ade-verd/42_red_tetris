@@ -3,10 +3,10 @@
 const roomsLib = require('../../models/rooms');
 const getPiecesLib = require('../pieces/getPieces');
 
-const { GAME_STATUS, MAX_PLAYERS } = require('../../../constants');
+const { GAME_STATUS, MAX_PLAYERS, PIECES_NUMBER_AT_ROOM_CREATION } = require('../../../constants');
 
-export const joinOrCreate = async (roomName, playerId) => {
-    const room = roomsLib.findOneByName(roomName);
+async function joinOrCreate(roomName, playerId) {
+    const room = await roomsLib.findOneByName(roomName);
 
     if (room === null) {
         const blocksList = await getPiecesLib.createNewRandomTetriminos(
@@ -28,11 +28,11 @@ export const joinOrCreate = async (roomName, playerId) => {
     if (status === GAME_STATUS.OFFLINE) {
         setFields.game_status = GAME_STATUS.WAITING;
     }
-    const joinResult = await this.join(roomId, playerId, setFields);
+    const joinResult = await this.join(roomId.toString(), playerId, setFields);
     return joinResult.value;
-};
+}
 
-export const join = async (roomId, playerId, otherFields) => {
+async function join(roomId, playerId, otherFields) {
     const { players_ids: playersIds } = await roomsLib.findOneById(roomId, {
         _id: 0,
         players_ids: 1,
@@ -45,9 +45,9 @@ export const join = async (roomId, playerId, otherFields) => {
         throw new Error('the room has not been updated');
     }
     return result;
-};
+}
 
-export const leave = async (roomId, playerId) => {
+async function leave(roomId, playerId) {
     const result = await roomsLib.updateLeaveRoom(roomId, playerId);
     if (result.value === null) {
         throw new Error('the room has not been updated');
@@ -61,4 +61,10 @@ export const leave = async (roomId, playerId) => {
         await roomsLib.updateOne(roomId, { game_status: GAME_STATUS.OFFLINE });
     }
     return result;
+}
+
+module.exports = {
+    joinOrCreate,
+    join,
+    leave,
 };

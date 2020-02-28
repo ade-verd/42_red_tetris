@@ -1,10 +1,7 @@
 'use strict';
 
 const roomsLib = require('../../models/rooms');
-const getPiecesLib = require('../pieces/getPieces');
 const roomInOut = require('./roomInOut');
-
-const { GAME_STATUS, MAX_PLAYERS, PIECES_NUMBER_AT_ROOM_CREATION } = require('../../../constants');
 
 class asyncRoom {
     constructor({ roomName, roomCreaterId, roomId = null }) {
