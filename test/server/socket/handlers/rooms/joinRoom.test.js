@@ -5,9 +5,9 @@ const io = require('socket.io-client');
 const { startServer } = require('../../../../helpers/server');
 const config = require('../../../../../src/server/config');
 
-const actionClient = require('../../../../../src/client/actions/joinRoom.js');
+const actionClient = require('../../../../../src/client/actions/joinRoom');
 
-const roomInOut = require('../../../../../src/server/lib/rooms/roomInOut.js');
+const roomInOut = require('../../../../../src/server/lib/rooms/roomInOut');
 
 describe('socket/handlers/rooms/joinRoom', function() {
     const sandbox = sinon.createSandbox();
