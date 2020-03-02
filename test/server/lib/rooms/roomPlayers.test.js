@@ -9,7 +9,7 @@ const playerModels = require('../../../../src/server/models//players');
 
 const fixtures = require('../../../fixtures/rooms.fixtures');
 
-describe.only('lib/rooms/roomPlayer', () => {
+describe('lib/rooms/roomPlayer', () => {
     const sandbox = sinon.createSandbox();
 
     afterEach(() => {
