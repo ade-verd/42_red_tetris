@@ -4,7 +4,7 @@ import { MAX_PLAYERS } from '../../../constants';
 import './DisplayRooms.css';
 
 const Row = props => {
-    const className = props.isTitle ? 'title-bar room-container' : 'room-container';
+    const className = props.isTitle ? 'title-bar row-container' : 'row-container room';
     const nameValue = props.name || 'name';
     const playersValue = props.playersNumber
         ? `${props.playersNumber} / ${MAX_PLAYERS}`
