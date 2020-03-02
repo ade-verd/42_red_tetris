@@ -1,13 +1,20 @@
 import React from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 
+import { store } from '../../index';
+
 import { MAX_PLAYERS } from '../../../constants';
 import './DisplayRooms.css';
 
-const buildCollapsedCard = (eventKey, playersNames) => {
-    if (!playersNames) return;
+const buildCollapsedCard = (eventKey, playersIds, state) => {
+    if (!playersIds) return;
 
-    const formattedNames = playersNames.map(name => <div>{name}</div>);
+    const playersState = state.play.players;
+
+    const formattedNames = playersIds.map(id => {
+        const name = (playersState && playersState[id]) || `GUEST_${(Math.random() * 100) | 0}`;
+        return <div>{name}</div>;
+    });
 
     return (
         <Accordion.Collapse eventKey={eventKey}>
@@ -17,11 +24,14 @@ const buildCollapsedCard = (eventKey, playersNames) => {
 };
 
 const Row = props => {
+    const state = store.getState();
     const className = props.isTitle ? 'title-bar row-container' : 'row-container room';
     const eventKey = `evt_${props.roomId}`;
     const nameValue = props.name || 'name';
-    const playersNames = props.players;
-    const playersNumber = props.players ? `${props.players.length} / ${MAX_PLAYERS}` : 'players';
+    const playersIds = props.playersIds;
+    const playersNumber = props.playersIds
+        ? `${props.playersIds.length} / ${MAX_PLAYERS}`
+        : 'players';
     const statusValue = props.status || 'status';
 
     return (
@@ -31,7 +41,7 @@ const Row = props => {
                 <div className="item">{playersNumber}</div>
                 <div className="item">{statusValue}</div>
             </Accordion.Toggle>
-            {buildCollapsedCard(eventKey, playersNames)}
+            {buildCollapsedCard(eventKey, playersIds, state)}
         </Accordion>
     );
 };
@@ -49,7 +59,7 @@ const buildRoomsTable = activeRooms => {
                 roomId={room._id}
                 name={room.room_name}
                 status={room.game_status}
-                players={room.players_ids}
+                playersIds={room.players_ids}
             />
         );
     });
@@ -60,7 +70,6 @@ const ActiveRooms = props => {
     const roomsTable = buildRoomsTable(props.activeRooms);
 
     const table = [headTable, ...roomsTable];
-    console.log('table', table);
     return <div className="main-container">{table.map(row => row)}</div>;
 };
 

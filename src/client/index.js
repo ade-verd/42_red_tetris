@@ -21,6 +21,7 @@ const rootReducer = combineReducers({
     fld: reducers.fieldReducer,
     gme: reducers.gameStatusReducer,
     pce: reducers.pieceReducer,
+    play: reducers.playerReducer,
     rms: reducers.roomsReducer,
 });
 

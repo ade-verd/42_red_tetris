@@ -1,6 +1,7 @@
 'use strict';
 
 const { expect } = require('chai');
+const { ObjectId } = require('mongodb');
 const sinon = require('sinon');
 
 const { getPlayersNames } = require('../../../../src/server/lib/rooms/roomPlayers');
@@ -23,9 +24,9 @@ describe('lib/rooms/roomPlayer', () => {
             const playerFindStub = sandbox.stub(playerModels, 'find').returns({
                 toArray: () =>
                     Promise.resolve([
-                        { _id: '00000000000000000000000a', name: 'AAA' },
-                        { _id: '00000000000000000000000b', name: 'BBB' },
-                        { _id: '00000000000000000000000c', name: 'CCC' },
+                        { _id: new ObjectId('00000000000000000000000a'), name: 'AAA' },
+                        { _id: new ObjectId('00000000000000000000000b'), name: 'BBB' },
+                        { _id: new ObjectId('00000000000000000000000c'), name: 'CCC' },
                     ]),
             });
 
@@ -37,9 +38,9 @@ describe('lib/rooms/roomPlayer', () => {
                     {
                         _id: {
                             $in: [
-                                '00000000000000000000000a',
-                                '00000000000000000000000b',
-                                '00000000000000000000000c',
+                                new ObjectId('00000000000000000000000a'),
+                                new ObjectId('00000000000000000000000b'),
+                                new ObjectId('00000000000000000000000c'),
                             ],
                         },
                     },
@@ -47,9 +48,9 @@ describe('lib/rooms/roomPlayer', () => {
                 ],
             ]);
             expect(res).to.deep.equal([
-                { _id: '00000000000000000000000a', name: 'AAA' },
-                { _id: '00000000000000000000000b', name: 'BBB' },
-                { _id: '00000000000000000000000c', name: 'CCC' },
+                { _id: new ObjectId('00000000000000000000000a'), name: 'AAA' },
+                { _id: new ObjectId('00000000000000000000000b'), name: 'BBB' },
+                { _id: new ObjectId('00000000000000000000000c'), name: 'CCC' },
             ]);
         });
     });

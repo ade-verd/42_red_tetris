@@ -25,7 +25,7 @@ describe('lib/players/classPlayer', () => {
             const player = await new Player({ name: 'Waldo' });
 
             expect(insertStub.args).to.deep.equal([[{ name: 'Waldo' }]]);
-            expect(player.id).to.equal('000000000000000000000004');
+            expect(player.id).to.equal('00000000000000000000000d');
         });
 
         it('should not create a new player and use an existing player id', async () => {
@@ -33,10 +33,10 @@ describe('lib/players/classPlayer', () => {
                 .stub(playersLib, 'insertOne')
                 .resolves(fixtures.insertedPlayer());
 
-            const player = await new Player({ playerId: '000000000000000000000004' });
+            const player = await new Player({ playerId: '00000000000000000000000d' });
 
             expect(insertStub.args).to.deep.equal([]);
-            expect(player.id).to.equal('000000000000000000000004');
+            expect(player.id).to.equal('00000000000000000000000d');
         });
     });
 
@@ -53,9 +53,9 @@ describe('lib/players/classPlayer', () => {
             const foundPlayer = await player.find();
 
             expect(insertStub.args).to.deep.equal([[{ name: 'Waldo' }]]);
-            expect(findStub.args).to.deep.equal([['000000000000000000000004', undefined]]);
+            expect(findStub.args).to.deep.equal([['00000000000000000000000d', undefined]]);
             expect(foundPlayer).to.deep.equal({
-                _id: new ObjectId('000000000000000000000004'),
+                _id: new ObjectId('00000000000000000000000d'),
                 name: 'Waldo',
                 blocks_consumed: 0,
                 created_at: new Date('2020-01-01T10:00:00Z'),
@@ -76,7 +76,7 @@ describe('lib/players/classPlayer', () => {
 
             expect(insertStub.args).to.deep.equal([[{ name: 'Waldo' }]]);
             expect(updateStub.args).to.deep.equal([
-                ['000000000000000000000004', { blocks_consumed: 1 }],
+                ['00000000000000000000000d', { blocks_consumed: 1 }],
             ]);
             expect(updateResult).to.deep.equal({ modifiedCount: 1 });
         });
