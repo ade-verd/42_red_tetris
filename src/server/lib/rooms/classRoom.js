@@ -2,6 +2,7 @@
 
 const roomsLib = require('../../models/rooms');
 const roomInOut = require('./roomInOut');
+const roomPlayers = require('./roomPlayers.js');
 
 class asyncRoom {
     constructor({ roomName, roomCreaterId, roomId = null }) {
@@ -11,7 +12,6 @@ class asyncRoom {
         }
         return (async () => {
             const room = await roomInOut.joinOrCreate(roomName, roomCreaterId);
-            Object.assign(this, { ...room });
             this.id = room._id.toString();
             return this;
         })();
@@ -31,6 +31,10 @@ class asyncRoom {
 
     leave = async playerId => {
         return roomInOut.leave(this.id, playerId);
+    };
+
+    getPlayersName = async () => {
+        return roomPlayers.getPlayersNames(this.id);
     };
 }
 

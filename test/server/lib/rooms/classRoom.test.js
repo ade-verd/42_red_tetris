@@ -94,16 +94,16 @@ describe('lib/rooms/classRoom', () => {
             });
 
             const room = await new Room({
-                roomId: '000000000000000000000001',
+                roomId: '000000000000000000000004',
             });
             const PLAYER_ID = '00000000000000000000000b';
             const updateResult = await room.join(PLAYER_ID);
 
             expect(findStub.args).to.deep.equal([
-                ['000000000000000000000001', { _id: 0, players_ids: 1 }],
+                ['000000000000000000000004', { _id: 0, players_ids: 1 }],
             ]);
             expect(updateJoinStub.args).to.deep.equal([
-                ['000000000000000000000001', '00000000000000000000000b', undefined],
+                ['000000000000000000000004', '00000000000000000000000b', undefined],
             ]);
             expect(updateResult.value).to.deep.equal({
                 ...fixtures.insertedRoom(),
@@ -123,14 +123,14 @@ describe('lib/rooms/classRoom', () => {
             });
 
             const room = await new Room({
-                roomId: '000000000000000000000001',
+                roomId: '000000000000000000000004',
             });
             const PLAYER_ID = '00000000000000000000000b';
             try {
                 await room.join(PLAYER_ID);
             } catch (err) {
                 expect(findStub.args).to.deep.equal([
-                    ['000000000000000000000001', { _id: 0, players_ids: 1 }],
+                    ['000000000000000000000004', { _id: 0, players_ids: 1 }],
                 ]);
                 expect(err)
                     .to.be.an.instanceOf(Error)
@@ -150,7 +150,7 @@ describe('lib/rooms/classRoom', () => {
                 .resolves({ value: null });
 
             const room = await new Room({
-                roomId: '000000000000000000000001',
+                roomId: '000000000000000000000004',
             });
             const PLAYER_ID = '00000000000000000000000b';
 
@@ -158,10 +158,10 @@ describe('lib/rooms/classRoom', () => {
                 await room.join(PLAYER_ID);
             } catch (err) {
                 expect(findStub.args).to.deep.equal([
-                    ['000000000000000000000001', { _id: 0, players_ids: 1 }],
+                    ['000000000000000000000004', { _id: 0, players_ids: 1 }],
                 ]);
                 expect(updateJoinStub.args).to.deep.equal([
-                    ['000000000000000000000001', '00000000000000000000000b', undefined],
+                    ['000000000000000000000004', '00000000000000000000000b', undefined],
                 ]);
                 expect(err)
                     .to.be.an.instanceOf(Error)
@@ -184,16 +184,16 @@ describe('lib/rooms/classRoom', () => {
             const updateStatusStub = sandbox.stub(roomsLib, 'updateOne');
 
             const room = await new Room({
-                roomId: '000000000000000000000001',
+                roomId: '000000000000000000000004',
             });
             const PLAYER_ID = '00000000000000000000000a';
             const updateResult = await room.leave(PLAYER_ID);
 
             expect(updateLeaveStub.args).to.deep.equal([
-                ['000000000000000000000001', '00000000000000000000000a'],
+                ['000000000000000000000004', '00000000000000000000000a'],
             ]);
             expect(findStub.args).to.deep.equal([
-                ['000000000000000000000001', { _id: 0, players_ids: 1 }],
+                ['000000000000000000000004', { _id: 0, players_ids: 1 }],
             ]);
             expect(updateStatusStub.args).to.deep.equal([]);
             expect(updateResult.value).to.deep.equal({
@@ -217,19 +217,19 @@ describe('lib/rooms/classRoom', () => {
                 .resolves({ modifiedCount: 1 });
 
             const room = await new Room({
-                roomId: '000000000000000000000001',
+                roomId: '000000000000000000000004',
             });
             const PLAYER_ID = '00000000000000000000000a';
             const updateResult = await room.leave(PLAYER_ID);
 
             expect(updateLeaveStub.args).to.deep.equal([
-                ['000000000000000000000001', '00000000000000000000000a'],
+                ['000000000000000000000004', '00000000000000000000000a'],
             ]);
             expect(findStub.args).to.deep.equal([
-                ['000000000000000000000001', { _id: 0, players_ids: 1 }],
+                ['000000000000000000000004', { _id: 0, players_ids: 1 }],
             ]);
             expect(updateStatusStub.args).to.deep.equal([
-                ['000000000000000000000001', { game_status: GAME_STATUS.OFFLINE }],
+                ['000000000000000000000004', { game_status: GAME_STATUS.OFFLINE }],
             ]);
             expect(updateResult.value).to.deep.equal({
                 ...fixtures.insertedRoom(),
@@ -243,14 +243,14 @@ describe('lib/rooms/classRoom', () => {
             });
 
             const room = await new Room({
-                roomId: '000000000000000000000001',
+                roomId: '000000000000000000000004',
             });
             const PLAYER_ID = '00000000000000000000000a';
             try {
                 await room.leave(PLAYER_ID);
             } catch (err) {
                 expect(updateLeaveStub.args).to.deep.equal([
-                    ['000000000000000000000001', '00000000000000000000000a'],
+                    ['000000000000000000000004', '00000000000000000000000a'],
                 ]);
                 expect(err)
                     .to.be.an.instanceOf(Error)
