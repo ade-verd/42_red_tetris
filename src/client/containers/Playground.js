@@ -41,7 +41,7 @@ const Playground = (props) => {
     console.log('[Playground] State: field =', field, 'gameStatus', gameStatus, 'piece =', piece, 'dispatchs =', dispatchs);
 
 		useEffect(() => {
-			console.debug('[Rooms] ONLY FIRST TIME');
+			console.debug('[Playground] ONLY FIRST TIME');
 			dispatchs.onStart();
 		}, [])
 
