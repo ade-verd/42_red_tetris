@@ -17,8 +17,8 @@ import { ACTIONS } from '../middleware/handleSocket';
 
 const socket = openSocket('http://localhost:3004');
 
-socket.emit('action', ping());
-//socket.emit('rooms:create', createRoom('A good name for a room', '000000000000000000000001'));
+socket.emit('started', ping());
+socket.emit('rooms:create', createRoom('A good name for a room', '000000000000000000000001'));
 // let roomId;
 // socket.on('rooms:created', (payload) => {
 // 	console.log(payload)
@@ -28,29 +28,34 @@ socket.emit('action', ping());
 // console.log(roomId)
 console.log('OK2');
 
-const Playground = ({ message, field, gameStatus, piece, ...dispatchs }) => {
+const Playground = (props) => {
+		const { message, field, gameStatus, piece, ...dispatchs } = props
 		const { gameOver, score, rows, level } = gameStatus
 		console.log('OK1');
-		dispatchs.onStart();
+		
     // socket.on('server/start', () => {
     // 		console.log('ENTERED SERVER/START on socket');
     // 		dispatchs.onStart();
     //     dispatchs.onAlert();
     // });
-    console.log('[Playground] State: field =', field, 'gameStatus', gameStatus, 'piece =', piece, 'dispatchs =' , dispatchs);
+    console.log('[Playground] State: field =', field, 'gameStatus', gameStatus, 'piece =', piece, 'dispatchs =', dispatchs);
+
+		useEffect(() => {
+			console.debug('[Rooms] ONLY FIRST TIME');
+			dispatchs.onStart();
+		}, [])
 
     useEffect(() => {
-        console.log('useEffect');
         if (field) {
             console.log('piece inside useEffect', piece);
             dispatchs.fieldUpdate(piece);
         }
-    }, [piece]);
+		}, [piece]);
 
     return (
         <StyledPlaygroundWrapper>
             <StyledPlayground>
-                <p>{message}</p>
+								<p>{ message }</p>
                 <Field field={field} />
                 <aside>
 										{gameOver ? (
@@ -86,30 +91,24 @@ console.log('OK4');
 const mapDispatchToProps = dispatch => {
     return {
         // onAlert: () => dispatch(alert('Soon, will be here a fantastic te-Tetris ...')),
-        onStart: () => {
-            dispatch({
-                action: ACTIONS.LISTEN,
-                event: 'server/start',
-                fn: () => {
-                    dispatch(alert('Soon, will be here a fantastic te-Tetris ...'));
-                    dispatch({
-                        action: ACTIONS.EMIT,
-                        event: 'tetriminos:get_random',
-                        data: getTetriminos('5e5790717e915983669fa4b8', 1, 20),
-                    });
-                    dispatch({
-                        action: ACTIONS.LISTEN,
-                        event: 'tetriminos:get_random',
-                        fn: ({ pieces }) => {
-                            dispatch({
-                                action: ACTIONS.REDUCE,
-                                type: 'start',
-                                piece: pieces[0].shape,
-                            });
-                        },
-                    });
-                },
-            });
+				onStart: () => {
+						dispatch(alert('Soon, will be here a fantastic te-Tetris ...'));
+						dispatch({
+								action: ACTIONS.EMIT,
+								event: 'tetriminos:get_random',
+								data: getTetriminos('5e5e2ca499f73384033175fb', 1, 20),
+						});
+						dispatch({
+								action: ACTIONS.LISTEN,
+								event: 'tetriminos:get_random',
+								fn: ({ pieces }) => {
+										dispatch({
+												action: ACTIONS.REDUCE,
+												type: 'start',
+												piece: pieces[0].shape,
+										});
+								},
+						});
         },
         fieldUpdate: piece => dispatch({ action: ACTIONS.REDUCE, type: 'update', piece: piece }),
     };
