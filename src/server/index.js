@@ -11,18 +11,20 @@ const logerror = debug('tetris:error'),
 
 const initApp = (app, params, cb) => {
     const { host, port, startMongodb = true } = params;
-    const handler = (req, res) => {
-        const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html';
-        fs.readFile(__dirname + file, (err, data) => {
-            if (err) {
-                logerror(err);
-                res.writeHead(500);
-                return res.end('Error loading index.html');
-            }
-            res.writeHead(200);
-            res.end(data);
-        });
-    };
+    // const handler = (req, res) => {
+		// 	console.log('ONUR', req)
+    //     const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html';
+    //     fs.readFile(__dirname + file, (err, data) => {
+    //         if (err) {
+    //             logerror(err);
+    //             res.writeHead(500);
+    //             return res.end('Error loading index.html');
+		// 				}
+		// 				console.log('TESSSSST')
+    //         res.writeHead(200);
+    //         res.end(data);
+    //     });
+    // };
 
     if (startMongodb) {
         new Promise((resolve, reject) => {
@@ -30,7 +32,9 @@ const initApp = (app, params, cb) => {
         }).then(() => models.createCollectionsIndexes());
     }
 
-    app.on('request', handler);
+		// app.on('request', handler);
+		
+		console.log('APP =', JSON.stringify(app))
 
     app.listen({ host, port }, () => {
         loginfo(`tetris listen on ${params.url}`);
