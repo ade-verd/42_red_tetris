@@ -59,12 +59,12 @@ const Playground = props => {
             console.log('piece inside useEffect', piece);
             dispatchs.fieldUpdate(piece);
         }
-    }, [piece]);
+		}, [piece]);
 
     return (
         <StyledPlaygroundWrapper>
             <StyledPlayground>
-                <p>{message}</p>
+								<p>{ message }</p>
                 <Field field={field} />
                 <aside>
                     {gameOver ? (
