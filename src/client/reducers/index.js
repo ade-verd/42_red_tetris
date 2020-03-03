@@ -5,9 +5,9 @@ import pieceReducer from './piece';
 import roomsReducer from './rooms';
 
 export default {
-	alertReducer,
-	fieldReducer,
-	gameStatusReducer,
-	pieceReducer,
-	roomsReducer
+    alertReducer,
+    fieldReducer,
+    gameStatusReducer,
+    pieceReducer,
+    roomsReducer,
 };

@@ -4,10 +4,10 @@ const reducer = (state = {}, action) => {
         case 'start':
             console.log('STARTED GAME STATUS REDUCER');
             return {
-							score: 0,
-							rows: 0,
-							level: 1,
-							gameOver: false
+                score: 0,
+                rows: 0,
+                level: 1,
+                gameOver: false,
             };
         // case 'update':
         //     return {

@@ -18,10 +18,10 @@ const initialState = {};
 
 const rootReducer = combineReducers({
     alt: reducers.alertReducer,
-		fld: reducers.fieldReducer,
-		gme: reducers.gameStatusReducer,
-		pce: reducers.pieceReducer,
-		rms: reducers.roomsReducer,
+    fld: reducers.fieldReducer,
+    gme: reducers.gameStatusReducer,
+    pce: reducers.pieceReducer,
+    rms: reducers.roomsReducer,
 });
 
 console.log('OK8');
