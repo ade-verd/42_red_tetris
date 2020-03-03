@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { createRoom } from '../../actions/createRoom';
+import { store } from '../../index';
 
 const CreateRoom = props => {
     const onEnterkey = event => {
         if (event.key === 'Enter') {
+            const state = store.getState();
             const roomName = event.target.value;
-            const playerId = 'to be defined';
+            const playerId = state.play.players.me.id;
             props.createRoom(roomName, playerId);
-            // props.socket.emit('rooms:create', createRoom(roomName, playerId));
         }
     };
 
