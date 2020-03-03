@@ -20,7 +20,6 @@ const _getRoomPlayers = async (socket, payload) => {
             roomId: payload.room_id,
         });
         const players = await room.getPlayersName();
-        console.log('PLAYERS', players);
         socket.emit(EMIT_EVENT, { payload, players });
     } catch (err) {
         socket.emit(EMIT_EVENT, { payload, error: err.toString() });

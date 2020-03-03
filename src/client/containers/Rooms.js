@@ -68,6 +68,7 @@ const mapDispatchToProps = dispatch => {
                         action: ACTIONS.REDUCE,
                         type: 'UPDATE_PLAYERS_NAMES',
                         players: payload.players,
+                        error: payload.error,
                     });
                 },
             });
@@ -78,7 +79,7 @@ const mapDispatchToProps = dispatch => {
                     dispatch({
                         action: ACTIONS.REDUCE,
                         type: 'UPDATE_ACTIVE_ROOMS',
-                        rooms,
+                        rooms: rooms,
                         fnUpdatePlayers: emitGetRoomPlayers,
                     });
                 },
