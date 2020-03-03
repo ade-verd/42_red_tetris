@@ -26,7 +26,7 @@ export const handleSocket = () => {
             case ACTIONS.EMIT:
                 console.debug(`[handleSocket][emit][${event}]`, data);
                 return socket.emit(event, { ...data });
-            case ACTIONS.ON:
+            case ACTIONS.LISTEN:
                 console.debug(`[handleSocket][on][${event}]`);
                 return socket.on(event, fn);
             case ACTIONS.REDUCE:
