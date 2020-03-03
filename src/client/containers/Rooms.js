@@ -75,19 +75,27 @@ const mapDispatchToProps = dispatch => {
             dispatch({
                 action: ACTIONS.LISTEN,
                 event: 'rooms:got_active',
-                fn: rooms => {
+                fn: payload => {
                     dispatch({
                         action: ACTIONS.REDUCE,
                         type: 'UPDATE_ACTIVE_ROOMS',
-                        rooms: rooms,
+                        rooms: payload.rooms,
                         fnUpdatePlayers: emitGetRoomPlayers,
+                        error: payload.error,
                     });
                 },
             });
             dispatch({
                 action: ACTIONS.LISTEN,
                 event: 'rooms:created',
-                fn: payload => console.log('rooms:created', payload),
+                fn: payload => {
+                    dispatch({
+                        action: ACTIONS.REDUCE,
+                        type: 'ROOM_CREATED',
+                        room: payload,
+                        error: payload.error,
+                    });
+                },
             });
         },
     };

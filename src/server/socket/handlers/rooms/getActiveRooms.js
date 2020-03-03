@@ -17,7 +17,7 @@ export const emitActiveRooms = async (socket, payload) => {
         const regex = `^(?!${GAME_STATUS.OFFLINE})`;
         const projection = { room_name: 1, players_ids: 1, game_status: 1, settings: 1 };
         const activeRoomsCursor = await roomsLib.findRoomsByGameStatus(regex, projection);
-        socket.emit(EMIT_EVENT, await activeRoomsCursor.toArray());
+        socket.emit(EMIT_EVENT, { rooms: await activeRoomsCursor.toArray() });
     } catch (err) {
         socket.emit(EMIT_EVENT, { error: err.toString() });
         console.error(FUNCTION_NAME, { err });
