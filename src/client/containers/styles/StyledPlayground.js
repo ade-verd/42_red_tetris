@@ -11,15 +11,15 @@ export const StyledPlaygroundWrapper = styled.div`
 `;
 
 export const StyledPlayground = styled.div`
-	display: flex;
-	align-items: flex-start;
-	padding: 40px;
-	margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    padding: 40px;
+    margin: 0 auto;
 
-	aside {
-		width: 100%;
-		max-width: 200px;
-		display: block;
-		padding 0 20px;
-	}
+    aside {
+        width: 100%;
+        max-width: 200px;
+        display: block;
+        padding: 0 20px;
+    }
 `;

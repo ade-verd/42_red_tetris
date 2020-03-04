@@ -1,8 +1,9 @@
 'use strict';
 
-import { roomUpdate } from '../actions/roomUpdate';
+import notify from '../actions/Notification';
 
 const handleError = (state, error, errorFieldName) => {
+    notify({ type: 'error', msg: error });
     return {
         ...state,
         rooms: {
@@ -32,7 +33,9 @@ const checkAndUpdatePlayersNames = (playerState, rooms, fnUpdatePlayers) => {
 };
 
 const handleUpdateActiveRooms = (state, action) => {
-    if (action.error !== undefined) return handleError(state, action.error, 'updateRoomsError');
+    if (action.error !== undefined) {
+        return handleError(state, action.error, 'updateRoomsError');
+    }
 
     checkAndUpdatePlayersNames(state.players, action.rooms, action.fnUpdatePlayers);
     return {
@@ -44,23 +47,17 @@ const handleUpdateActiveRooms = (state, action) => {
 
 const handleRoomCreation = (state, action) => {
     if (action.error !== undefined) {
-        roomUpdate(null);
-        handleError(state, action.error, 'roomCreationError');
-        return;
+        return handleError(state, action.error, 'roomCreationError');
     }
 
-    roomUpdate(action.roomId);
     return { ...state, roomCreationError: null };
 };
 
 const handleRoomJoined = (state, action) => {
     if (action.error !== undefined) {
-        roomUpdate.roomUpdate(null);
-        handleError(state, action.error, 'roomJoinedError');
-        return;
+        return handleError(state, action.error, 'roomJoinedError');
     }
 
-    roomUpdate.roomUpdate(action.roomId);
     return { ...state, roomJoinedError: null };
 };
 

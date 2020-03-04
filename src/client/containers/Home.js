@@ -7,8 +7,6 @@ import { createPlayer as createPlayerPayload } from '../actions/createPlayer';
 
 import { ACTIONS } from '../middleware/handleSocket';
 
-import './styles/Home.css';
-
 let history = [];
 
 const goToPlayground = () => {
@@ -19,22 +17,14 @@ const goToRooms = () => {
     history.push({ pathname: '/rooms' });
 };
 
-const playerCreationError = players => {
-    if (players && players.creationError) {
-        const msg = 'An error occurred while creating the player. Please refresh and retry';
-        return <div className="error">{msg}</div>;
-    }
-    return null;
-};
-
-const Home = ({ players, ...dispatchs }) => {
+const Home = ({ players, user, ...dispatchs }) => {
     useEffect(() => {
         dispatchs.listen();
     }, []);
 
     useEffect(() => {
-        if (players && players.me !== undefined) return goToRooms();
-    }, [players]);
+        if (user && user.id !== undefined) return goToRooms();
+    }, [user]);
 
     history = useHistory();
 
@@ -48,7 +38,6 @@ const Home = ({ players, ...dispatchs }) => {
         <div>
             <label>Create player:</label>
             <input type="text" id="name" onKeyDown={createPlayer} required />
-            {playerCreationError(players)}
             <br />
             <Button variant="primary" onClick={goToRooms}>
                 Rooms
@@ -64,7 +53,7 @@ const Home = ({ players, ...dispatchs }) => {
 
 const mapStateToProps = state => {
     console.debug('[Home][mapStateToProps] State', state);
-    return { players: state.play.players };
+    return { players: state.play.players, user: state.usr };
 };
 
 const mapDispatchToProps = dispatch => {

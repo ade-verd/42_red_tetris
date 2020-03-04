@@ -1,8 +1,9 @@
 'use strict';
 
-import { userUpdate } from '../actions/userUpdate';
+import notify from '../actions/Notification';
 
 const handleError = (state, error, errorFieldName) => {
+    notify({ type: 'error', msg: error });
     return {
         ...state,
         players: {
@@ -14,12 +15,9 @@ const handleError = (state, error, errorFieldName) => {
 
 const handlePlayerCreated = (state, action) => {
     if (action.error !== undefined) {
-        userUpdate(null, null);
-        handleError(state, action.error, 'creationError');
-        return;
+        return handleError(state, action.error, 'creationError');
     }
 
-    userUpdate(action.player._id, action.player.name);
     return {
         ...state,
         players: {
@@ -31,7 +29,9 @@ const handlePlayerCreated = (state, action) => {
 };
 
 const handleUpdatePlayersNames = (state, action) => {
-    if (action.error !== undefined) return handleError(state, action.error, 'updateNamesError');
+    if (action.error !== undefined) {
+        return handleError(state, action.error, 'updateNamesError');
+    }
 
     let roomPlayers = {};
     action.players.forEach(player => {
