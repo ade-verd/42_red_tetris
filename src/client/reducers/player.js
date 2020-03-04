@@ -1,3 +1,7 @@
+'use strict';
+
+import { userUpdate } from '../actions/userUpdate';
+
 const handleError = (state, error, errorFieldName) => {
     return {
         ...state,
@@ -9,13 +13,17 @@ const handleError = (state, error, errorFieldName) => {
 };
 
 const handlePlayerCreated = (state, action) => {
-    if (action.error !== undefined) return handleError(state, action.error, 'creationError');
+    if (action.error !== undefined) {
+        userUpdate(null, null);
+        handleError(state, action.error, 'creationError');
+        return;
+    }
 
+    userUpdate(action.player._id, action.player.name);
     return {
         ...state,
         players: {
             ...state.players,
-            me: { id: action.player._id, name: action.player.name },
             [action.player._id]: action.player.name,
             creationError: null,
         },

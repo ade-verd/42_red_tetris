@@ -1,5 +1,7 @@
 'use strict';
 
+import { roomUpdate } from '../actions/roomUpdate';
+
 const handleError = (state, error, errorFieldName) => {
     return {
         ...state,
@@ -41,9 +43,25 @@ const handleUpdateActiveRooms = (state, action) => {
 };
 
 const handleRoomCreation = (state, action) => {
-    if (action.error !== undefined) return handleError(state, action.error, 'roomCreationError');
+    if (action.error !== undefined) {
+        roomUpdate(null);
+        handleError(state, action.error, 'roomCreationError');
+        return;
+    }
 
+    roomUpdate(action.roomId);
     return { ...state, roomCreationError: null };
+};
+
+const handleRoomJoined = (state, action) => {
+    if (action.error !== undefined) {
+        roomUpdate.roomUpdate(null);
+        handleError(state, action.error, 'roomJoinedError');
+        return;
+    }
+
+    roomUpdate.roomUpdate(action.roomId);
+    return { ...state, roomJoinedError: null };
 };
 
 const reducer = (state = {}, action) => {
@@ -53,6 +71,8 @@ const reducer = (state = {}, action) => {
             return handleUpdateActiveRooms(state, action);
         case 'ROOM_CREATED':
             return handleRoomCreation(state, action);
+        case 'ROOM_JOINED':
+            return handleRoomJoined(state, action);
         default:
             return state;
     }

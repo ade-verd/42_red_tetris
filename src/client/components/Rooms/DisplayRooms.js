@@ -1,12 +1,22 @@
 import React from 'react';
-import Accordion from 'react-bootstrap/Accordion';
+import { Accordion, Button } from 'react-bootstrap';
 
+import joinRoom from '../../actions/joinRoom';
 import { store } from '../../index';
 
 import { MAX_PLAYERS } from '../../../constants';
 import './DisplayRooms.css';
 
-const buildCollapsedCard = (eventKey, playersIds, state) => {
+const roomJoinedError = () => {
+    const roomState = store.getState().rms.rooms;
+
+    if (roomState && roomState.roomJoinedError) {
+        return <div className="error">{roomState.roomJoinedError}</div>;
+    }
+    return null;
+};
+
+const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
     if (!playersIds) return;
 
     const playersState = state.play.players;
@@ -18,7 +28,16 @@ const buildCollapsedCard = (eventKey, playersIds, state) => {
 
     return (
         <Accordion.Collapse eventKey={eventKey}>
-            <div>{formattedNames}</div>
+            <div className="row-container details">
+                <div className="details hidden"></div>
+                <div className="details">{formattedNames}</div>
+                <div className="details">
+                    <Button variant="primary" onClick={() => joinRoom.emitJoinRoom(roomId)}>
+                        Join
+                    </Button>
+                    {roomJoinedError()}
+                </div>
+            </div>
         </Accordion.Collapse>
     );
 };
@@ -26,7 +45,8 @@ const buildCollapsedCard = (eventKey, playersIds, state) => {
 const Row = props => {
     const state = store.getState();
     const className = props.isTitle ? 'title-bar row-container' : 'row-container room';
-    const eventKey = `evt_${props.roomId}`;
+    const roomId = props.roomId;
+    const eventKey = `evt_${roomId}`;
     const nameValue = props.name || 'name';
     const playersIds = props.playersIds;
     const playersNumber = props.playersIds
@@ -41,14 +61,14 @@ const Row = props => {
                 <div className="item">{playersNumber}</div>
                 <div className="item">{statusValue}</div>
             </Accordion.Toggle>
-            {buildCollapsedCard(eventKey, playersIds, state)}
+            {buildCollapsedCard(eventKey, playersIds, roomId, state)}
         </Accordion>
     );
 };
 
 const buildHeadTable = () => <Row key={new Date().valueOf()} isTitle="true" />;
 
-const buildRoomsTable = activeRooms => {
+const buildRoomsTable = (activeRooms, dispatchs) => {
     if (typeof activeRooms === 'null' || typeof activeRooms === 'undefined') return [];
 
     const activeRoomsArray = Object.values(activeRooms);
@@ -67,7 +87,7 @@ const buildRoomsTable = activeRooms => {
 
 const ActiveRooms = props => {
     const headTable = buildHeadTable();
-    const roomsTable = buildRoomsTable(props.activeRooms);
+    const roomsTable = buildRoomsTable(props.activeRooms, props.dispatchs);
 
     const table = [headTable, ...roomsTable];
     return <div className="main-container">{table.map(row => row)}</div>;
