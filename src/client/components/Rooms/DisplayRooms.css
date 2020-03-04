@@ -1,5 +1,12 @@
 /* LESS */
 
+.hidden {
+    visibility: hidden;
+}
+.none {
+    display: none;
+}
+
 .main-container {
     display: flex;
     flex-wrap: nowrap;
@@ -28,4 +35,11 @@
     margin: 1px;
     padding: 1em;
     border: 1px solid #000;
+}
+
+.details {
+    flex: 1 0;
+    margin: 1px;
+    padding-left: 1em;
+    padding-right: 1em;
 }

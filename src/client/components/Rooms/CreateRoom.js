@@ -18,7 +18,7 @@ const CreateRoom = props => {
         if (event.key === 'Enter') {
             const state = store.getState();
             const roomName = event.target.value;
-            const playerId = state.play.players.me.id;
+            const playerId = state.usr.user.id;
             props.createRoom(roomName, playerId);
         }
     };

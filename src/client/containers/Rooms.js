@@ -5,6 +5,7 @@ import CreateRoom from '../components/Rooms/CreateRoom';
 import DisplayRooms from '../components/Rooms/DisplayRooms';
 
 import { createRoom as createRoomPayload } from '../actions/createRoom';
+import joinRoom from '../actions/joinRoom';
 import { getRoomPlayers as getPlayersPayload } from '../actions/getRoomPlayers';
 
 import { ACTIONS } from '../middleware/handleSocket';
@@ -24,7 +25,7 @@ const Rooms = ({ rooms, players, ...dispatchs }) => {
         <div>
             <CreateRoom createRoom={dispatchs.emitCreateRoom} />
             ROOMS:
-            <DisplayRooms activeRooms={rooms} />
+            <DisplayRooms activeRooms={rooms} dispatchs={dispatchs} />
         </div>
     );
 };
@@ -60,6 +61,7 @@ const mapDispatchToProps = dispatch => {
         emitGetRoomPlayers,
         emitCreateRoom,
         listen: () => {
+            joinRoom.onRoomJoined();
             dispatch({
                 action: ACTIONS.LISTEN,
                 event: 'rooms:players:got',
@@ -92,7 +94,8 @@ const mapDispatchToProps = dispatch => {
                     dispatch({
                         action: ACTIONS.REDUCE,
                         type: 'ROOM_CREATED',
-                        room: payload,
+                        roomId: payload.room_id,
+                        roomName: payload.room_name,
                         error: payload.error,
                     });
                 },
