@@ -5,6 +5,8 @@ import Playground from './containers/Playground';
 import Rooms from './containers/Rooms';
 import Home from './containers/Home';
 
+import { configureNotificationContainer } from './components/Notification';
+
 // const playing = 1
 
 // const renderSwitch = () => {
@@ -23,6 +25,8 @@ import Home from './containers/Home';
 // 			)
 // 	}
 // }
+
+configureNotificationContainer();
 
 const App = () => (
     <div className="App">

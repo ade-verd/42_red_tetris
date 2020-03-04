@@ -3,15 +3,15 @@
 const handleUserUpdate = (state, action) => {
     return {
         ...state,
-        id: action.userId,
-        name: action.name,
+        id: action.error ? null : action.player._id,
+        name: action.error ? null : action.player.name,
     };
 };
 
 const handleRoomUpdate = (state, action) => {
     return {
         ...state,
-        roomId: action.roomId,
+        roomId: action.error ? null : action.roomId,
     };
 };
 
@@ -19,9 +19,10 @@ const reducer = (state = {}, action) => {
     console.log('[userReducer] State', state);
 
     switch (action.type) {
-        case 'USER_UPDATE':
+        case 'PLAYER_CREATED':
             return handleUserUpdate(state, action);
-        case 'ROOM_UPDATE':
+        case 'ROOM_JOINED':
+        case 'ROOM_CREATED':
             return handleRoomUpdate(state, action);
         default:
             return state;

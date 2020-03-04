@@ -1,14 +1,13 @@
-import { store } from '../index.js';
 import { ACTIONS } from '../middleware/handleSocket';
 
-const joinRoomPayload = (roomId, playerId) => ({
+export const joinRoomPayload = (roomId, playerId) => ({
     room_id: roomId,
     player_id: playerId,
 });
 
-const emitJoinRoom = roomId => {
+export const emitJoinRoom = (store, roomId) => {
     const state = store.getState();
-    const playerId = state.usr.user.id;
+    const playerId = state.usr.id;
 
     store.dispatch({
         action: ACTIONS.EMIT,
@@ -17,7 +16,7 @@ const emitJoinRoom = roomId => {
     });
 };
 
-const onRoomJoined = () => {
+export const onRoomJoined = store => {
     store.dispatch({
         action: ACTIONS.LISTEN,
         event: 'rooms:joined',
@@ -30,10 +29,4 @@ const onRoomJoined = () => {
             });
         },
     });
-};
-
-export default {
-    joinRoomPayload,
-    emitJoinRoom,
-    onRoomJoined,
 };

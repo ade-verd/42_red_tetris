@@ -5,10 +5,11 @@ import CreateRoom from '../components/Rooms/CreateRoom';
 import DisplayRooms from '../components/Rooms/DisplayRooms';
 
 import { createRoom as createRoomPayload } from '../actions/createRoom';
-import joinRoom from '../actions/joinRoom';
+import { onRoomJoined } from '../actions/joinRoom';
 import { getRoomPlayers as getPlayersPayload } from '../actions/getRoomPlayers';
 
 import { ACTIONS } from '../middleware/handleSocket';
+import { store } from '../index';
 
 const Rooms = ({ rooms, players, ...dispatchs }) => {
     useEffect(() => {
@@ -61,7 +62,7 @@ const mapDispatchToProps = dispatch => {
         emitGetRoomPlayers,
         emitCreateRoom,
         listen: () => {
-            joinRoom.onRoomJoined();
+            onRoomJoined(store);
             dispatch({
                 action: ACTIONS.LISTEN,
                 event: 'rooms:players:got',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Accordion, Button } from 'react-bootstrap';
 
-import joinRoom from '../../actions/joinRoom';
+import { emitJoinRoom } from '../../actions/joinRoom';
 import { store } from '../../index';
 
 import { MAX_PLAYERS } from '../../../constants';
@@ -32,7 +32,7 @@ const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
                 <div className="details hidden"></div>
                 <div className="details">{formattedNames}</div>
                 <div className="details">
-                    <Button variant="primary" onClick={() => joinRoom.emitJoinRoom(roomId)}>
+                    <Button variant="primary" onClick={() => emitJoinRoom(store, roomId)}>
                         Join
                     </Button>
                     {roomJoinedError()}
