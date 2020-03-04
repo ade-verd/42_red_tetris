@@ -56,20 +56,22 @@ describe('socket/handlers/rooms/getActiveRooms', function() {
                 settings: 1,
             };
             expect(findStub.args).to.deep.equal([[expectedRegex, expectedProjection]]);
-            expect(payload).to.deep.equal([
-                {
-                    room_name: 'room_4',
-                    players_ids: ['00000000000000000000000a'],
-                    game_status: GAME_STATUS.WAITING,
-                    settings: {},
-                },
-                {
-                    room_name: 'room_5',
-                    players_ids: ['00000000000000000000000a', '00000000000000000000000b'],
-                    game_status: GAME_STATUS.PLAYING,
-                    settings: {},
-                },
-            ]);
+            expect(payload).to.deep.equal({
+                rooms: [
+                    {
+                        room_name: 'room_4',
+                        players_ids: ['00000000000000000000000a'],
+                        game_status: GAME_STATUS.WAITING,
+                        settings: {},
+                    },
+                    {
+                        room_name: 'room_5',
+                        players_ids: ['00000000000000000000000a', '00000000000000000000000b'],
+                        game_status: GAME_STATUS.PLAYING,
+                        settings: {},
+                    },
+                ],
+            });
             client.disconnect();
             done();
         });
