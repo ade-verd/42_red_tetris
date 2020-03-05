@@ -16,12 +16,12 @@ export const emitJoinRoom = (store, roomId) => {
     });
 };
 
-export const onRoomJoined = store => {
-    store.dispatch({
+export const onRoomJoined = dispatch => {
+    dispatch({
         action: ACTIONS.LISTEN,
         event: 'rooms:joined',
         fn: payload => {
-            store.dispatch({
+            dispatch({
                 action: ACTIONS.REDUCE,
                 type: 'ROOM_JOINED',
                 roomId: payload.payload.room_id,
