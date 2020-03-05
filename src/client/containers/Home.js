@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
-import { emitCreatePlayer, onPlayerCreated } from '../actions/createPlayer';
+import { emitCreatePlayer, onPlayerCreated } from '../actions/players/createPlayer';
 
 import { store } from '../index';
 

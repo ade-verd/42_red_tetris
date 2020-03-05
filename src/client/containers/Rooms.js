@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import CreateRoom from '../components/Rooms/CreateRoom';
 import DisplayRooms from '../components/Rooms/DisplayRooms';
 
-import { createRoom as createRoomPayload } from '../actions/createRoom';
-import { onRoomJoined } from '../actions/joinRoom';
-import { getRoomPlayers as getPlayersPayload } from '../actions/getRoomPlayers';
+import { createRoom as createRoomPayload } from '../actions/rooms/createRoom';
+import { onRoomJoined } from '../actions/rooms/joinRoom';
+import { getRoomPlayers as getPlayersPayload } from '../actions/rooms/getRoomPlayers';
 
 import { ACTIONS } from '../middleware/handleSocket';
 import { store } from '../index';

@@ -1,4 +1,4 @@
-import { ACTIONS } from '../middleware/handleSocket';
+import { ACTIONS } from '../../middleware/handleSocket';
 
 export const joinRoomPayload = (roomId, playerId) => ({
     room_id: roomId,

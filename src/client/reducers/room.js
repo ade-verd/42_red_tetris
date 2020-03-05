@@ -1,6 +1,6 @@
 'use strict';
 
-import notify from '../actions/Notification';
+import notify from '../actions/notifications';
 
 const handleError = (state, error, errorFieldName) => {
     notify({ type: 'error', msg: error });

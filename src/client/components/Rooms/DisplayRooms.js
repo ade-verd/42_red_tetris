@@ -1,7 +1,7 @@
 import React from 'react';
 import { Accordion, Button } from 'react-bootstrap';
 
-import { emitJoinRoom } from '../../actions/joinRoom';
+import { emitJoinRoom } from '../../actions/rooms/joinRoom';
 import { store } from '../../index';
 
 import { MAX_PLAYERS } from '../../../constants';

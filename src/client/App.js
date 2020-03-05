@@ -5,7 +5,7 @@ import Playground from './containers/Playground';
 import Rooms from './containers/Rooms';
 import Home from './containers/Home';
 
-import { configureNotificationContainer } from './actions/Notification';
+import { configureNotificationContainer } from './actions/notifications';
 
 // const playing = 1
 
