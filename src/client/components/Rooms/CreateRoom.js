@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { store } from '../../index';
+import { emitCreateRoom } from '../../actions/rooms/createRoom';
 
 const CreateRoom = props => {
     const onEnterkey = event => {
@@ -8,7 +9,7 @@ const CreateRoom = props => {
             const state = store.getState();
             const roomName = event.target.value;
             const playerId = state.usr.id;
-            props.createRoom(roomName, playerId);
+            emitCreateRoom(store.dispatch, roomName, playerId);
         }
     };
 

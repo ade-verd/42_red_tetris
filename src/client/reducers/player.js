@@ -3,7 +3,7 @@
 import notify from '../actions/notifications';
 
 const handleError = (state, error, errorFieldName) => {
-    notify({ type: 'error', msg: error });
+    console.error(`[${__filename} reducer][${errorFieldName}]`, error);
     return {
         ...state,
         [errorFieldName]: error,
@@ -12,6 +12,11 @@ const handleError = (state, error, errorFieldName) => {
 
 const handlePlayerCreated = (state, action) => {
     if (action.error !== undefined) {
+        if (action.error.startsWith('ValidationError')) {
+            notify({ type: 'warning', msg: 'Player name is missing' });
+        } else {
+            notify({ type: 'error', msg: 'Error while creating the player' });
+        }
         return handleError(state, action.error, 'creationError');
     }
 
@@ -20,13 +25,14 @@ const handlePlayerCreated = (state, action) => {
         players: {
             ...state.players,
             [action.player._id]: action.player.name,
-            creationError: null,
         },
+        creationError: null,
     };
 };
 
 const handleUpdatePlayersNames = (state, action) => {
     if (action.error !== undefined) {
+        notify({ type: 'error', msg: action.error });
         return handleError(state, action.error, 'updateNamesError');
     }
 
@@ -37,7 +43,8 @@ const handleUpdatePlayersNames = (state, action) => {
 
     return {
         ...state,
-        players: { ...state.players, ...roomPlayers, updateNamesError: null },
+        players: { ...state.players, ...roomPlayers },
+        updateNamesError: null,
     };
 };
 

@@ -58,7 +58,7 @@ const Row = props => {
 
 const buildHeadTable = () => <Row key={new Date().valueOf()} isTitle="true" />;
 
-const buildRoomsTable = (activeRooms, dispatchs) => {
+const buildRoomsTable = activeRooms => {
     if (typeof activeRooms === 'null' || typeof activeRooms === 'undefined') return [];
 
     const activeRoomsArray = Object.values(activeRooms);
@@ -77,7 +77,7 @@ const buildRoomsTable = (activeRooms, dispatchs) => {
 
 const ActiveRooms = props => {
     const headTable = buildHeadTable();
-    const roomsTable = buildRoomsTable(props.activeRooms, props.dispatchs);
+    const roomsTable = buildRoomsTable(props.activeRooms);
 
     const table = [headTable, ...roomsTable];
     return <div className="main-container">{table.map(row => row)}</div>;
