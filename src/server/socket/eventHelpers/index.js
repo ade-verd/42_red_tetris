@@ -38,8 +38,8 @@ function bindEvent(socket, { onEventName, emitEventName, validation, fn }) {
             const { error } = validation.validate(payload);
             if (error) {
                 console.error(emitEventName, error);
-                socket.emit(emitEventName, { error });
-                throw error;
+                socket.emit(emitEventName, { error: error.toString() });
+                return error;
             }
         }
         return fn(socket, payload);

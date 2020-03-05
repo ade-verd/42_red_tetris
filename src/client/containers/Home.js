@@ -23,7 +23,7 @@ const Home = ({ players, user, ...dispatchs }) => {
     }, []);
 
     useEffect(() => {
-        if (user && user.id !== undefined) return goToRooms();
+        if (user && user.id) return goToRooms();
     }, [user]);
 
     history = useHistory();

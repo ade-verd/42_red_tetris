@@ -6,21 +6,22 @@ const handleError = (state, error, errorFieldName) => {
     notify({ type: 'error', msg: error });
     return {
         ...state,
-        rooms: {
-            ...state.rooms,
-            [errorFieldName]: error,
-        },
+        [errorFieldName]: error,
     };
 };
 
 const checkAndUpdatePlayersNames = (playerState, rooms, fnUpdatePlayers) => {
     if (!rooms) return;
 
+    let idsChecked = [];
     rooms.forEach(room => {
         let arePlayersMissing = false;
 
         room.players_ids.forEach(playerId => {
-            if (!(playerState && playerState[playerId])) {
+            const isAlreadyChecked = idsChecked.includes(playerId);
+            const isInState = playerState && playerState[playerId];
+
+            if (!isAlreadyChecked && !isInState) {
                 arePlayersMissing = true;
                 return;
             }
@@ -28,6 +29,7 @@ const checkAndUpdatePlayersNames = (playerState, rooms, fnUpdatePlayers) => {
 
         if (arePlayersMissing === true) {
             fnUpdatePlayers(room._id);
+            idsChecked = [...idsChecked, ...room.players_ids];
         }
     });
 };
