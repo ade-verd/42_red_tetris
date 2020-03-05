@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
-import { emitCreatePlayer, onPlayerCreated } from '../actions/players/createPlayer';
-
-import { store } from '../index';
+import { store } from '../../index';
 
 let history = [];
 
@@ -51,18 +48,4 @@ const Home = ({ players, user, ...dispatchs }) => {
     );
 };
 
-const mapStateToProps = state => {
-    console.debug('[Home][mapStateToProps] State', state);
-    return { players: state.play.players, user: state.usr };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        emitCreatePlayer,
-        listen: () => {
-            onPlayerCreated(dispatch);
-        },
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;

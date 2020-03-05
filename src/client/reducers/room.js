@@ -2,8 +2,10 @@
 
 import notify from '../actions/notifications';
 
+import { store } from '../index';
+
 const handleError = (state, error, errorFieldName) => {
-    notify({ type: 'error', msg: error });
+    console.error(`[${__filename} reducer][${errorFieldName}]`, error);
     return {
         ...state,
         [errorFieldName]: error,
@@ -28,7 +30,7 @@ const checkAndUpdatePlayersNames = (playerState, rooms, fnUpdatePlayers) => {
         });
 
         if (arePlayersMissing === true) {
-            fnUpdatePlayers(room._id);
+            fnUpdatePlayers(store.dispatch, room._id);
             idsChecked = [...idsChecked, ...room.players_ids];
         }
     });
@@ -36,6 +38,7 @@ const checkAndUpdatePlayersNames = (playerState, rooms, fnUpdatePlayers) => {
 
 const handleUpdateActiveRooms = (state, action) => {
     if (action.error !== undefined) {
+        notify({ type: 'error', msg: action.error });
         return handleError(state, action.error, 'updateRoomsError');
     }
 
@@ -49,6 +52,7 @@ const handleUpdateActiveRooms = (state, action) => {
 
 const handleRoomCreation = (state, action) => {
     if (action.error !== undefined) {
+        notify({ type: 'error', msg: action.error });
         return handleError(state, action.error, 'roomCreationError');
     }
 
@@ -57,6 +61,7 @@ const handleRoomCreation = (state, action) => {
 
 const handleRoomJoined = (state, action) => {
     if (action.error !== undefined) {
+        notify({ type: 'error', msg: 'Error:\nImpossible to create the room\n' + action.error });
         return handleError(state, action.error, 'roomJoinedError');
     }
 

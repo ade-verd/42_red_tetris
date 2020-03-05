@@ -2,8 +2,8 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Playground from './containers/Playground';
-import Rooms from './containers/Rooms';
-import Home from './containers/Home';
+import Rooms from './containers/Rooms.container';
+import Home from './containers/Home.container';
 
 import { configureNotificationContainer } from './actions/notifications';
 

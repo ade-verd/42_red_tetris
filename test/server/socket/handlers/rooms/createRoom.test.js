@@ -43,7 +43,10 @@ describe('socket/handlers/rooms/createRoom', function() {
 
         const client = io.connect(socketUrl, options);
 
-        client.emit('rooms:create', actionClient.createRoom('room_1', '00000000000000000000000a'));
+        client.emit(
+            'rooms:create',
+            actionClient.createRoomPayload('room_1', '00000000000000000000000a'),
+        );
         client.on('rooms:created', payload => {
             expect(joinOrCreateStub.args).to.deep.equal([['room_1', '00000000000000000000000a']]);
             expect(payload).to.deep.equal({
@@ -62,7 +65,10 @@ describe('socket/handlers/rooms/createRoom', function() {
 
         const client = io.connect(socketUrl, options);
 
-        client.emit('rooms:create', actionClient.createRoom('room_1', '00000000000000000000000a'));
+        client.emit(
+            'rooms:create',
+            actionClient.createRoomPayload('room_1', '00000000000000000000000a'),
+        );
         client.on('rooms:created', payload => {
             expect(joinOrCreateStub.args).to.deep.equal([['room_1', '00000000000000000000000a']]);
             expect(payload).to.deep.equal({

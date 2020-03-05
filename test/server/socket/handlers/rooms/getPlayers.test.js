@@ -44,7 +44,7 @@ describe('socket/handlers/rooms/getPlayers', function() {
 
         const client = io.connect(socketUrl, options);
 
-        client.emit('rooms:players:get', actionClient.getRoomPlayers(ROOM_ID));
+        client.emit('rooms:players:get', actionClient.getRoomPlayersPayload(ROOM_ID));
         client.on('rooms:players:got', payload => {
             expect(getPlayersNameStub.args).to.deep.equal([['000000000000000000000001']]);
             expect(payload).to.deep.equal({
@@ -67,7 +67,7 @@ describe('socket/handlers/rooms/getPlayers', function() {
         const client = io.connect(socketUrl, options);
 
         const ROOM_ID = '000000000000000000000001';
-        client.emit('rooms:players:get', actionClient.getRoomPlayers(ROOM_ID));
+        client.emit('rooms:players:get', actionClient.getRoomPlayersPayload(ROOM_ID));
         client.on('rooms:players:got', payload => {
             expect(getPlayersNameStub.args).to.deep.equal([['000000000000000000000001']]);
             expect(payload).to.deep.equal({

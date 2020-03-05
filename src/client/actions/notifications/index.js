@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const configureNotificationContainer = () =>
     toast.configure({
-        autoClose: 6000,
+        autoClose: 4000,
         draggable: false,
         hideProgressBar: false,
         newestOnTop: false,
@@ -22,13 +22,13 @@ const notify = ({ msg, type }) => {
             toast.success(msg);
             break;
         case 'warning':
-            toast.warning(msg);
+            toast.warning(msg, { autoClose: 5000 });
             break;
         case 'error':
-            toast.error(msg);
+            toast.error(msg, { autoClose: 6000 });
             break;
         default:
-            toast.error(msg);
+            toast.error(msg, { autoClose: 6000 });
     }
 };
 
