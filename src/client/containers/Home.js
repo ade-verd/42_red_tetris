@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
-import { createPlayer as createPlayerPayload } from '../actions/createPlayer';
+import { emitCreatePlayer, onPlayerCreated } from '../actions/createPlayer';
 
-import { ACTIONS } from '../middleware/handleSocket';
+import { store } from '../index';
 
 let history = [];
 
@@ -30,7 +30,7 @@ const Home = ({ players, user, ...dispatchs }) => {
 
     const createPlayer = event => {
         if (event.key === 'Enter') {
-            dispatchs.emitCreatePlayer(event.target.value);
+            dispatchs.emitCreatePlayer(store.dispatch, event.target.value);
         }
     };
 
@@ -57,28 +57,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-    const emitCreatePlayer = playerName =>
-        dispatch({
-            action: ACTIONS.EMIT,
-            event: 'players:create',
-            data: createPlayerPayload(playerName),
-        });
-
     return {
         emitCreatePlayer,
         listen: () => {
-            dispatch({
-                action: ACTIONS.LISTEN,
-                event: 'players:created',
-                fn: payload => {
-                    dispatch({
-                        action: ACTIONS.REDUCE,
-                        type: 'PLAYER_CREATED',
-                        player: payload.player,
-                        error: payload.error,
-                    });
-                },
-            });
+            onPlayerCreated(dispatch);
         },
     };
 };
