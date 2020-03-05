@@ -7,15 +7,6 @@ import { store } from '../../index';
 import { MAX_PLAYERS } from '../../../constants';
 import './DisplayRooms.css';
 
-const roomJoinedError = () => {
-    const roomState = store.getState().rms.rooms;
-
-    if (roomState && roomState.roomJoinedError) {
-        return <div className="error">{roomState.roomJoinedError}</div>;
-    }
-    return null;
-};
-
 const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
     if (!playersIds) return;
 
@@ -35,7 +26,6 @@ const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
                     <Button variant="primary" onClick={() => emitJoinRoom(store, roomId)}>
                         Join
                     </Button>
-                    {roomJoinedError()}
                 </div>
             </div>
         </Accordion.Collapse>

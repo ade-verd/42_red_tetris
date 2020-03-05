@@ -6,10 +6,7 @@ const handleError = (state, error, errorFieldName) => {
     notify({ type: 'error', msg: error });
     return {
         ...state,
-        players: {
-            ...state.players,
-            [errorFieldName]: error,
-        },
+        [errorFieldName]: error,
     };
 };
 

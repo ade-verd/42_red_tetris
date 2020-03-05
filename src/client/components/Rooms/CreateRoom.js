@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Notification from '../../actions/Notification';
-
 import { store } from '../../index';
 
 const CreateRoom = props => {
