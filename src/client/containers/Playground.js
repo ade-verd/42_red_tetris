@@ -6,8 +6,8 @@ import Field from '../components/Field';
 import StartButton from '../components/StartButton';
 import { StyledPlaygroundWrapper, StyledPlayground } from './styles/StyledPlayground';
 
-import { getTetriminos } from '../actions/getTetriminos';
-import { createRoom } from '../actions/createRoom';
+import { getTetriminos } from '../actions/game/getTetriminos';
+import { createRoom } from '../actions/rooms/createRoom';
 
 import { alert } from '../actions/alert';
 import { ping } from '../actions/server';

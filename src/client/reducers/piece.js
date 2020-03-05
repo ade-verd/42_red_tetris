@@ -1,6 +1,5 @@
 import { FIELD_WIDTH } from '../helpers/fieldHelper';
 import { randomTetromino } from '../helpers/tetrominos';
-// const tetriminosLib = require('../../server/lib/tetriminos');
 
 const reducer = (state = {}, action) => {
     console.log('[pieceReducer] State = ', state);

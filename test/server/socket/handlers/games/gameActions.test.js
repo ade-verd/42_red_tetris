@@ -5,7 +5,7 @@ const io = require('socket.io-client');
 const { startServer } = require('../../../../helpers/server');
 const config = require('../../../../../src/server/config');
 
-const actionClient = require('../../../../../src/client/actions/gameAction.js');
+const actionClient = require('../../../../../src/client/actions/game/gameAction.js');
 
 const gameActions = require('../../../../../src/server/lib/games/gameActions');
 const roomsLib = require('../../../../../src/server/models/rooms');

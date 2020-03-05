@@ -1,4 +1,4 @@
-import { ACTIONS } from '../middleware/handleSocket';
+import { ACTIONS } from '../../middleware/handleSocket';
 
 export const createPlayerPayload = name => ({ name });
 

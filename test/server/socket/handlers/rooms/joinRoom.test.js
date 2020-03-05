@@ -5,7 +5,7 @@ const io = require('socket.io-client');
 const { startServer } = require('../../../../helpers/server');
 const config = require('../../../../../src/server/config');
 
-const actionClient = require('../../../../../src/client/actions/joinRoom');
+const actionClient = require('../../../../../src/client/actions/rooms/joinRoom');
 
 const roomInOut = require('../../../../../src/server/lib/rooms/roomInOut');
 

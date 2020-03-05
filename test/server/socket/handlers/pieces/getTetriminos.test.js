@@ -5,7 +5,7 @@ const io = require('socket.io-client');
 const { startServer } = require('../../../../helpers/server');
 const config = require('../../../../../src/server/config');
 
-const actionClient = require('../../../../../src/client/actions/getTetriminos.js');
+const actionClient = require('../../../../../src/client/actions/game/getTetriminos.js');
 
 const getPiecesLib = require('../../../../../src/server/lib/pieces/getPieces');
 
