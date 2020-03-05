@@ -62,7 +62,7 @@ const mapDispatchToProps = dispatch => {
         emitGetRoomPlayers,
         emitCreateRoom,
         listen: () => {
-            onRoomJoined(store);
+            onRoomJoined(dispatch);
             dispatch({
                 action: ACTIONS.LISTEN,
                 event: 'rooms:players:got',
