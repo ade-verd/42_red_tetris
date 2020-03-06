@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
 
 import { store } from '../../index';
 
 import CreatePlayer from '../CreatePlayer/CreatePlayer';
-import Rooms from '../../containers/Rooms.container';
+import Lobby from '../Lobby/Lobby';
 
 const displayCreatePlayerOrLobby = user => {
     if (!user || !user.id) {
         return <CreatePlayer />;
     }
-    return <Rooms />;
+    return <Lobby />;
 };
 
 const Home = ({ user, ...dispatchs }) => {
