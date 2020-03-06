@@ -1,4 +1,6 @@
 var path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 
 module.exports = {
     entry: './src/client/index.js',
@@ -7,6 +9,13 @@ module.exports = {
         path: path.join(__dirname, 'build'),
         filename: 'bundle.js',
     },
+
+    plugins: [
+        // define HTML variables
+        new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
+            ASSETS_PATH: '/assets',
+        }),
+    ],
 
     module: {
         rules: [
