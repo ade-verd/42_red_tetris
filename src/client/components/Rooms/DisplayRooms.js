@@ -27,6 +27,7 @@ const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
                         Join
                     </Button>
                 </div>
+                <hr className={css.hr} />
             </div>
         </Accordion.Collapse>
     );
@@ -50,8 +51,8 @@ const Row = props => {
         <Accordion>
             <Accordion.Toggle as="div" className={className.join(' ')} eventKey={eventKey}>
                 <div className={css.item}>{nameValue}</div>
-                <div className={css.item}>{playersNumber}</div>
                 <div className={css.item}>{statusValue}</div>
+                <div className={css.item}>{playersNumber}</div>
             </Accordion.Toggle>
             {buildCollapsedCard(eventKey, playersIds, roomId, state)}
         </Accordion>

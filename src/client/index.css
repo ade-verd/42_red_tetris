@@ -4,14 +4,21 @@
     /*url('./font/ArcadeRounded-3DM.ttf') format("truetype");*/
 }
 
+html {
+    height: 100%;
+}
+
 body {
-    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 
     background-color: #1e1e23;
     background-image: url('./assets/img/bg_retropie.png');
     background-repeat: no-repeat;
     background-size: 100%;
     font-family: 'arcade' !important;
+    color: #fff;
 }
 
 input[type='text'] {
