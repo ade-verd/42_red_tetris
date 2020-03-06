@@ -5,7 +5,7 @@ import { emitJoinRoom } from '../../actions/rooms/joinRoom';
 import { store } from '../../index';
 
 import { MAX_PLAYERS } from '../../../constants';
-import './DisplayRooms.css';
+import css from './DisplayRooms.module.css';
 
 const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
     if (!playersIds) return;
@@ -19,10 +19,10 @@ const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
 
     return (
         <Accordion.Collapse eventKey={eventKey}>
-            <div className="row-container details">
-                <div className="details hidden"></div>
-                <div className="details">{formattedNames}</div>
-                <div className="details">
+            <div className={[css['row-container'], css.details].join(' ')}>
+                <div className={[css.details, css.hidden].join(' ')}></div>
+                <div className={css.details}>{formattedNames}</div>
+                <div className={css.details}>
                     <Button variant="primary" onClick={() => emitJoinRoom(store, roomId)}>
                         Join
                     </Button>
@@ -34,7 +34,9 @@ const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
 
 const Row = props => {
     const state = store.getState();
-    const className = props.isTitle ? 'title-bar row-container' : 'row-container room';
+    const className = props.isTitle
+        ? [css['title-bar'], css['row-container']]
+        : [css['room'], css['row-container']];
     const roomId = props.roomId;
     const eventKey = `evt_${roomId}`;
     const nameValue = props.name || 'name';
@@ -46,10 +48,10 @@ const Row = props => {
 
     return (
         <Accordion>
-            <Accordion.Toggle as="div" className={className} eventKey={eventKey}>
-                <div className="item">{nameValue}</div>
-                <div className="item">{playersNumber}</div>
-                <div className="item">{statusValue}</div>
+            <Accordion.Toggle as="div" className={className.join(' ')} eventKey={eventKey}>
+                <div className={css.item}>{nameValue}</div>
+                <div className={css.item}>{playersNumber}</div>
+                <div className={css.item}>{statusValue}</div>
             </Accordion.Toggle>
             {buildCollapsedCard(eventKey, playersIds, roomId, state)}
         </Accordion>
@@ -80,7 +82,7 @@ const ActiveRooms = props => {
     const roomsTable = buildRoomsTable(props.activeRooms);
 
     const table = [headTable, ...roomsTable];
-    return <div className="main-container">{table.map(row => row)}</div>;
+    return <div className={css['main-container']}>{table.map(row => row)}</div>;
 };
 
 export default ActiveRooms;
