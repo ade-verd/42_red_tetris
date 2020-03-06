@@ -9,11 +9,17 @@
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column;
-    border: 1px solid #000;
+    border-radius: 5px;
+    border: 2px solid #555559;
+    background-color: #1e1e23;
+    opacity: 0.9;
+    height: 100%;
+    flex: 1 1 auto;
 }
+
 .title-bar {
-    background-color: lightskyblue;
-    color: #000;
+    color: #fff;
+    border-bottom: 2px solid #555559;
 }
 
 .row-container {
@@ -31,13 +37,13 @@
 .item {
     flex: 1 0;
     margin: 1px;
-    padding: 1em;
-    border: 1px solid #000;
+    padding: 0.4em 1em 0.4em 1em;
+    text-align: center;
 }
 
 .details {
     flex: 1 0;
     margin: 1px;
-    padding-left: 1em;
-    padding-right: 1em;
+    padding: 0.4em 1em 0.4em 1em;
+    text-align: center;
 }

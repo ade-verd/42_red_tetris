@@ -18,6 +18,7 @@ const CreateRoom = props => {
     return (
         <div className={css.container}>
             <label>Create room:</label>
+            <br />
             <input type="text" id="name" onKeyDown={onEnterkey} required />
         </div>
     );

@@ -18,7 +18,7 @@ const Rooms = ({ rooms, players, ...dispatchs }) => {
     return (
         <div>
             <CreateRoom />
-            ROOMS:
+            <br />
             <DisplayRooms activeRooms={rooms} />
         </div>
     );
