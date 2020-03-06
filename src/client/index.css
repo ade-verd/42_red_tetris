@@ -6,8 +6,11 @@
 
 body {
     margin: 0;
-    /*    background-color: #000;
-    background-image: url('./assets/img/bg.png'); */
+
+    background-color: #1e1e23;
+    background-image: url('./assets/img/bg_retropie.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
     font-family: 'arcade' !important;
 }
 

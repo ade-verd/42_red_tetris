@@ -2,13 +2,15 @@ import React from 'react';
 import { toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
+import './notifications.css';
 
 export const configureNotificationContainer = () =>
     toast.configure({
+        position: 'bottom-right',
         autoClose: 4000,
         draggable: false,
         hideProgressBar: false,
-        newestOnTop: false,
+        newestOnTop: true,
         closeOnClick: true,
         pauseOnHover: true,
     });

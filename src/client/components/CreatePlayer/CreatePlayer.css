@@ -1,0 +1,23 @@
+.container {
+    margin-top: 50vh; /* poussé de la moitié de hauteur de viewport */
+    transform: translateY(-100%); /* tiré de la moitié de sa propre hauteur */
+    color: #fff;
+    text-align: center;
+}
+
+.fa {
+    color: #555559;
+}
+
+input[type='text'] {
+    background: transparent;
+    border-radius: 5px;
+    border: 2px solid #fff;
+    color: #fff;
+    text-align: center;
+}
+input[type='text']:focus {
+    border: 2px solid #34b8ee;
+    border-radius: 5px;
+    outline: none;
+}
