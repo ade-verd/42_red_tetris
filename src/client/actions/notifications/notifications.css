@@ -1,0 +1,8 @@
+.Toastify__toast--warning {
+    background: #f8ae2a !important;
+    color: #fff;
+}
+.Toastify__toast--error {
+    background: #e6443a !important;
+    color: #fff;
+}
