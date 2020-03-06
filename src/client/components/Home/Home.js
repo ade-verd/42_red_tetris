@@ -4,48 +4,26 @@ import { Button } from 'react-bootstrap';
 
 import { store } from '../../index';
 
-let history = [];
+import CreatePlayer from '../CreatePlayer/CreatePlayer';
+import Rooms from '../../containers/Rooms.container';
 
-const goToPlayground = () => {
-    history.push({ pathname: '/playground' });
+const displayCreatePlayerOrLobby = user => {
+    if (!user || !user.id) {
+        return <CreatePlayer />;
+    }
+    return <Rooms />;
 };
 
-const goToRooms = () => {
-    history.push({ pathname: '/rooms' });
-};
-
-const Home = ({ players, user, ...dispatchs }) => {
+const Home = ({ user, ...dispatchs }) => {
     useEffect(() => {
         dispatchs.listen();
     }, []);
 
     useEffect(() => {
-        if (user && user.id) return goToRooms();
-    }, [user]);
+        console.log('[Home] Rendering');
+    }, [user.id]);
 
-    history = useHistory();
-
-    const createPlayer = event => {
-        if (event.key === 'Enter') {
-            dispatchs.emitCreatePlayer(store.dispatch, event.target.value);
-        }
-    };
-
-    return (
-        <div>
-            <label>Create player:</label>
-            <input type="text" id="name" onKeyDown={createPlayer} required />
-            <br />
-            <Button variant="primary" onClick={goToRooms}>
-                Rooms
-            </Button>
-            <br />
-            <br />
-            <Button variant="primary" onClick={goToPlayground}>
-                Playground
-            </Button>
-        </div>
-    );
+    return displayCreatePlayerOrLobby(user);
 };
 
 export default Home;
