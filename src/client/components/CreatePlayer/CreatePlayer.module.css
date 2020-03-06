@@ -1,0 +1,10 @@
+.container {
+    margin-top: 50vh;
+    transform: translateY(-100%);
+    color: #fff;
+    text-align: center;
+}
+
+.fa {
+    color: #555559;
+}

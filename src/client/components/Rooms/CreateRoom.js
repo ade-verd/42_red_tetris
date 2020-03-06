@@ -3,6 +3,8 @@ import React from 'react';
 import { store } from '../../index';
 import { emitCreateRoom } from '../../actions/rooms/createRoom';
 
+import css from './CreateRoom.module.css';
+
 const CreateRoom = props => {
     const onEnterkey = event => {
         if (event.key === 'Enter') {
@@ -14,7 +16,7 @@ const CreateRoom = props => {
     };
 
     return (
-        <div>
+        <div className={css.container}>
             <label>Create room:</label>
             <input type="text" id="name" onKeyDown={onEnterkey} required />
         </div>

@@ -8,7 +8,7 @@ import { store } from '../../index';
 
 import { emitCreatePlayer } from '../../actions/players/createPlayer';
 
-import './CreatePlayer.css';
+import css from './CreatePlayer.module.css';
 
 const createPlayer = event => {
     if (event.key === 'Enter') {
@@ -20,9 +20,9 @@ const CreatePlayer = ({}) => {
     fontAwesomeLibrary.add(faUserPlus);
 
     return (
-        <div className="container">
-            <div className="icon-container'">
-                <FontAwesomeIcon className="fa" icon={['fas', 'user-plus']} size="8x" />
+        <div className={css.container}>
+            <div className={css['icon-container']}>
+                <FontAwesomeIcon className={css.fa} icon={['fas', 'user-plus']} size="8x" />
             </div>
             <br />
             <label>Create player:</label>

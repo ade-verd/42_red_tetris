@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import Home from '../components/Home/CreatePlayer';
+import Home from '../components/Home/Home';
 
 import { emitCreatePlayer, onPlayerCreated } from '../actions/players/createPlayer';
 

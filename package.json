@@ -91,6 +91,8 @@
         "mocha": "7.0.1",
         "npm": "^6.13.7",
         "nyc": "15.0.0",
+        "postcss-flexbugs-fixes": "^4.2.0",
+        "postcss-loader": "^3.0.0",
         "prettier": "1.19.1",
         "sinon": "8.1.1",
         "socket-tester": "1.2.1",
