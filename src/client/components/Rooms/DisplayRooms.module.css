@@ -18,8 +18,9 @@
     flex: 1 0 auto;
 }
 
-.room:hover {
-    background-color: #ccc;
+.accordion-container:not(:first-child):hover {
+    background-color: #ccc !important;
+    color: #1e1e23;
 }
 
 .accordion-container:nth-child(odd) {
@@ -47,6 +48,10 @@
     margin: 1px;
     padding: 0.4em 1em 0.4em 1em;
     text-align: center;
+}
+
+.collapse-icon {
+    flex: 0;
 }
 
 .row-details {
