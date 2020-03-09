@@ -3,13 +3,15 @@ import fieldReducer from './field';
 import gameStatusReducer from './gameStatus';
 import pieceReducer from './piece';
 import playerReducer from './player';
-import roomsReducer from './rooms';
+import roomReducer from './room';
+import userReducer from './user';
 
 export default {
-    alertReducer,
-    fieldReducer,
-    gameStatusReducer,
-    pieceReducer,
-    playerReducer,
-    roomsReducer,
+    alt: alertReducer,
+    fld: fieldReducer,
+    gme: gameStatusReducer,
+    pce: pieceReducer,
+    play: playerReducer,
+    rms: roomReducer,
+    usr: userReducer,
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Playground from './containers/Playground';
+import Playground from './containers/Playground.container';
 import Rooms from './containers/Rooms.container';
 import Home from './containers/Home.container';
 

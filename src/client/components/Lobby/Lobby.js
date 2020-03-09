@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { store } from '../../index';
 
 import Rooms from '../../containers/Rooms.container';
-import Playground from '../../containers/Playground';
+import Playground from '../../containers/Playground.container';
 
 const displayRoomsOrGame = userState => {
     if (userState && userState.roomId) {
