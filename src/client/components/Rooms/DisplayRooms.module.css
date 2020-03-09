@@ -12,13 +12,24 @@
     border-radius: 5px;
     border: 2px solid #555559;
     background-color: #1e1e23;
+    color: #fff;
     opacity: 0.9;
     height: 100%;
     flex: 1 0 auto;
 }
 
+.room:hover {
+    background-color: #ccc;
+}
+
+.accordion-container:nth-child(odd) {
+    background-color: #1e1e23;
+}
+.accordion-container:nth-child(even) {
+    background-color: #414252;
+}
+
 .title-bar {
-    color: #fff;
     border-bottom: 2px solid #555559;
 }
 
@@ -30,11 +41,8 @@
     align-content: start;
 }
 
-.room:hover {
-    background-color: #ccc;
-}
-
-.item {
+.item,
+.item-details {
     flex: 1 0;
     margin: 1px;
     padding: 0.4em 1em 0.4em 1em;
@@ -45,9 +53,6 @@
     flex: 1 0;
 }
 
-.item-details {
-    flex: 1 0;
-    margin: 1px;
-    padding: 0.4em 1em 0.4em 1em;
-    text-align: center;
+.btn-join {
+    color: #fff !important;
 }

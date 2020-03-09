@@ -23,11 +23,14 @@ const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
                 <div className={[css['item-details'], css.hidden].join(' ')}></div>
                 <div className={css['item-details']}>{formattedNames}</div>
                 <div className={css['item-details']}>
-                    <Button variant="primary" onClick={() => emitJoinRoom(store, roomId)}>
+                    <Button
+                        className={css['btn-join']}
+                        variant="primary"
+                        onClick={() => emitJoinRoom(store, roomId)}
+                    >
                         Join
                     </Button>
                 </div>
-                <hr className={css.hr} />
             </div>
         </Accordion.Collapse>
     );
@@ -48,7 +51,7 @@ const Row = props => {
     const statusValue = props.status || 'status';
 
     return (
-        <Accordion>
+        <Accordion className={css['accordion-container']}>
             <Accordion.Toggle as="div" className={className.join(' ')} eventKey={eventKey}>
                 <div className={css.item}>{nameValue}</div>
                 <div className={css.item}>{playersNumber}</div>

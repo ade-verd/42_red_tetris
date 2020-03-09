@@ -17,8 +17,7 @@ import userReducer from './reducers/user';
 
 import App from './App';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css';
+import './index.scss';
 
 const initialState = {};
 
