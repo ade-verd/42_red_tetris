@@ -41,7 +41,11 @@
     text-align: center;
 }
 
-.details {
+.row-details {
+    flex: 1 0;
+}
+
+.item-details {
     flex: 1 0;
     margin: 1px;
     padding: 0.4em 1em 0.4em 1em;
