@@ -11,8 +11,7 @@ import { Provider } from 'react-redux';
 import reducers from './reducers/index';
 import App from './App';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css';
+import './index.scss';
 
 const initialState = {};
 
