@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Accordion, Button } from 'react-bootstrap';
+
+import { library as fontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusSquare, faMinusSquare } from '@fortawesome/free-solid-svg-icons';
 
 import { emitJoinRoom } from '../../actions/rooms/joinRoom';
 import { store } from '../../index';
@@ -20,6 +24,9 @@ const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
     return (
         <Accordion.Collapse eventKey={eventKey}>
             <div className={[css['row-container'], css['row-details']].join(' ')}>
+                <div
+                    className={[css['item-details'], css['collapse-icon'], css.hidden].join(' ')}
+                ></div>
                 <div className={[css['item-details'], css.hidden].join(' ')}></div>
                 <div className={css['item-details']}>{formattedNames}</div>
                 <div className={css['item-details']}>
@@ -37,12 +44,15 @@ const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
 };
 
 const Row = props => {
+    const [accordionStatus, setAccordionStatus] = useState({});
+
     const state = store.getState();
     const className = props.isTitle
         ? [css['title-bar'], css['row-container']]
         : [css['room'], css['row-container']];
     const roomId = props.roomId;
     const eventKey = `evt_${roomId}`;
+    const collapsedIcon = accordionStatus[eventKey] ? 'minus-square' : 'plus-square';
     const nameValue = props.name || 'name';
     const playersIds = props.playersIds;
     const playersNumber = props.playersIds
@@ -52,7 +62,20 @@ const Row = props => {
 
     return (
         <Accordion className={css['accordion-container']}>
-            <Accordion.Toggle as="div" className={className.join(' ')} eventKey={eventKey}>
+            <Accordion.Toggle
+                as="div"
+                className={className.join(' ')}
+                eventKey={eventKey}
+                onClick={() =>
+                    setAccordionStatus({
+                        ...accordionStatus,
+                        [eventKey]: ~accordionStatus[eventKey],
+                    })
+                }
+            >
+                <div className={[css.item, css['collapse-icon']].join(' ')}>
+                    {!props.isTitle ? <FontAwesomeIcon icon={collapsedIcon} /> : null}
+                </div>
                 <div className={css.item}>{nameValue}</div>
                 <div className={css.item}>{playersNumber}</div>
                 <div className={css.item}>{statusValue}</div>
@@ -82,6 +105,8 @@ const buildRoomsTable = activeRooms => {
 };
 
 const ActiveRooms = props => {
+    fontAwesomeLibrary.add(faPlusSquare, faMinusSquare);
+
     const headTable = buildHeadTable();
     const roomsTable = buildRoomsTable(props.activeRooms);
 
