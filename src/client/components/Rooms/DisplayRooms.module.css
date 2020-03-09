@@ -14,7 +14,7 @@
     background-color: #1e1e23;
     opacity: 0.9;
     height: 100%;
-    flex: 1 1 auto;
+    flex: 1 0 auto;
 }
 
 .title-bar {

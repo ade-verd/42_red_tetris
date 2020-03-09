@@ -5,6 +5,8 @@ import DisplayRooms from './DisplayRooms';
 
 import { store } from '../../index';
 
+import css from './Rooms.module.css';
+
 const Rooms = ({ rooms, players, ...dispatchs }) => {
     useEffect(() => {
         dispatchs.listen();
@@ -16,7 +18,7 @@ const Rooms = ({ rooms, players, ...dispatchs }) => {
     }, [rooms]);
 
     return (
-        <div>
+        <div className={css['container']}>
             <CreateRoom />
             <br />
             <DisplayRooms activeRooms={rooms} />
