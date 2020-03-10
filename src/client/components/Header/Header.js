@@ -11,7 +11,9 @@ const Header = () => {
 
     return (
         <div className={css.container}>
-            <div className={css.title}>REDTETRIS</div>
+            <div className={css.title}>
+                <span className={css.red}>RED</span>TETRIS
+            </div>
             <div className={css['username-container']}>
                 <span className={css.username}>{user.name}</span>
                 <Logout className={css.logout} />

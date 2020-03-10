@@ -16,7 +16,11 @@
     color: #fff;
     padding: 0.25em 0 0.25em 0;
     font-size: 2em;
-    /* text-shadow: 2px 0px 1px #fff; */
+}
+
+.red {
+    color: #e6443a;
+    text-shadow: 2px 0px 1px #fff;
 }
 
 .username-container {
