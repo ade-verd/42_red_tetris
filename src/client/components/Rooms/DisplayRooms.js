@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Accordion, Button } from 'react-bootstrap';
 
 import { library as fontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core';

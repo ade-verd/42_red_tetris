@@ -5,7 +5,16 @@ const handleUserUpdate = (state, action) => {
         ...state,
         id: action.error ? null : action.player._id,
         name: action.error ? null : action.player.name,
+        roomId: null,
     };
+};
+
+const handleUserLogOut = state => {
+    const player = {
+        _id: null,
+        name: null,
+    };
+    return handleUserUpdate(state, { player });
 };
 
 const handleRoomUpdate = (state, action) => {
@@ -22,6 +31,8 @@ const reducer = (state = {}, action) => {
         case 'ROOM_JOINED':
         case 'ROOM_CREATED':
             return handleRoomUpdate(state, action);
+        case 'USER_LOGOUT':
+            return handleUserLogOut(state);
         default:
             return state;
     }

@@ -2,8 +2,11 @@ import React, { useEffect } from 'react';
 
 import { store } from '../../index';
 
+import Header from '../Header/Header';
 import Rooms from '../../containers/Rooms.container';
 import Playground from '../../containers/Playground.container';
+
+import css from './Lobby.module.css';
 
 const displayRoomsOrGame = userState => {
     if (userState && userState.roomId) {
@@ -19,7 +22,12 @@ const Lobby = ({}) => {
         console.log('[Loby] Rendering');
     }, [userState.roomId]);
 
-    return displayRoomsOrGame(userState);
+    return (
+        <div className={css.container}>
+            <Header />
+            {displayRoomsOrGame(userState)}
+        </div>
+    );
 };
 
 export default Lobby;
