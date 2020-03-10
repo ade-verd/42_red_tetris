@@ -1,10 +1,6 @@
-import React from 'react';
 import { toast } from 'react-toastify';
 
-import 'react-toastify/dist/ReactToastify.css';
-import './notifications.css';
-
-export const configureNotificationContainer = () =>
+export const configureNotificationContainer = () => {
     toast.configure({
         position: 'bottom-right',
         autoClose: 4000,
@@ -14,6 +10,7 @@ export const configureNotificationContainer = () =>
         closeOnClick: true,
         pauseOnHover: true,
     });
+};
 
 const notify = ({ msg, type }) => {
     switch (type) {

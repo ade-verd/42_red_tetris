@@ -20,11 +20,12 @@ const EMIT_EVENT = 'games:action:ran';
 const FUNCTION_NAME = '[gameAction]';
 
 const _runActionGame = async (socket, payload) => {
+    console.log('DONE11111');
     try {
         const game = new Game({ roomId: payload.room_id });
         const result = await game[payload.action]();
         const status = await game.status();
-        socket.emit(EMIT_EVENT, { payload, result, status });
+				socket.emit(EMIT_EVENT, { payload, result, status });
     } catch (err) {
         socket.emit(EMIT_EVENT, { payload, error: err.toString() });
         console.error(FUNCTION_NAME, { payload, err });

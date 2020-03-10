@@ -16,8 +16,6 @@ const handleRoomUpdate = (state, action) => {
 };
 
 const reducer = (state = {}, action) => {
-    console.log('[userReducer] State', state);
-
     switch (action.type) {
         case 'PLAYER_CREATED':
             return handleUserUpdate(state, action);

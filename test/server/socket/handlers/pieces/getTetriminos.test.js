@@ -52,7 +52,7 @@ describe('socket/handlers/pieces/getTetriminos', function() {
         const NUMBER = 1;
         client.emit(
             'tetriminos:get_random',
-            actionClient.getTetriminos(ROOM_ID, PIECE_POSITION, NUMBER),
+            actionClient.getTetriminosPayload(ROOM_ID, PIECE_POSITION, NUMBER),
         );
         client.on('tetriminos:get_random', payload => {
             expect(getTetriminosStub.args).to.deep.equal([['000000000000000000000001', 0, 1]]);
@@ -92,7 +92,7 @@ describe('socket/handlers/pieces/getTetriminos', function() {
         const NUMBER = 1;
         client.emit(
             'tetriminos:get_random',
-            actionClient.getTetriminos(ROOM_ID, PIECE_POSITION, NUMBER),
+            actionClient.getTetriminosPayload(ROOM_ID, PIECE_POSITION, NUMBER),
         );
         client.on('tetriminos:get_random', payload => {
             expect(getTetriminosStub.args).to.deep.equal([['000000000000000000000001', 0, 1]]);

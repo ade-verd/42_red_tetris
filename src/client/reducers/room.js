@@ -2,17 +2,15 @@
 
 import notify from '../actions/notifications';
 
-import { store } from '../index';
-
 const handleError = (state, error, errorFieldName) => {
-    console.error(`[${__filename} reducer][${errorFieldName}]`, error);
+    console.error(`[room reducer][${errorFieldName}]`, error);
     return {
         ...state,
         [errorFieldName]: error,
     };
 };
 
-const checkAndUpdatePlayersNames = (playerState, rooms, fnUpdatePlayers) => {
+const checkAndUpdatePlayersNames = (playerState, rooms, fnUpdatePlayers, dispatch) => {
     if (!rooms) return;
 
     let idsChecked = [];
@@ -30,7 +28,7 @@ const checkAndUpdatePlayersNames = (playerState, rooms, fnUpdatePlayers) => {
         });
 
         if (arePlayersMissing === true) {
-            fnUpdatePlayers(store.dispatch, room._id);
+            fnUpdatePlayers(dispatch, room._id);
             idsChecked = [...idsChecked, ...room.players_ids];
         }
     });
@@ -42,7 +40,12 @@ const handleUpdateActiveRooms = (state, action) => {
         return handleError(state, action.error, 'updateRoomsError');
     }
 
-    checkAndUpdatePlayersNames(state.players, action.rooms, action.fnUpdatePlayers);
+    checkAndUpdatePlayersNames(
+        state.players,
+        action.rooms,
+        action.fnUpdatePlayers,
+        action.dispatch,
+    );
     return {
         ...state,
         rooms: action.rooms,
@@ -69,7 +72,6 @@ const handleRoomJoined = (state, action) => {
 };
 
 const reducer = (state = {}, action) => {
-    console.log('[roomReducer] State', state);
     switch (action.type) {
         case 'UPDATE_ACTIVE_ROOMS':
             return handleUpdateActiveRooms(state, action);

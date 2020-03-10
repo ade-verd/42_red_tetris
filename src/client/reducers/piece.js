@@ -1,8 +1,7 @@
-import { FIELD_WIDTH } from '../helpers/fieldHelper';
+import { FIELD_WIDTH } from '../../constants';
 import { randomTetromino } from '../helpers/tetrominos';
 
 const reducer = (state = {}, action) => {
-    console.log('[pieceReducer] State = ', state);
     switch (action.type) {
         case 'start':
             console.log('STARTED PIECE REDUCER');

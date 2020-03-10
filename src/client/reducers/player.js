@@ -3,7 +3,7 @@
 import notify from '../actions/notifications';
 
 const handleError = (state, error, errorFieldName) => {
-    console.error(`[${__filename} reducer][${errorFieldName}]`, error);
+    console.error(`[player reducer][${errorFieldName}]`, error);
     return {
         ...state,
         [errorFieldName]: error,
@@ -49,8 +49,6 @@ const handleUpdatePlayersNames = (state, action) => {
 };
 
 const reducer = (state = {}, action) => {
-    console.log('[playerReducer] State', state);
-
     switch (action.type) {
         case 'PLAYER_CREATED':
             return handlePlayerCreated(state, action);

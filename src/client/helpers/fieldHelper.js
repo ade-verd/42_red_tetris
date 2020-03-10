@@ -1,12 +1,9 @@
-import { store } from '../index';
-
-export const FIELD_WIDTH = 10;
-export const FIELD_HEIGHT = 20;
+import { FIELD_HEIGHT, FIELD_WIDTH } from '../../constants';
 
 export const createField = () =>
     Array.from(Array(FIELD_HEIGHT), () => new Array(FIELD_WIDTH).fill([0, 'clear']));
 
-export const updateField = (prevField, piece) => {
+export const updateField = (dispatch, prevField, piece) => {
     // First flush the stage
     const newField = prevField.map(row =>
         row.map(cell => (cell[1] === 'clear' ? [0, 'clear'] : cell)),
@@ -24,7 +21,7 @@ export const updateField = (prevField, piece) => {
     });
     // Then check if we collided
     if (piece.collided) {
-        store.dispatch({ type: 'reset' });
+        dispatch({ type: 'reset' });
         return sweepRows(newStage);
     }
     return newField;

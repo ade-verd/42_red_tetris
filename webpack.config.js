@@ -7,8 +7,21 @@ module.exports = {
 
     output: {
         path: path.join(__dirname, 'build'),
-        filename: 'bundle.js',
-    },
+				filename: 'bundle.js',
+				publicPath: '/'
+		},
+		
+
+		devServer: {
+			historyApiFallback: true,
+		},
+
+    plugins: [
+        // define HTML variables
+        new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
+            ASSETS_PATH: '/assets',
+        }),
+    ],
 
     plugins: [
         // define HTML variables
