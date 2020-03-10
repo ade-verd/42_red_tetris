@@ -1,5 +1,4 @@
 const reducer = (state = {}, action) => {
-    console.log('[gameStatusReducer] State = ', state);
     switch (action.type) {
         case 'start':
             console.log('STARTED GAME STATUS REDUCER');

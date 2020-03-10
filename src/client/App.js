@@ -5,6 +5,8 @@ import Playground from './containers/Playground.container';
 import Rooms from './containers/Rooms.container';
 import Home from './containers/Home.container';
 
+import 'react-toastify/dist/ReactToastify.css';
+import './actions/notifications/notifications.css';
 import { configureNotificationContainer } from './actions/notifications';
 
 // const playing = 1

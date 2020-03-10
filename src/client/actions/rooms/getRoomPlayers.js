@@ -19,6 +19,7 @@ export const onGotRoomPlayers = dispatch => {
             dispatch({
                 action: ACTIONS.REDUCE,
                 type: 'UPDATE_ACTIVE_ROOMS',
+                dispatch,
                 rooms: payload.rooms,
                 fnUpdatePlayers: emitGetRoomPlayers,
                 error: payload.error,

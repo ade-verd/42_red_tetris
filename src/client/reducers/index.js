@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux';
+
 import alertReducer from './alert';
 import fieldReducer from './field';
 import gameStatusReducer from './gameStatus';
@@ -6,7 +8,7 @@ import playerReducer from './player';
 import roomReducer from './room';
 import userReducer from './user';
 
-export default {
+export default combineReducers({
     alt: alertReducer,
     fld: fieldReducer,
     gme: gameStatusReducer,
@@ -14,4 +16,4 @@ export default {
     play: playerReducer,
     rms: roomReducer,
     usr: userReducer,
-};
+});
