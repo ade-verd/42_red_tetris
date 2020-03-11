@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
-import CreateRoom from './CreateRoom';
-import DisplayRooms from './DisplayRooms';
+import CreateRoom from './CreateRoom/CreateRoom';
+import DisplayRooms from './DisplayRooms/DisplayRooms';
 
 import { store } from '../../index';
 

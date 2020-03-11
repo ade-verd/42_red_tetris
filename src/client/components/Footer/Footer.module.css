@@ -1,0 +1,33 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+    justify-content: start;
+    align-items: auto;
+    align-content: center;
+}
+
+.item {
+    flex: 0 0 auto;
+    margin: 1em;
+}
+
+.icon {
+    flex: 0 0 auto;
+    font-size: 1.66em;
+    color: #555559;
+}
+
+.author {
+    color: #555559;
+    text-decoration: none;
+}
+
+.icon:hover,
+.author:hover {
+    color: #fff;
+}
+
+.href:hover {
+    text-decoration: none;
+}

@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 
 import { store } from '../../index';
 
+import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
-import Rooms from '../../containers/Rooms.container';
 import Playground from '../../containers/Playground.container';
+import Rooms from '../../containers/Rooms.container';
 
 import css from './Lobby.module.css';
 
@@ -26,6 +27,7 @@ const Lobby = ({}) => {
         <div className={css.container}>
             <Header />
             {displayRoomsOrGame(userState)}
+            <Footer />
         </div>
     );
 };

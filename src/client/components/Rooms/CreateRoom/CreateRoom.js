@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import { store } from '../../index';
-import { emitCreateRoom } from '../../actions/rooms/createRoom';
+import { store } from '../../../index';
+import { emitCreateRoom } from '../../../actions/rooms/createRoom';
 
 import css from './CreateRoom.module.css';
 

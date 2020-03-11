@@ -5,10 +5,10 @@ import { library as fontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare, faMinusSquare } from '@fortawesome/free-solid-svg-icons';
 
-import { emitJoinRoom } from '../../actions/rooms/joinRoom';
-import { store } from '../../index';
+import { emitJoinRoom } from '../../../actions/rooms/joinRoom';
+import { store } from '../../../index';
 
-import { MAX_PLAYERS } from '../../../constants';
+import { MAX_PLAYERS } from '../../../../constants';
 import css from './DisplayRooms.module.css';
 
 const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
