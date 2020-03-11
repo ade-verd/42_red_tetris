@@ -60,3 +60,10 @@
 .btn-join {
     color: #fff !important;
 }
+.btn-full {
+    color: #fff !important;
+}
+.btn-full:hover {
+    color: #fff !important;
+    cursor: not-allowed;
+}

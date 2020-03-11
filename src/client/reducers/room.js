@@ -64,7 +64,7 @@ const handleRoomCreation = (state, action) => {
 
 const handleRoomJoined = (state, action) => {
     if (action.error !== undefined) {
-        notify({ type: 'error', msg: 'Error:\nImpossible to create the room' });
+        notify({ type: 'error', msg: action.error });
         return handleError(state, action.error, 'roomJoinedError');
     }
 
@@ -73,7 +73,7 @@ const handleRoomJoined = (state, action) => {
 
 const handleRoomLeft = (state, action) => {
     if (action.error !== undefined) {
-        notify({ type: 'error', msg: 'Error:\nImpossible to leave the room' });
+        notify({ type: 'error', msg: action.error });
         return handleError(state, action.error, 'roomLeftError');
     }
 

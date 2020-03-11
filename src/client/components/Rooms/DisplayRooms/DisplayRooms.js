@@ -15,6 +15,7 @@ const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
     if (!playersIds) return;
 
     const playersState = state.play.players;
+    const isRoomFull = playersIds.length >= MAX_PLAYERS;
 
     const formattedNames = playersIds.map(id => {
         const name = (playersState && playersState[id]) || `GUEST_${(Math.random() * 100) | 0}`;
@@ -31,11 +32,12 @@ const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
                 <div className={css['item-details']}>{formattedNames}</div>
                 <div className={css['item-details']}>
                     <Button
-                        className={css['btn-join']}
-                        variant="primary"
+                        disabled={isRoomFull ? true : false}
+                        className={isRoomFull ? css['btn-full'] : css['btn-join']}
+                        variant={isRoomFull ? 'warning' : 'primary'}
                         onClick={() => emitJoinRoom(store, roomId)}
                     >
-                        Join
+                        {isRoomFull ? 'Full' : 'Join'}
                     </Button>
                 </div>
             </div>
