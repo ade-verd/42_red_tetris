@@ -46,6 +46,7 @@
         "socket.io": "1.4.6",
         "socket.io-client": "2.3.0",
         "styled-components": "5.0.1",
+        "universal-cookie": "^4.0.3",
         "url-loader": "3.0.0"
     },
     "devDependencies": {

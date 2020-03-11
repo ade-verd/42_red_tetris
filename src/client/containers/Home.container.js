@@ -2,7 +2,11 @@ import { connect } from 'react-redux';
 
 import Home from '../components/Home/Home';
 
-import { emitCreatePlayer, onPlayerCreated } from '../actions/players/createPlayer';
+import {
+    emitCreatePlayer,
+    onPlayerCreated,
+    checkUserCookie,
+} from '../actions/players/createPlayer';
 
 const mapStateToProps = state => {
     console.debug('[Home][mapStateToProps] State', state);
@@ -11,6 +15,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        checkUserCookie,
         emitCreatePlayer,
         listen: () => {
             onPlayerCreated(dispatch);

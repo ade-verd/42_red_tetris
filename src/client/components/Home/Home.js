@@ -15,6 +15,7 @@ const displayCreatePlayerOrLobby = user => {
 const Home = ({ user, ...dispatchs }) => {
     useEffect(() => {
         dispatchs.listen();
+        dispatchs.checkUserCookie(store.dispatch);
     }, []);
 
     useEffect(() => {
