@@ -9,6 +9,8 @@ import { logOut } from '../../../actions/players/logOut';
 
 import { store } from '../../..';
 
+import css from './Logout.module.css';
+
 function MyVerticallyCenteredModal(props) {
     return (
         <Modal {...props} size="sm" aria-labelledby="contained-modal-title-vcenter" centered>
@@ -36,21 +38,24 @@ function MyVerticallyCenteredModal(props) {
     );
 }
 
-function Logout({ className }) {
+const Logout = ({ user }) => {
     fontAwesomeLibrary.add(faSignOutAlt);
 
     const [modalShow, setModalShow] = useState(false);
 
     return (
-        <span className={className}>
-            <FontAwesomeIcon
-                icon={['fas', 'sign-out-alt']}
-                title="Log out"
-                onClick={() => setModalShow(true)}
-            />
-            <MyVerticallyCenteredModal show={modalShow} onHide={() => setModalShow(false)} />
-        </span>
+        <div className={css['username-container']}>
+            <span className={css.username}>{user.name}</span>
+            <span className={css.logout}>
+                <FontAwesomeIcon
+                    icon={['fas', 'sign-out-alt']}
+                    title="Log out"
+                    onClick={() => setModalShow(true)}
+                />
+                <MyVerticallyCenteredModal show={modalShow} onHide={() => setModalShow(false)} />
+            </span>
+        </div>
     );
-}
+};
 
 export default Logout;

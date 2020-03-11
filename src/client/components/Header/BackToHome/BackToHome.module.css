@@ -1,0 +1,21 @@
+.container {
+    position: absolute;
+    left: 1em;
+    color: #fff;
+}
+
+.text {
+    padding-left: 0.5em;
+    vertical-align: middle;
+}
+
+.icon {
+    font-size: 2em;
+    color: #fff;
+    vertical-align: middle;
+}
+
+.container:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}

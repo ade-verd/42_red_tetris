@@ -64,11 +64,20 @@ const handleRoomCreation = (state, action) => {
 
 const handleRoomJoined = (state, action) => {
     if (action.error !== undefined) {
-        notify({ type: 'error', msg: 'Error:\nImpossible to create the room\n' + action.error });
+        notify({ type: 'error', msg: 'Error:\nImpossible to create the room' });
         return handleError(state, action.error, 'roomJoinedError');
     }
 
     return { ...state, roomJoinedError: null };
+};
+
+const handleRoomLeft = (state, action) => {
+    if (action.error !== undefined) {
+        notify({ type: 'error', msg: 'Error:\nImpossible to leave the room' });
+        return handleError(state, action.error, 'roomLeftError');
+    }
+
+    return { ...state, roomLeftError: null };
 };
 
 const reducer = (state = {}, action) => {
@@ -79,6 +88,8 @@ const reducer = (state = {}, action) => {
             return handleRoomCreation(state, action);
         case 'ROOM_JOINED':
             return handleRoomJoined(state, action);
+        case 'ROOM_LEFT':
+            return handleRoomLeft(state, action);
         default:
             return state;
     }

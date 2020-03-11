@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
+import BackToHome from './BackToHome/BackToHome';
 import Logout from './Logout/Logout';
 
 import css from './Header.module.css';
@@ -11,13 +12,11 @@ const Header = () => {
 
     return (
         <div className={css.container}>
+            <BackToHome store={store} user={user} />
             <div className={css.title}>
                 <span className={css.red}>RED</span>TETRIS
             </div>
-            <div className={css['username-container']}>
-                <span className={css.username}>{user.name}</span>
-                <Logout className={css.logout} />
-            </div>
+            <Logout user={user} />
         </div>
     );
 };

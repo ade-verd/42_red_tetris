@@ -28,6 +28,7 @@ const reducer = (state = {}, action) => {
     switch (action.type) {
         case 'PLAYER_CREATED':
             return handleUserUpdate(state, action);
+        case 'LEAVE_ROOM':
         case 'ROOM_JOINED':
         case 'ROOM_CREATED':
             return handleRoomUpdate(state, action);
