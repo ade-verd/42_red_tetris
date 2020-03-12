@@ -1,14 +1,16 @@
 .container {
     display: flex;
     flex-direction: column;
-    margin-top: 50vh;
-    transform: translateY(-100%);
-    color: #fff;
+    flex: 1 0 auto;
+    justify-content: center;
+    align-content: center;
     text-align: center;
+    color: #fff;
+    margin-top: -15vh;
 }
 
 .item {
-    flex: 1 0;
+    flex: 0 0;
     margin-bottom: 1em;
 }
 

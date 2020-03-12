@@ -39,6 +39,8 @@ function MyVerticallyCenteredModal(props) {
 }
 
 const Logout = ({ user }) => {
+    if (!user || !user.id) return null;
+
     fontAwesomeLibrary.add(faSignOutAlt);
 
     const [modalShow, setModalShow] = useState(false);
