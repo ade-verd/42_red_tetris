@@ -1,6 +1,9 @@
 import Cookies from 'universal-cookie';
 
+import config from '../../config';
+
 export const setUserCookie = (player, error) => {
+    if (config.cookies.user.isEnable === false) return;
     if (error) return;
 
     const { _id, name } = player;
