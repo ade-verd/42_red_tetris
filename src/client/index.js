@@ -24,7 +24,7 @@ export const store = createStore(
 ReactDom.render(
     <Provider store={store}>
         <BrowserRouter>
-            <App />
+            <App store={store} />
         </BrowserRouter>
     </Provider>,
     document.getElementById('tetris'),

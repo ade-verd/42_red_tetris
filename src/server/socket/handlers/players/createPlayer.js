@@ -14,14 +14,17 @@ const ON_EVENT = 'players:create';
 const EMIT_EVENT = 'players:created';
 const FUNCTION_NAME = '[createPlayer]';
 
-const _createNewPlayer = async (socket, payload) => {
+export const createNewPlayer = async (socket, payload) => {
     try {
         const newPlayer = await new Player({ name: payload.name });
-        socket.emit(EMIT_EVENT, { payload, player: await newPlayer.find() });
+        const player = await newPlayer.find();
+        socket.emit(EMIT_EVENT, { payload, player });
+        return player;
     } catch (err) {
         socket.emit(EMIT_EVENT, { payload, error: err.toString() });
         console.error(FUNCTION_NAME, { payload, err });
     }
+    return null;
 };
 
 export const createPlayer = helpers.createEvent(
@@ -29,6 +32,6 @@ export const createPlayer = helpers.createEvent(
     EMIT_EVENT,
     schema,
     async (socket, payload) => {
-        await _createNewPlayer(socket, payload);
+        await createNewPlayer(socket, payload);
     },
 );
