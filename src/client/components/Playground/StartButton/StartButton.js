@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyledStartButton } from './styles/StyledStartButton';
+import { StyledStartButton } from './StartButton.style';
 
-import { store } from '../../index';
+import { store } from '../../../index';
 
 const StartButton = ({ callback }) => {
     const userState = store.getState().usr;

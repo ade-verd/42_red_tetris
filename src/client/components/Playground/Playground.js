@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 
-import Field from './Field';
-import StartButton from './StartButton';
-import Display from './Display';
+import Field from './Field/Field';
+import StartButton from './StartButton/StartButton';
+import Display from './Display/Display';
 
-import { StyledPlaygroundWrapper, StyledPlayground } from './styles/StyledPlayground';
+import { StyledPlaygroundWrapper, StyledPlayground } from './Playground.style';
 
 import { store } from '../../index';
 

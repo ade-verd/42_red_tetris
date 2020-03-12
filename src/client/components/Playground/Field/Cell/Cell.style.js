@@ -2,12 +2,12 @@ import styled from 'styled-components';
 
 const margin = 0.5;
 const tetriminoBorder = 4;
-const cellSize = 35; // manually chosen
+const cellSize = 4; // manually chosen
 
 export const StyledCell = styled.div`
     flex: 1 1 auto;
-    height: ${cellSize + 'px'};
-    width: ${cellSize + 'px'};
+    height: ${cellSize + 'vh'};
+    width: ${cellSize + 'vh'};
     background: rgba(${props => props.color}, 0.8);
     margin: ${margin + 'px'};
     border: ${props => (props.type === 0 ? '0px solid' : tetriminoBorder + 'px solid')};
