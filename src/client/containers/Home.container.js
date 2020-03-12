@@ -2,6 +2,8 @@ import { connect } from 'react-redux';
 
 import Home from '../components/Home/Home';
 
+import { store } from '../index';
+
 import {
     emitCreatePlayer,
     onPlayerCreated,
@@ -18,7 +20,7 @@ const mapDispatchToProps = dispatch => {
         checkUserCookie,
         emitCreatePlayer,
         listen: () => {
-            onPlayerCreated(dispatch);
+            onPlayerCreated(store);
         },
     };
 };

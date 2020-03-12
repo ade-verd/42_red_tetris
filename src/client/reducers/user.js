@@ -24,6 +24,13 @@ const handleRoomUpdate = (state, action) => {
     };
 };
 
+const handleUserCookieSettings = (state, action) => {
+    return {
+        ...state,
+        isUserCookieEnable: action.isUserCookieEnable === true,
+    };
+};
+
 const reducer = (state = {}, action) => {
     switch (action.type) {
         case 'PLAYER_CREATED':
@@ -34,6 +41,8 @@ const reducer = (state = {}, action) => {
             return handleRoomUpdate(state, action);
         case 'USER_LOGOUT':
             return handleUserLogOut(state);
+        case 'USER_COOKIE_SETTINGS':
+            return handleUserCookieSettings(state, action);
         default:
             return state;
     }

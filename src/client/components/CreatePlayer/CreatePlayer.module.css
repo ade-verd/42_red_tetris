@@ -1,10 +1,25 @@
 .container {
+    display: flex;
+    flex-direction: column;
     margin-top: 50vh;
     transform: translateY(-100%);
     color: #fff;
     text-align: center;
 }
 
-.fa {
-    color: #555559;
+.item {
+    flex: 1 0;
+    margin-bottom: 1em;
+}
+
+.input {
+    margin-top: 0.25em;
+}
+
+.grey {
+    color: #555559 !important;
+}
+
+.white {
+    color: #fff !important ;
 }

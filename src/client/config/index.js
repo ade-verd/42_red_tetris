@@ -6,9 +6,4 @@ module.exports = {
             return 'http://' + this.host + ':' + this.port;
         },
     },
-    cookies: {
-        user: {
-            isEnable: process.env.IS_USER_COOKIES_ENABLE || true,
-        },
-    },
 };

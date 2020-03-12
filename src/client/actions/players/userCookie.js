@@ -1,9 +1,9 @@
 import Cookies from 'universal-cookie';
 
-import config from '../../config';
+import { ACTIONS } from '../../middleware/handleSocket';
 
-export const setUserCookie = (player, error) => {
-    if (config.cookies.user.isEnable === false) return;
+export const setUserCookie = (userState, player, error) => {
+    if (userState.isUserCookieEnable !== true) return;
     if (error) return;
 
     const { _id, name } = player;
@@ -11,7 +11,7 @@ export const setUserCookie = (player, error) => {
         const cookie = new Cookies();
 
         let date = new Date();
-        date.setTime(date.getTime() + 10 * 60 * 1000); // 10 minutes
+        date.setTime(date.getTime() + 60 * 60 * 1000); // 60 minutes
 
         const content = JSON.stringify({ _id, name });
         cookie.set('user', content, { path: '/', expires: date });
@@ -32,4 +32,12 @@ export const removeUserCookie = () => {
     const cookie = new Cookies();
     cookie.remove('user', { path: '/' });
     console.debug('[removeCookie]', 'removed');
+};
+
+export const setUserCookieSettings = (dispatch, isUserCookieEnable) => {
+    dispatch({
+        action: ACTIONS.REDUCE,
+        type: 'USER_COOKIE_SETTINGS',
+        isUserCookieEnable,
+    });
 };
