@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { ACTIONS } from '../../middleware/handleSocket';
 
 export const joinRoomPayload = (roomId, playerId) => ({
@@ -21,10 +23,12 @@ export const onRoomJoined = dispatch => {
         action: ACTIONS.LISTEN,
         event: 'rooms:joined',
         fn: payload => {
+            console.log('AFF', payload);
             dispatch({
                 action: ACTIONS.REDUCE,
                 type: 'ROOM_JOINED',
-                roomId: payload.payload.room_id,
+                roomId: _.get(payload, 'payload.room_id'),
+                roomName: _.get(payload, 'update.value.room_name'),
                 error: payload.error,
             });
         },

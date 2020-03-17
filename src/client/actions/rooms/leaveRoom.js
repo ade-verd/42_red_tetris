@@ -17,6 +17,7 @@ export const emitLeaveRoom = store => {
         action: ACTIONS.REDUCE,
         type: 'LEAVE_ROOM',
         roomId: null,
+        roomName: null,
     });
 };
 

@@ -21,6 +21,7 @@ const handleRoomUpdate = (state, action) => {
     return {
         ...state,
         roomId: action.error ? null : action.roomId,
+        roomName: action.error ? null : action.roomName,
     };
 };
 

@@ -38,7 +38,9 @@ describe('socket/handlers/rooms/joinRoom', function() {
         const ROOM_ID = '000000000000000000000001';
         const PLAYER_ID = '00000000000000000000000a';
         const joinStub = sandbox.stub(roomInOut, 'join').resolves({
-            result: { n: 1, nModified: 1, ok: 1 },
+            n: 1,
+            nModified: 1,
+            ok: 1,
         });
 
         const client = io.connect(socketUrl, options);

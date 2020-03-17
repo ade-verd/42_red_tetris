@@ -4,7 +4,6 @@ import { StyledField, Row } from './Field.style';
 import Cell from './Cell/Cell';
 
 const buildField = field => {
-    console.log('FFF', field);
     return field.map(row => (
         <Row>
             {row.map((cell, x) => (
