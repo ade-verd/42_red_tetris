@@ -18,8 +18,8 @@ const Lobby = ({}) => {
     const userState = store.getState().usr;
 
     useEffect(() => {
-        console.log('[Loby] Rendering');
-    }, [userState.roomId]);
+        console.log('[Lobby] Rendering');
+    });
 
     return <div className={css.container}>{displayRoomsOrGame(userState)}</div>;
 };

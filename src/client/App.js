@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { HashRouter, Route, Switch, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Route, useLocation } from 'react-router-dom';
 
-import Playground from './containers/Playground.container';
-import Rooms from './containers/Rooms.container';
 import Home from './containers/Home.container';
 
 import { handleHashRoute } from './actions/common/hashRoute';
@@ -16,7 +14,7 @@ configureNotificationContainer();
 const App = ({ store }) => {
     const location = useLocation();
 
-    React.useEffect(() => {
+    useEffect(() => {
         handleHashRoute(store, location.hash);
     }, [location.hash]);
 

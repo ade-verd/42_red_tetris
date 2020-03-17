@@ -10,11 +10,8 @@ const handleUserUpdate = (state, action) => {
 };
 
 const handleUserLogOut = state => {
-    const player = {
-        _id: null,
-        name: null,
-    };
-    return handleUserUpdate(state, { player });
+    const stateUpdated = handleRoomUpdate(state, { roomId: null, roomName: null });
+    return handleUserUpdate(stateUpdated, { player: { _id: null, name: null } });
 };
 
 const handleRoomUpdate = (state, action) => {
