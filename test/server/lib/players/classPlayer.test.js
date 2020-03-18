@@ -22,9 +22,9 @@ describe('lib/players/classPlayer', () => {
                 .stub(playersLib, 'insertOne')
                 .resolves(fixtures.insertedPlayer());
 
-            const player = await new Player({ name: 'Waldo' });
+            const player = await new Player({ socketId: '0000000004', name: 'Waldo' });
 
-            expect(insertStub.args).to.deep.equal([[{ name: 'Waldo' }]]);
+            expect(insertStub.args).to.deep.equal([[{ socket_id: '0000000004', name: 'Waldo' }]]);
             expect(player.id).to.equal('00000000000000000000000d');
         });
 
@@ -49,10 +49,10 @@ describe('lib/players/classPlayer', () => {
                 .stub(playersLib, 'findOneById')
                 .resolves(fixtures.insertedPlayer());
 
-            const player = await new Player({ name: 'Waldo' });
+            const player = await new Player({ socketId: '0000000004', name: 'Waldo' });
             const foundPlayer = await player.find();
 
-            expect(insertStub.args).to.deep.equal([[{ name: 'Waldo' }]]);
+            expect(insertStub.args).to.deep.equal([[{ socket_id: '0000000004', name: 'Waldo' }]]);
             expect(findStub.args).to.deep.equal([['00000000000000000000000d', undefined]]);
             expect(foundPlayer).to.deep.equal({
                 _id: new ObjectId('00000000000000000000000d'),
@@ -72,10 +72,10 @@ describe('lib/players/classPlayer', () => {
                 .resolves(fixtures.insertedPlayer());
             const updateStub = sandbox.stub(playersLib, 'updateOne').resolves({ modifiedCount: 1 });
 
-            const player = await new Player({ name: 'Waldo' });
+            const player = await new Player({ socketId: '0000000004', name: 'Waldo' });
             const updateResult = await player.update({ blocks_consumed: 1 });
 
-            expect(insertStub.args).to.deep.equal([[{ name: 'Waldo' }]]);
+            expect(insertStub.args).to.deep.equal([[{ socket_id: '0000000004', name: 'Waldo' }]]);
             expect(updateStub.args).to.deep.equal([
                 ['00000000000000000000000d', { blocks_consumed: 1 }],
             ]);

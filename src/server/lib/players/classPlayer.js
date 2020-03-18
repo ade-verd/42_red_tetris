@@ -3,13 +3,13 @@
 const playersLib = require('../../models/players');
 
 class asyncPlayer {
-    constructor({ name, playerId = null }) {
+    constructor({ socketId, name, playerId = null }) {
         if (playerId) {
             this.id = playerId;
             return this;
         }
         return (async () => {
-            const insertedPlayer = await playersLib.insertOne({ name });
+            const insertedPlayer = await playersLib.insertOne({ socket_id: socketId, name });
             this.id = insertedPlayer._id.toString();
             return this;
         })();

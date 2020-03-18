@@ -16,7 +16,7 @@ const FUNCTION_NAME = '[createPlayer]';
 
 export const createNewPlayer = async (socket, payload) => {
     try {
-        const newPlayer = await new Player({ name: payload.name });
+        const newPlayer = await new Player({ socketId: socket.client.id, name: payload.name });
         const player = await newPlayer.find();
         socket.emit(EMIT_EVENT, { payload, player });
         return player;

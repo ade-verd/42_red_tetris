@@ -49,7 +49,7 @@ describe('socket/handlers/players/createPlayer', function() {
 
         client.emit('players:create', actionClient.createPlayerPayload('Waldo'));
         client.on('players:created', payload => {
-            expect(insertStub.args).to.deep.equal([[{ name: 'Waldo' }]]);
+            expect(insertStub.args).to.deep.equal([[{ socket_id: client.id, name: 'Waldo' }]]);
             expect(findStub.args).to.deep.equal([['00000000000000000000000d', undefined]]);
             expect(payload).to.deep.equal({
                 payload: { name: 'Waldo' },
@@ -76,7 +76,7 @@ describe('socket/handlers/players/createPlayer', function() {
 
         client.emit('players:create', actionClient.createPlayerPayload('Waldo'));
         client.on('players:created', payload => {
-            expect(insertStub.args).to.deep.equal([[{ name: 'Waldo' }]]);
+            expect(insertStub.args).to.deep.equal([[{ socket_id: client.id, name: 'Waldo' }]]);
             expect(payload).to.deep.equal({
                 payload: {
                     name: 'Waldo',
