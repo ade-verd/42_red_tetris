@@ -10,6 +10,7 @@ const { COLLECTION, INDEXES } = require('./definition');
 
 function _validate(player) {
     const schema = Joi.object({
+        socket_id: Joi.string().required(),
         name: Joi.string().required(),
         blocks_consumed: Joi.number()
             .min(0)
@@ -36,7 +37,7 @@ function collection() {
  * @returns {void}
  */
 async function createIndexes() {
-    await collection().createIndex(INDEXES.KEYS, INDEXES.OPTIONS);
+    await collection().createIndexes(INDEXES);
     console.log('[players] collection and indexes created');
 }
 
@@ -56,12 +57,24 @@ function find(query = {}, projection = {}) {
  * Returns a player found with its id
  *
  * @param {ObjectId} playerId   - identifier of the queried player
- * @param {Object} projections - optional projection of result fields
+ * @param {Object} projection - optional projection of result fields
  *
  * @returns {Object} The mongo document
  */
 function findOneById(playerId, projection = {}) {
     return collection().findOne({ _id: ObjectId.createFromHexString(playerId) }, { projection });
+}
+
+/**
+ * Returns a player found with its socket id
+ *
+ * @param {ObjectId} playerId   - identifier of the queried player
+ * @param {Object} projection - optional projection of result fields
+ *
+ * @returns {Object} The mongo document
+ */
+function findOneBySocketId(socketId, projection = {}) {
+    return collection().findOne({ socket_id: socketId }, { projection });
 }
 
 /**
@@ -99,6 +112,7 @@ module.exports = {
     createIndexes,
     find,
     findOneById,
+    findOneBySocketId,
     insertOne,
     updateOne,
 };

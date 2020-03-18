@@ -56,6 +56,7 @@ describe('lib/players/classPlayer', () => {
             expect(findStub.args).to.deep.equal([['00000000000000000000000d', undefined]]);
             expect(foundPlayer).to.deep.equal({
                 _id: new ObjectId('00000000000000000000000d'),
+                socket_id: '0000000004',
                 name: 'Waldo',
                 blocks_consumed: 0,
                 created_at: new Date('2020-01-01T10:00:00Z'),

@@ -42,6 +42,7 @@ describe('models/players', () => {
             expect(res).to.deep.equal([
                 {
                     _id: new ObjectId('00000000000000000000000a'),
+                    socket_id: '0000000001',
                     name: 'Will',
                     blocks_consumed: 0,
                     created_at: new Date('2020-01-01T10:00:00Z'),
@@ -49,6 +50,7 @@ describe('models/players', () => {
                 },
                 {
                     _id: new ObjectId('00000000000000000000000b'),
+                    socket_id: '0000000002',
                     name: 'Carlton',
                     blocks_consumed: 7,
                     created_at: new Date('2020-01-01T10:00:00Z'),
@@ -56,6 +58,7 @@ describe('models/players', () => {
                 },
                 {
                     _id: new ObjectId('00000000000000000000000c'),
+                    socket_id: '0000000003',
                     name: 'Jeffrey',
                     blocks_consumed: 15,
                     created_at: new Date('2020-01-01T10:00:00Z'),
@@ -71,6 +74,7 @@ describe('models/players', () => {
             expect(res).to.deep.equal([
                 {
                     _id: new ObjectId('00000000000000000000000a'),
+                    socket_id: '0000000001',
                     name: 'Will',
                     blocks_consumed: 0,
                     created_at: new Date('2020-01-01T10:00:00Z'),
@@ -97,6 +101,7 @@ describe('models/players', () => {
 
             expect(res).to.deep.equal({
                 _id: new ObjectId('00000000000000000000000a'),
+                socket_id: '0000000001',
                 name: 'Will',
                 blocks_consumed: 0,
                 created_at: new Date('2020-01-01T10:00:00Z'),
@@ -121,6 +126,42 @@ describe('models/players', () => {
         });
     });
 
+    describe('#findOneBySocketId()', () => {
+        beforeEach(async () => {
+            await playersModels.collection().insertMany(fixtures.default());
+        });
+
+        it('should find one player by its id', async () => {
+            const SOCKET_ID = '0000000001';
+            const res = await playersModels.findOneBySocketId(SOCKET_ID);
+
+            expect(res).to.deep.equal({
+                _id: new ObjectId('00000000000000000000000a'),
+                socket_id: '0000000001',
+                name: 'Will',
+                blocks_consumed: 0,
+                created_at: new Date('2020-01-01T10:00:00Z'),
+                updated_at: new Date('2020-01-01T10:00:00Z'),
+            });
+        });
+
+        it('should apply the projection', async () => {
+            const SOCKET_ID = '0000000001';
+            const res = await playersModels.findOneBySocketId(SOCKET_ID, { _id: 0, name: 1 });
+
+            expect(res).to.deep.equal({
+                name: 'Will',
+            });
+        });
+
+        it('should return null if no players is found', async () => {
+            const SOCKET_ID = 'ffffffffff';
+            const res = await playersModels.findOneBySocketId(SOCKET_ID);
+
+            expect(res).to.be.null;
+        });
+    });
+
     describe('#insertOne()', () => {
         beforeEach(async () => {
             await playersModels.collection().deleteMany({});
@@ -136,6 +177,7 @@ describe('models/players', () => {
 
             const expectedPlayer = {
                 _id: insertedPlayer._id,
+                socket_id: '0000000005',
                 name: 'Chandler',
                 blocks_consumed: 15,
                 created_at: new Date('2000-01-01T10:00:00Z'),
@@ -182,6 +224,7 @@ describe('models/players', () => {
 
             const expectedPlayer = {
                 _id: new ObjectId('00000000000000000000000a'),
+                socket_id: '0000000001',
                 name: 'Will',
                 blocks_consumed: 1,
                 created_at: new Date('2020-01-01T10:00:00Z'),

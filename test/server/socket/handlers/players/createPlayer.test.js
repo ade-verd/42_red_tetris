@@ -55,6 +55,7 @@ describe('socket/handlers/players/createPlayer', function() {
                 payload: { name: 'Waldo' },
                 player: {
                     _id: '00000000000000000000000d',
+                    socket_id: '0000000004',
                     name: 'Waldo',
                     blocks_consumed: 0,
                     created_at: '2020-01-01T10:00:00.000Z',
