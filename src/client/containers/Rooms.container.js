@@ -8,6 +8,8 @@ import { emitLeaveRoom, onRoomLeft } from '../actions/rooms/leaveRoom';
 import { emitGetRoomPlayers, onGotRoomPlayers } from '../actions/rooms/getRoomPlayers';
 import { emitGetActiveRooms, onGotActiveRooms } from '../actions/rooms/getActiveRooms';
 
+import { store } from '../index';
+
 const mapStateToProps = state => {
     console.debug('[Rooms][mapStateToProps] State', state);
     return { rooms: state.rms.rooms, players: state.play.players };
@@ -25,7 +27,7 @@ const mapDispatchToProps = dispatch => {
             onRoomJoined(dispatch);
             onRoomLeft(dispatch);
             onGotActiveRooms(dispatch);
-            onGotRoomPlayers(dispatch);
+            onGotRoomPlayers(store);
         },
     };
 };

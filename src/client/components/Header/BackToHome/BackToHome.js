@@ -14,15 +14,14 @@ function BackToHome({ store, user }) {
     if (!user || !user.roomId) return null;
 
     return (
-        <div className={css.container}>
+        <div
+            className={css.container}
+            onClick={() => {
+                emitLeaveRoom(store);
+            }}
+        >
             <span className={css.icon}>
-                <FontAwesomeIcon
-                    icon={['fas', 'home']}
-                    title="Home"
-                    onClick={() => {
-                        emitLeaveRoom(store);
-                    }}
-                />
+                <FontAwesomeIcon icon={['fas', 'home']} title="Home" />
             </span>
             <span className={css.text}>Home</span>
         </div>

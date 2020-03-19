@@ -52,7 +52,7 @@ const Row = props => {
     const className = props.isTitle
         ? [css['title-bar'], css['row-container']]
         : [css['room'], css['row-container']];
-    const roomId = props.roomId;
+    const roomId = props.roomId || 'title';
     const eventKey = `evt_${roomId}`;
     const collapsedIcon = accordionStatus[eventKey] ? 'minus-square' : 'plus-square';
     const nameValue = props.name || 'name';

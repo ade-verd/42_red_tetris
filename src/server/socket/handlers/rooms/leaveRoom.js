@@ -24,6 +24,7 @@ const _leaveExistingRoom = async (socket, payload) => {
             roomId: payload.room_id,
         });
         res = await room.leave(payload.player_id);
+        socket.leave(room.id);
         socket.emit(EMIT_EVENT, { payload, update: res.result });
         await getActiveRooms.emitActiveRooms(socket, {});
     } catch (err) {

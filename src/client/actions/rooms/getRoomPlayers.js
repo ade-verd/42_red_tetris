@@ -11,15 +11,15 @@ export const emitGetRoomPlayers = (dispatch, roomId) =>
         data: getRoomPlayersPayload(roomId),
     });
 
-export const onGotRoomPlayers = dispatch => {
-    dispatch({
+export const onGotRoomPlayers = store => {
+    store.dispatch({
         action: ACTIONS.LISTEN,
         event: 'rooms:got_active',
         fn: payload => {
-            dispatch({
+            store.dispatch({
                 action: ACTIONS.REDUCE,
                 type: 'UPDATE_ACTIVE_ROOMS',
-                dispatch,
+                store,
                 rooms: payload.rooms,
                 fnUpdatePlayers: emitGetRoomPlayers,
                 error: payload.error,
