@@ -1,2 +1,3 @@
 /* istanbul ignore file */
-export * from './createPlayer.js';
+export * from './createPlayer';
+export * from './updateSocketId';

@@ -10,7 +10,6 @@ export const disconnect = async (socket, socketRooms) => {
         const player = await playerModel.findOneBySocketId(socket.client.id);
         if (player) {
             const playerId = player._id.toString();
-            console.log('ROOMS', socketRooms);
             const rooms = socketRooms.filter(item => {
                 return item !== socket.client.id;
             });
