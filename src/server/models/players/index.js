@@ -73,7 +73,7 @@ function findOneById(playerId, projection = {}) {
  *
  * @returns {Object} The mongo document
  */
-function findOneBySocketId(socketId, projection = {}) {
+async function findOneBySocketId(socketId, projection = {}) {
     return collection().findOne({ socket_id: socketId }, { projection });
 }
 

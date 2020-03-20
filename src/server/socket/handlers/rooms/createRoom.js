@@ -5,6 +5,7 @@ const Joi = require('@hapi/joi');
 const helpers = require('../../eventHelpers');
 
 const Room = require('../../../lib/rooms/classRoom');
+const joinRoomSocket = require('../../lib/roomSocket/joinRoomSocket');
 const getActiveRooms = require('./getActiveRooms.js');
 
 const schema = {
@@ -22,7 +23,7 @@ export const createNewRoom = async (socket, payload) => {
             roomName: payload.room_name,
             roomCreaterId: payload.admin_id,
         });
-        socket.join(newRoom.id);
+        await joinRoomSocket.join(socket, newRoom.id);
         socket.emit(EMIT_EVENT, { room_id: newRoom.id, room_name: payload.room_name });
         await getActiveRooms.emitActiveRooms(socket, {});
     } catch (err) {

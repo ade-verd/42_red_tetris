@@ -16,7 +16,10 @@ const handlers = Object.values({
     ...serverTestHandler,
 });
 
+let ioInstance = null;
+
 export const initSocketIo = io => {
+    ioInstance = io;
     io.on('connection', socket => {
         console.log('Socket connected:', socket.id);
         io.emit('server/start');
@@ -25,3 +28,5 @@ export const initSocketIo = io => {
         });
     });
 };
+
+export const getIo = () => ioInstance;

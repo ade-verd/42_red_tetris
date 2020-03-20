@@ -5,6 +5,7 @@ const Joi = require('@hapi/joi');
 const helpers = require('../../eventHelpers');
 
 const Room = require('../../../lib/rooms/classRoom');
+const leaveRoomSocket = require('../../lib/roomSocket/leaveRoomSocket');
 const getActiveRooms = require('./getActiveRooms.js');
 
 const schema = {
@@ -24,7 +25,7 @@ const _leaveExistingRoom = async (socket, payload) => {
             roomId: payload.room_id,
         });
         res = await room.leave(payload.player_id);
-        socket.leave(room.id);
+        await leaveRoomSocket.leave(socket, room.id);
         socket.emit(EMIT_EVENT, { payload, update: res.result });
         await getActiveRooms.emitActiveRooms(socket, {});
     } catch (err) {

@@ -1,2 +1,3 @@
 /* istanbul ignore file */
-export * from './createPlayerAndRoom.js';
+export * from './createPlayerAndRoom';
+export * from './disconnect';
