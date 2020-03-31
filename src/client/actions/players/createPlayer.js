@@ -30,9 +30,10 @@ export const onPlayerCreated = store => {
     });
 };
 
-export const checkUserCookie = dispatch => {
-    const player = getUserCookie();
-    if (player && player._id && player.name) {
-        dispatchPlayerCreated(dispatch, { player });
+export const checkUserCookie = store => {
+    const cookie = getUserCookie();
+
+    if (cookie && cookie._id && cookie.name) {
+        dispatchPlayerCreated(store.dispatch, { player: cookie });
     }
 };

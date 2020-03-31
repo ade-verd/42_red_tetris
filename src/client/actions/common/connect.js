@@ -1,10 +1,14 @@
 import { ACTIONS } from '../../middleware/handleSocket';
+import { getUserCookie } from '../players/userCookie';
+import { checkSocketId } from '../players/updateSocketId';
 
 export const socketIoConnect = dispatch => {
     dispatch({ action: ACTIONS.CONNECT });
 };
 
 export const onSocketConnect = dispatch => {
+    const socket = dispatch({ action: ACTIONS.GET_SOCKET });
+
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'connect',
@@ -12,8 +16,11 @@ export const onSocketConnect = dispatch => {
             dispatch({
                 action: ACTIONS.REDUCE,
                 type: 'SAVE_SOCKET',
-                socket: dispatch({ action: ACTIONS.GET_SOCKET }),
+                socket,
             });
         },
     });
+
+    const cookie = getUserCookie();
+    checkSocketId(dispatch, socket, cookie);
 };

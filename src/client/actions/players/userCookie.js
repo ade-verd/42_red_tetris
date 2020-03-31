@@ -2,13 +2,25 @@ import Cookies from 'universal-cookie';
 
 import { ACTIONS } from '../../middleware/handleSocket';
 
+const _getUserInfo = (userState, player) => {
+    let userInfo;
+    if (player) {
+        userInfo = { ...player };
+    } else {
+        userInfo = { _id: userState.id, name: userState.name };
+    }
+    userInfo.socketId = userState.socketId;
+    return userInfo;
+};
+
 export const setUserCookie = (userState, player, error) => {
-    if (userState.isUserCookieEnable !== true) return;
+    console.log('[setCookie]', userState);
+    if (userState.isUserCookieEnable !== true && !getUserCookie()) return;
     if (error) return;
 
-    const { _id, name } = player;
-    const socketId = userState.socketId;
+    const { _id, name, socketId } = _getUserInfo(userState, player);
     if (_id && name) {
+        removeUserCookie();
         const cookie = new Cookies();
 
         let date = new Date();
