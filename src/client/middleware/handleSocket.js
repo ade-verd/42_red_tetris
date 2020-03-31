@@ -3,15 +3,18 @@ import openSocket from 'socket.io-client';
 import config from '../config';
 
 export const ACTIONS = {
-    EMIT: 'emit',
-    LISTEN: 'listen',
-    REDUCE: 'reduce',
     CONNECT: 'connect',
+    EMIT: 'emit',
+    GET_SOCKET: 'get_socket',
+    LISTEN: 'listen',
     QUIT: 'quit',
+    REDUCE: 'reduce',
 };
 
+let socket = null;
+
 export const handleSocket = () => {
-    const socket = openSocket(config.server.url);
+    socket = openSocket(config.server.url);
 
     return ({ getState }) => next => payload => {
         if (typeof payload === 'function') {
@@ -23,6 +26,9 @@ export const handleSocket = () => {
         console.debug('[handleSocket] State', state);
 
         switch (action) {
+            case ACTIONS.GET_SOCKET:
+                console.debug(`[handleSocket][getSocket]`);
+                return socket;
             case ACTIONS.EMIT:
                 console.debug(`[handleSocket][emit][${event}]`, data);
                 return socket.emit(event, { ...data });

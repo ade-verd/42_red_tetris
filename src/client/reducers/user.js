@@ -29,6 +29,13 @@ const handleUserCookieSettings = (state, action) => {
     };
 };
 
+const handleSaveSocket = (state, action) => {
+    return {
+        ...state,
+        socketId: action.socket.id,
+    };
+};
+
 const reducer = (state = {}, action) => {
     switch (action.type) {
         case 'PLAYER_CREATED':
@@ -41,6 +48,8 @@ const reducer = (state = {}, action) => {
             return handleUserLogOut(state);
         case 'USER_COOKIE_SETTINGS':
             return handleUserCookieSettings(state, action);
+        case 'SAVE_SOCKET':
+            return handleSaveSocket(state, action);
         default:
             return state;
     }

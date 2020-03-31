@@ -32,6 +32,7 @@ const Home = ({ user, ...dispatchs }) => {
     }, [userState, userState.name, userState.roomName]);
 
     useEffect(() => {
+        dispatchs.socketIoConnect(store.dispatch);
         dispatchs.listen();
         dispatchs.checkUserCookie(store.dispatch);
     }, []);
