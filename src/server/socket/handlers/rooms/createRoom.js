@@ -25,7 +25,7 @@ export const createNewRoom = async (socket, payload) => {
         });
         await joinRoomSocket.join(socket, newRoom.id);
         socket.emit(EMIT_EVENT, { room_id: newRoom.id, room_name: payload.room_name });
-        await getActiveRooms.emitActiveRooms(socket, {});
+        await getActiveRooms.emitActiveRooms();
     } catch (err) {
         socket.emit(EMIT_EVENT, { payload, error: err.toString() });
         console.error(FUNCTION_NAME, { payload, err });

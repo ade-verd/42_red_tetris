@@ -27,7 +27,7 @@ const _joinExistingRoom = async (socket, payload) => {
         res = await room.join(payload.player_id);
         await joinRoomSocket.join(socket, room.id);
         socket.emit(EMIT_EVENT, { payload, update: res });
-        await getActiveRooms.emitActiveRooms(socket, {});
+        await getActiveRooms.emitActiveRooms();
     } catch (err) {
         socket.emit(EMIT_EVENT, { payload, error: err.toString() });
         console.error(FUNCTION_NAME, { payload, err });
