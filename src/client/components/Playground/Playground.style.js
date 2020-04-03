@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const StyledPlaygroundWrapper = styled.div`
     display: flex;
     flex-direction: column;
+    flex: 1 0 auto;
     height: 100%;
     border: 2px solid #555559;
 `;
