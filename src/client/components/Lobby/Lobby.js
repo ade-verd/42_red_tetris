@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import { store } from '../../index';
 
+import ChatPanel from '../ChatPanel/ChatPanel';
 import Playground from '../../containers/Playground.container';
 import Rooms from '../../containers/Rooms.container';
 
@@ -21,7 +22,12 @@ const Lobby = ({}) => {
         console.log('[Lobby] Rendering');
     });
 
-    return <div className={css.container}>{displayRoomsOrGame(userState)}</div>;
+    return (
+        <div className={css.container}>
+            {displayRoomsOrGame(userState)}
+            <ChatPanel />
+        </div>
+    );
 };
 
 export default Lobby;
