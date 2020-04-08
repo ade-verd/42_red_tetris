@@ -7,6 +7,8 @@ import * as playersHandlers from './handlers/players';
 import * as roomsHandlers from './handlers/rooms';
 import * as serverTestHandler from './handlers/serverTest';
 
+import * as playerSocketLib from './lib/playersSocket/checkConnectedSocket';
+
 const handlers = Object.values({
     ...commonHandlers,
     ...gamesHandlers,
@@ -27,6 +29,11 @@ export const initSocketIo = io => {
             bindEvent(socket, handler);
         });
     });
+
+    setInterval(() => {
+        playerSocketLib.checkConnectedSocket(io);
+        roomsHandlers.emitActiveRooms();
+    }, 5000);
 };
 
 export const getIo = () => ioInstance;

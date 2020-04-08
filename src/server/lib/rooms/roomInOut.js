@@ -48,6 +48,7 @@ async function join(roomId, playerId, otherFields) {
 }
 
 async function leave(roomId, playerId) {
+    console.log('ROOM_ID', roomId);
     const result = await roomsLib.updateLeaveRoom(roomId, playerId);
     if (result.value === null) {
         throw new Error('the room has not been updated');
@@ -63,8 +64,13 @@ async function leave(roomId, playerId) {
     return result;
 }
 
+async function setOffline(roomId) {
+    return roomsLib.updateOne(roomId, { players_ids: [], game_status: GAME_STATUS.OFFLINE });
+}
+
 module.exports = {
     joinOrCreate,
     join,
     leave,
+    setOffline,
 };

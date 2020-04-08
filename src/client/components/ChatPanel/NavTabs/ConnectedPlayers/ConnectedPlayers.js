@@ -26,6 +26,9 @@ const getPlayers = room => {
     console.log();
     if (!room || !room.players_ids) return null;
 
+    const socket = store.dispatch({ action: 'get_socket' });
+    console.log('SOOOCKET', socket);
+
     return room.players_ids.map((playerId, i) => {
         const icon = i ? 'user' : 'user-cog';
         return (

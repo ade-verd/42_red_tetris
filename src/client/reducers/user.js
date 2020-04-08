@@ -1,5 +1,7 @@
 'use strict';
 
+import notify from '../actions/notifications';
+
 const handleUserUpdate = (state, action) => {
     return {
         ...state,
@@ -20,6 +22,17 @@ const handleRoomUpdate = (state, action) => {
         roomId: action.error ? null : action.roomId,
         roomName: action.error ? null : action.roomName,
     };
+};
+
+const handleUpdateActiveRooms = (state, action) => {
+    if (action.error !== undefined || !state.roomId || !action.rooms) return state;
+
+    const isRoomStillActive = rooms.some(room => room._id === state.roomId);
+
+    if (isRoomStillActive) return state;
+    const error = 'Error: the room has been disconnected';
+    notify({ type: 'error', msg: error });
+    return handleRoomUpdate(state, { error });
 };
 
 const handleUserCookieSettings = (state, action) => {
@@ -44,6 +57,8 @@ const reducer = (state = {}, action) => {
         case 'ROOM_JOINED':
         case 'ROOM_CREATED':
             return handleRoomUpdate(state, action);
+        case 'UPDATE_ACTIVE_ROOMS':
+            return handleUpdateActiveRooms(state, action);
         case 'USER_LOGOUT':
             return handleUserLogOut(state);
         case 'USER_COOKIE_SETTINGS':

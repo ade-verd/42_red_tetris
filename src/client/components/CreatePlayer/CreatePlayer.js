@@ -16,7 +16,7 @@ const CreatePlayer = ({}) => {
     fontAwesomeLibrary.add(faUserPlus);
 
     const [inputPlayer, setInputPlayer] = useState('');
-    const [rememberMeValue, setRememberMe] = useState(true);
+    const [rememberMeValue, setRememberMe] = useState(false);
 
     const replaceWideChars = event => {
         setInputPlayer(event.target.value.replace(/[^\w- ]/gi, ''));

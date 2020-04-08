@@ -33,6 +33,10 @@ class asyncRoom {
         return roomInOut.leave(this.id, playerId);
     };
 
+    offline = async () => {
+        return roomInOut.setOffline(this.id);
+    };
+
     getPlayersName = async () => {
         return roomPlayers.getPlayersNames(this.id);
     };
