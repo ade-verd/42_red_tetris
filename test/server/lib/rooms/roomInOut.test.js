@@ -6,6 +6,7 @@ const sinon = require('sinon');
 const Room = require('../../../../src/server/lib/rooms/classRoom.js');
 const roomInOut = require('../../../../src/server/lib/rooms/roomInOut.js');
 const roomsLib = require('../../../../src/server/models/rooms');
+const playersLib = require('../../../../src/server/models/players');
 const getPieces = require('../../../../src/server/lib/pieces/getPieces');
 
 const { GAME_STATUS, PIECES_NUMBER_AT_ROOM_CREATION } = require('../../../../src/constants');
@@ -27,6 +28,10 @@ describe('lib/rooms/roomInOut', () => {
             const insertStub = sandbox
                 .stub(roomsLib, 'insertOne')
                 .resolves(fixtures.insertedRoom());
+            const updatePlayerStub = sandbox.stub(playersLib, 'updateOne').resolves({
+                matchedCount: 1,
+                modifiedCount: 1,
+            });
 
             const room = await new Room({
                 roomName: 'room_1',
@@ -67,6 +72,9 @@ describe('lib/rooms/roomInOut', () => {
                 ],
             ]);
             expect(room.id).to.equal('000000000000000000000004');
+            expect(updatePlayerStub.args).to.deep.equal([
+                ['00000000000000000000000a', { room_id: '000000000000000000000004' }],
+            ]);
         });
 
         it('should join an existing "waiting" room', async () => {

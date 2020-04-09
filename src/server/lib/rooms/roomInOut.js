@@ -1,5 +1,6 @@
 'use strict';
 
+const Player = require('../players/classPlayer');
 const roomsLib = require('../../models/rooms');
 const getPiecesLib = require('../pieces/getPieces');
 
@@ -20,7 +21,9 @@ async function joinOrCreate(roomName, playerId) {
             blocks_list: blocksList,
             settings: {},
         };
-        return roomsLib.insertOne(roomToInsert);
+        const result = await roomsLib.insertOne(roomToInsert);
+        await updatePlayerRoom(result._id.toString(), playerId);
+        return result;
     }
 
     const setFields = {};
@@ -44,6 +47,8 @@ async function join(roomId, playerId, otherFields) {
     if (result.value === null) {
         throw new Error('the room has not been updated');
     }
+
+    await updatePlayerRoom(roomId, playerId);
     return result;
 }
 
@@ -61,11 +66,20 @@ async function leave(roomId, playerId) {
     if (playersIds.length === 0) {
         await roomsLib.updateOne(roomId, { game_status: GAME_STATUS.OFFLINE });
     }
+    await updatePlayerRoom(null, playerId);
+
     return result;
 }
 
 async function setOffline(roomId) {
     return roomsLib.updateOne(roomId, { players_ids: [], game_status: GAME_STATUS.OFFLINE });
+}
+
+async function updatePlayerRoom(roomId, playerId) {
+    const player = await new Player({ playerId }).update({ room_id: roomId });
+    if (player.modifiedCount === 0) {
+        throw new Error("the player's room has not been updated");
+    }
 }
 
 module.exports = {

@@ -10,6 +10,7 @@ import Room from '../../../lib/rooms/classRoom';
 
 export const checkConnectedSocket = async io => {
     const ioRooms = io.sockets.adapter.rooms;
+    console.log('[ioRooms]', ioRooms);
 
     const mongoRoomsCursor = await getActiveRooms.find();
     await mongoRoomsCursor.forEach(async mongoRoom => {

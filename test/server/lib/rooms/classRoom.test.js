@@ -7,6 +7,7 @@ const sinon = require('sinon');
 const Room = require('../../../../src/server/lib/rooms/classRoom');
 const roomInOut = require('../../../../src/server/lib/rooms/roomInOut');
 const roomsLib = require('../../../../src/server/models/rooms');
+const playersLib = require('../../../../src/server/models/players');
 
 const { GAME_STATUS, MAX_PLAYERS } = require('../../../../src/constants');
 const fixtures = require('../../../fixtures/rooms.fixtures.js');
@@ -92,6 +93,10 @@ describe('lib/rooms/classRoom', () => {
             const updateJoinStub = sandbox.stub(roomsLib, 'updateJoinRoom').resolves({
                 value: { ...fixtures.insertedRoom(), players_ids: expectedPlayersIds },
             });
+            const updatePlayerStub = sandbox.stub(playersLib, 'updateOne').resolves({
+                matchedCount: 1,
+                modifiedCount: 1,
+            });
 
             const room = await new Room({
                 roomId: '000000000000000000000004',
@@ -104,6 +109,9 @@ describe('lib/rooms/classRoom', () => {
             ]);
             expect(updateJoinStub.args).to.deep.equal([
                 ['000000000000000000000004', '00000000000000000000000b', undefined],
+            ]);
+            expect(updatePlayerStub.args).to.deep.equal([
+                ['00000000000000000000000b', { room_id: '000000000000000000000004' }],
             ]);
             expect(updateResult.value).to.deep.equal({
                 ...fixtures.insertedRoom(),
@@ -182,6 +190,10 @@ describe('lib/rooms/classRoom', () => {
                 .stub(roomsLib, 'findOneById')
                 .resolves(fixtures.insertedRoom());
             const updateStatusStub = sandbox.stub(roomsLib, 'updateOne');
+            const updatePlayerStub = sandbox.stub(playersLib, 'updateOne').resolves({
+                matchedCount: 1,
+                modifiedCount: 1,
+            });
 
             const room = await new Room({
                 roomId: '000000000000000000000004',
@@ -200,6 +212,9 @@ describe('lib/rooms/classRoom', () => {
                 ...fixtures.insertedRoom(),
                 players_ids: ['00000000000000000000000b'],
             });
+            expect(updatePlayerStub.args).to.deep.equal([
+                ['00000000000000000000000a', { room_id: null }],
+            ]);
         });
 
         it('should leave a room and set the game status to offline if there is no more players', async () => {
@@ -215,6 +230,10 @@ describe('lib/rooms/classRoom', () => {
             const updateStatusStub = sandbox
                 .stub(roomsLib, 'updateOne')
                 .resolves({ modifiedCount: 1 });
+            const updatePlayerStub = sandbox.stub(playersLib, 'updateOne').resolves({
+                matchedCount: 1,
+                modifiedCount: 1,
+            });
 
             const room = await new Room({
                 roomId: '000000000000000000000004',
@@ -235,6 +254,9 @@ describe('lib/rooms/classRoom', () => {
                 ...fixtures.insertedRoom(),
                 players_ids: [],
             });
+            expect(updatePlayerStub.args).to.deep.equal([
+                ['00000000000000000000000a', { room_id: null }],
+            ]);
         });
 
         it('should throw if there is no modification', async () => {

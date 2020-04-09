@@ -11,6 +11,9 @@ const { COLLECTION, INDEXES } = require('./definition');
 function _validate(player) {
     const schema = Joi.object({
         socket_id: Joi.string().required(),
+        room_id: Joi.string()
+            .allow(null)
+            .required(),
         name: Joi.string().required(),
         blocks_consumed: Joi.number()
             .min(0)

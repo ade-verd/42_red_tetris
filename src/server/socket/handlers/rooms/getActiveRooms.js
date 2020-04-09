@@ -5,7 +5,6 @@ const ioInstance = require('../../index');
 const helpers = require('../../eventHelpers');
 
 const roomsLib = require('../../../models/rooms');
-const playersSocket = require('../../lib/playersSocket/checkConnectedSocket');
 
 const { GAME_STATUS } = require('../../../../constants');
 
