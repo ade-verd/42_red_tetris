@@ -33,7 +33,7 @@ export const initSocketIo = io => {
     setInterval(() => {
         playerSocketLib.checkConnectedSocket(io);
         roomsHandlers.emitActiveRooms();
-    }, 5000);
+    }, 500000);
 };
 
 export const getIo = () => ioInstance;

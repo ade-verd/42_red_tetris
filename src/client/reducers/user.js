@@ -27,7 +27,7 @@ const handleRoomUpdate = (state, action) => {
 const handleUpdateActiveRooms = (state, action) => {
     if (action.error !== undefined || !state.roomId || !action.rooms) return state;
 
-    const isRoomStillActive = rooms.some(room => room._id === state.roomId);
+    const isRoomStillActive = action.rooms.some(room => room._id === state.roomId);
 
     if (isRoomStillActive) return state;
     const error = 'Error: the room has been disconnected';

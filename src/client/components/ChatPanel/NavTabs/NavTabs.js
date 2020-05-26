@@ -15,12 +15,13 @@ const lobbyTab = () => {
     );
 };
 
-const roomTab = (roomId, rooms) => {
-    if (!roomId) return null;
+const roomTab = userState => {
+    if (!userState || !userState.roomId) return null;
 
+    const roomName = userState.roomName ? `#${userState.roomName}` : 'My room';
     return (
-        <div eventKey="room" title="My room">
-            <ConnectedPlayers roomId={roomId} />
+        <div eventKey="room" title={roomName}>
+            <ConnectedPlayers roomId={userState.roomId} />
         </div>
     );
 };
@@ -43,7 +44,7 @@ const NavTabs = () => {
                 className={css.tabs}
             >
                 {lobbyTab()}
-                {roomTab(userState.roomId, rooms)}
+                {roomTab(userState, rooms)}
             </Tabs>
         </div>
     );

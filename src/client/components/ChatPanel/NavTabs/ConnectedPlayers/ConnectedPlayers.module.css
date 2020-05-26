@@ -1,33 +1,26 @@
 .container {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row-reverse;
+    flex-direction: column;
     justify-content: start;
-    align-items: auto;
-    align-content: center;
+    align-items: start;
+    align-content: auto;
 }
 
 .item {
-    flex: 0 0 auto;
-    margin: 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: start;
+    margin: 0.33em;
 }
 
 .icon {
-    flex: 0 0 auto;
+    flex: 0 0 2em;
     font-size: 1.66em;
-    color: #555559;
+    color: #95E773;
 }
 
-.author {
-    color: #555559;
-    text-decoration: none;
-}
-
-.icon:hover,
-.author:hover {
-    color: #fff;
-}
-
-.href:hover {
-    text-decoration: none;
+.name {
+    flex: 0 0 auto;
 }
