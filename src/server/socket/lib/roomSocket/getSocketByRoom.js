@@ -2,13 +2,23 @@
 
 import _ from 'lodash';
 
+import playersModel from '../../../models/players';
+
 export const getIoRoomSockets = (io, roomSocketId) => {
     const ioRooms = io.sockets.adapter.rooms;
-    if (roomSocketId) return _.get(ioRooms, [roomSocketId.toString(), sockets]);
-    return ioRooms;
+    return _.get(ioRooms, [roomSocketId.toString(), 'sockets'], {});
 };
 
 export const getIoRoomPlayersIds = async (io, roomSocketId) => {
-    const ioRoomSocket = getIoRoomSockets(io, roomSocketId);
-    console.log('GET_SOCKET_BY_ROOM', JSON.stringify(ioRoomSocket));
+    const playersIds = { players_ids: [] };
+
+    const roomSocketsIds = Object.keys(getIoRoomSockets(io, roomSocketId));
+    console.log('BBBB', roomSocketsIds);
+    if (roomSocketsIds.length) {
+        const playersCursor = await playersModel.findAllBySocketIds(roomSocketsIds, {});
+        await playersCursor.forEach(async player => {
+            playersIds.players_ids.push(player._id);
+        });
+    }
+    return playersIds;
 };

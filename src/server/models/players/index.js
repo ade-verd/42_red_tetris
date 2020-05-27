@@ -71,13 +71,25 @@ function findOneById(playerId, projection = {}) {
 /**
  * Returns a player found with its socket id
  *
- * @param {ObjectId} playerId   - identifier of the queried player
+ * @param {String} socketId - socket identifier of the queried player
  * @param {Object} projection - optional projection of result fields
  *
  * @returns {Object} The mongo document
  */
 async function findOneBySocketId(socketId, projection = {}) {
     return collection().findOne({ socket_id: socketId }, { projection });
+}
+
+/**
+ * Returns players found with their socket id
+ *
+ * @param {Array<String>} socketsIds - array of sockets identifier
+ * @param {Object} projection - optional projection of result fields
+ *
+ * @returns {Object} The mongo document
+ */
+async function findAllBySocketIds(socketsIds, projection = {}) {
+    return collection().find({ socket_id: { $in: socketsIds } }, { projection });
 }
 
 /**
@@ -116,6 +128,7 @@ module.exports = {
     find,
     findOneById,
     findOneBySocketId,
+    findAllBySocketIds,
     insertOne,
     updateOne,
 };

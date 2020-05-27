@@ -41,10 +41,13 @@ const handleUpdateActiveRooms = (state, action) => {
         return handleError(state, action.error, 'updateRoomsError');
     }
 
-    checkAndUpdatePlayersNames(action.store, action.rooms, action.fnUpdatePlayers);
+    const roomsAndLobby = [...action.rooms]; //, ...action.lobby];
+    console.log('AAAAAAAAA', action.rooms, action.lobby),
+        checkAndUpdatePlayersNames(action.store, roomsAndLobby, action.fnUpdatePlayers);
     return {
         ...state,
         rooms: action.rooms,
+        lobby: action.lobby,
         updateRoomsError: null,
     };
 };

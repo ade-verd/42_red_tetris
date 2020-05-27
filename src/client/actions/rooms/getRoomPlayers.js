@@ -21,6 +21,7 @@ export const onGotRoomPlayers = store => {
                 type: 'UPDATE_ACTIVE_ROOMS',
                 store,
                 rooms: payload.rooms,
+                lobby: payload.lobby,
                 fnUpdatePlayers: emitGetRoomPlayers,
                 error: payload.error,
             });

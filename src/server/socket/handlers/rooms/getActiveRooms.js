@@ -24,9 +24,13 @@ export const find = async () => {
 export const emitActiveRooms = async () => {
     const io = ioInstance.getIo();
     try {
-        await socketRoomLib.getIoRoomPlayersIds(io);
         const activeRoomsCursor = await find();
-        io.emit(EMIT_EVENT, { rooms: await activeRoomsCursor.toArray() });
+        const payload = {
+            rooms: await activeRoomsCursor.toArray(),
+            lobby: await socketRoomLib.getIoRoomPlayersIds(io, 'lobby'),
+        };
+        console.log('AAAAA', payload);
+        io.emit(EMIT_EVENT, payload);
     } catch (err) {
         io.emit(EMIT_EVENT, { error: err.toString() });
         console.error(FUNCTION_NAME, { err });
