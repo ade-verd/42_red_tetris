@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faUserCog } from '@fortawesome/free-solid-svg-icons';
 
 import { store } from '../../../../index';
+import { emitGetRoomPlayers } from '../../../../actions/rooms/getRoomPlayers';
 
 import css from './ConnectedPlayers.module.css';
 
@@ -54,6 +55,7 @@ const ConnectedPlayers = ({ roomId }) => {
     }, [roomId, rooms]);
 
     useEffect(() => {
+        emitGetRoomPlayers(store.dispatch, roomId);
         setPlayers(getPlayers(room));
         console.log('[connectedPlayers] render player', players);
     }, [room]);
