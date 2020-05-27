@@ -1,10 +1,20 @@
 'use strict';
 
+const leaveRoom = require('./leaveRoomSocket');
+
 const EMIT_EVENT = 'rooms:socket:joined';
 
 export const join = (socket, roomId) => {
+    const socketRooms = Object.keys(socket.rooms);
+    if (roomId !== 'lobby' && socketRooms.includes('lobby')) {
+        leaveRoom.leave(socket, 'lobby');
+    }
     socket.join(roomId, () => {
         socket.emit(EMIT_EVENT, { roomId });
-        console.log('JOIN', Object.keys(socket.rooms));
+        console.log(
+            'JOIN',
+            `The socket ${socket.client.id} joined the room ${roomId}`,
+            Object.keys(socket.rooms),
+        );
     });
 };

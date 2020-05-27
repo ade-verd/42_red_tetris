@@ -5,6 +5,7 @@ const ioInstance = require('../../index');
 const helpers = require('../../eventHelpers');
 
 const roomsLib = require('../../../models/rooms');
+const socketRoomLib = require('../../lib/roomSocket/getSocketByRoom');
 
 const { GAME_STATUS } = require('../../../../constants');
 
@@ -23,6 +24,7 @@ export const find = async () => {
 export const emitActiveRooms = async () => {
     const io = ioInstance.getIo();
     try {
+        await socketRoomLib.getIoRoomPlayersIds(io);
         const activeRoomsCursor = await find();
         io.emit(EMIT_EVENT, { rooms: await activeRoomsCursor.toArray() });
     } catch (err) {

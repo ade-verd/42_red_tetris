@@ -1,5 +1,7 @@
 'use strict';
 
+const { ObjectId } = require('mongodb');
+
 const Room = require('../../../lib/rooms/classRoom');
 const playerModel = require('../../../models/players/index');
 
@@ -13,11 +15,14 @@ export const disconnect = async (socket, socketRooms) => {
             const rooms = socketRooms.filter(item => {
                 return item !== socket.client.id;
             });
+            console.log('[DISCONNECT]', rooms);
             rooms.forEach(async roomId => {
-                const room = await new Room({ roomId });
-                const updatedRoom = await room.leave(playerId);
-                if (updatedRoom.value) {
-                    leaveRoomSocket.leave(socket, roomId);
+                if (ObjectId.isValid(roomId)) {
+                    const room = await new Room({ roomId });
+                    const updatedRoom = await room.leave(playerId);
+                    if (updatedRoom.value) {
+                        leaveRoomSocket.leave(socket, roomId);
+                    }
                 }
             });
         }

@@ -58,7 +58,7 @@ const ConnectedPlayers = ({ roomId }) => {
         emitGetRoomPlayers(store.dispatch, roomId);
         setPlayers(getPlayers(room));
         console.log('[connectedPlayers] render player', players);
-    }, [room]);
+    }, [room, rooms]);
 
     return <div className={css.container}>{players}</div>;
 };
