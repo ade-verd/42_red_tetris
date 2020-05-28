@@ -46,7 +46,6 @@ const handleUpdateActiveRooms = (state, action) => {
     }
 
     const roomsAndLobby = [...action.rooms, action.lobby];
-    console.log('AAAAAAAAA', roomsAndLobby);
     checkAndUpdatePlayersNames(action.store, roomsAndLobby, action);
     return {
         ...state,

@@ -10,7 +10,7 @@ import css from './NavTabs.module.css';
 const lobbyTab = () => {
     return (
         <div eventKey="lobby" title="Lobby">
-            Lobby
+            <ConnectedPlayers isLobby={true} />
         </div>
     );
 };
@@ -21,13 +21,12 @@ const roomTab = userState => {
     const roomName = userState.roomName ? `#${userState.roomName}` : 'My room';
     return (
         <div eventKey="room" title={roomName}>
-            <ConnectedPlayers roomId={userState.roomId} />
+            <ConnectedPlayers isLobby={false} roomId={userState.roomId} />
         </div>
     );
 };
 
 const NavTabs = () => {
-    const rooms = store.getState().rms.rooms;
     const userState = store.getState().usr;
 
     const [activeTab, setActiveTab] = useState('lobby');
@@ -44,7 +43,7 @@ const NavTabs = () => {
                 className={css.tabs}
             >
                 {lobbyTab()}
-                {roomTab(userState, rooms)}
+                {roomTab(userState)}
             </Tabs>
         </div>
     );

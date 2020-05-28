@@ -29,7 +29,6 @@ export const emitActiveRooms = async () => {
             rooms: await activeRoomsCursor.toArray(),
             lobby: await socketRoomLib.getIoRoomPlayersIds(io, 'lobby'),
         };
-        console.log('AAAAA', payload);
         io.emit(EMIT_EVENT, payload);
     } catch (err) {
         io.emit(EMIT_EVENT, { error: err.toString() });

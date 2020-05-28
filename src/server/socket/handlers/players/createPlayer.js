@@ -6,6 +6,7 @@ const helpers = require('../../eventHelpers');
 
 const Player = require('../../../lib/players/classPlayer');
 const joinRoomSocket = require('../../lib/roomSocket/joinRoomSocket');
+const getActiveRooms = require('../rooms/getActiveRooms');
 
 const schema = {
     name: Joi.string().required(),
@@ -21,6 +22,7 @@ export const createNewPlayer = async (socket, payload) => {
         const player = await newPlayer.find();
         await joinRoomSocket.join(socket, 'lobby');
         socket.emit(EMIT_EVENT, { payload, player });
+        await getActiveRooms.emitActiveRooms();
         return player;
     } catch (err) {
         socket.emit(EMIT_EVENT, { payload, error: err.toString() });

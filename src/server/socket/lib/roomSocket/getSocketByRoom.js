@@ -13,7 +13,6 @@ export const getIoRoomPlayersIds = async (io, roomSocketId) => {
     const playersIds = { players_ids: [] };
 
     const roomSocketsIds = Object.keys(getIoRoomSockets(io, roomSocketId));
-    console.log('BBBB', roomSocketsIds);
     if (roomSocketsIds.length) {
         const playersCursor = await playersModel.findAllBySocketIds(roomSocketsIds, {});
         await playersCursor.forEach(async player => {
