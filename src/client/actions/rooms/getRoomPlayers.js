@@ -1,5 +1,7 @@
 import { ACTIONS } from '../../middleware/handleSocket';
 
+import { emitGetPlayer } from '../players/getPlayer';
+
 export const getRoomPlayersPayload = roomId => ({
     room_id: roomId,
 });
@@ -22,6 +24,7 @@ export const onGotRoomPlayers = store => {
                 store,
                 rooms: payload.rooms,
                 lobby: payload.lobby,
+                fnUpdateOnePlayer: emitGetPlayer,
                 fnUpdatePlayers: emitGetRoomPlayers,
                 error: payload.error,
             });

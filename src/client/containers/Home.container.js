@@ -9,6 +9,7 @@ import {
     onPlayerCreated,
     checkUserCookie,
 } from '../actions/players/createPlayer';
+import { onGotPlayer } from '../actions/players/getPlayer';
 import { socketIoConnect, onSocketConnect } from '../actions/common/connect';
 
 const mapStateToProps = state => {
@@ -22,6 +23,7 @@ const mapDispatchToProps = dispatch => {
         emitCreatePlayer,
         socketIoConnect,
         listen: () => {
+            onGotPlayer(store);
             onPlayerCreated(store);
             onSocketConnect(dispatch);
         },

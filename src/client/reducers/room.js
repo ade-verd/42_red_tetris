@@ -10,7 +10,7 @@ const handleError = (state, error, errorFieldName) => {
     };
 };
 
-const checkAndUpdatePlayersNames = (store, rooms, fnUpdatePlayers) => {
+const checkAndUpdatePlayersNames = (store, rooms, action) => {
     if (!rooms) return;
 
     let idsChecked = [];
@@ -23,13 +23,17 @@ const checkAndUpdatePlayersNames = (store, rooms, fnUpdatePlayers) => {
             const isInState = playerState && playerState[playerId];
 
             if (!isAlreadyChecked && !isInState) {
-                arePlayersMissing = true;
-                return;
+                if (room._id) {
+                    arePlayersMissing = true;
+                    return;
+                }
+                action.fnUpdateOnePlayer(store.dispatch, playerId);
+                idsChecked = [...idsChecked, playerId];
             }
         });
 
         if (arePlayersMissing === true) {
-            fnUpdatePlayers(store.dispatch, room._id);
+            action.fnUpdatePlayers(store.dispatch, room._id);
             idsChecked = [...idsChecked, ...room.players_ids];
         }
     });
@@ -41,9 +45,9 @@ const handleUpdateActiveRooms = (state, action) => {
         return handleError(state, action.error, 'updateRoomsError');
     }
 
-    const roomsAndLobby = [...action.rooms]; //, ...action.lobby];
-    console.log('AAAAAAAAA', action.rooms, action.lobby),
-        checkAndUpdatePlayersNames(action.store, roomsAndLobby, action.fnUpdatePlayers);
+    const roomsAndLobby = [...action.rooms, action.lobby];
+    console.log('AAAAAAAAA', roomsAndLobby);
+    checkAndUpdatePlayersNames(action.store, roomsAndLobby, action);
     return {
         ...state,
         rooms: action.rooms,
