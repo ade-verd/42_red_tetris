@@ -54,7 +54,7 @@ const ConnectedPlayers = ({ isLobby, roomId }) => {
 
     useEffect(() => {
         setRoom(isLobby ? lobby : getRoom(roomId, rooms));
-    }, []);
+    }, [roomId, rooms, lobby]);
 
     useEffect(() => {
         // emitGetActiveRooms(store.dispatch);
