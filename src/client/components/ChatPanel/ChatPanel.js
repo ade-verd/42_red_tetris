@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { store } from '../../index';
 
-import NavTabs from './NavTabs/NavTabs';
+import Channels from './Channels/Channels';
 
 import css from './ChatPanel.module.css';
 
@@ -13,7 +13,7 @@ const ChatPanel = ({ roomsState }) => {
 
     return (
         <div className={css['container']}>
-            <NavTabs roomsState={roomsState} />
+            <Channels roomsState={roomsState} />
         </div>
     );
 };

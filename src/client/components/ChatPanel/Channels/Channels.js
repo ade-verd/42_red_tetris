@@ -5,7 +5,7 @@ import { store } from '../../../index';
 
 import ConnectedPlayers from './ConnectedPlayers/ConnectedPlayers';
 
-import css from './NavTabs.module.css';
+import css from './Channels.module.css';
 
 const lobbyTab = lobby => {
     return (
@@ -26,7 +26,7 @@ const roomTab = (userState, rooms) => {
     );
 };
 
-const NavTabs = ({ roomsState }) => {
+const Channels = ({ roomsState }) => {
     const userState = store.getState().usr;
 
     const [activeTab, setActiveTab] = useState('lobby');
@@ -39,6 +39,7 @@ const NavTabs = ({ roomsState }) => {
             <Tabs
                 id="chat-panel"
                 activeKey={activeTab}
+                w
                 onSelect={tab => setActiveTab(tab)}
                 className={css.tabs}
             >
@@ -49,4 +50,4 @@ const NavTabs = ({ roomsState }) => {
     );
 };
 
-export default NavTabs;
+export default Channels;
