@@ -52,6 +52,7 @@ const handleUpdateActiveRooms = (state, action) => {
         rooms: action.rooms,
         lobby: action.lobby,
         updateRoomsError: null,
+        updatedAt: Date.now(),
     };
 };
 

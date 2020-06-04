@@ -6,14 +6,14 @@ import NavTabs from './NavTabs/NavTabs';
 
 import css from './ChatPanel.module.css';
 
-const ChatPanel = () => {
+const ChatPanel = ({ roomsState }) => {
     useEffect(() => {
         console.debug('[ChatPanel] rendering');
     });
 
     return (
         <div className={css['container']}>
-            <NavTabs />
+            <NavTabs roomsState={roomsState} />
         </div>
     );
 };

@@ -23,4 +23,7 @@ module.exports = {
             },
         },
     },
+    rooms: {
+        refreshIntervalMs: parseInt(process.env.ROOMS_REFRESH_INTERVAL_MS, 10) || 500000,
+    },
 };

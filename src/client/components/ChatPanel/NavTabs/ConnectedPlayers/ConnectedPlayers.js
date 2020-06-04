@@ -5,15 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faUserCog } from '@fortawesome/free-solid-svg-icons';
 
 import { store } from '../../../../index';
-import { emitGetActiveRooms } from '../../../../actions/rooms/getActiveRooms';
 
 import css from './ConnectedPlayers.module.css';
 
-const getRoom = (roomId, rooms) => {
-    if (!rooms) return;
+const getRoomOrLobby = (roomsState, roomId) => {
+    if (!roomsState) return;
 
     let currentRoom;
-    rooms.some(room => {
+    roomsState.some(room => {
         if (room._id === roomId) {
             currentRoom = room;
             return true;
@@ -22,13 +21,11 @@ const getRoom = (roomId, rooms) => {
     return currentRoom;
 };
 
-const getPlayers = room => {
+const getPlayers = (isLobby, room) => {
     if (!room || !room.players_ids) return null;
 
     const playersState = store.getState().play;
-    const isLobby = !room._id;
 
-    console.log('[connectedPlayers] players', room.players_ids);
     return room.players_ids.map((playerId, i) => {
         const icon = isLobby || i > 0 ? 'user' : 'user-cog';
         const playerName = _.get(playersState, ['players', playerId]);
@@ -43,25 +40,26 @@ const getPlayers = room => {
     });
 };
 
-const ConnectedPlayers = ({ isLobby, roomId }) => {
+const ConnectedPlayers = ({ isLobby, roomId, lobby, rooms }) => {
     fontAwesomeLibrary.add(faUser, faUserCog);
 
-    const rooms = store.getState().rms.rooms;
-    const lobby = store.getState().rms.lobby;
+    const [lobbyUsers, setLobbyUsers] = useState();
+    const [roomPlayers, setRoomPlayers] = useState();
 
-    const [room, setRoom] = useState();
-    const [players, setPlayers] = useState();
+    if (isLobby) {
+        useEffect(() => {
+            setLobbyUsers(getPlayers(isLobby, lobby));
+            console.log('[ConnectedPlayers] rendering lobby panel');
+        }, [lobby]);
+    } else {
+        useEffect(() => {
+            const room = getRoomOrLobby(rooms, roomId);
+            setRoomPlayers(getPlayers(isLobby, room));
+            console.log('[ConnectedPlayers] rendering room panel');
+        }, [roomId, rooms]);
+    }
 
-    useEffect(() => {
-        setRoom(isLobby ? lobby : getRoom(roomId, rooms));
-    }, [roomId, rooms, lobby]);
-
-    useEffect(() => {
-        // emitGetActiveRooms(store.dispatch);
-        setPlayers(getPlayers(room));
-    }, [room, rooms, lobby]);
-
-    return <div className={css.container}>{players}</div>;
+    return <div className={css.container}>{isLobby ? lobbyUsers : roomPlayers}</div>;
 };
 
 export default ConnectedPlayers;

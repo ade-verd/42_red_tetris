@@ -14,7 +14,7 @@ import { socketIoConnect, onSocketConnect } from '../actions/common/connect';
 
 const mapStateToProps = state => {
     console.debug('[Home][mapStateToProps] State', state);
-    return { players: state.play.players, user: state.usr };
+    return { players: state.play.players, user: state.usr, rooms: state.rms };
 };
 
 const mapDispatchToProps = dispatch => {

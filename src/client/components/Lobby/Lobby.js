@@ -15,7 +15,7 @@ const displayRoomsOrGame = userState => {
     return <Rooms />;
 };
 
-const Lobby = ({}) => {
+const Lobby = ({ roomsState }) => {
     const userState = store.getState().usr;
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const Lobby = ({}) => {
     return (
         <div className={css.container}>
             {displayRoomsOrGame(userState)}
-            <ChatPanel />
+            <ChatPanel roomsState={roomsState} />
         </div>
     );
 };

@@ -10,14 +10,14 @@ import Header from '../Header/Header';
 
 import css from './Home.module.css';
 
-const displayCreatePlayerOrLobby = user => {
+const displayCreatePlayerOrLobby = (user, rooms) => {
     if (!user || !user.id) {
         return <CreatePlayer />;
     }
-    return <Lobby />;
+    return <Lobby roomsState={rooms} />;
 };
 
-const Home = ({ user, ...dispatchs }) => {
+const Home = ({ user, rooms, ...dispatchs }) => {
     let history = useHistory();
     const userState = store.getState().usr;
 
@@ -39,12 +39,12 @@ const Home = ({ user, ...dispatchs }) => {
 
     useEffect(() => {
         console.log('[Home] Rendering');
-    }, [user.id]);
+    });
 
     return (
         <div className={css.container}>
             <Header />
-            {displayCreatePlayerOrLobby(user)}
+            {displayCreatePlayerOrLobby(user, rooms)}
             <Footer />
         </div>
     );

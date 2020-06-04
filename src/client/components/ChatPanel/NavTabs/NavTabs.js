@@ -7,26 +7,26 @@ import ConnectedPlayers from './ConnectedPlayers/ConnectedPlayers';
 
 import css from './NavTabs.module.css';
 
-const lobbyTab = () => {
+const lobbyTab = lobby => {
     return (
         <div eventKey="lobby" title="Lobby">
-            <ConnectedPlayers isLobby={true} />
+            <ConnectedPlayers isLobby={true} roomId={null} lobby={lobby} />
         </div>
     );
 };
 
-const roomTab = userState => {
+const roomTab = (userState, rooms) => {
     if (!userState || !userState.roomId) return null;
 
     const roomName = userState.roomName ? `#${userState.roomName}` : 'My room';
     return (
         <div eventKey="room" title={roomName}>
-            <ConnectedPlayers isLobby={false} roomId={userState.roomId} />
+            <ConnectedPlayers isLobby={false} roomId={userState.roomId} rooms={rooms} />
         </div>
     );
 };
 
-const NavTabs = () => {
+const NavTabs = ({ roomsState }) => {
     const userState = store.getState().usr;
 
     const [activeTab, setActiveTab] = useState('lobby');
@@ -42,8 +42,8 @@ const NavTabs = () => {
                 onSelect={tab => setActiveTab(tab)}
                 className={css.tabs}
             >
-                {lobbyTab()}
-                {roomTab(userState)}
+                {lobbyTab(roomsState.lobby)}
+                {roomTab(userState, roomsState.rooms)}
             </Tabs>
         </div>
     );
