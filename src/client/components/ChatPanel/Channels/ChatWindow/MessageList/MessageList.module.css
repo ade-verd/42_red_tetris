@@ -1,11 +1,11 @@
 .container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex: 1 0 auto;
     height: 100%;
-    width: 25%;
-    margin-left: 0.5em;
-    flex-wrap: nowrap;
+}
 
+.container {
     border-radius: 5px;
     border: 2px solid #555559;
     background-color: #1e1e23;

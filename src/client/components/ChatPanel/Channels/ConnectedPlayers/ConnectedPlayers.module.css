@@ -5,6 +5,7 @@
     justify-content: start;
     align-items: start;
     align-content: auto;
+    height: 100%;
 }
 
 .item {
@@ -18,7 +19,7 @@
 .icon {
     flex: 0 0 2em;
     font-size: 1.66em;
-    color: #95E773;
+    color: #95e773;
 }
 
 .name {
