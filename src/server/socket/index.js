@@ -1,5 +1,6 @@
 import { bindEvent } from './eventHelpers';
 
+import * as chatHandlers from './handlers/chat';
 import * as commonHandlers from './handlers/common';
 import * as gamesHandlers from './handlers/games';
 import * as piecesHandlers from './handlers/pieces';
@@ -12,6 +13,7 @@ import * as playerSocketLib from './lib/playersSocket/checkConnectedSocket';
 import * as config from '../config';
 
 const handlers = Object.values({
+    ...chatHandlers,
     ...commonHandlers,
     ...gamesHandlers,
     ...piecesHandlers,

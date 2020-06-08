@@ -1,4 +1,4 @@
-import openSocket from 'socket.io-client';
+import io from 'socket.io-client';
 
 import config from '../config';
 
@@ -14,7 +14,7 @@ export const ACTIONS = {
 let socket = null;
 
 export const handleSocket = () => {
-    socket = openSocket(config.server.url);
+    socket = io(config.server.url);
 
     return ({ getState }) => next => payload => {
         if (typeof payload === 'function') {

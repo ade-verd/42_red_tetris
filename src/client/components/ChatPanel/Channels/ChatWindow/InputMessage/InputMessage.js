@@ -4,9 +4,13 @@ import { library as fontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
+import { emitChatMessage } from '../../../../../actions/chat/chat';
+
+import { store } from '../../../../../index';
+
 import css from './InputMessage.module.css';
 
-const InputMessage = ({}) => {
+const InputMessage = ({ isLobby }) => {
     fontAwesomeLibrary.add(faPaperPlane);
 
     const [message, setMessage] = useState('');
@@ -24,7 +28,15 @@ const InputMessage = ({}) => {
 
     const sendMessage = () => {
         if (message.length) {
-            alert(`|${message}|`);
+            const userState = store.getState().usr;
+            const payload = {
+                playerId: userState.id,
+                playerName: userState.name,
+                roomId: isLobby ? 'lobby' : userState.roomId,
+                msg: message,
+            };
+            emitChatMessage(store.dispatch, payload);
+            alert(JSON.stringify(payload));
         }
     };
 

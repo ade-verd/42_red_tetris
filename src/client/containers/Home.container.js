@@ -4,6 +4,7 @@ import Home from '../components/Home/Home';
 
 import { store } from '../index';
 
+import { onChatMessageReceived } from '../actions/chat/chat';
 import {
     emitCreatePlayer,
     onPlayerCreated,
@@ -24,6 +25,7 @@ const mapDispatchToProps = dispatch => {
         socketIoConnect,
         listen: () => {
             onGotPlayer(store);
+            onChatMessageReceived(dispatch);
             onPlayerCreated(store);
             onSocketConnect(dispatch);
         },

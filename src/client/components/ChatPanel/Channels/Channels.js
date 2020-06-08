@@ -12,7 +12,7 @@ const lobbyTab = lobby => {
     return (
         <div eventKey="lobby" title="Lobby">
             <ConnectedPlayers isLobby={true} roomId={null} lobby={lobby} />
-            <ChatWindow />
+            <ChatWindow isLobby={true} />
         </div>
     );
 };
@@ -24,7 +24,7 @@ const roomTab = (userState, rooms) => {
     return (
         <div eventKey="room" title={roomName}>
             <ConnectedPlayers isLobby={false} roomId={userState.roomId} rooms={rooms} />
-            <ChatWindow />
+            <ChatWindow isLobby={false} />
         </div>
     );
 };
