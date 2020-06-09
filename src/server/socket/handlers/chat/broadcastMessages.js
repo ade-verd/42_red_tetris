@@ -21,7 +21,7 @@ const FUNCTION_NAME = '[broadcastMessages]';
 const _broadcast = async (socket, payload) => {
     const io = ioInstance.getIo();
     try {
-        io.in(payload.toRoomId).emit(EMIT_EVENT, { payload });
+        io.in(payload.toRoomId).emit(EMIT_EVENT, payload);
     } catch (err) {
         socket.emit(EMIT_EVENT, { payload, error: err.toString() });
         console.error(FUNCTION_NAME, { payload, err });

@@ -18,6 +18,7 @@ const handleMessageReceived = (state, action) => {
         return handleError(state, action.error, 'chatError');
     }
 
+    console.log('CHATT', action.payload);
     const roomId = action.payload.toRoomId;
     const previousRoomMessages = _.get(state, ['msg', roomId], []);
     const roomMessages = [...previousRoomMessages, action.payload];
