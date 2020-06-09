@@ -1,12 +1,16 @@
 const reducer = (state = {}, action) => {
     switch (action.type) {
-        case 'start':
-            console.log('STARTED GAME STATUS REDUCER');
+        case 'FIRST_RENDER':
             return {
                 score: 0,
                 rows: 0,
                 level: 1,
                 gameOver: false,
+            };
+        case 'INCREMENT_LEVEL':
+            return {
+                ...state,
+                level: state.level + 1,
             };
         // case 'update':
         //     return {

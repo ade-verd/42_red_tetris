@@ -10,13 +10,9 @@ import { store } from '../../index';
 
 const Playground = props => {
     const { message, field, gameStatus, piece, user, ...dispatchs } = props;
+    const { listen, useInterval, firstRender, fieldUpdate, movePiece, onKeyUp, drop } = dispatchs;
     const { gameOver, score, rows, level } = gameStatus;
 
-    // socket.on('server/start', () => {
-    // 		console.log('ENTERED SERVER/START on socket');
-    // 		dispatchs.onStart();
-    //     dispatchs.onAlert();
-    // });
     console.log(
         '[Playground] State: field =',
         field,
@@ -29,19 +25,24 @@ const Playground = props => {
     );
 
     useEffect(() => {
-        dispatchs.listen();
-        dispatchs.onFirstRender(user.roomId, 1, 20);
+        listen();
+        firstRender(store.dispatch);
     }, []);
 
     useEffect(() => {
-        if (field) {
-            console.log('piece inside useEffect', piece);
-            dispatchs.fieldUpdate(store.dispatch, piece);
-        }
-    }, [piece]);
+        console.log('useEffect update', field, piece)
+        fieldUpdate(store.dispatch, field, piece);
+    }, [piece.tetromino, piece.pos]);
+
+    useInterval(() => {
+        drop(store.dispatch, field, piece, gameStatus);
+    }, piece.dropTime);
 
     return (
-        <StyledPlaygroundWrapper>
+        <StyledPlaygroundWrapper
+            onKeyDown={e => movePiece(store.dispatch, e, gameStatus)}
+            onKeyUp={key => onKeyUp(store.dispatch, key, gameStatus)}
+        >
             <StyledPlayground>
                 <p>{message}</p>
                 <Field field={field} />

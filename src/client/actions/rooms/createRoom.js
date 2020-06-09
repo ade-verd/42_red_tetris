@@ -1,4 +1,5 @@
 import { ACTIONS } from '../../middleware/handleSocket';
+import { emitGetRandomTetriminos } from '../game/getTetriminos'
 
 export const createRoomPayload = (roomName, roomCreaterId) => ({
     room_name: roomName,
@@ -24,6 +25,8 @@ export const onRoomCreated = dispatch => {
                 roomName: payload.room_name,
                 error: payload.error,
             });
+            const test = emitGetRandomTetriminos(dispatch, payload.room_id, 1, 20);
+            console.log("TOTO =", test);
         },
     });
 };

@@ -23,7 +23,7 @@ export const onGetRandomTetriminos = dispatch => {
         fn: payload => {
             dispatch({
                 action: ACTIONS.REDUCE,
-                type: 'start',
+                type: 'SET_TETROMINO',
                 piece: payload.pieces[0].shape,
                 error: payload.error,
             });

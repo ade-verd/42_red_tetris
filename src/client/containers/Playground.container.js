@@ -2,8 +2,12 @@ import { connect } from 'react-redux';
 
 import Playground from '../components/Playground/Playground';
 
+import { useInterval } from '../helpers/useInterval'
+
 import { emitGetRandomTetriminos, onGetRandomTetriminos } from '../actions/game/getTetriminos';
+import { firstRender } from '../actions/game/firstRender';
 import { fieldUpdate } from '../actions/game/fieldUpdate';
+import { movePiece, onKeyUp, drop } from '../actions/game/piece';
 import { emitGameActionStart, onGameAction } from '../actions/game/gameAction';
 
 const mapStateToProps = state => {
@@ -23,13 +27,15 @@ const mapDispatchToProps = dispatch => {
             onGameAction(dispatch);
             onGetRandomTetriminos(dispatch);
         },
-        onFirstRender: (roomId, piecePosition, piecesAmount) => {
-            emitGetRandomTetriminos(dispatch, roomId, piecePosition, piecesAmount);
-        },
         onStart: roomId => {
             emitGameActionStart(dispatch, roomId);
         },
+        useInterval,
+        firstRender,
         fieldUpdate,
+        movePiece,
+        onKeyUp,
+        drop,
     };
 };
 
