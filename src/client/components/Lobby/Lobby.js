@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 
-import { store } from '../../index';
-
 import ChatPanel from '../ChatPanel/ChatPanel';
 import Playground from '../../containers/Playground.container';
 import Rooms from '../../containers/Rooms.container';
@@ -15,17 +13,15 @@ const displayRoomsOrGame = userState => {
     return <Rooms />;
 };
 
-const Lobby = ({ roomsState }) => {
-    const userState = store.getState().usr;
-
+const Lobby = ({ states }) => {
     useEffect(() => {
         console.log('[Lobby] Rendering');
     });
 
     return (
         <div className={css.container}>
-            {displayRoomsOrGame(userState)}
-            <ChatPanel roomsState={roomsState} />
+            {displayRoomsOrGame(states.user)}
+            <ChatPanel states={states} />
         </div>
     );
 };

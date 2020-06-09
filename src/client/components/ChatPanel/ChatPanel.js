@@ -6,14 +6,14 @@ import Channels from './Channels/Channels';
 
 import css from './ChatPanel.module.css';
 
-const ChatPanel = ({ roomsState }) => {
+const ChatPanel = ({ states }) => {
     useEffect(() => {
         console.debug('[ChatPanel] rendering');
     });
 
     return (
         <div className={css['container']}>
-            <Channels roomsState={roomsState} />
+            <Channels states={states} />
         </div>
     );
 };

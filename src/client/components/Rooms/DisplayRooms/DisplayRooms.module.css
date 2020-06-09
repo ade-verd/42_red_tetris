@@ -7,14 +7,14 @@
 
 .main-container {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     flex-direction: column;
     border-radius: 5px;
     border: 2px solid #555559;
     background-color: #1e1e23;
     color: #fff;
     opacity: 0.9;
-    flex: 1 0 auto;
+    flex: 1 1 auto;
 }
 
 .accordion-container:not(:first-child):hover {

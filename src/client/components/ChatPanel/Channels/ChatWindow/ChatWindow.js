@@ -5,15 +5,15 @@ import MessageList from './MessageList/MessageList';
 
 import css from './ChatWindow.module.css';
 
-const ChatWindow = ({}) => {
+const ChatWindow = ({ states, isLobby }) => {
     useEffect(() => {
         console.debug('[ChatWindow] rendering');
     });
 
     return (
         <div className={css['container']}>
-            <MessageList />
-            <InputMessage />
+            <MessageList states={states} isLobby={isLobby} />
+            <InputMessage isLobby={isLobby} />
         </div>
     );
 };

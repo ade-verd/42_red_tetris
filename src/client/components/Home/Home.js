@@ -10,14 +10,15 @@ import Header from '../Header/Header';
 
 import css from './Home.module.css';
 
-const displayCreatePlayerOrLobby = (user, rooms) => {
+const displayCreatePlayerOrLobby = states => {
+    const user = states.user;
     if (!user || !user.id) {
         return <CreatePlayer />;
     }
-    return <Lobby roomsState={rooms} />;
+    return <Lobby states={states} />;
 };
 
-const Home = ({ user, rooms, ...dispatchs }) => {
+const Home = ({ chat, user, rooms, ...dispatchs }) => {
     let history = useHistory();
     const userState = store.getState().usr;
 
@@ -44,7 +45,7 @@ const Home = ({ user, rooms, ...dispatchs }) => {
     return (
         <div className={css.container}>
             <Header />
-            {displayCreatePlayerOrLobby(user, rooms)}
+            {displayCreatePlayerOrLobby({ chat, user, rooms })}
             <Footer />
         </div>
     );

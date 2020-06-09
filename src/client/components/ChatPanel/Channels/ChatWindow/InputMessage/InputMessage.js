@@ -36,7 +36,8 @@ const InputMessage = ({ isLobby }) => {
                 msg: message,
             };
             emitChatMessage(store.dispatch, payload);
-            alert(JSON.stringify(payload));
+            setMessage('');
+            // alert(JSON.stringify(payload));
         }
     };
 
@@ -55,6 +56,7 @@ const InputMessage = ({ isLobby }) => {
                 placeholder="Type your message"
                 onKeyDown={onKeyDown}
                 onChange={onChangeInput}
+                value={message}
                 autoComplete="off"
                 spellCheck="false"
                 multiline={true}
