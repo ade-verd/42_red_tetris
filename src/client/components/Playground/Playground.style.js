@@ -6,6 +6,7 @@ export const StyledPlaygroundWrapper = styled.div`
     flex: 1 0 auto;
     height: 100%;
     border: 2px solid #555559;
+    margin: inherit;
 `;
 
 export const StyledPlayground = styled.div`

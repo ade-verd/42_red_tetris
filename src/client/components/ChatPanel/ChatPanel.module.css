@@ -1,14 +1,11 @@
 .container {
-    display: flex;
-    flex-direction: column;
+    flex: 1;
     height: 100%;
-    width: 25%;
-    margin-left: 0.5em;
-    flex-wrap: nowrap;
 
     border-radius: 5px;
     border: 2px solid #555559;
     background-color: #1e1e23;
     color: #fff;
     opacity: 0.9;
+    margin: inherit;
 }

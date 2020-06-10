@@ -3,7 +3,6 @@
     flex-wrap: wrap;
     flex-direction: column;
     justify-content: start;
-    align-items: start;
     align-content: auto;
     height: 100%;
 }

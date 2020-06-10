@@ -21,23 +21,25 @@ const InputMessage = ({ isLobby }) => {
     });
 
     const onChangeInput = event => {
-        const msg = event.target.value.trim();
+        const msg = event.target.value;
         setMessage(msg);
-        msg.length ? setIconClasses([css.icon, css.send].join(' ')) : setIconClasses(css.icon);
+        msg.trim().length
+            ? setIconClasses([css.icon, css.send].join(' '))
+            : setIconClasses(css.icon);
     };
 
     const sendMessage = () => {
-        if (message.length) {
+        const msg = message.trim();
+        if (msg.length) {
             const userState = store.getState().usr;
             const payload = {
                 playerId: userState.id,
                 playerName: userState.name,
                 roomId: isLobby ? 'lobby' : userState.roomId,
-                msg: message,
+                msg,
             };
             emitChatMessage(store.dispatch, payload);
             setMessage('');
-            // alert(JSON.stringify(payload));
         }
     };
 
