@@ -5,6 +5,8 @@ const Joi = require('@hapi/joi');
 const helpers = require('../../eventHelpers');
 
 const Player = require('../../../lib/players/classPlayer');
+const joinRoomSocket = require('../../lib/roomSocket/joinRoomSocket');
+const getActiveRooms = require('../rooms/getActiveRooms.js');
 
 const schema = {
     player_id: Joi.string().required(),
@@ -19,6 +21,8 @@ const _updatePlayer = async (socket, payload) => {
         const player = await new Player({ playerId: payload.player_id });
         const res = await player.update({ socket_id: socket.client.id });
         socket.emit(EMIT_EVENT, { payload, update: res });
+        await joinRoomSocket.join(socket, 'lobby');
+        await getActiveRooms.emitActiveRooms();
     } catch (err) {
         socket.emit(EMIT_EVENT, { payload, error: err.toString() });
         console.error(FUNCTION_NAME, { payload, err });
