@@ -1,19 +1,19 @@
 .container {
+    flex: 1;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row-reverse;
     justify-content: start;
-    align-items: auto;
     align-content: center;
 }
 
 .item {
-    flex: 0 0 auto;
+    flex: 0 1 auto;
     margin: 1em;
 }
 
 .icon {
-    flex: 0 0 auto;
+    flex: 0 1 auto;
     font-size: 1.66em;
     color: #555559;
 }

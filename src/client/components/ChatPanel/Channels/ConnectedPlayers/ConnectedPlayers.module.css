@@ -1,10 +1,7 @@
 .container {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
+    flex: 1;
     justify-content: start;
     align-content: auto;
-    height: 100%;
 }
 
 .item {

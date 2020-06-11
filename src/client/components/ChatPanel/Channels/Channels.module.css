@@ -1,8 +1,27 @@
 .container {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.tabContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     height: 100%;
 }
 
 .tabs {
     color: #fff;
+}
+
+.buttonsGroup {
+}
+
+.button {
+}
+
+input[type='radio'] {
+    display: none; /* Hide radio circle */
 }

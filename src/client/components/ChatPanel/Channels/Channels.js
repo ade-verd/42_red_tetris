@@ -1,33 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import Tabs from 'react-bootstrap/Tabs';
-
-import { store } from '../../../index';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 
 import ConnectedPlayers from './ConnectedPlayers/ConnectedPlayers';
 import ChatWindow from './ChatWindow/ChatWindow';
 
 import css from './Channels.module.css';
 
-const lobbyTab = states => {
-    const lobby = states.rooms.lobby;
-    return (
-        <div eventKey="lobby" title="Lobby">
-            <ConnectedPlayers isLobby={true} roomId={null} lobby={lobby} />
-            <ChatWindow isLobby={true} states={states} />
-        </div>
-    );
+const LOBBY = 'lobby';
+
+const chatSwitcher = (tabs, activeTab, setActiveTab) => {
+    const buttonsGroup = tabs.map((tabValue, i) => (
+        <ToggleButton
+            key={i}
+            type="radio"
+            variant="secondary"
+            name="radio"
+            value={tabValue}
+            checked={activeTab === tabValue}
+            onChange={e => setActiveTab(e.currentTarget.value)}
+            className={css.button}
+        >
+            {tabValue}
+        </ToggleButton>
+    ));
+    return <div className={css.buttonsGroup}>{buttonsGroup}</div>;
 };
 
-const roomTab = states => {
-    const userState = states.user;
-    const rooms = states.rooms.rooms;
-    if (!userState || !userState.roomId) return null;
-
-    const roomName = userState.roomName ? `#${userState.roomName}` : 'My room';
+const renderTab = (states, activeTab) => {
+    const isLobby = activeTab === LOBBY;
     return (
-        <div eventKey="room" title={roomName}>
-            <ConnectedPlayers isLobby={false} roomId={userState.roomId} rooms={rooms} />
-            <ChatWindow isLobby={false} states={states} />
+        <div className={css.tabContent}>
+            <ConnectedPlayers isLobby={isLobby} states={states} />
+            <ChatWindow isLobby={isLobby} states={states} />
         </div>
     );
 };
@@ -35,22 +39,19 @@ const roomTab = states => {
 const Channels = ({ states }) => {
     const userState = states.user;
 
-    const [activeTab, setActiveTab] = useState('lobby');
+    const [activeTab, setActiveTab] = useState(LOBBY);
+    const [tabs, setTabs] = useState([LOBBY]);
+
     useEffect(() => {
-        userState.roomId ? setActiveTab('room') : setActiveTab('lobby');
+        const roomName = userState.roomName;
+        roomName ? setActiveTab(`#${roomName}`) : setActiveTab(LOBBY);
+        roomName ? setTabs([LOBBY, `#${roomName}`]) : setTabs([LOBBY]);
     }, [userState.roomId]);
 
     return (
         <div className={css['container']}>
-            <Tabs
-                id="chat-panel"
-                activeKey={activeTab}
-                onSelect={tab => setActiveTab(tab)}
-                className={css.tabs}
-            >
-                {lobbyTab(states)}
-                {roomTab(states)}
-            </Tabs>
+            {chatSwitcher(tabs, activeTab, setActiveTab)}
+            {renderTab(states, activeTab)}
         </div>
     );
 };

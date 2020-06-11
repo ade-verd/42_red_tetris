@@ -40,11 +40,15 @@ const getPlayers = (isLobby, room) => {
     });
 };
 
-const ConnectedPlayers = ({ isLobby, roomId, lobby, rooms }) => {
+const ConnectedPlayers = ({ isLobby, states }) => {
     fontAwesomeLibrary.add(faUser, faUserCog);
 
     const [lobbyUsers, setLobbyUsers] = useState();
     const [roomPlayers, setRoomPlayers] = useState();
+
+    const roomId = states.user.roomId;
+    const lobby = states.rooms.lobby;
+    const rooms = states.rooms.rooms;
 
     if (isLobby) {
         useEffect(() => {
