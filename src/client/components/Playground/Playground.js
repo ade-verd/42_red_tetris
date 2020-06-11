@@ -7,10 +7,14 @@ import Display from './Display/Display';
 import { StyledPlaygroundWrapper, StyledPlayground } from './Playground.style';
 
 import { store } from '../../index';
+import { useInterval } from '../../helpers/useInterval'
+import { emitGetRandomTetriminos } from '../../actions/game/getTetriminos';
+
+import { ACTIONS } from '../../middleware/handleSocket'
 
 const Playground = props => {
     const { message, field, gameStatus, piece, user, ...dispatchs } = props;
-    const { listen, useInterval, firstRender, fieldUpdate, movePiece, onKeyUp, drop } = dispatchs;
+    const { listen, firstRender, fieldUpdate, movePiece, onKeyUp, drop } = dispatchs;
     const { gameOver, score, rows, level } = gameStatus;
 
     console.log(
@@ -27,6 +31,9 @@ const Playground = props => {
     useEffect(() => {
         listen();
         firstRender(store.dispatch);
+        console.log('ONUR', piece)
+        emitGetRandomTetriminos(store.dispatch, user.roomId, piece.index + 1, piece.amount);
+        console.log('emit done')
     }, []);
 
     useEffect(() => {
@@ -56,7 +63,12 @@ const Playground = props => {
                             <Display text={`Level: ${level}`} />
                         </div>
                     )}
-                    <StartButton callback={dispatchs.onStart} />
+                    <StartButton 
+                        callback={() => {
+                            store.dispatch({ action: ACTIONS.REDUCE, type: 'SET_TETROMINO' });
+                            store.dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: 1000 });
+                        }}
+                    />
                 </aside>
             </StyledPlayground>
         </StyledPlaygroundWrapper>

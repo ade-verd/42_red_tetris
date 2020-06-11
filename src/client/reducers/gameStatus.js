@@ -4,6 +4,7 @@ const reducer = (state = {}, action) => {
             return {
                 score: 0,
                 rows: 0,
+                rowsCleared: 0,
                 level: 1,
                 gameOver: false,
             };
@@ -11,6 +12,11 @@ const reducer = (state = {}, action) => {
             return {
                 ...state,
                 level: state.level + 1,
+            };
+        case 'INCREMENT_ROWSCLEARED':
+            return {
+                ...state,
+                level: state.rowsCleared + 1,
             };
         // case 'update':
         //     return {

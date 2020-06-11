@@ -1,14 +1,26 @@
 import { FIELD_WIDTH } from '../../constants';
-import { checkCollision } from '../helpers/checkCollision'
+import { ACTIONS } from '../middleware/handleSocket';
+import { emitGetRandomTetriminos } from '../actions/game/getTetriminos';
 
 const firstRender = () => {
     return {
         pos: { x: FIELD_WIDTH / 2 - 2, y: 0 },
         collided: false,
         tetromino: null,
-        dropTime: 1000,
+        nextTetromino: null,
+        dropTime: null,
+        pieces: [],
+        index: 0,
+        amount: 20,
     };
 };
+
+const setPieces = (state, pieces) => {
+    return {
+        ...state,
+        pieces: pieces,
+    }
+}
 
 const setPos = (state, { x, y }, collided ) => {
     console.log('[setPos] state =', state)
@@ -19,11 +31,35 @@ const setPos = (state, { x, y }, collided ) => {
     }
 }
 
-const setTetromino = (state, tetromino) => {
-    return {
-        ...state,
-        tetromino,
-    };
+const setTetromino = (state, asyncDispatch, roomId) => {
+    // If "nextTetromino" reached the end of pieces array we ask for new pieces
+    // which means, at this point, index + 2 === undefined.
+    if (!state.pieces[state.index % state.amount + 2]) {
+        // we add 1 to ask the next "pieces" array
+        emitGetRandomTetriminos(asyncDispatch, roomId, (state.index + 2) + 1, state.amount);
+    }
+
+    console.log('ENTER')
+
+    if (!state.nextTetromino) {
+        console.log('TOTO')
+        return {
+            ...state,
+            tetromino: state.pieces[0].shape,
+            nextTetromino: state.pieces[1].shape,
+            index: state.index + 1,
+        };
+    } else {
+        console.log('SEMRA')
+        return {
+            ...state,
+            tetromino: state.nextTetromino,
+            nextTetromino: state.pieces[state.index + 1 % state.amount].shape,
+            pos: { x: FIELD_WIDTH / 2 - 2, y: 0 },
+            collided: false,
+            index: state.index + 1,
+        };
+    }
 };
 
 const setDropTime = (state, dropTime) => {
@@ -33,35 +69,6 @@ const setDropTime = (state, dropTime) => {
     }
 }
 
-// const drop = (state, dispatch, field, piece, { rows, level }) => {
-//     // Increase level when player has cleared 10 rows
-//     if (rows > (level + 1) * 10) {
-//         // setLevel(prev => prev + 1);
-//         dispatch({ type: 'INCREMENT_LEVEL' });
-//         // Also increase speed
-//         // setDropTime(1000 / (level + 1) + 200);
-//         dispatch({ type: 'SET_DROPTIME', dropTime: 1000 / (level + 1) + 200});
-//     }
-    
-//     if (!checkCollision(piece, field, { x: 0, y: 1 })) {
-//         console.log('dropping')
-//         dispatch({ type: 'SET_POS', pos: { x: 0, y: 1 }, collided: false });
-//         console.log('dropped')
-//     } else {
-//         // Game over !
-//         if (piece.pos.y < 1) {
-//             console.debug('GAME OVER !');
-//             // setGameOver(true);
-//             dispatch({ type: 'SET_GAMEOVER', gameOver: true });
-//             // setDropTime(null);
-//             dispatch({ type: 'SET_DROPTIME', dropTime: null });
-//         }
-//         // updatePlayerPos({ x: 0, y: 0, collided: true });
-//         dispatch({ type: 'SET_POS', pos: { x: 0, y: 0 }, collided: true });
-//     }
-//     return state;
-// };
-
 const move = (state, dispatch, { keyCode }, { gameOver }) => {
     if (!gameOver) {
         return state
@@ -69,11 +76,11 @@ const move = (state, dispatch, { keyCode }, { gameOver }) => {
     return state;
 };
 
-const keyUp = (dispatch, { keyCode }, { gameOver, level }) => {
+const keyUp = (asyncDispatch, { keyCode }, { gameOver, level }) => {
     if (!gameOver) {
         // Activate the interval again when user releases down arrow.
         if (keyCode === 40) {
-            dispatch({ type: 'SET_DROPTIME', dropTime: 1000 / (level + 1) });
+            asyncDispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: 1000 / (level + 1) });
         }
     }
 }
@@ -81,14 +88,17 @@ const keyUp = (dispatch, { keyCode }, { gameOver, level }) => {
 
 const reducer = (state = {}, action) => {
     console.log('ACTION', action);
+    console.log('Aydin', action.allStates, action.asyncDispatch)
     switch (action.type) {
         case 'FIRST_RENDER':
             return firstRender();
+        case 'SET_PIECES':
+            return setPieces(state, action.pieces);
         case 'SET_POS':
             console.log('action setPos');
             return setPos(state, action.pos, action.collided);
         case 'SET_TETROMINO':
-            return setTetromino(state, action.piece);
+            return setTetromino(state, action.asyncDispatch, action.allStates.usr.roomId);
         case 'SET_DROPTIME':
             return setDropTime(state, action.dropTime);
         // case 'DROP':
@@ -102,7 +112,7 @@ const reducer = (state = {}, action) => {
                 ...state,
                 // piece: updateField()
             };
-        case 'reset':
+        case 'RESET_PIECE':
             return {
                 pos: { x: FIELD_WIDTH / 2 - 2, y: 0 },
                 tetromino: action.piece,

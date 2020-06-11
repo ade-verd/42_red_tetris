@@ -1,4 +1,5 @@
 import { FIELD_HEIGHT, FIELD_WIDTH } from '../../constants';
+import { ACTIONS } from '../middleware/handleSocket';
 
 export const createField = () => {
     const newField = Array.from(Array(FIELD_HEIGHT), () => new Array(FIELD_WIDTH).fill([0, 'clear']));
@@ -7,7 +8,21 @@ export const createField = () => {
     };
 }
 
-export const updateField = (dispatch, prevField, piece) => {
+const sweepRows = (asyncDispatch, newField) => {
+    const isClear = cell => cell[0] === 0;
+    const reducer = (ack, row) => {
+        if (row.findIndex(isClear) === -1) {
+            asyncDispatch({ action: ACTIONS.REDUCE, type: 'INCREMENT_ROWSCLEARED' });
+            ack.unshift(new Array(newField[0].length).fill([0, 'clear']));
+            return ack;
+        }
+        ack.push(row);
+        return ack;
+    }
+    return newField.reduce(reducer, []);
+}
+
+export const updateField = (asyncDispatch, prevField, piece, allStates) => {
     // First flush the stage
     const newField = prevField.map(row =>
         row.map(cell => (cell[1] === 'clear' ? [0, 'clear'] : cell)),
@@ -25,8 +40,10 @@ export const updateField = (dispatch, prevField, piece) => {
     });
     // Then check if we collided
     if (piece.collided) {
-        dispatch({ type: 'reset' });
-        return sweepRows(newStage);
+        asyncDispatch({ action: ACTIONS.REDUCE, type: 'SET_TETROMINO' });
+        return {
+            field: sweepRows(asyncDispatch, newField),
+        }
     }
     return {
         field: newField,
@@ -40,7 +57,7 @@ const reducer = (state = {}, action) => {
             return createField();
         case 'UPDATE':
             console.log('updating')
-            return updateField(action.dispatch, state.field, action.piece);
+            return updateField(action.asyncDispatch, state.field, action.piece, action.allStates);
         default:
             return state;
     }

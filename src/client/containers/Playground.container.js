@@ -2,8 +2,6 @@ import { connect } from 'react-redux';
 
 import Playground from '../components/Playground/Playground';
 
-import { useInterval } from '../helpers/useInterval'
-
 import { emitGetRandomTetriminos, onGetRandomTetriminos } from '../actions/game/getTetriminos';
 import { firstRender } from '../actions/game/firstRender';
 import { fieldUpdate } from '../actions/game/fieldUpdate';
@@ -30,7 +28,7 @@ const mapDispatchToProps = dispatch => {
         onStart: roomId => {
             emitGameActionStart(dispatch, roomId);
         },
-        useInterval,
+        emitGetRandomTetriminos,
         firstRender,
         fieldUpdate,
         movePiece,

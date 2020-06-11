@@ -5,6 +5,7 @@ import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { handleSocket } from './middleware/handleSocket';
+import { asyncDispatchMiddleware } from './middleware/asyncDispatch'
 import { storeStateMiddleWare } from './middleware/storeStateMiddleWare';
 import { Provider } from 'react-redux';
 
@@ -18,7 +19,7 @@ const initialState = {};
 export const store = createStore(
     rootReducer,
     initialState,
-    applyMiddleware(thunk, createLogger(), handleSocket()),
+    applyMiddleware(thunk, asyncDispatchMiddleware, createLogger(), handleSocket()),
 );
 
 ReactDom.render(
