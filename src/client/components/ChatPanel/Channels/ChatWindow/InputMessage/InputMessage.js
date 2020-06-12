@@ -45,7 +45,11 @@ const InputMessage = ({ isLobby }) => {
 
     const onKeyDown = event => {
         if (event.key === 'Enter') {
-            sendMessage();
+            if (event.shiftKey) {
+                setMessage(message + '\n');
+            } else {
+                sendMessage();
+            }
         }
     };
 

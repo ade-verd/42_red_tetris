@@ -1,8 +1,9 @@
 .container {
-    flex: 3;
+    flex: 3 0;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     height: 100%;
+    min-width: 60%;
     margin: inherit;
 }

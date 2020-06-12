@@ -14,7 +14,7 @@
     background-color: #1e1e23;
     color: #fff;
     opacity: 0.9;
-    flex: 1 1 auto;
+    flex: 1;
 }
 
 .accordion-container:not(:first-child):hover {
