@@ -9,20 +9,27 @@ import css from './Channels.module.css';
 const LOBBY = 'lobby';
 
 const chatSwitcher = (tabs, activeTab, setActiveTab) => {
-    const buttonsGroup = tabs.map((tabValue, i) => (
-        <ToggleButton
-            key={i}
-            type="radio"
-            variant="secondary"
-            name="radio"
-            value={tabValue}
-            checked={activeTab === tabValue}
-            onChange={e => setActiveTab(e.currentTarget.value)}
-            className={css.button}
-        >
-            {tabValue}
-        </ToggleButton>
-    ));
+    const buttonsGroup = tabs.map((tabValue, i) => {
+        const buttonClass = [css.btn];
+        if (tabs.length < 2) buttonClass.push(css.noCursor);
+        const isChecked = activeTab === tabValue;
+        if (isChecked) buttonClass.push(css.checked);
+
+        return (
+            <ToggleButton
+                key={i}
+                type="radio"
+                variant="secondary"
+                name="radio"
+                value={tabValue}
+                checked={isChecked}
+                onChange={e => setActiveTab(e.currentTarget.value)}
+                className={buttonClass.join(' ')}
+            >
+                {tabValue}
+            </ToggleButton>
+        );
+    });
     return <div className={css.buttonsGroup}>{buttonsGroup}</div>;
 };
 

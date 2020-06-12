@@ -17,11 +17,25 @@
 }
 
 .buttonsGroup {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
-.button {
+.btn {
+    flex: 1;
+    border-radius: 5px 5px 0 0 !important;
+}
+
+.btn.checked {
+    background-color: #fff !important;
+    color: #555559 !important;
 }
 
 input[type='radio'] {
     display: none; /* Hide radio circle */
+}
+
+.noCursor {
+    cursor: default !important;
 }
