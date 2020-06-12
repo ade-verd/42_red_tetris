@@ -24,7 +24,7 @@ const renderMessages = (userState, msgList) => {
 
 const MessageList = ({ states, isLobby }) => {
     const [msgList, setMsgList] = useState();
-    const [msgToRender, setMsgToRender] = useState('Messages');
+    const [msgToRender, setMsgToRender] = useState('');
 
     useEffect(() => {
         const roomId = isLobby ? 'lobby' : _.get(states, 'user.roomId');

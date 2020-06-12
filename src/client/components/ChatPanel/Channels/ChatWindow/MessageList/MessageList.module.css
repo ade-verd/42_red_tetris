@@ -9,6 +9,7 @@
 
 .msgContainer {
     flex: 1;
+    margin-top: 0.25em;
     margin-bottom: 0.25em;
     padding: 0 1em 0 1em;
 }
