@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
 export const StyledPlaygroundWrapper = styled.div`
+    flex: 3 0;
     display: flex;
     flex-direction: column;
-    flex: 1 0 auto;
     height: 100%;
+    min-height: 0;
     border: 2px solid #555559;
     margin: inherit;
 `;
@@ -16,10 +17,10 @@ export const StyledPlayground = styled.div`
     justify-content: center;
     align-items: center;
     align-content: center;
-    padding: 40px;
     margin: 0 auto;
     border: 2px solid #555559;
     height: 100%;
+    min-height: 0;
 
     aside {
         width: 100%;

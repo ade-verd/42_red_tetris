@@ -5,9 +5,7 @@ const tetriminoBorder = 4;
 const cellSize = 4; // manually chosen
 
 export const StyledCell = styled.div`
-    flex: 1 1 auto;
-    height: ${cellSize + 'vh'};
-    width: ${cellSize + 'vh'};
+    width: ${cellSize + 'vmin'};
     background: rgba(${props => props.color}, 0.8);
     margin: ${margin + 'px'};
     border: ${props => (props.type === 0 ? '0px solid' : tetriminoBorder + 'px solid')};
