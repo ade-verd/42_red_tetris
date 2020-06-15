@@ -5,6 +5,8 @@
     background-color: #1e1e23;
     color: #fff;
     opacity: 0.9;
+
+    overflow-y: auto;
 }
 
 .msgContainer {

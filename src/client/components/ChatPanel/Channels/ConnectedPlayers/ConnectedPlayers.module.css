@@ -2,6 +2,7 @@
     flex: 1;
     justify-content: start;
     align-content: auto;
+    overflow-y: auto;
 }
 
 .item {

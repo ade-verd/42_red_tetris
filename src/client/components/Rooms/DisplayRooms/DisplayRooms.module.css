@@ -7,7 +7,7 @@
 
 .main-container {
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
     flex-direction: column;
     border-radius: 5px;
     border: 2px solid #555559;
@@ -15,6 +15,7 @@
     color: #fff;
     opacity: 0.9;
     flex: 1;
+    overflow-y: auto;
 }
 
 .accordion-container:not(:first-child):hover {

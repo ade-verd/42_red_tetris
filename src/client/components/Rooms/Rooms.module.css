@@ -4,6 +4,7 @@
     flex-wrap: wrap;
     flex-direction: column;
     height: 100%;
-    min-width: 60%;
+    min-height: 0;
+    /* min-width: 60%; */
     margin: inherit;
 }
