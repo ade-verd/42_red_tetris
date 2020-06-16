@@ -28,6 +28,7 @@ const checkPlayers = async (ioRoom, mongoRoom) => {
     const mongoPlayers = await playersModels.find({ _id: { $in: playersIds } }, { socket_id: 1 });
 
     await mongoPlayers.forEach(async player => {
+        console.log('[checkPlayers]', { player: player });
         const playerSocketId = _.get(ioRoom, ['sockets', player.socket_id]);
         if (!playerSocketId) {
             await unsetPlayer(mongoRoom._id.toString(), player._id.toString());

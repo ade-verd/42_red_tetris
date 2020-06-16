@@ -23,11 +23,13 @@ const CreateRoom = () => {
 
     return (
         <div className={css.container}>
-            <label>Create room:</label>
-            <br />
+            {/* <label>Create room:</label> */}
+            {/* <br /> */}
             <input
+                autoFocus
                 type="text"
                 id="name"
+                placeholder="Create room"
                 value={inputRoom}
                 onKeyDown={onEnterkey}
                 onChange={replaceWideChars}

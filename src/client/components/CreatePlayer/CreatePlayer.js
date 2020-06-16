@@ -39,12 +39,14 @@ const CreatePlayer = ({}) => {
                 <FontAwesomeIcon className={css.grey} icon={['fas', 'user-plus']} size="8x" />
             </div>
             <div className={css.item}>
-                <div>Create player:</div>
+                {/* <div>Create player:</div> */}
                 <input
+                    autoFocus
                     type="text"
                     id="create_player_input"
                     className={css.input}
                     value={inputPlayer}
+                    placeholder="Create player"
                     onKeyDown={createPlayer}
                     onChange={replaceWideChars}
                     autoComplete="off"

@@ -10,7 +10,7 @@ import { store } from '../../../../../index';
 
 import css from './InputMessage.module.css';
 
-const InputMessage = ({ isLobby }) => {
+const InputMessage = ({ isLobby, inputRef }) => {
     fontAwesomeLibrary.add(faPaperPlane);
 
     const [message, setMessage] = useState('');
@@ -56,6 +56,7 @@ const InputMessage = ({ isLobby }) => {
     return (
         <div className={css['container']}>
             <input
+                ref={inputRef}
                 type="text"
                 id="chat_input"
                 className={css.input}

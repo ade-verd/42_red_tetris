@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import InputMessage from './InputMessage/InputMessage';
 import MessageList from './MessageList/MessageList';
@@ -10,10 +10,16 @@ const ChatWindow = ({ states, isLobby }) => {
         console.debug('[ChatWindow] rendering');
     });
 
+    const inputRef = useRef(null);
+
+    const setFocusOnInput = () => {
+        inputRef.current.focus();
+    };
+
     return (
-        <div className={css['container']}>
+        <div className={css['container']} onClick={setFocusOnInput}>
             <MessageList states={states} isLobby={isLobby} />
-            <InputMessage isLobby={isLobby} />
+            <InputMessage inputRef={inputRef} isLobby={isLobby} />
         </div>
     );
 };
