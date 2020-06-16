@@ -35,7 +35,7 @@ export const initSocketIo = io => {
     });
 
     setInterval(() => {
-        playerSocketLib.checkConnectedSocket(io);
+        // playerSocketLib.checkConnectedSocket(io);
         roomsHandlers.emitActiveRooms();
     }, config.rooms.refreshIntervalMs);
 };
