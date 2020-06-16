@@ -1,4 +1,4 @@
-import { bindEvent } from './eventHelpers';
+import eventHelpers from './eventHelpers';
 
 import * as chatHandlers from './handlers/chat';
 import * as commonHandlers from './handlers/common';
@@ -12,7 +12,7 @@ import * as playerSocketLib from './lib/playersSocket/checkConnectedSocket';
 
 import * as config from '../config';
 
-const handlers = Object.values({
+export const handlers = Object.values({
     ...chatHandlers,
     ...commonHandlers,
     ...gamesHandlers,
@@ -30,14 +30,14 @@ export const initSocketIo = io => {
         console.log('Socket connected:', socket.id);
         io.emit('server/start');
         handlers.forEach(handler => {
-            bindEvent(socket, handler);
+            eventHelpers.bindEvent(socket, handler);
         });
-    });
 
-    setInterval(() => {
-        // playerSocketLib.checkConnectedSocket(io);
-        roomsHandlers.emitActiveRooms();
-    }, config.rooms.refreshIntervalMs);
+        setInterval(() => {
+            // playerSocketLib.checkConnectedSocket(io);
+            roomsHandlers.emitActiveRooms();
+        }, config.rooms.refreshIntervalMs);
+    });
 };
 
 export const getIo = () => ioInstance;
