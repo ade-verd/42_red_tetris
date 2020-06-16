@@ -84,6 +84,22 @@ describe('lib/rooms/classRoom', () => {
         });
     });
 
+    describe('#offline() method', () => {
+        it('should set the status room as offline', async () => {
+            const updateStub = sandbox.stub(roomsLib, 'updateOne').resolves({ modifiedCount: 1 });
+
+            const room = await new Room({
+                roomId: '000000000000000000000004',
+            });
+            const updateResult = await room.offline();
+
+            expect(updateStub.args).to.deep.equal([
+                ['000000000000000000000004', { game_status: GAME_STATUS.OFFLINE, players_ids: [] }],
+            ]);
+            expect(updateResult).to.deep.equal({ modifiedCount: 1 });
+        });
+    });
+
     describe('join() method', () => {
         it('should join a room', async () => {
             const expectedPlayersIds = ['00000000000000000000000a', '00000000000000000000000b'];
@@ -259,7 +275,7 @@ describe('lib/rooms/classRoom', () => {
             ]);
         });
 
-        it('should throw if there is no modification', async () => {
+        it('should throw if there is no modification while updating the room document', async () => {
             const updateLeaveStub = sandbox.stub(roomsLib, 'updateLeaveRoom').resolves({
                 value: null,
             });
@@ -277,6 +293,49 @@ describe('lib/rooms/classRoom', () => {
                 expect(err)
                     .to.be.an.instanceOf(Error)
                     .with.property('message', 'the room has not been updated');
+            }
+        });
+
+        it('should throw if there is no modification while updating the player document', async () => {
+            const updateLeaveStub = sandbox.stub(roomsLib, 'updateLeaveRoom').resolves({
+                value: {
+                    ...fixtures.insertedRoom(),
+                    players_ids: [],
+                },
+            });
+            const findStub = sandbox
+                .stub(roomsLib, 'findOneById')
+                .resolves({ ...fixtures.insertedRoom(), players_ids: [] });
+            const updateStatusStub = sandbox
+                .stub(roomsLib, 'updateOne')
+                .resolves({ modifiedCount: 1 });
+            const updatePlayerStub = sandbox.stub(playersLib, 'updateOne').resolves({
+                matchedCount: 0,
+                modifiedCount: 0,
+            });
+
+            try {
+                const room = await new Room({
+                    roomId: '000000000000000000000004',
+                });
+                const PLAYER_ID = '00000000000000000000000a';
+                await room.leave(PLAYER_ID);
+            } catch (err) {
+                expect(updateLeaveStub.args).to.deep.equal([
+                    ['000000000000000000000004', '00000000000000000000000a'],
+                ]);
+                expect(findStub.args).to.deep.equal([
+                    ['000000000000000000000004', { _id: 0, players_ids: 1 }],
+                ]);
+                expect(updateStatusStub.args).to.deep.equal([
+                    ['000000000000000000000004', { game_status: GAME_STATUS.OFFLINE }],
+                ]);
+                expect(updatePlayerStub.args).to.deep.equal([
+                    ['00000000000000000000000a', { room_id: null }],
+                ]);
+                expect(err)
+                    .to.be.an.instanceOf(Error)
+                    .with.property('message', "the player's room has not been updated");
             }
         });
     });
