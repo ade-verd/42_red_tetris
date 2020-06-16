@@ -7,11 +7,11 @@
         "install": "npm run start-services",
         "start-services": "docker-compose -f docker-services.yml up -d",
         "eslint": "eslint src",
-        "client-dist": "NODE_ENV=production webpack --progress --colors",
+        "client-dist": "cross-env NODE_ENV=production webpack --progress --colors",
         "client-dev": "webpack-dev-server --watch-poll --colors --hot --inline --host 0.0.0.0 --port 8080",
         "srv-dev": "DEBUG=tetris:* babel-watch -w src src/server/main.js",
         "srv-dist": "DEBUG=tetris:* babel src --out-dir dist",
-        "mocha": "mocha",
+        "mocha": "cross-env NODE_ENV=test mocha",
         "prettier": "prettier --check 'src/**/*.js'",
         "prettier:write": "prettier --write 'src/**/*.js'",
         "test": "npm run prettier && cross-env NODE_ENV=test nyc mocha"

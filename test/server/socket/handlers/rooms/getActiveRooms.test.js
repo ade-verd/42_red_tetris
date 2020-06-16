@@ -5,8 +5,10 @@ const io = require('socket.io-client');
 
 const { startServer } = require('../../../../helpers/server');
 const config = require('../../../../../src/server/config');
+const socketIo = require('../../../../../src/server/socket');
 
 const roomsLib = require('../../../../../src/server/models/rooms');
+const socketRoomLib = require('../../../../../src/server/socket/lib/roomSocket/getSocketByRoom');
 
 const { GAME_STATUS } = require('../../../../../src/constants');
 const fixtures = require('../../../../fixtures/rooms.fixtures.js');
@@ -36,13 +38,16 @@ describe('socket/handlers/rooms/getActiveRooms', function() {
         sandbox.restore();
     });
 
-    it('should emit every active rooms', function(done) {
+    it('should emit every active rooms and lobby', function(done) {
         const roomsFixtures = [fixtures.room1Player(), fixtures.room2Players()].map(room =>
             _.omit(room, 'blocks_list'),
         );
         const findStub = sandbox
             .stub(roomsLib, 'findRoomsByGameStatus')
             .resolves({ toArray: () => roomsFixtures });
+        const roomSocketStub = sandbox
+            .stub(socketRoomLib, 'getIoRoomPlayersIds')
+            .resolves({ players_ids: [] });
 
         const client = io.connect(socketUrl, options);
 
@@ -56,6 +61,7 @@ describe('socket/handlers/rooms/getActiveRooms', function() {
                 settings: 1,
             };
             expect(findStub.args).to.deep.equal([[expectedRegex, expectedProjection]]);
+            expect(roomSocketStub.args).to.deep.equal([[socketIo.getIo(), 'lobby']]);
             expect(payload).to.deep.equal({
                 rooms: [
                     {
@@ -71,6 +77,7 @@ describe('socket/handlers/rooms/getActiveRooms', function() {
                         settings: {},
                     },
                 ],
+                lobby: { players_ids: [] },
             });
             client.disconnect();
             done();

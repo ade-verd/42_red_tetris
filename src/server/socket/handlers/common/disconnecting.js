@@ -5,6 +5,8 @@ const helpers = require('../../eventHelpers');
 const disconnectRoomSocket = require('../../lib/roomSocket/disconnectRoomSocket');
 const getActiveRooms = require('../rooms/getActiveRooms.js');
 
+const config = require('../../../../../src/server/config');
+
 const schema = null;
 
 const ON_EVENT = 'disconnecting';
@@ -27,6 +29,7 @@ export const socketDisconnecting = helpers.createEvent(
     EMIT_EVENT,
     schema,
     async socket => {
+        if (config.env.isTestEnv) return;
         const socketRooms = Object.keys(socket.rooms);
         await _disconnecting(socket, socketRooms);
     },

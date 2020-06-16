@@ -1,4 +1,7 @@
 module.exports = {
+    env: {
+        isTestEnv: process.env.NODE_ENV === 'test',
+    },
     server: {
         host: process.env.CONFIG_SERVER_HOST || '0.0.0.0',
         port: process.env.CONFIG_SERVER_PORT || 3004,
