@@ -1,2 +1,3 @@
-/* istanbul ignore file */
-export * from './broadcastMessages';
+module.exports = {
+    ...require('./broadcastMessages'),
+};

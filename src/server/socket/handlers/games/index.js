@@ -1,2 +1,4 @@
 /* istanbul ignore file */
-export * from './gameActions.js';
+module.exports = {
+    ...require('./gameActions'),
+};

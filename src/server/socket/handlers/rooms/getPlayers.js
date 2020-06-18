@@ -27,11 +27,8 @@ const _getRoomPlayers = async (socket, payload) => {
     }
 };
 
-export const getPlayers = helpers.createEvent(
-    ON_EVENT,
-    EMIT_EVENT,
-    schema,
-    async (socket, payload) => {
-        await _getRoomPlayers(socket, payload);
-    },
-);
+const getPlayers = helpers.createEvent(ON_EVENT, EMIT_EVENT, schema, async (socket, payload) => {
+    await _getRoomPlayers(socket, payload);
+});
+
+module.exports = { getPlayers };

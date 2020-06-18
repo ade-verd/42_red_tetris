@@ -34,11 +34,8 @@ const _leaveExistingRoom = async (socket, payload) => {
     }
 };
 
-export const leaveRoom = helpers.createEvent(
-    ON_EVENT,
-    EMIT_EVENT,
-    schema,
-    async (socket, payload) => {
-        await _leaveExistingRoom(socket, payload);
-    },
-);
+const leaveRoom = helpers.createEvent(ON_EVENT, EMIT_EVENT, schema, async (socket, payload) => {
+    await _leaveExistingRoom(socket, payload);
+});
+
+module.exports = { leaveRoom };

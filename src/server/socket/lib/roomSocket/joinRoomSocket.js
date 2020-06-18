@@ -4,7 +4,7 @@ const leaveRoom = require('./leaveRoomSocket');
 
 const EMIT_EVENT = 'rooms:socket:joined';
 
-export const join = (socket, roomId) => {
+const join = (socket, roomId) => {
     const socketRooms = Object.keys(socket.rooms);
     if (roomId !== 'lobby' && socketRooms.includes('lobby')) {
         leaveRoom.leave(socket, 'lobby');
@@ -18,3 +18,5 @@ export const join = (socket, roomId) => {
         );
     });
 };
+
+module.exports = { join };

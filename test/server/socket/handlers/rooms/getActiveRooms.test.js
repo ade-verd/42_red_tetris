@@ -5,7 +5,7 @@ const io = require('socket.io-client');
 
 const { startServer } = require('../../../../helpers/server');
 const config = require('../../../../../src/server/config');
-const socketIo = require('../../../../../src/server/socket');
+const ioInstance = require('../../../../../src/server/socket/ioInstance');
 
 const roomsLib = require('../../../../../src/server/models/rooms');
 const socketRoomLib = require('../../../../../src/server/socket/lib/roomSocket/getSocketByRoom');
@@ -60,8 +60,9 @@ describe('socket/handlers/rooms/getActiveRooms', function() {
                 game_status: 1,
                 settings: 1,
             };
+
             expect(findStub.args).to.deep.equal([[expectedRegex, expectedProjection]]);
-            expect(roomSocketStub.args).to.deep.equal([[socketIo.getIo(), 'lobby']]);
+            expect(roomSocketStub.args).to.deep.equal([[ioInstance.get(), 'lobby']]);
             expect(payload).to.deep.equal({
                 rooms: [
                     {

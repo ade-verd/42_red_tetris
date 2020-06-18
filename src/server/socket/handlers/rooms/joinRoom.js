@@ -34,11 +34,8 @@ const _joinExistingRoom = async (socket, payload) => {
     }
 };
 
-export const joinRoom = helpers.createEvent(
-    ON_EVENT,
-    EMIT_EVENT,
-    schema,
-    async (socket, payload) => {
-        await _joinExistingRoom(socket, payload);
-    },
-);
+const joinRoom = helpers.createEvent(ON_EVENT, EMIT_EVENT, schema, async (socket, payload) => {
+    await _joinExistingRoom(socket, payload);
+});
+
+module.exports = { joinRoom };

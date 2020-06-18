@@ -29,7 +29,7 @@ const _updatePlayer = async (socket, payload) => {
     }
 };
 
-export const updateSocketId = helpers.createEvent(
+const updateSocketId = helpers.createEvent(
     ON_EVENT,
     EMIT_EVENT,
     schema,
@@ -37,3 +37,5 @@ export const updateSocketId = helpers.createEvent(
         await _updatePlayer(socket, payload);
     },
 );
+
+module.exports = { updateSocketId };

@@ -1,18 +1,20 @@
-import eventHelpers from './eventHelpers';
+const eventHelpers = require('./eventHelpers');
 
-import * as chatHandlers from './handlers/chat';
-import * as commonHandlers from './handlers/common';
-import * as gamesHandlers from './handlers/games';
-import * as piecesHandlers from './handlers/pieces';
-import * as playersHandlers from './handlers/players';
-import * as roomsHandlers from './handlers/rooms';
-import * as serverTestHandler from './handlers/serverTest';
+const ioInstance = require('./ioInstance');
 
-import * as playerSocketLib from './lib/playersSocket/checkConnectedSocket';
+const chatHandlers = require('./handlers/chat');
+const commonHandlers = require('./handlers/common');
+const gamesHandlers = require('./handlers/games');
+const piecesHandlers = require('./handlers/pieces');
+const playersHandlers = require('./handlers/players');
+const roomsHandlers = require('./handlers/rooms');
+const serverTestHandler = require('./handlers/serverTest');
 
-import * as config from '../config';
+const playerSocketLib = require('./lib/playersSocket/checkConnectedSocket');
 
-export const handlers = Object.values({
+const config = require('../config');
+
+const handlers = Object.values({
     ...chatHandlers,
     ...commonHandlers,
     ...gamesHandlers,
@@ -22,10 +24,8 @@ export const handlers = Object.values({
     ...serverTestHandler,
 });
 
-let ioInstance = null;
-
-export const initSocketIo = io => {
-    ioInstance = io;
+const initSocketIo = io => {
+    ioInstance.set(io);
     io.on('connection', socket => {
         console.log('Socket connected:', socket.id);
         io.emit('server/start');
@@ -40,4 +40,7 @@ export const initSocketIo = io => {
     });
 };
 
-export const getIo = () => ioInstance;
+module.exports = {
+    initSocketIo,
+    handlers,
+};

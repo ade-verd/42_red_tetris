@@ -1,6 +1,6 @@
 'use strict';
 
-const ioInstance = require('../../index');
+const ioInstance = require('../../ioInstance');
 
 const helpers = require('../../eventHelpers');
 
@@ -15,14 +15,14 @@ const ON_EVENT = 'rooms:get_active';
 const EMIT_EVENT = 'rooms:got_active';
 const FUNCTION_NAME = '[getActiveRooms]';
 
-export const find = async () => {
+const find = async () => {
     const regex = `^(?!${GAME_STATUS.OFFLINE})`;
     const projection = { room_name: 1, players_ids: 1, game_status: 1, settings: 1 };
     return roomsLib.findRoomsByGameStatus(regex, projection);
 };
 
-export const emitActiveRooms = async () => {
-    const io = ioInstance.getIo();
+const emitActiveRooms = async () => {
+    const io = ioInstance.get();
     try {
         const activeRoomsCursor = await find();
         const payload = {
@@ -37,6 +37,12 @@ export const emitActiveRooms = async () => {
     }
 };
 
-export const getActiveRooms = helpers.createEvent(ON_EVENT, EMIT_EVENT, schema, async () => {
+const getActiveRooms = helpers.createEvent(ON_EVENT, EMIT_EVENT, schema, async () => {
     await emitActiveRooms();
 });
+
+module.exports = {
+    getActiveRooms,
+    emitActiveRooms,
+    find,
+};

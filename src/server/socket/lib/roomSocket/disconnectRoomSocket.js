@@ -30,7 +30,7 @@ const _leaveRooms = async (socket, rooms, playerId) => {
     });
 };
 
-export const disconnect = async (socket, socketRooms) => {
+const disconnect = async (socket, socketRooms) => {
     if (socketRooms) {
         const player = await playerModel.findOneBySocketId(socket.client.id);
         if (player) {
@@ -45,3 +45,5 @@ export const disconnect = async (socket, socketRooms) => {
         }
     }
 };
+
+module.exports = { disconnect };

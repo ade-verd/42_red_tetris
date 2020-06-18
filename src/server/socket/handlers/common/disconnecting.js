@@ -24,13 +24,13 @@ const _disconnecting = async (socket, socketRooms) => {
     }
 };
 
-export const socketDisconnecting = helpers.createEvent(
-    ON_EVENT,
-    EMIT_EVENT,
-    schema,
-    async socket => {
-        if (config.env.isTestEnv) return;
-        const socketRooms = Object.keys(socket.rooms);
-        await _disconnecting(socket, socketRooms);
-    },
-);
+const socketDisconnecting = helpers.createEvent(ON_EVENT, EMIT_EVENT, schema, async socket => {
+    if (config.env.isTestEnv) return;
+    const socketRooms = Object.keys(socket.rooms);
+    await _disconnecting(socket, socketRooms);
+});
+
+module.exports +
+    {
+        socketDisconnecting,
+    };

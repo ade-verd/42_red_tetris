@@ -17,7 +17,7 @@ const ON_EVENT = 'rooms:create';
 const EMIT_EVENT = 'rooms:created';
 const FUNCTION_NAME = '[createRoom]';
 
-export const createNewRoom = async (socket, payload) => {
+const createNewRoom = async (socket, payload) => {
     try {
         const newRoom = await new Room({
             roomName: payload.room_name,
@@ -32,11 +32,11 @@ export const createNewRoom = async (socket, payload) => {
     }
 };
 
-export const createRoom = helpers.createEvent(
-    ON_EVENT,
-    EMIT_EVENT,
-    schema,
-    async (socket, payload) => {
-        await createNewRoom(socket, payload);
-    },
-);
+const createRoom = helpers.createEvent(ON_EVENT, EMIT_EVENT, schema, async (socket, payload) => {
+    await createNewRoom(socket, payload);
+});
+
+module.exports = {
+    createRoom,
+    createNewRoom,
+};

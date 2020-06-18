@@ -1,15 +1,15 @@
 'use strict';
 
-import _ from 'lodash';
+const _ = require('lodash');
 
-import playersModel from '../../../models/players';
+const playersModel = require('../../../models/players');
 
-export const getIoRoomSockets = (io, roomSocketId) => {
+const getIoRoomSockets = (io, roomSocketId) => {
     const ioRooms = io.sockets.adapter.rooms;
     return _.get(ioRooms, [roomSocketId.toString(), 'sockets'], {});
 };
 
-export const getIoRoomPlayersIds = async (io, roomSocketId) => {
+const getIoRoomPlayersIds = async (io, roomSocketId) => {
     const playersIds = { players_ids: [] };
 
     const roomSocketsIds = Object.keys(getIoRoomSockets(io, roomSocketId));
@@ -20,4 +20,9 @@ export const getIoRoomPlayersIds = async (io, roomSocketId) => {
         });
     }
     return playersIds;
+};
+
+module.exports = {
+    getIoRoomSockets,
+    getIoRoomPlayersIds,
 };

@@ -1,4 +1,6 @@
 /* istanbul ignore file */
-export * from './createPlayer';
-export * from './getPlayer';
-export * from './updateSocketId';
+module.exports = {
+    ...require('./createPlayer'),
+    ...require('./getPlayer'),
+    ...require('./updateSocketId'),
+};

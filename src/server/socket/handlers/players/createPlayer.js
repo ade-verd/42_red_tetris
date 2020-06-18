@@ -16,7 +16,7 @@ const ON_EVENT = 'players:create';
 const EMIT_EVENT = 'players:created';
 const FUNCTION_NAME = '[createPlayer]';
 
-export const createNewPlayer = async (socket, payload) => {
+const createNewPlayer = async (socket, payload) => {
     try {
         const newPlayer = await new Player({ socketId: socket.client.id, name: payload.name });
         const player = await newPlayer.find();
@@ -31,11 +31,11 @@ export const createNewPlayer = async (socket, payload) => {
     return null;
 };
 
-export const createPlayer = helpers.createEvent(
-    ON_EVENT,
-    EMIT_EVENT,
-    schema,
-    async (socket, payload) => {
-        await createNewPlayer(socket, payload);
-    },
-);
+const createPlayer = helpers.createEvent(ON_EVENT, EMIT_EVENT, schema, async (socket, payload) => {
+    await createNewPlayer(socket, payload);
+});
+
+module.exports = {
+    createPlayer,
+    createNewPlayer,
+};
