@@ -39,4 +39,6 @@ const broadcastMessages = helpers.createEvent(
 
 module.exports = {
     broadcastMessages,
+    ON_EVENT,
+    EMIT_EVENT,
 };
