@@ -7,18 +7,17 @@ import Display from './Display/Display';
 import { StyledPlaygroundWrapper, StyledPlayground } from './Playground.style';
 
 import { store } from '../../index';
+import { useInterval } from '../../helpers/useInterval'
+import { emitGetRandomTetriminos } from '../../actions/game/getTetriminos';
 
 const Playground = props => {
-    const { message, field, gameStatus, piece, user, ...dispatchs } = props;
-    const { gameOver, score, rows, level } = gameStatus;
+    const { field, gameStatus, piece, user, ...dispatchs } = props;
+    const { listen, startGame, firstRender, updateField, updateGameStatus, move, reactivateDropTime, drop } = dispatchs;
+    const { score, rows, rowsCleared, level, gameOver } = gameStatus;
 
-    // socket.on('server/start', () => {
-    // 		console.log('ENTERED SERVER/START on socket');
-    // 		dispatchs.onStart();
-    //     dispatchs.onAlert();
-    // });
-    console.log(
-        '[Playground] State: field =',
+    console.debug(
+        '[Playground] State: ', 
+        'field =',
         field,
         'gameStatus',
         gameStatus,
@@ -29,25 +28,34 @@ const Playground = props => {
     );
 
     useEffect(() => {
-        dispatchs.listen();
-        dispatchs.onFirstRender(user.roomId, 1, 20);
+        listen();
+        firstRender(store.dispatch);
+        emitGetRandomTetriminos(store.dispatch, user.roomId, 1, 20);
     }, []);
 
     useEffect(() => {
-        if (field) {
-            console.log('piece inside useEffect', piece);
-            dispatchs.fieldUpdate(store.dispatch, piece);
-        }
-    }, [piece]);
+        updateGameStatus(store.dispatch)
+    }, [rowsCleared]);
+
+    useEffect(() => {
+        updateField(store.dispatch, field, piece);
+    }, [piece.tetromino, piece.pos]);
+
+    useInterval(() => {
+        drop(store.dispatch, field, piece, gameStatus);
+    }, piece.dropTime);
 
     return (
-        <StyledPlaygroundWrapper>
+        <StyledPlaygroundWrapper
+            tabIndex="0"
+            onKeyDown={event => move(store.dispatch, event, field, piece, gameStatus)}
+            onKeyUp={event => reactivateDropTime(store.dispatch, event, gameStatus)}
+        >
             <StyledPlayground>
-                <p>{message}</p>
                 <Field field={field} />
                 <aside>
                     {gameOver ? (
-                        <Display gameOver={gameOver} text="Game Over" />
+                        <Display gameOver={gameOver} text="GAME OVER" />
                     ) : (
                         <div>
                             <Display text={`Score: ${score}`} />
@@ -55,7 +63,7 @@ const Playground = props => {
                             <Display text={`Level: ${level}`} />
                         </div>
                     )}
-                    <StartButton callback={dispatchs.onStart} />
+                    <StartButton callback={startGame} />
                 </aside>
             </StyledPlayground>
         </StyledPlaygroundWrapper>

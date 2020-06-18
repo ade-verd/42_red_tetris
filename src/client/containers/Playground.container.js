@@ -3,13 +3,16 @@ import { connect } from 'react-redux';
 import Playground from '../components/Playground/Playground';
 
 import { emitGetRandomTetriminos, onGetRandomTetriminos } from '../actions/game/getTetriminos';
-import { fieldUpdate } from '../actions/game/fieldUpdate';
 import { emitGameActionStart, onGameAction } from '../actions/game/gameAction';
+import { firstRender } from '../actions/game/firstRender';
+import { startGame, updateField } from '../actions/game/field';
+import { updateGameStatus } from '../actions/game/gameStatus';
+import { startGame } from '../actions/game/startGame';
+import { move, reactivateDropTime, drop } from '../actions/game/piece';
 
 const mapStateToProps = state => {
-    console.log('[Playground] State', state);
+    console.log('[Playground.container] State', state);
     return {
-        message: state.alt.message,
         field: state.fld.field,
         gameStatus: state.gme,
         piece: state.pce,
@@ -23,13 +26,17 @@ const mapDispatchToProps = dispatch => {
             onGameAction(dispatch);
             onGetRandomTetriminos(dispatch);
         },
-        onFirstRender: (roomId, piecePosition, piecesAmount) => {
-            emitGetRandomTetriminos(dispatch, roomId, piecePosition, piecesAmount);
-        },
         onStart: roomId => {
             emitGameActionStart(dispatch, roomId);
         },
-        fieldUpdate,
+        emitGetRandomTetriminos,
+        startGame,
+        firstRender,
+        updateField,
+        updateGameStatus,
+        move,
+        reactivateDropTime,
+        drop,
     };
 };
 
