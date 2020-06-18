@@ -5,7 +5,7 @@ import MessageList from './MessageList/MessageList';
 
 import css from './ChatWindow.module.css';
 
-const ChatWindow = ({ states, isLobby }) => {
+const ChatWindow = ({ isLobby, states }) => {
     useEffect(() => {
         console.debug('[ChatWindow] rendering');
     });
@@ -18,7 +18,7 @@ const ChatWindow = ({ states, isLobby }) => {
 
     return (
         <div className={css['container']} onClick={setFocusOnInput}>
-            <MessageList states={states} isLobby={isLobby} />
+            <MessageList isLobby={isLobby} states={states} />
             <InputMessage inputRef={inputRef} isLobby={isLobby} />
         </div>
     );
