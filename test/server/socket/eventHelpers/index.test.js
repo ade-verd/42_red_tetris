@@ -2,6 +2,7 @@ const Joi = require('@hapi/joi');
 const { expect } = require('chai');
 const sinon = require('sinon');
 const ioClient = require('socket.io-client');
+const ioServer = require('../../../../src/server/socket/ioInstance');
 
 const { startServer } = require('../../../helpers/server');
 const config = require('../../../../src/server/config');
@@ -73,7 +74,7 @@ describe('Socket event helpers', function() {
         });
     });
 
-    describe.skip('#bindEvent()', function() {
+    describe('#bindEvent()', function() {
         const socketUrl = config.server.url;
         const options = {
             // transports: ['websocket'],
@@ -92,7 +93,7 @@ describe('Socket event helpers', function() {
             server.stop(done);
         });
         it('should bind event', function(done) {
-            const client = ioClient.connect(socketUrl, options);
+            const io = ioServer.get();
 
             const event = {
                 onEventName: 'should_bind_event',
@@ -112,14 +113,15 @@ describe('Socket event helpers', function() {
                 event.fakeFunction,
             );
 
-            eventHelpers.bindEvent(client, eventCreated);
-            client.emit('should_bind_event', { string: 'abdef', number: 1 }, function(
-                error,
-                message,
-            ) {
-                console.log(error);
-                console.log(message);
+            let socket;
+            io.on('connection', _socket => {
+                socket = _socket;
+                eventHelpers.bindEvent(socket, eventCreated);
             });
+
+            const client = ioClient.connect(socketUrl, options);
+            client.emit('should_bind_event', { string: 'abdef', number: 1 });
+
             setTimeout(() => {
                 expect(event.fakeFunction.callCount).to.equal(1);
                 expect(event.fakeFunction.args).to.deep.equal([
@@ -128,6 +130,45 @@ describe('Socket event helpers', function() {
                 client.disconnect();
                 done();
             }, 200);
+        });
+
+        it('should return an error if the payload does not match with the schema', function(done) {
+            const io = ioServer.get();
+
+            const event = {
+                onEventName: 'event:bind',
+                emitEventName: 'event:binded',
+                fakeFunction: sinon.fake.returns('42'),
+                rules: {
+                    string: Joi.string().required(),
+                    number: Joi.number()
+                        .min(0)
+                        .required(),
+                },
+            };
+            const eventCreated = eventHelpers.createEvent(
+                event.onEventName,
+                event.emitEventName,
+                event.rules,
+                event.fakeFunction,
+            );
+
+            let socket;
+            io.on('connection', _socket => {
+                socket = _socket;
+                eventHelpers.bindEvent(socket, eventCreated);
+            });
+
+            const client = ioClient.connect(socketUrl, options);
+            client.emit('event:bind', { string: 'missing_number' });
+            client.on('event:binded', payload => {
+                expect(event.fakeFunction.callCount).to.equal(0);
+                expect(payload).to.deep.equal({
+                    error: 'ValidationError: "number" is required',
+                });
+                client.disconnect();
+                done();
+            });
         });
     });
 });

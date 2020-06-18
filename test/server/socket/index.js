@@ -45,7 +45,6 @@ describe('socket/index.js', function() {
         const client = io.connect(socketUrl, options);
 
         client.on('server/start', () => {
-            console.log('INTERVAL', config.rooms.refreshIntervalMs);
             setTimeout(() => {
                 expect(bindEventStub.callCount).to.equal(handlers.length);
                 expect(emitActiveRoomsStub.callCount).to.equal(1);
@@ -54,7 +53,7 @@ describe('socket/index.js', function() {
 
                 client.disconnect();
                 done();
-            }, 200);
+            }, 150);
         });
     });
 });
