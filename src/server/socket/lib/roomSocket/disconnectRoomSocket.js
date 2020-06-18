@@ -6,7 +6,7 @@ const Player = require('../../../lib/players/classPlayer');
 const Room = require('../../../lib/rooms/classRoom');
 const playerModel = require('../../../models/players/index');
 
-const leaveRoomSocket = require('./leaveRoomSocket');
+const changeRoomSocket = require('./changeRoomSocket');
 
 const LOG_PREFIX = '[disconnect]';
 
@@ -22,10 +22,10 @@ const _leaveRooms = async (socket, rooms, playerId) => {
             const room = await new Room({ roomId });
             const updatedRoom = await room.leave(playerId);
             if (updatedRoom.value) {
-                leaveRoomSocket.leave(socket, roomId);
+                changeRoomSocket.change(socket, null);
             }
         } else {
-            leaveRoomSocket.leave(socket, roomId);
+            changeRoomSocket.change(socket, null);
         }
     });
 };

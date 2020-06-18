@@ -9,11 +9,13 @@ const config = require('../../../../../src/server/config');
 
 const schema = null;
 
-const ON_EVENT = 'disconnecting';
+const ON_EVENT_DISCONNECTING = 'disconnecting';
+const ON_EVENT_LOGOUT = 'log:out';
 const EMIT_EVENT = 'disconnected';
 const FUNCTION_NAME = '[socketDisconnect]';
 
-const _disconnecting = async (socket, socketRooms) => {
+const _disconnect = async socket => {
+    const socketRooms = Object.keys(socket.rooms);
     try {
         await disconnectRoomSocket.disconnect(socket, socketRooms);
         console.log(FUNCTION_NAME, socket.client.id, 'disconnected');
@@ -24,13 +26,21 @@ const _disconnecting = async (socket, socketRooms) => {
     }
 };
 
-const socketDisconnecting = helpers.createEvent(ON_EVENT, EMIT_EVENT, schema, async socket => {
-    if (config.env.isTestEnv) return;
-    const socketRooms = Object.keys(socket.rooms);
-    await _disconnecting(socket, socketRooms);
+const socketDisconnecting = helpers.createEvent(
+    ON_EVENT_DISCONNECTING,
+    EMIT_EVENT,
+    schema,
+    async socket => {
+        if (config.env.isTestEnv) return;
+        await _disconnect(socket);
+    },
+);
+
+const socketLogout = helpers.createEvent(ON_EVENT_LOGOUT, EMIT_EVENT, schema, async socket => {
+    await _disconnect(socket);
 });
 
-module.exports +
-    {
-        socketDisconnecting,
-    };
+module.exports = {
+    socketDisconnecting,
+    socketLogout,
+};
