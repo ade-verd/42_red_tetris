@@ -2,7 +2,7 @@ import { FIELD_HEIGHT, FIELD_WIDTH } from '../../constants';
 import { ACTIONS } from '../middleware/handleSocket';
 
 export const createField = () => {
-    const newField = Array.from(Array(FIELD_HEIGHT), () => new Array(FIELD_WIDTH).fill([0, 'clear']));
+    const newField = Array.from(Array(FIELD_HEIGHT), () => new Array(FIELD_WIDTH).fill([0, 'clear', false]));
     return {
         field: newField,
     };
@@ -12,8 +12,9 @@ const sweepRows = (asyncDispatch, newField) => {
     const isClear = cell => cell[0] === 0;
     const reducer = (ack, row) => {
         if (row.findIndex(isClear) === -1) {
+            console.log('RARA')
             asyncDispatch({ action: ACTIONS.REDUCE, type: 'INCREMENT_ROWSCLEARED' });
-            ack.unshift(new Array(newField[0].length).fill([0, 'clear']));
+            ack.unshift(new Array(newField[0].length).fill([0, 'clear', false]));
             return ack;
         }
         ack.push(row);
@@ -22,29 +23,48 @@ const sweepRows = (asyncDispatch, newField) => {
     return newField.reduce(reducer, []);
 }
 
-export const updateField = (asyncDispatch, prevField, piece, allStates) => {
-    // First flush the stage
+export const updateField = (asyncDispatch, prevField, piece) => {
+    asyncDispatch({ action: ACTIONS.REDUCE, type: 'SET_ROWSCLEARED', rowsCleared: 0 });
+    // 1. Flush the stage
     const newField = prevField.map(row =>
-        row.map(cell => (cell[1] === 'clear' ? [0, 'clear'] : cell)),
+        row.map(cell => (cell[1] === 'clear' ? [0, 'clear', false] : cell)),
     );
-    // Then draw the tetromino
+
+    // 2. Draw the projection
+    console.log('inside updateField', piece);
+    piece.projection.tetromino.forEach((row, y) => {
+        row.forEach((value, x) => {
+            if (value !== 0) {
+                newField[y + piece.projection.pos.y][x + piece.projection.pos.x] = [
+                    value,
+                    'clear',
+                    true
+                ];
+            }
+        });
+    });
+
+    // 3. Draw the tetromino
     piece.tetromino.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
                 newField[y + piece.pos.y][x + piece.pos.x] = [
                     value,
                     `${piece.collided ? 'merged' : 'clear'}`,
+                    false
                 ];
             }
         });
     });
-    // Then check if we collided
+    
+    // 4. Check if we collided
     if (piece.collided) {
-        asyncDispatch({ action: ACTIONS.REDUCE, type: 'SET_TETROMINO' });
+        asyncDispatch({ action: ACTIONS.REDUCE, type: 'GET_TETROMINO' });
         return {
             field: sweepRows(asyncDispatch, newField),
         }
     }
+    
     return {
         field: newField,
     };
@@ -56,8 +76,9 @@ const reducer = (state = {}, action) => {
         case 'FIRST_RENDER':
             return createField();
         case 'UPDATE':
-            console.log('updating')
-            return updateField(action.asyncDispatch, state.field, action.piece, action.allStates);
+            return updateField(action.asyncDispatch, state.field, action.piece);
+        case 'RESET':
+            return createField();
         default:
             return state;
     }

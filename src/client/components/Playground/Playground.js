@@ -10,15 +10,14 @@ import { store } from '../../index';
 import { useInterval } from '../../helpers/useInterval'
 import { emitGetRandomTetriminos } from '../../actions/game/getTetriminos';
 
-import { ACTIONS } from '../../middleware/handleSocket'
-
 const Playground = props => {
-    const { message, field, gameStatus, piece, user, ...dispatchs } = props;
-    const { listen, firstRender, fieldUpdate, movePiece, onKeyUp, drop } = dispatchs;
-    const { gameOver, score, rows, level } = gameStatus;
+    const { field, gameStatus, piece, user, ...dispatchs } = props;
+    const { listen, startGame, firstRender, updateField, updateGameStatus, move, reactivateDropTime, drop } = dispatchs;
+    const { score, rows, rowsCleared, level, gameOver } = gameStatus;
 
-    console.log(
-        '[Playground] State: field =',
+    console.debug(
+        '[Playground] State: ', 
+        'field =',
         field,
         'gameStatus',
         gameStatus,
@@ -31,14 +30,15 @@ const Playground = props => {
     useEffect(() => {
         listen();
         firstRender(store.dispatch);
-        console.log('ONUR', piece)
-        emitGetRandomTetriminos(store.dispatch, user.roomId, piece.index + 1, piece.amount);
-        console.log('emit done')
+        emitGetRandomTetriminos(store.dispatch, user.roomId, 1, 20);
     }, []);
 
     useEffect(() => {
-        console.log('useEffect update', field, piece)
-        fieldUpdate(store.dispatch, field, piece);
+        updateGameStatus(store.dispatch)
+    }, [rowsCleared]);
+
+    useEffect(() => {
+        updateField(store.dispatch, field, piece);
     }, [piece.tetromino, piece.pos]);
 
     useInterval(() => {
@@ -47,15 +47,15 @@ const Playground = props => {
 
     return (
         <StyledPlaygroundWrapper
-            onKeyDown={e => movePiece(store.dispatch, e, gameStatus)}
-            onKeyUp={key => onKeyUp(store.dispatch, key, gameStatus)}
+            tabIndex="0"
+            onKeyDown={event => move(store.dispatch, event, field, piece, gameStatus)}
+            onKeyUp={event => reactivateDropTime(store.dispatch, event, gameStatus)}
         >
             <StyledPlayground>
-                <p>{message}</p>
                 <Field field={field} />
                 <aside>
                     {gameOver ? (
-                        <Display gameOver={gameOver} text="Game Over" />
+                        <Display gameOver={gameOver} text="GAME OVER" />
                     ) : (
                         <div>
                             <Display text={`Score: ${score}`} />
@@ -63,12 +63,7 @@ const Playground = props => {
                             <Display text={`Level: ${level}`} />
                         </div>
                     )}
-                    <StartButton 
-                        callback={() => {
-                            store.dispatch({ action: ACTIONS.REDUCE, type: 'SET_TETROMINO' });
-                            store.dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: 1000 });
-                        }}
-                    />
+                    <StartButton callback={startGame} />
                 </aside>
             </StyledPlayground>
         </StyledPlaygroundWrapper>

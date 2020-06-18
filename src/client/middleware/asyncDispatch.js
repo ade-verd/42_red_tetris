@@ -17,10 +17,8 @@ export const asyncDispatchMiddleware = store => next => action => {
       }
     }
   
-    console.log('Inside middleware asyncDispatch, store.getState()', store.getState());
-  
     const actionWithAsyncDispatch =
-      Object.assign({}, action, { asyncDispatch, allStates: store.getState() });
+      Object.assign({}, action, { asyncDispatch });
   
     const res = next(actionWithAsyncDispatch);
   

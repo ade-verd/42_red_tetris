@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import createLogger from 'redux-logger';
-import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
-import { handleSocket } from './middleware/handleSocket';
-import { asyncDispatchMiddleware } from './middleware/asyncDispatch'
-import { storeStateMiddleWare } from './middleware/storeStateMiddleWare';
 import { Provider } from 'react-redux';
+
+import thunk from 'redux-thunk';
+import { asyncDispatchMiddleware } from './middleware/asyncDispatch';
+import { allStatesMiddleware } from './middleware/allStates';
+import createLogger from 'redux-logger';
+import { handleSocket } from './middleware/handleSocket';
 
 import rootReducer from './reducers/index';
 import App from './App';
@@ -19,7 +20,7 @@ const initialState = {};
 export const store = createStore(
     rootReducer,
     initialState,
-    applyMiddleware(thunk, asyncDispatchMiddleware, createLogger(), handleSocket()),
+    applyMiddleware(thunk, asyncDispatchMiddleware, allStatesMiddleware, createLogger(), handleSocket()),
 );
 
 ReactDom.render(
