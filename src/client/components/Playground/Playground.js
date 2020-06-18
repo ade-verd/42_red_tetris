@@ -63,7 +63,7 @@ const Playground = props => {
                             <Display text={`Level: ${level}`} />
                         </div>
                     )}
-                    <StartButton callback={startGame} />
+                    <StartButton callback={() => startGame(store.dispatch)} />
                 </aside>
             </StyledPlayground>
         </StyledPlaygroundWrapper>

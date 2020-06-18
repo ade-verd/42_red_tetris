@@ -7,7 +7,6 @@ import { emitGameActionStart, onGameAction } from '../actions/game/gameAction';
 import { firstRender } from '../actions/game/firstRender';
 import { startGame, updateField } from '../actions/game/field';
 import { updateGameStatus } from '../actions/game/gameStatus';
-import { startGame } from '../actions/game/startGame';
 import { move, reactivateDropTime, drop } from '../actions/game/piece';
 
 const mapStateToProps = state => {
