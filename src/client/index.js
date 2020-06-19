@@ -20,7 +20,13 @@ const initialState = {};
 export const store = createStore(
     rootReducer,
     initialState,
-    applyMiddleware(thunk, asyncDispatchMiddleware, allStatesMiddleware, createLogger(), handleSocket()),
+    applyMiddleware(
+        thunk,
+        asyncDispatchMiddleware,
+        allStatesMiddleware,
+        createLogger(),
+        handleSocket(),
+    ),
 );
 
 ReactDom.render(

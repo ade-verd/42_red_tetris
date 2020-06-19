@@ -18,12 +18,8 @@ const emitPong = (socket, payload) => {
     }
 };
 
-export const receivePing = helpers.createEvent(
-    ON_EVENT,
-    EMIT_EVENT,
-    schema,
-    async (socket, payload) => {
-        // Logic here
-        emitPong(socket, payload);
-    },
-);
+const receivePing = helpers.createEvent(ON_EVENT, EMIT_EVENT, schema, async (socket, payload) => {
+    emitPong(socket, payload);
+});
+
+module.exports = { receivePing };

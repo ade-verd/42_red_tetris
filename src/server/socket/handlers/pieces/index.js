@@ -1,2 +1,4 @@
 /* istanbul ignore file */
-export * from './getTetriminos.js';
+module.exports = {
+    ...require('./getTetriminos'),
+};

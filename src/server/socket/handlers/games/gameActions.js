@@ -31,11 +31,10 @@ const _runActionGame = async (socket, payload) => {
     }
 };
 
-export const gameAction = helpers.createEvent(
-    ON_EVENT,
-    EMIT_EVENT,
-    schema,
-    async (socket, payload) => {
-        await _runActionGame(socket, payload);
-    },
-);
+const gameAction = helpers.createEvent(ON_EVENT, EMIT_EVENT, schema, async (socket, payload) => {
+    await _runActionGame(socket, payload);
+});
+
+module.exports = {
+    gameAction,
+};

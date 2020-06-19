@@ -4,7 +4,7 @@ const debug = require('debug');
 const mongodb = require('./lib/mongodb');
 const models = require('./models');
 
-const { initSocketIo } = require('./socket');
+const socket = require('./socket');
 
 const logerror = debug('tetris:error'),
     loginfo = debug('tetris:info');
@@ -38,7 +38,7 @@ const initApp = (app, params, cb) => {
     });
 };
 
-function create(params) {
+const create = params => {
     const promise = new Promise((resolve, reject) => {
         const app = require('http').createServer();
         initApp(app, params, () => {
@@ -55,12 +55,12 @@ function create(params) {
                 cb();
             };
 
-            initSocketIo(io);
+            socket.initSocketIo(io);
             resolve({ stop });
         });
     });
     return promise;
-}
+};
 
 module.exports = {
     create,

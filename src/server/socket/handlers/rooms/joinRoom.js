@@ -5,7 +5,7 @@ const Joi = require('@hapi/joi');
 const helpers = require('../../eventHelpers');
 
 const Room = require('../../../lib/rooms/classRoom');
-const joinRoomSocket = require('../../lib/roomSocket/joinRoomSocket');
+const changeRoomSocket = require('../../lib/roomSocket/changeRoomSocket');
 const getActiveRooms = require('./getActiveRooms.js');
 
 const schema = {
@@ -25,7 +25,7 @@ const _joinExistingRoom = async (socket, payload) => {
             roomId: payload.room_id,
         });
         res = await room.join(payload.player_id);
-        await joinRoomSocket.join(socket, room.id);
+        await changeRoomSocket.change(socket, room.id);
         socket.emit(EMIT_EVENT, { payload, update: res });
         await getActiveRooms.emitActiveRooms();
     } catch (err) {
@@ -34,11 +34,8 @@ const _joinExistingRoom = async (socket, payload) => {
     }
 };
 
-export const joinRoom = helpers.createEvent(
-    ON_EVENT,
-    EMIT_EVENT,
-    schema,
-    async (socket, payload) => {
-        await _joinExistingRoom(socket, payload);
-    },
-);
+const joinRoom = helpers.createEvent(ON_EVENT, EMIT_EVENT, schema, async (socket, payload) => {
+    await _joinExistingRoom(socket, payload);
+});
+
+module.exports = { joinRoom };

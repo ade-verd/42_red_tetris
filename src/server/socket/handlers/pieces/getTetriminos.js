@@ -31,7 +31,7 @@ const emitNewPieces = async (socket, payload) => {
     }
 };
 
-export const getRandomTetriminos = helpers.createEvent(
+const getRandomTetriminos = helpers.createEvent(
     ON_EVENT,
     EMIT_EVENT,
     schema,
@@ -39,3 +39,7 @@ export const getRandomTetriminos = helpers.createEvent(
         await emitNewPieces(socket, payload);
     },
 );
+
+module.exports = {
+    getRandomTetriminos,
+};

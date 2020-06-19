@@ -94,6 +94,46 @@ describe('models/players', () => {
         });
     });
 
+    describe('#findAllBySocketIds()', () => {
+        beforeEach(async () => {
+            await playersModels.collection().insertMany(fixtures.default());
+        });
+
+        it('should find all players by their socket id', async () => {
+            const socketIds = ['0000000001', '0000000002'];
+            const res = await playersModels.findAllBySocketIds(socketIds);
+
+            expect(await res.toArray()).to.deep.equal([
+                {
+                    _id: new ObjectId('00000000000000000000000a'),
+                    socket_id: '0000000001',
+                    name: 'Will',
+                    room_id: null,
+                    blocks_consumed: 0,
+                    created_at: new Date('2020-01-01T10:00:00Z'),
+                    updated_at: new Date('2020-01-01T10:00:00Z'),
+                },
+                {
+                    _id: new ObjectId('00000000000000000000000b'),
+                    socket_id: '0000000002',
+                    room_id: null,
+                    name: 'Carlton',
+                    blocks_consumed: 7,
+                    created_at: new Date('2020-01-01T10:00:00Z'),
+                    updated_at: new Date('2020-01-01T10:00:00Z'),
+                },
+            ]);
+        });
+
+        it('should apply the projection', async () => {
+            const socketIds = ['0000000001', '0000000002'];
+            const projection = { _id: 0, name: 1 };
+            const res = await playersModels.findAllBySocketIds(socketIds, projection);
+
+            expect(await res.toArray()).to.deep.equal([{ name: 'Will' }, { name: 'Carlton' }]);
+        });
+    });
+
     describe('#findOneById()', () => {
         beforeEach(async () => {
             await playersModels.collection().insertMany(fixtures.default());

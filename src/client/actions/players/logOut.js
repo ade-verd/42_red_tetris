@@ -4,7 +4,7 @@ import { removeUserCookie } from './userCookie';
 export const emitDisconnect = dispatch =>
     dispatch({
         action: ACTIONS.EMIT,
-        event: 'disconnecting',
+        event: 'log:out',
     });
 
 export const updateStateAtLogout = dispatch => {

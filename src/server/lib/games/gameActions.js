@@ -4,18 +4,25 @@ const roomsLib = require('../../models/rooms');
 
 const { GAME_STATUS } = require('../../../constants');
 
-export const start = async roomId => {
+const start = async roomId => {
     return roomsLib.updateOne(roomId, { game_status: GAME_STATUS.PLAYING });
 };
 
-export const pause = async roomId => {
+const pause = async roomId => {
     return roomsLib.updateOne(roomId, { game_status: GAME_STATUS.PAUSE });
 };
 
-export const resume = async roomId => {
+const resume = async roomId => {
     return roomsLib.updateOne(roomId, { game_status: GAME_STATUS.PLAYING });
 };
 
-export const stop = async roomId => {
+const stop = async roomId => {
     return roomsLib.updateOne(roomId, { game_status: GAME_STATUS.WAITING });
+};
+
+module.exports = {
+    start,
+    pause,
+    resume,
+    stop,
 };

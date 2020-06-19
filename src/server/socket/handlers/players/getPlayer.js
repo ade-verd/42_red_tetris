@@ -26,11 +26,10 @@ const _getPlayer = async (socket, payload) => {
     }
 };
 
-export const getPlayer = helpers.createEvent(
-    ON_EVENT,
-    EMIT_EVENT,
-    schema,
-    async (socket, payload) => {
-        await _getPlayer(socket, payload);
-    },
-);
+const getPlayer = helpers.createEvent(ON_EVENT, EMIT_EVENT, schema, async (socket, payload) => {
+    await _getPlayer(socket, payload);
+});
+
+module.exports = {
+    getPlayer,
+};

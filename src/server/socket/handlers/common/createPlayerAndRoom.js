@@ -15,7 +15,7 @@ const schema = {
 const ON_EVENT = 'players_rooms:create_join';
 const EMIT_EVENT = 'players:created';
 
-export const createPlayerAndRoom = helpers.createEvent(
+const createPlayerAndRoom = helpers.createEvent(
     ON_EVENT,
     EMIT_EVENT,
     schema,
@@ -30,3 +30,5 @@ export const createPlayerAndRoom = helpers.createEvent(
         }
     },
 );
+
+module.exports = { createPlayerAndRoom };

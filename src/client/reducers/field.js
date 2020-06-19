@@ -2,26 +2,28 @@ import { FIELD_HEIGHT, FIELD_WIDTH } from '../../constants';
 import { ACTIONS } from '../middleware/handleSocket';
 
 export const createField = () => {
-    const newField = Array.from(Array(FIELD_HEIGHT), () => new Array(FIELD_WIDTH).fill([0, 'clear', false]));
+    const newField = Array.from(Array(FIELD_HEIGHT), () =>
+        new Array(FIELD_WIDTH).fill([0, 'clear', false]),
+    );
     return {
         field: newField,
     };
-}
+};
 
 const sweepRows = (asyncDispatch, newField) => {
     const isClear = cell => cell[0] === 0;
     const reducer = (ack, row) => {
         if (row.findIndex(isClear) === -1) {
-            console.log('RARA')
+            console.log('RARA');
             asyncDispatch({ action: ACTIONS.REDUCE, type: 'INCREMENT_ROWSCLEARED' });
             ack.unshift(new Array(newField[0].length).fill([0, 'clear', false]));
             return ack;
         }
         ack.push(row);
         return ack;
-    }
+    };
     return newField.reduce(reducer, []);
-}
+};
 
 export const updateField = (asyncDispatch, prevField, piece) => {
     asyncDispatch({ action: ACTIONS.REDUCE, type: 'SET_ROWSCLEARED', rowsCleared: 0 });
@@ -38,7 +40,7 @@ export const updateField = (asyncDispatch, prevField, piece) => {
                 newField[y + piece.projection.pos.y][x + piece.projection.pos.x] = [
                     value,
                     'clear',
-                    true
+                    true,
                 ];
             }
         });
@@ -51,25 +53,24 @@ export const updateField = (asyncDispatch, prevField, piece) => {
                 newField[y + piece.pos.y][x + piece.pos.x] = [
                     value,
                     `${piece.collided ? 'merged' : 'clear'}`,
-                    false
+                    false,
                 ];
             }
         });
     });
-    
+
     // 4. Check if we collided
     if (piece.collided) {
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'GET_TETROMINO' });
         return {
             field: sweepRows(asyncDispatch, newField),
-        }
+        };
     }
-    
+
     return {
         field: newField,
     };
 };
-
 
 const reducer = (state = {}, action) => {
     switch (action.type) {

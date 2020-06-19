@@ -7,7 +7,7 @@ const buildField = field => {
     return field.map(row => (
         <Row>
             {row.map((cell, x) => (
-                <Cell key={x} type={cell[0]} projection={cell[2]}/>
+                <Cell key={x} type={cell[0]} projection={cell[2]} />
             ))}
         </Row>
     ));

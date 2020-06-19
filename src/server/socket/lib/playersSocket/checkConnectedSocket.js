@@ -1,14 +1,14 @@
 'use strict';
 
-import _ from 'lodash';
+const _ = require('lodash');
 
-import { ObjectId } from 'mongodb';
+const { ObjectId } = require('mongodb');
 
-import playersModels from '../../../models/players';
-import * as getActiveRooms from '../../handlers/rooms/getActiveRooms';
-import Room from '../../../lib/rooms/classRoom';
+const playersModels = require('../../../models/players');
+const getActiveRooms = require('../../handlers/rooms/getActiveRooms');
+const Room = require('../../../lib/rooms/classRoom');
 
-export const checkConnectedSocket = async io => {
+const checkConnectedSocket = async io => {
     const ioRooms = io.sockets.adapter.rooms;
     console.log('[ioRooms]', ioRooms);
 
@@ -48,3 +48,5 @@ const disconnectRoom = async mongoRoomId => {
     await room.offline();
     await getActiveRooms.emitActiveRooms();
 };
+
+module.exports = { checkConnectedSocket };

@@ -7,16 +7,25 @@ import Display from './Display/Display';
 import { StyledPlaygroundWrapper, StyledPlayground } from './Playground.style';
 
 import { store } from '../../index';
-import { useInterval } from '../../helpers/useInterval'
+import { useInterval } from '../../helpers/useInterval';
 import { emitGetRandomTetriminos } from '../../actions/game/getTetriminos';
 
 const Playground = props => {
     const { field, gameStatus, piece, user, ...dispatchs } = props;
-    const { listen, startGame, firstRender, updateField, updateGameStatus, move, reactivateDropTime, drop } = dispatchs;
+    const {
+        listen,
+        startGame,
+        firstRender,
+        updateField,
+        updateGameStatus,
+        move,
+        reactivateDropTime,
+        drop,
+    } = dispatchs;
     const { score, rows, rowsCleared, level, gameOver } = gameStatus;
 
     console.debug(
-        '[Playground] State: ', 
+        '[Playground] State: ',
         'field =',
         field,
         'gameStatus',
@@ -34,7 +43,7 @@ const Playground = props => {
     }, []);
 
     useEffect(() => {
-        updateGameStatus(store.dispatch)
+        updateGameStatus(store.dispatch);
     }, [rowsCleared]);
 
     useEffect(() => {
