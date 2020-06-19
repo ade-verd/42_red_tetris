@@ -32,6 +32,7 @@ const change = (socket, toRoomId) => {
     const socketRooms = Object.keys(socket.rooms);
     const from = socketRooms && socketRooms.length > 1 ? socketRooms[1] : null;
     const movePayload = { from, to: toRoomId };
+    console.log('MOVE PAYLOAD', movePayload);
     move(socket, movePayload);
 };
 
