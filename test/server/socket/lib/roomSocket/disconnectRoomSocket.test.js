@@ -1,6 +1,5 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const { ObjectId } = require('mongodb');
 
 const playersModel = require('../../../../../src/server/models/players');
 const roomInOut = require('../../../../../src/server/lib/rooms/roomInOut');

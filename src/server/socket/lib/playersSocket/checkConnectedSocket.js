@@ -16,14 +16,14 @@ const checkConnectedSocket = async io => {
     await mongoRoomsCursor.forEach(async mongoRoom => {
         const mongoRoomId = mongoRoom._id.toString();
         if (ioRooms[mongoRoomId]) {
-            await checkPlayers(ioRooms[mongoRoomId], mongoRoom);
+            await thisFunctions._checkPlayers(ioRooms[mongoRoomId], mongoRoom);
         } else {
-            await disconnectRoom(mongoRoomId);
+            await thisFunctions._disconnectRoom(mongoRoomId);
         }
     });
 };
 
-const checkPlayers = async (ioRoom, mongoRoom) => {
+const _checkPlayers = async (ioRoom, mongoRoom) => {
     const playersIds = mongoRoom.players_ids.map(id => new ObjectId(id));
     const mongoPlayers = await playersModels.find({ _id: { $in: playersIds } }, { socket_id: 1 });
 
@@ -31,22 +31,23 @@ const checkPlayers = async (ioRoom, mongoRoom) => {
         console.log('[checkPlayers]', { player: player });
         const playerSocketId = _.get(ioRoom, ['sockets', player.socket_id]);
         if (!playerSocketId) {
-            await unsetPlayer(mongoRoom._id.toString(), player._id.toString());
+            await thisFunctions._unsetPlayer(mongoRoom._id.toString(), player._id.toString());
         }
     });
 };
 
-const unsetPlayer = async (mongoRoomId, playerId) => {
+const _unsetPlayer = async (mongoRoomId, playerId) => {
     console.log('[checkConnectedSocket] unsetPlayer', { room: mongoRoomId, player: playerId });
     const room = await new Room({ roomId: mongoRoomId });
     await room.leave(playerId);
 };
 
-const disconnectRoom = async mongoRoomId => {
+const _disconnectRoom = async mongoRoomId => {
     console.log('[checkConnectedSocket] disconnectRoom', { room: mongoRoomId });
     const room = await new Room({ roomId: mongoRoomId });
     await room.offline();
     await getActiveRooms.emitActiveRooms();
 };
 
-module.exports = { checkConnectedSocket };
+const thisFunctions = { checkConnectedSocket, _checkPlayers, _disconnectRoom, _unsetPlayer };
+module.exports = thisFunctions;
