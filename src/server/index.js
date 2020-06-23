@@ -9,26 +9,24 @@ const socket = require('./socket');
 const logerror = debug('tetris:error'),
     loginfo = debug('tetris:info');
 
-const initApp = (app, params, cb) => {
-    const { host, port, startMongodb = true } = params;
-    const handler = (req, res) => {
-        const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html';
-        fs.readFile(__dirname + file, (err, data) => {
-            if (err) {
-                logerror(err);
-                res.writeHead(500);
-                return res.end('Error loading index.html');
-            }
-            res.writeHead(200);
-            res.end(data);
-        });
-    };
+let io = null;
+let app = null;
 
-    if (startMongodb) {
-        new Promise((resolve, reject) => {
-            resolve(mongodb.connect());
-        }).then(() => models.createCollectionsIndexes());
-    }
+const handler = (req, res) => {
+    const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html';
+    fs.readFile(__dirname + file, (err, data) => {
+        if (err) {
+            logerror(err);
+            res.writeHead(500);
+            return res.end('Error loading index.html');
+        }
+        res.writeHead(200);
+        res.end(data);
+    });
+};
+
+const appListen = (app, params, cb) => {
+    const { host, port } = params;
 
     app.on('request', handler);
 
@@ -38,23 +36,34 @@ const initApp = (app, params, cb) => {
     });
 };
 
+const initApp = (app, params, cb) => {
+    if (params.startMongodb) {
+        new Promise((resolve, reject) => {
+            resolve(mongodb.connect());
+        }).then(() => {
+            models.createCollectionsIndexes();
+            appListen(app, params, cb);
+        });
+    } else {
+        appListen(app, params, cb);
+    }
+};
+
+const stop = cb => {
+    mongodb.disconnect();
+    io.close();
+    app.close(() => {
+        app.unref();
+    });
+    loginfo('Engine stopped');
+    cb();
+};
+
 const create = params => {
     const promise = new Promise((resolve, reject) => {
-        const app = require('http').createServer();
+        app = require('http').createServer();
         initApp(app, params, () => {
-            const io = require('socket.io')(app);
-            const stop = cb => {
-                mongodb.disconnect();
-
-                io.close();
-                app.close(() => {
-                    app.unref();
-                });
-                loginfo(`Engine stopped.`);
-
-                cb();
-            };
-
+            io = require('socket.io')(app);
             socket.initSocketIo(io);
             resolve({ stop });
         });
