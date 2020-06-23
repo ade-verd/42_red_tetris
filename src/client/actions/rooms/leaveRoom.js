@@ -1,4 +1,4 @@
-import { ACTIONS } from '../../middleware/handleSocket';
+import { ACTIONS } from '../../middlewares/handleSocket';
 
 export const leaveRoomPayload = (roomId, playerId) => ({
     room_id: roomId,

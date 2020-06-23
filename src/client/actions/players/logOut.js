@@ -1,4 +1,4 @@
-import { ACTIONS } from '../../middleware/handleSocket';
+import { ACTIONS } from '../../middlewares/handleSocket';
 import { removeUserCookie } from './userCookie';
 
 export const emitDisconnect = dispatch =>

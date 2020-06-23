@@ -1,4 +1,4 @@
-import { ACTIONS } from '../../middleware/handleSocket';
+import { ACTIONS } from '../../middlewares/handleSocket';
 
 import { emitGetPlayer } from '../players/getPlayer';
 import { dispatchReduceSaveSocket } from '../common/connect';

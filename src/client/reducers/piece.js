@@ -1,5 +1,5 @@
 import { FIELD_WIDTH } from '../../constants';
-import { ACTIONS } from '../middleware/handleSocket';
+import { ACTIONS } from '../middlewares/handleSocket';
 import { emitGetRandomTetriminos } from '../actions/game/getTetriminos';
 import { checkCollision } from '../helpers/checkCollision';
 

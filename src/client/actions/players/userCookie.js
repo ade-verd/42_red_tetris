@@ -1,6 +1,6 @@
 import Cookies from 'universal-cookie';
 
-import { ACTIONS } from '../../middleware/handleSocket';
+import { ACTIONS } from '../../middlewares/handleSocket';
 
 const _getUserInfo = (userState, player) => {
     let userInfo;
