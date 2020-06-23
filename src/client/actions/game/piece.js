@@ -26,7 +26,7 @@ export const drop = (dispatch, field, piece, gameStatus) => {
         // Game over !
         if (piece.pos.y < 1) {
             console.debug('GAME OVER !');
-            dispatch({ action: ACTIONS.REDUCE, type: 'SET_GAMEOVER', gameOver: true });
+            dispatch({ action: ACTIONS.REDUCE, type: 'GAMEOVER' });
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
         }
         dispatch({ action: ACTIONS.REDUCE, type: 'SET_POS', pos: { x: 0, y: 0 }, collided: true });

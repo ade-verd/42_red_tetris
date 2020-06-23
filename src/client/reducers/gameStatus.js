@@ -42,7 +42,7 @@ const reducer = (state = {}, action) => {
                 ...state,
                 rowsCleared: state.rowsCleared + 1,
             };
-        case 'SET_GAMEOVER':
+        case 'GAMEOVER':
             return {
                 ...state,
                 gameOver: true,
