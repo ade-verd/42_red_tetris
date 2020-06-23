@@ -1,4 +1,4 @@
-import { ACTIONS } from '../../middleware/handleSocket';
+import { ACTIONS } from '../../middlewares/handleSocket';
 import { getUserCookie } from '../players/userCookie';
 import { checkSocketId } from '../players/updateSocketId';
 

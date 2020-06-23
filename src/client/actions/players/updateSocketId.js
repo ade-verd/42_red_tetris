@@ -1,4 +1,4 @@
-import { ACTIONS } from '../../middleware/handleSocket';
+import { ACTIONS } from '../../middlewares/handleSocket';
 import { setUserCookie } from './userCookie';
 
 export const updateSocketIdPayload = playerId => ({ player_id: playerId });

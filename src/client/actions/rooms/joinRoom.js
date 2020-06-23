@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { ACTIONS } from '../../middleware/handleSocket';
+import { ACTIONS } from '../../middlewares/handleSocket';
 
 export const joinRoomPayload = (roomId, playerId) => ({
     room_id: roomId,

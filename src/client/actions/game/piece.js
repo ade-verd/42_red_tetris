@@ -1,4 +1,4 @@
-import { ACTIONS } from '../../middleware/handleSocket';
+import { ACTIONS } from '../../middlewares/handleSocket';
 import { checkCollision } from '../../helpers/checkCollision'
 
 export const reactivateDropTime = (dispatch, { keyCode }, gameStatus) => {

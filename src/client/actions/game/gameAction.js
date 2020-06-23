@@ -1,4 +1,4 @@
-import { ACTIONS } from '../../middleware/handleSocket';
+import { ACTIONS } from '../../middlewares/handleSocket';
 import { GAME_ACTIONS } from '../../../constants';
 
 export const gameActionPayload = (roomId, action) => ({

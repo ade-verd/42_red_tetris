@@ -1,4 +1,4 @@
-import { ACTIONS } from '../../middleware/handleSocket';
+import { ACTIONS } from '../../middlewares/handleSocket';
 
 export const createChatPayload = ({ playerId, playerName, roomId, msg }) => ({
     fromPlayerId: playerId,

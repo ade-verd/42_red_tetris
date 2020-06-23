@@ -5,10 +5,10 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
 import thunk from 'redux-thunk';
-import { asyncDispatchMiddleware } from './middleware/asyncDispatch';
-import { allStatesMiddleware } from './middleware/allStates';
+import { asyncDispatchMiddleware } from './middlewares/asyncDispatch';
+import { allStatesMiddleware } from './middlewares/allStates';
 import createLogger from 'redux-logger';
-import { handleSocket } from './middleware/handleSocket';
+import { handleSocket } from './middlewares/handleSocket';
 
 import rootReducer from './reducers/index';
 import App from './App';
