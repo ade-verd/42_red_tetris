@@ -14,6 +14,8 @@ const fixtures = {
     ...require('../../../../fixtures/rooms.fixtures'),
 };
 
+const clientAction = require('../../../../../src/client/actions/common/createPlayerAndRoom');
+
 describe('socket/handlers/common/createPlayerAndRoom', function() {
     const sandbox = sinon.createSandbox();
 
@@ -55,7 +57,10 @@ describe('socket/handlers/common/createPlayerAndRoom', function() {
 
         const client = ioClient.connect(socketUrl, options);
 
-        const payload = { player_name: 'Waldo', room_name: 'room_1' };
+        const payload = clientAction.createPlayerAndRoomPayload({
+            playerName: 'Waldo',
+            roomName: 'room_1',
+        });
 
         client.emit('players_rooms:create_join', payload);
 
@@ -87,7 +92,10 @@ describe('socket/handlers/common/createPlayerAndRoom', function() {
 
         const client = ioClient.connect(socketUrl, options);
 
-        const payload = { player_name: 'Waldo', room_name: 'room_1' };
+        const payload = clientAction.createPlayerAndRoomPayload({
+            playerName: 'Waldo',
+            roomName: 'room_1',
+        });
 
         client.emit('players_rooms:create_join', payload);
 
