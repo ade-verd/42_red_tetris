@@ -12,6 +12,7 @@
         "srv-dev": "DEBUG=tetris:* babel-watch -w src src/server/main.js",
         "srv-dist": "DEBUG=tetris:* babel src --out-dir dist",
         "mocha": "cross-env NODE_ENV=test mocha",
+        "nyc": "cross-env NODE_ENV=test nyc mocha",
         "prettier": "prettier --check 'src/**/*.js'",
         "prettier:write": "prettier --write 'src/**/*.js'",
         "test": "npm run prettier && cross-env NODE_ENV=test nyc mocha"

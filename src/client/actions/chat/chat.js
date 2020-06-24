@@ -1,11 +1,13 @@
 import { ACTIONS } from '../../middleware/handleSocket';
 
-export const createChatPayload = ({ playerId, playerName, roomId, msg }) => ({
+import { newDate } from '../../lib/utils/date';
+
+export const createChatPayload = ({ playerId, playerName, roomId, msg, date }) => ({
     fromPlayerId: playerId,
     fromPlayerName: playerName,
     toRoomId: roomId || 'lobby',
     message: msg,
-    date: Date.now(),
+    date: newDate(date).valueOf(),
 });
 
 export const emitChatMessage = (dispatch, payload) =>

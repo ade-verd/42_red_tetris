@@ -12,6 +12,8 @@ const {
     EMIT_EVENT,
 } = require('../../../../../src/server/socket/handlers/chat/broadcastMessages');
 
+const clientActions = require('../../../../../src/client/actions/chat/chat');
+
 describe('socket/handlers/chat/broadcastMessages', function() {
     const sandbox = sinon.createSandbox();
 
@@ -37,14 +39,21 @@ describe('socket/handlers/chat/broadcastMessages', function() {
         sandbox.restore();
     });
 
-    const MSG = {
-        fromPlayerId: '000000000000000000000001',
-        fromPlayerName: 'Bobby',
-        toRoomId: 'LOBBY',
-        message: "Hello, it's me: Bobby",
-        date: 1577836800,
-    };
     it('should broadcast the payload message to all clients in room, including sender', function(done) {
+        const msgPayload = clientActions.createChatPayload({
+            playerId: '000000000000000000000001',
+            playerName: 'Bobby',
+            roomId: 'LOBBY',
+            msg: "Hello, it's me: Bobby",
+            date: 1577836800,
+        });
+        const EXPECTED_MSG = {
+            fromPlayerId: '000000000000000000000001',
+            fromPlayerName: 'Bobby',
+            toRoomId: 'LOBBY',
+            message: "Hello, it's me: Bobby",
+            date: 1577836800,
+        };
         const CLIENTS = [
             '[LOBBY] client0 (sender & receiver)',
             '[LOBBY] client1 (receiver)',
@@ -55,14 +64,14 @@ describe('socket/handlers/chat/broadcastMessages', function() {
         const ioServer = ioInstance.get();
         ioServer.on('connection', socket => {
             if (roomSockets.length < 2) {
-                socket.join(MSG.toRoomId);
+                socket.join(msgPayload.toRoomId);
                 roomSockets.push(socket);
             }
         });
 
         const socketsClients = CLIENTS.map(client => ioClient.connect(socketUrl, options));
 
-        socketsClients[0].emit(ON_EVENT, MSG);
+        socketsClients[0].emit(ON_EVENT, msgPayload);
 
         let messagesReceived = {};
         socketsClients.forEach((client, index) => {
@@ -73,8 +82,8 @@ describe('socket/handlers/chat/broadcastMessages', function() {
 
         setTimeout(() => {
             expect(messagesReceived).to.deep.equal({
-                client0: MSG,
-                client1: MSG,
+                client0: EXPECTED_MSG,
+                client1: EXPECTED_MSG,
             });
             socketsClients.forEach(client => {
                 client.disconnect();
@@ -88,11 +97,25 @@ describe('socket/handlers/chat/broadcastMessages', function() {
 
         const client = ioClient.connect(socketUrl, options);
 
-        client.emit(ON_EVENT, MSG);
+        const msgPayload = clientActions.createChatPayload({
+            playerId: '000000000000000000000001',
+            playerName: 'Bobby',
+            msg: "Hello, it's me: Bobby",
+            date: 1577836800,
+        });
+        const EXPECTED_MSG = {
+            fromPlayerId: '000000000000000000000001',
+            fromPlayerName: 'Bobby',
+            toRoomId: 'lobby',
+            message: "Hello, it's me: Bobby",
+            date: 1577836800,
+        };
+
+        client.emit(ON_EVENT, msgPayload);
         client.on(EMIT_EVENT, payload => {
             expect(ioStub.args).to.deep.equal([[]]);
             expect(payload).to.deep.equal({
-                payload: MSG,
+                payload: EXPECTED_MSG,
                 error: "TypeError: Cannot read property 'in' of undefined",
             });
             client.disconnect();

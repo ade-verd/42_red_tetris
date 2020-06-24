@@ -4,7 +4,7 @@
     "sourceMap": false,
     "instrument": false,
     "include": ["src/**/*.js"],
-    "reporter": ["text", "lcov"],
+    "reporter": ["text-summary", "html"],
     "exclude": ["build", "test/**/*.js"],
     "branches": 50,
     "lines": 70,

@@ -1,3 +1,9 @@
+'use strict';
+
+export const newDate = (str = null) => {
+    return str !== null ? new Date(str) : new Date();
+};
+
 const timeWithLeadingZero = time => (time < 10 ? '0' : '') + time;
 
 export const timestampToDatetime = timestamp => {
