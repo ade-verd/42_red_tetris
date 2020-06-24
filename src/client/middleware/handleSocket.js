@@ -13,9 +13,7 @@ export const ACTIONS = {
 
 let socket = null;
 
-export const handleSocket = () => {
-    socket = io(config.server.url);
-
+export const handleSocket = socket => {
     return ({ getState }) => next => payload => {
         if (typeof payload === 'function') {
             return next(payload);

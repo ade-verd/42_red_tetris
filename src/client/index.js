@@ -3,6 +3,7 @@ import ReactDom from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import io from 'socket.io-client';
 
 import thunk from 'redux-thunk';
 import { asyncDispatchMiddleware } from './middleware/asyncDispatch';
@@ -16,6 +17,7 @@ import App from './App';
 import './index.scss';
 
 const initialState = {};
+const socket = io(config.server.url);
 
 export const store = createStore(
     rootReducer,
@@ -25,7 +27,7 @@ export const store = createStore(
         asyncDispatchMiddleware,
         allStatesMiddleware,
         createLogger(),
-        handleSocket(),
+        handleSocket(socket),
     ),
 );
 
