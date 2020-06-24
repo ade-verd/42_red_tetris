@@ -1,23 +1,28 @@
 import chai, { expect } from 'chai';
-import { configure as configureEnzyme, mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-
-import 'jsdom-global/register'; // before React
+import chaiEnzyme from 'chai-enzyme';
+import { /*mount, render,*/ shallow } from 'enzyme';
 import React from 'react';
 
 import { Tetris, Board } from '../../../src/client/components/example';
 
-configureEnzyme({ adapter: new Adapter() });
+chai.use(chaiEnzyme());
 
-describe.only('Tetris Enzyme exemple', function() {
-    it('render <Board />', function() {
-        const wrapper = mount(Tetris());
+describe('Tetris Enzyme example', function() {
+    it('should render <Board />', function() {
+        const wrapper = shallow(<Tetris />);
 
-        expect(
-            wrapper
-                .find(Board)
-                .first()
-                .to.have.props([]),
-        );
+        console.log('[debug]:\n', wrapper.debug(), '\n[/debug]');
+        expect(wrapper.contains(<Board prop={'prop'} />)).to.equal(true);
+        expect(wrapper.find(Board)).to.have.lengthOf(1);
+        expect(wrapper.find(Board))
+            .to.have.prop('prop')
+            .deep.equal('prop');
+    });
+
+    it('should render <div />', function() {
+        const wrapper = shallow(<Board />);
+
+        console.log('[debug]:\n', wrapper.debug(), '\n[/debug]');
+        expect(wrapper.contains(<div />)).to.equal(true);
     });
 });

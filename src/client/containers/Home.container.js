@@ -2,8 +2,6 @@ import { connect } from 'react-redux';
 
 import Home from '../components/Home/Home';
 
-import { store } from '../index';
-
 import { onChatMessageReceived } from '../actions/chat/chat';
 import {
     emitCreatePlayer,
@@ -23,8 +21,8 @@ const mapDispatchToProps = dispatch => {
         checkUserCookie,
         emitCreatePlayer,
         socketIoConnect,
-        listen: () => {
-            onGotPlayer(store);
+        listen: store => {
+            onGotPlayer(dispatch);
             onChatMessageReceived(dispatch);
             onPlayerCreated(store);
             onSocketConnect(dispatch);

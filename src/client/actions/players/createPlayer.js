@@ -19,13 +19,13 @@ export const emitCreatePlayer = (dispatch, playerName) =>
         data: createPlayerPayload(playerName),
     });
 
-export const onPlayerCreated = store => {
-    store.dispatch({
+export const onPlayerCreated = ({ dispatch, getState }) => {
+    dispatch({
         action: ACTIONS.LISTEN,
         event: 'players:created',
         fn: payload => {
-            setUserCookie(store.getState().usr, payload.player, payload.error);
-            dispatchPlayerCreated(store.dispatch, payload);
+            setUserCookie(getState().usr, payload.player, payload.error);
+            dispatchPlayerCreated(dispatch, payload);
         },
     });
 };

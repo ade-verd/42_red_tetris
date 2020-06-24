@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Route, useLocation } from 'react-router-dom';
+import { Route, useHistory, useLocation, withRouter } from 'react-router-dom';
 
 import Home from './containers/Home.container';
 
@@ -13,6 +13,7 @@ configureNotificationContainer();
 
 const App = ({ store }) => {
     const location = useLocation();
+    let history = useHistory();
 
     useEffect(() => {
         handleHashRoute(store, location.hash);
@@ -20,9 +21,13 @@ const App = ({ store }) => {
 
     return (
         <div className="App">
-            <Route path="/" exact component={Home} />
+            <Route
+                path="/"
+                exact
+                render={props => <Home {...props} history={history} store={store} />}
+            />
         </div>
     );
 };
 
-export default App;
+export default withRouter(App);

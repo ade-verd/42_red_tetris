@@ -3,7 +3,7 @@ import _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 
 import { encodeHtmlEntity } from '../../../../../lib/utils/htmlEntities';
-import { timestampToDatetime } from '../../../../../lib/utils/timestamp';
+import { timestampToDatetime } from '../../../../../lib/utils/date';
 
 import css from './MessageList.module.css';
 

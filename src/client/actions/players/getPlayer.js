@@ -11,15 +11,14 @@ export const emitGetPlayer = (dispatch, playerId) =>
         data: getPlayerPayload(playerId),
     });
 
-export const onGotPlayer = store => {
-    store.dispatch({
+export const onGotPlayer = dispatch => {
+    dispatch({
         action: ACTIONS.LISTEN,
         event: 'players:player:got',
         fn: payload => {
-            store.dispatch({
+            dispatch({
                 action: ACTIONS.REDUCE,
                 type: 'UPDATE_PLAYERS_NAMES',
-                store,
                 players: [payload.player],
                 error: payload.error,
             });

@@ -3,7 +3,7 @@ const server = require('./index');
 
 function run(cb) {
     server
-        .create(config.server)
+        .create({ ...config.server, startMongodb: true })
         .then(srv => {
             console.log('starting the redtetris server...');
             cb(null, srv);

@@ -17,7 +17,9 @@ describe('main.js', () => {
         const createServerStub = sandbox.stub(server, 'create').resolves();
 
         main.run((err, srv) => {
-            expect(createServerStub.args).to.deep.equal([[config.server]]);
+            expect(createServerStub.args).to.deep.equal([
+                [{ ...config.server, startMongodb: true }],
+            ]);
             expect(err).to.be.null;
         });
     });
@@ -26,7 +28,9 @@ describe('main.js', () => {
         const createServerStub = sandbox.stub(server, 'create').rejects(new Error('server error'));
 
         main.run((err, srv) => {
-            expect(createServerStub.args).to.deep.equal([[config.server]]);
+            expect(createServerStub.args).to.deep.equal([
+                [{ ...config.server, startMongodb: true }],
+            ]);
             expect(err)
                 .to.be.an.instanceOf(Error)
                 .with.property('message', 'Error: server error');

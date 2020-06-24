@@ -1,7 +1,4 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-
-import { store } from '../../index';
 
 import CreatePlayer from '../CreatePlayer/CreatePlayer';
 import Footer from '../Footer/Footer';
@@ -18,22 +15,17 @@ const displayCreatePlayerOrLobby = states => {
     return <Lobby states={states} />;
 };
 
-const Home = ({ chat, user, rooms, ...dispatchs }) => {
-    let history = useHistory();
-    const userState = store.getState().usr;
-
+export const Home = ({ history, store, chat, user, rooms, ...dispatchs }) => {
     useEffect(() => {
-        console.log('[App]', { path, userState });
-
-        const roomName = userState.roomName ? userState.roomName : '';
-        const userName = userState.name ? `[${userState.name}]` : '';
+        const roomName = user.roomName ? user.roomName : '';
+        const userName = user.name ? `[${user.name}]` : '';
         const path = roomName || userName ? `#${roomName}${userName}` : '';
         history.push(path);
-        console.log('[App]', { path: `/${path}`, userState });
-    }, [userState, userState.name, userState.roomName]);
+    }, [user, user.name, user.roomName]);
 
     useEffect(() => {
-        dispatchs.listen();
+        console.log('grosse pute');
+        dispatchs.listen(store);
         dispatchs.socketIoConnect(store.dispatch);
         dispatchs.checkUserCookie(store);
     }, []);

@@ -1,7 +1,7 @@
 const React = require('react');
 
 const Tetris = () => {
-    return <Board />;
+    return <Board prop={'prop'} />;
 };
 
 const Board = () => {

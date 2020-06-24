@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { configureStore } from '../../helpers/server';
+import { configureStore } from '../../helpers/client';
 import rootReducer from '../../../src/client/reducers';
 import { ALERT_POP, alert } from '../../../src/client/actions/alert';
 

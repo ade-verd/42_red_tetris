@@ -14,6 +14,8 @@ import { handleSocket } from './middleware/handleSocket';
 import rootReducer from './reducers/index';
 import App from './App';
 
+import config from './config';
+
 import './index.scss';
 
 const initialState = {};
@@ -37,5 +39,5 @@ ReactDom.render(
             <App store={store} />
         </BrowserRouter>
     </Provider>,
-    document.getElementById('tetris'),
+    document.getElementById('tetris') || document.createElement('div'),
 );

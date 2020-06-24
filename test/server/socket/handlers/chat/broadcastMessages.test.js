@@ -57,7 +57,7 @@ describe('socket/handlers/chat/broadcastMessages', function() {
         const CLIENTS = [
             '[LOBBY] client0 (sender & receiver)',
             '[LOBBY] client1 (receiver)',
-            '[OTHER_ROOM] client2 (not a receiver)',
+            '[]      client2 (not a receiver)',
         ];
         let roomSockets = [];
 
@@ -71,14 +71,16 @@ describe('socket/handlers/chat/broadcastMessages', function() {
 
         const socketsClients = CLIENTS.map(client => ioClient.connect(socketUrl, options));
 
-        socketsClients[0].emit(ON_EVENT, msgPayload);
-
-        let messagesReceived = {};
+        let messagesReceived;
         socketsClients.forEach((client, index) => {
             client.on(EMIT_EVENT, payload => {
                 messagesReceived = { ...messagesReceived, ['client' + index]: payload };
             });
         });
+
+        setTimeout(() => {
+            socketsClients[0].emit(ON_EVENT, msgPayload);
+        }, 100);
 
         setTimeout(() => {
             expect(messagesReceived).to.deep.equal({
