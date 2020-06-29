@@ -6,7 +6,7 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 import { emitChatMessage } from '../../../../../actions/chat/chat';
 
-import { store } from '../../../../../index';
+import { store } from '../../../../../store/store';
 
 import css from './InputMessage.module.css';
 

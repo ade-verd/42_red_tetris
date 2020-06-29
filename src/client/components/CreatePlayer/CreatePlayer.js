@@ -5,7 +5,7 @@ import { library as fontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
-import { store } from '../../index';
+import { store } from '../../store/store';
 
 import { emitCreatePlayer } from '../../actions/players/createPlayer';
 import { setUserCookieSettings } from '../../actions/players/userCookie';

@@ -7,7 +7,7 @@ import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 import { logOut } from '../../../actions/players/logOut';
 
-import { store } from '../../..';
+import { store } from '../../../store/store';
 
 import css from './Logout.module.css';
 

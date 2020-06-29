@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare, faMinusSquare } from '@fortawesome/free-solid-svg-icons';
 
 import { emitJoinRoom } from '../../../actions/rooms/joinRoom';
-import { store } from '../../../index';
+import { store } from '../../../store/store';
 
 import { MAX_PLAYERS } from '../../../../constants';
 import css from './DisplayRooms.module.css';

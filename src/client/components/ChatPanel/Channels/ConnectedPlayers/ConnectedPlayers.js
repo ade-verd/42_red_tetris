@@ -4,7 +4,7 @@ import { library as fontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faUserCog } from '@fortawesome/free-solid-svg-icons';
 
-import { store } from '../../../../index';
+import { store } from '../../../../store/store';
 
 import css from './ConnectedPlayers.module.css';
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { store } from '../../index';
+import { store } from '../../store/store';
 
 import Channels from './Channels/Channels';
 

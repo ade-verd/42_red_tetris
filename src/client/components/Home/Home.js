@@ -24,7 +24,6 @@ export const Home = ({ history, store, chat, user, rooms, ...dispatchs }) => {
     }, [user, user.name, user.roomName]);
 
     useEffect(() => {
-        console.log('grosse pute');
         dispatchs.listen(store);
         dispatchs.socketIoConnect(store.dispatch);
         dispatchs.checkUserCookie(store);

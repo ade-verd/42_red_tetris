@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import CreateRoom from './CreateRoom/CreateRoom';
 import DisplayRooms from './DisplayRooms/DisplayRooms';
 
-import { store } from '../../index';
+import { store } from '../../store/store';
 
 import css from './Rooms.module.css';
 

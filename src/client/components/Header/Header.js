@@ -5,7 +5,7 @@ import Logout from './Logout/Logout';
 
 import css from './Header.module.css';
 
-import { store } from '../../index';
+import { store } from '../../store/store';
 
 const Header = () => {
     const user = store.getState().usr;

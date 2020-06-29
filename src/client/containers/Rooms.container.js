@@ -8,7 +8,7 @@ import { emitLeaveRoom, onRoomLeft } from '../actions/rooms/leaveRoom';
 import { emitGetRoomPlayers, onGotRoomPlayers } from '../actions/rooms/getRoomPlayers';
 import { emitGetActiveRooms, onGotActiveRooms } from '../actions/rooms/getActiveRooms';
 
-import { store } from '../index';
+import { store } from '../store/store';
 
 const mapStateToProps = state => {
     console.debug('[Rooms][mapStateToProps] State', state);

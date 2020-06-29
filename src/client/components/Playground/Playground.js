@@ -6,7 +6,7 @@ import Display from './Display/Display';
 
 import { StyledPlaygroundWrapper, StyledPlayground } from './Playground.style';
 
-import { store } from '../../index';
+import { store } from '../../store/store';
 import { useInterval } from '../../helpers/useInterval';
 import { emitGetRandomTetriminos } from '../../actions/game/getTetriminos';
 

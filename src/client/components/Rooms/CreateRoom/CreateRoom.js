@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { store } from '../../../index';
+import { store } from '../../../store/store';
 import { emitCreateRoom } from '../../../actions/rooms/createRoom';
 
 import css from './CreateRoom.module.css';
