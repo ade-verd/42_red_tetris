@@ -48,7 +48,7 @@ describe('<Home /> component', function() {
         sandbox.restore();
     });
 
-    it.only('should render Header, CreatePlayer and Footer', function() {
+    it('should render Header, CreatePlayer and Footer', function() {
         const props = { ...propsFixtures() };
         const wrapper = shallow(<HomeComponent {...props} />);
         // console.log('[debug]:\n', wrapper.debug(), '\n[/debug]');
@@ -58,7 +58,7 @@ describe('<Home /> component', function() {
         expect(wrapper.contains(<Footer />)).to.equal(true);
     });
 
-    it.only('should render Header, Lobby and Footer', function() {
+    it('should render Header, Lobby and Footer', function() {
         const props = { ...propsFixtures(), user: { id: '000000000000000000000001' } };
         const wrapper = shallow(<HomeComponent {...props} />);
         // console.log('[debug]:\n', wrapper.debug(), '\n[/debug]');
@@ -74,17 +74,12 @@ describe('<Home /> component', function() {
         expect(wrapper.contains(<Footer />)).to.equal(true);
     });
 
-    it.skip('should run dispatchs functions at first render', function() {
-        // const props = { ...propsFixtures(), user: { id: '000000000000000000000001' } };
-
+    it.only('should run dispatchs functions at first render', function() {
         let wrapper;
         act(() => {
-            // wrapper = mount(<HomeComponent {...props} />);
             wrapper = mount(
                 <Provider store={store}>
-                    <BrowserRouter>
-                        <App store={store} />
-                    </BrowserRouter>
+                    <App store={store} />
                 </Provider>,
             );
         });
