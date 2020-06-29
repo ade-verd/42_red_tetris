@@ -13,6 +13,7 @@ const parseHash = hash => {
 };
 
 export const handleHashRoute = (store, hash) => {
+    console.log('ENTERED IN HANDLE_HASH_ROUTE :((((((');
     const userState = store.getState().usr;
     if (userState.roomId) return;
 

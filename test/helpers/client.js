@@ -12,7 +12,8 @@ export const configureStore = (reducer, socket, initialState, types) =>
         applyMiddleware(
             allStatesMiddleware,
             asyncDispatchMiddleware,
-            handleSocket(socket),
+            // handleSocket(socket),
+            socketIoMiddleware(socket),
             myMiddleware(types),
             thunk,
         ),
@@ -35,5 +36,18 @@ const myMiddleware = (types = {}) => {
             cb({ getState: store.getState, dispatch: store.dispatch, action });
         }
         return result;
+    };
+};
+
+// const socketIoMiddleware = socket => {
+//     if (socket) {
+//         return handleSocket(socket);
+//     }
+// };
+
+const socketIoMiddleware = socket => ({ dispatch, getState }) => {
+    if (socket) return handleSocket(socket);
+    return next => action => {
+        return next(action);
     };
 };

@@ -93,6 +93,7 @@
         "eslint-plugin-babel": "3.3.0",
         "eslint-plugin-react": "5.2.2",
         "file-loader": "^5.0.2",
+        "history": "^5.0.0",
         "ignore-styles": "^5.0.1",
         "install": "^0.13.0",
         "jsdom": "16.2.2",

@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
 
 import CreatePlayer from '../CreatePlayer/CreatePlayer';
 import Footer from '../Footer/Footer';
 import Lobby from '../Lobby/Lobby';
 import Header from '../Header/Header';
-
-import { handleHashRoute } from '../../actions/common/hashRoute';
 
 import css from './Home.module.css';
 
@@ -18,14 +15,7 @@ const displayCreatePlayerOrLobby = states => {
     return <Lobby states={states} />;
 };
 
-export const Home = ({ store, chat, user, rooms, ...dispatchs }) => {
-    const location = useLocation();
-    let history = useHistory();
-
-    useEffect(() => {
-        handleHashRoute(store, location.hash);
-    }, [location.hash]);
-
+export const Home = ({ store, history, chat, user, rooms, ...dispatchs }) => {
     useEffect(() => {
         const roomName = user.roomName ? user.roomName : '';
         const userName = user.name ? `[${user.name}]` : '';

@@ -2,7 +2,7 @@ import chai, { expect } from 'chai';
 import chaiEnzyme from 'chai-enzyme';
 import { configure as configureEnzyme, mount, render, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import sinon, { sandbox } from 'sinon';
+import sinon from 'sinon';
 
 import 'jsdom-global/register';
 import React from 'react';
@@ -74,15 +74,17 @@ describe('<Home /> component', function() {
         expect(wrapper.contains(<Footer />)).to.equal(true);
     });
 
-    it.only('should run dispatchs functions at first render', function() {
+    it.skip('should run dispatchs functions at first render', function() {
+        const props = { ...propsFixtures(), user: { id: '000000000000000000000001' } };
+
         let wrapper;
         act(() => {
-            wrapper = mount(
+            wrapper = render(
                 <Provider store={store}>
                     <App store={store} />
                 </Provider>,
             );
         });
-        console.log('[debug]:\n', wrapper.debug(), '\n[/debug]');
+        // console.log('[debug]:\n', wrapper.debug(), '\n[/debug]');
     });
 });
