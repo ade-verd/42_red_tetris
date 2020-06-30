@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { StyledField, Row } from './Field.style';
 import Cell from './Cell/Cell';
@@ -7,7 +7,7 @@ const buildField = field => {
     return field.map(row => (
         <Row>
             {row.map((cell, x) => (
-                <Cell key={x} type={cell[0]} projection={cell[2]}/>
+                <Cell key={x} type={cell[0]} projection={cell[2]} />
             ))}
         </Row>
     ));
@@ -16,11 +16,7 @@ const buildField = field => {
 const Field = ({ field }) => {
     if (!field) return null;
 
-    return (
-        <StyledField width={field[0].length} height={field.length}>
-            {buildField(field)}
-        </StyledField>
-    );
+    return <StyledField>{buildField(field)}</StyledField>;
 };
 
 export default Field;

@@ -1,28 +1,41 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import Field from './Field/Field';
 import StartButton from './StartButton/StartButton';
 import Display from './Display/Display';
+import Spectrums from './Spectrums/Spectrums';
 
-import { StyledPlaygroundWrapper, StyledPlayground } from './Playground.style';
+import { StyledPlayground } from './Playground.style';
 
 import { store } from '../../index';
-import { useInterval } from '../../helpers/useInterval'
-import { emitGetRandomTetriminos } from '../../actions/game/getTetriminos';
+import { useInterval } from '../../helpers/useInterval';
 
 const Playground = props => {
-    const { field, gameStatus, piece, user, ...dispatchs } = props;
-    const { listen, startGame, firstRender, updateField, updateGameStatus, move, reactivateDropTime, drop } = dispatchs;
+    const { field, gameStatus, piece, spectrums, user, rooms, ...dispatchs } = props;
+    const {
+        listen,
+        startGame,
+        firstRender,
+        emitGetRandomTetriminos,
+        updateField,
+        updateGameStatus,
+        move,
+        reactivateDropTime,
+        drop,
+    } = dispatchs;
     const { score, rows, rowsCleared, level, gameOver } = gameStatus;
+    const playgroundRef = useRef(null);
 
     console.debug(
-        '[Playground] State: ', 
+        '[Playground] State: ',
         'field =',
         field,
         'gameStatus',
         gameStatus,
         'piece =',
         piece,
+        'spectrums =',
+        spectrums,
         'dispatchs =',
         dispatchs,
     );
@@ -34,7 +47,7 @@ const Playground = props => {
     }, []);
 
     useEffect(() => {
-        updateGameStatus(store.dispatch)
+        updateGameStatus(store.dispatch);
     }, [rowsCleared]);
 
     useEffect(() => {
@@ -46,27 +59,27 @@ const Playground = props => {
     }, piece.dropTime);
 
     return (
-        <StyledPlaygroundWrapper
+        <StyledPlayground
             tabIndex="0"
+            ref={playgroundRef}
             onKeyDown={event => move(store.dispatch, event, field, piece, gameStatus)}
             onKeyUp={event => reactivateDropTime(store.dispatch, event, gameStatus)}
         >
-            <StyledPlayground>
-                <Field field={field} />
-                <aside>
-                    {gameOver ? (
-                        <Display gameOver={gameOver} text="GAME OVER" />
-                    ) : (
-                        <div>
-                            <Display text={`Score: ${score}`} />
-                            <Display text={`Rows: ${rows}`} />
-                            <Display text={`Level: ${level}`} />
-                        </div>
-                    )}
-                    <StartButton callback={() => startGame(store.dispatch)} />
-                </aside>
-            </StyledPlayground>
-        </StyledPlaygroundWrapper>
+            <Spectrums spectrums={spectrums} user={user} rooms={rooms} />
+            <Field field={field} />
+            <aside>
+                {gameOver ? (
+                    <Display gameOver={gameOver} text="GAME OVER" />
+                ) : (
+                    <div>
+                        <Display text={`Score: ${score}`} />
+                        <Display text={`Rows: ${rows}`} />
+                        <Display text={`Level: ${level}`} />
+                    </div>
+                )}
+                <StartButton callback={() => startGame(store.dispatch, playgroundRef)} />
+            </aside>
+        </StyledPlayground>
     );
 };
 

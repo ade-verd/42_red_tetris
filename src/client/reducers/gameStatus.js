@@ -1,9 +1,7 @@
-const updateRowsScore = (state) => {
+const updateRowsScore = state => {
     if (state.rowsCleared === 0) {
         return state;
     }
-
-    console.log('RORO,', state.rowsCleared)
 
     const linePoints = [40, 100, 300, 1200];
 
@@ -11,9 +9,8 @@ const updateRowsScore = (state) => {
         ...state,
         score: state.score + linePoints[state.rowsCleared - 1] * (state.level + 1),
         rows: state.rows + state.rowsCleared,
-    }
+    };
 };
-
 
 const reducer = (state = {}, action) => {
     switch (action.type) {
@@ -35,7 +32,7 @@ const reducer = (state = {}, action) => {
         case 'SET_ROWSCLEARED':
             return {
                 ...state,
-                rowsCleared: action.rowsCleared
+                rowsCleared: action.rowsCleared,
             };
         case 'INCREMENT_ROWSCLEARED':
             return {

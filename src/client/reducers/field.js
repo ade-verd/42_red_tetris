@@ -1,13 +1,16 @@
 import { FIELD_HEIGHT, FIELD_WIDTH } from '../../constants';
 import { ACTIONS } from '../middlewares/handleSocket';
-import { checkCollision } from '../helpers/checkCollision'
+import { checkCollision } from '../helpers/checkCollision';
+import { asyncEmitSpectrum } from '../actions/game/spectrum';
 
 export const createField = () => {
-    const newField = Array.from(Array(FIELD_HEIGHT), () => new Array(FIELD_WIDTH).fill([0, 'clear', false]));
+    const newField = Array.from(Array(FIELD_HEIGHT), () =>
+        new Array(FIELD_WIDTH).fill([0, 'clear', false]),
+    );
     return {
         field: newField,
     };
-}
+};
 
 const sweepRows = (asyncDispatch, newField) => {
     const isClear = cell => cell[0] === 0;
@@ -19,19 +22,19 @@ const sweepRows = (asyncDispatch, newField) => {
         }
         ack.push(row);
         return ack;
-    }
+    };
     return newField.reduce(reducer, []);
-}
+};
 
-export const updateField = (asyncDispatch, prevField, piece) => {
+export const updateField = (asyncDispatch, prevField, piece, user) => {
     asyncDispatch({ action: ACTIONS.REDUCE, type: 'SET_ROWSCLEARED', rowsCleared: 0 });
 
-    if(checkCollision(piece, prevField, { x: 0, y: 0 })) {
+    if (checkCollision(piece, prevField, { x: 0, y: 0 })) {
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'GAMEOVER' });
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
         return {
             field: prevField,
-        }
+        };
     }
 
     // 1. Flush the stage
@@ -46,7 +49,7 @@ export const updateField = (asyncDispatch, prevField, piece) => {
                 newField[y + piece.projection.pos.y][x + piece.projection.pos.x] = [
                     value,
                     'clear',
-                    true
+                    true,
                 ];
             }
         });
@@ -59,32 +62,37 @@ export const updateField = (asyncDispatch, prevField, piece) => {
                 newField[y + piece.pos.y][x + piece.pos.x] = [
                     value,
                     `${piece.collided ? 'merged' : 'clear'}`,
-                    false
+                    false,
                 ];
             }
         });
     });
-    
+
     // 4. Check if we collided
     if (piece.collided) {
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'GET_TETROMINO' });
+        asyncEmitSpectrum(asyncDispatch, user.roomId, user.id);
         return {
             field: sweepRows(asyncDispatch, newField),
-        }
+        };
     }
-    
+
     return {
         field: newField,
     };
 };
-
 
 const reducer = (state = {}, action) => {
     switch (action.type) {
         case 'FIRST_RENDER':
             return createField();
         case 'UPDATE':
-            return updateField(action.asyncDispatch, state.field, action.piece);
+            return updateField(
+                action.asyncDispatch,
+                state.field,
+                action.piece,
+                action.allStates.usr,
+            );
         case 'RESET':
             return createField();
         default:

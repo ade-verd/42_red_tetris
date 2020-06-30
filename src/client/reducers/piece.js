@@ -1,7 +1,7 @@
 import { FIELD_WIDTH } from '../../constants';
 import { ACTIONS } from '../middlewares/handleSocket';
 import { emitGetRandomTetriminos } from '../actions/game/getTetriminos';
-import { checkCollision } from '../helpers/checkCollision'
+import { checkCollision } from '../helpers/checkCollision';
 
 const firstRender = () => {
     return {
@@ -21,10 +21,10 @@ const setPieces = (state, pieces) => {
     return {
         ...state,
         pieces: pieces,
-    }
-}
+    };
+};
 
-const setPos = (state, asyncDispatch, { x, y }, collided ) => {
+const setPos = (state, asyncDispatch, { x, y }, collided) => {
     if (x !== 0) {
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'UPDATE_PROJECTION' });
     }
@@ -32,16 +32,16 @@ const setPos = (state, asyncDispatch, { x, y }, collided ) => {
     return {
         ...state,
         pos: { x: state.pos.x + x, y: state.pos.y + y },
-        collided
-    }
-}
+        collided,
+    };
+};
 
 const setDropTime = (state, dropTime) => {
     return {
         ...state,
         dropTime,
-    }
-}
+    };
+};
 
 const setTetromino = (state, asyncDispatch, tetromino = state.tetromino, pos) => {
     asyncDispatch({ action: ACTIONS.REDUCE, type: 'UPDATE_PROJECTION' });
@@ -49,8 +49,8 @@ const setTetromino = (state, asyncDispatch, tetromino = state.tetromino, pos) =>
         ...state,
         tetromino,
         pos,
-    }
-}
+    };
+};
 
 const getTetromino = (state, asyncDispatch, roomId, gameOver) => {
     if (gameOver) {
@@ -59,9 +59,9 @@ const getTetromino = (state, asyncDispatch, roomId, gameOver) => {
 
     asyncDispatch({ action: ACTIONS.REDUCE, type: 'UPDATE_PROJECTION' });
     // If we almost reached the end of pieces array (2 pieces left), we emit to ask new pieces
-    if (state.index % state.amount + 2 === state.amount) {
+    if ((state.index % state.amount) + 2 === state.amount) {
         // we add 1 to ask the next "pieces" array
-        emitGetRandomTetriminos(asyncDispatch, roomId, (state.index + 2) + 1, state.amount);
+        emitGetRandomTetriminos(asyncDispatch, roomId, state.index + 2 + 1, state.amount);
     }
 
     if (!state.nextTetromino) {
@@ -84,17 +84,17 @@ const getTetromino = (state, asyncDispatch, roomId, gameOver) => {
 };
 
 const updateProjection = (state, field) => {
-    const tetromino =  JSON.parse(JSON.stringify(state.tetromino))
+    const tetromino = JSON.parse(JSON.stringify(state.tetromino));
 
     let pos = 0;
     while (!checkCollision(state, field, { x: 0, y: pos })) {
         pos += 1;
     }
-    const newPos = { x: state.pos.x, y: state.pos.y + pos - 1}
+    const newPos = { x: state.pos.x, y: state.pos.y + pos - 1 };
 
     return {
         ...state,
-        projection: { tetromino, pos: newPos }
+        projection: { tetromino, pos: newPos },
     };
 };
 
@@ -111,7 +111,12 @@ const reducer = (state = {}, action) => {
         case 'SET_TETROMINO':
             return setTetromino(state, action.asyncDispatch, action.tetromino, action.pos);
         case 'GET_TETROMINO':
-            return getTetromino(state, action.asyncDispatch, action.allStates.usr.roomId, action.allStates.gme.gameOver);
+            return getTetromino(
+                state,
+                action.asyncDispatch,
+                action.allStates.usr.roomId,
+                action.allStates.gme.gameOver,
+            );
         case 'UPDATE_PROJECTION':
             return updateProjection(state, action.allStates.fld.field);
         default:

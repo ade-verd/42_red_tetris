@@ -8,6 +8,7 @@ import { firstRender } from '../actions/game/firstRender';
 import { startGame, updateField } from '../actions/game/field';
 import { updateGameStatus } from '../actions/game/gameStatus';
 import { move, reactivateDropTime, drop } from '../actions/game/piece';
+import { onSpectrum } from '../actions/game/spectrum';
 
 const mapStateToProps = state => {
     console.log('[Playground.container] State', state);
@@ -15,7 +16,9 @@ const mapStateToProps = state => {
         field: state.fld.field,
         gameStatus: state.gme,
         piece: state.pce,
+        spectrums: state.spe,
         user: state.usr,
+        rooms: state.rms,
     };
 };
 
@@ -24,6 +27,7 @@ const mapDispatchToProps = dispatch => {
         listen: () => {
             onGameAction(dispatch);
             onGetRandomTetriminos(dispatch);
+            onSpectrum(dispatch);
         },
         onStart: roomId => {
             emitGameActionStart(dispatch, roomId);

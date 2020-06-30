@@ -4,6 +4,7 @@ import * as chatHandlers from './handlers/chat';
 import * as commonHandlers from './handlers/common';
 import * as gamesHandlers from './handlers/games';
 import * as piecesHandlers from './handlers/pieces';
+import * as spectrumsHandlers from './handlers/spectrums';
 import * as playersHandlers from './handlers/players';
 import * as roomsHandlers from './handlers/rooms';
 import * as serverTestHandler from './handlers/serverTest';
@@ -17,6 +18,7 @@ const handlers = Object.values({
     ...commonHandlers,
     ...gamesHandlers,
     ...piecesHandlers,
+    ...spectrumsHandlers,
     ...playersHandlers,
     ...roomsHandlers,
     ...serverTestHandler,
