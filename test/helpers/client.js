@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import sinon from 'sinon';
 
 import { allStatesMiddleware } from '../../src/client/middleware/allStates';
 import { asyncDispatchMiddleware } from '../../src/client/middleware/asyncDispatch';
@@ -12,8 +13,7 @@ export const configureStore = (reducer, socket, initialState, types) =>
         applyMiddleware(
             allStatesMiddleware,
             asyncDispatchMiddleware,
-            // handleSocket(socket),
-            socketIoMiddleware(socket),
+            handleSocket(socket),
             myMiddleware(types),
             thunk,
         ),
@@ -39,15 +39,10 @@ const myMiddleware = (types = {}) => {
     };
 };
 
-// const socketIoMiddleware = socket => {
-//     if (socket) {
-//         return handleSocket(socket);
-//     }
-// };
-
-const socketIoMiddleware = socket => ({ dispatch, getState }) => {
-    if (socket) return handleSocket(socket);
-    return next => action => {
-        return next(action);
-    };
-};
+export const fakeSocket = id => ({
+    id: id || '0000001',
+    on: () => sinon.stub(),
+    emit: () => sinon.stub(),
+    connect: () => sinon.stub(),
+    removeEventListener: () => sinon.stub(),
+});

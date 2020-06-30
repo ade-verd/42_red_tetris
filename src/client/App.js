@@ -16,7 +16,6 @@ const App = ({ store }) => {
     let history = useHistory();
 
     useEffect(() => {
-        console.log('OUAAAAAI GROS');
         handleHashRoute(store, location.hash);
     }, [location.hash]);
 

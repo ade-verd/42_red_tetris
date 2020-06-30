@@ -9,7 +9,7 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import { BrowserRouter, Provider } from 'react-redux';
 
-import { configureStore } from '../../../helpers/client';
+import { configureStore, fakeSocket } from '../../../helpers/client';
 import rootReducer from '../../../../src/client/reducers';
 
 import App from '../../../../src/client/App';
@@ -28,8 +28,13 @@ chai.use(chaiEnzyme());
 describe('<Home /> component', function() {
     const sandbox = sinon.createSandbox();
 
-    const initialState = {};
-    const store = configureStore(rootReducer, null, initialState, {});
+    let socket;
+    let store;
+    beforeEach(() => {
+        const initialState = {};
+        socket = fakeSocket();
+        store = configureStore(rootReducer, socket, initialState, {});
+    });
 
     const propsFixtures = () => ({
         store,
@@ -37,18 +42,16 @@ describe('<Home /> component', function() {
         chat: {},
         user: {},
         rooms: {},
-        dispatchs: {
-            listen: sandbox.stub(),
-            socketIoConnect: sandbox.stub(),
-            checkUserCookie: sandbox.stub(),
-        },
+        listen: sandbox.stub(),
+        socketIoConnect: sandbox.stub(),
+        checkUserCookie: sandbox.stub(),
     });
 
     afterEach(() => {
         sandbox.restore();
     });
 
-    it('should render Header, CreatePlayer and Footer', function() {
+    it('should shallow render Header, CreatePlayer and Footer', function() {
         const props = { ...propsFixtures() };
         const wrapper = shallow(<HomeComponent {...props} />);
         // console.log('[debug]:\n', wrapper.debug(), '\n[/debug]');
@@ -58,7 +61,7 @@ describe('<Home /> component', function() {
         expect(wrapper.contains(<Footer />)).to.equal(true);
     });
 
-    it('should render Header, Lobby and Footer', function() {
+    it('should shallow render Header, Lobby and Footer', function() {
         const props = { ...propsFixtures(), user: { id: '000000000000000000000001' } };
         const wrapper = shallow(<HomeComponent {...props} />);
         // console.log('[debug]:\n', wrapper.debug(), '\n[/debug]');
@@ -74,17 +77,9 @@ describe('<Home /> component', function() {
         expect(wrapper.contains(<Footer />)).to.equal(true);
     });
 
-    it.skip('should run dispatchs functions at first render', function() {
+    it('should mount Home container without any error', function() {
         const props = { ...propsFixtures(), user: { id: '000000000000000000000001' } };
 
-        let wrapper;
-        act(() => {
-            wrapper = render(
-                <Provider store={store}>
-                    <App store={store} />
-                </Provider>,
-            );
-        });
-        // console.log('[debug]:\n', wrapper.debug(), '\n[/debug]');
+        const wrapper = mount(<HomeContainer {...props} />);
     });
 });
