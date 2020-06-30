@@ -90,21 +90,15 @@ const hardDrop = (dispatch, piece) => {
 
 export const move = (dispatch, { keyCode }, field, piece, gameStatus) => {
     if (!gameStatus.gameOver) {
-        if (keyCode === 37) {
-            // left arrow
-            movePiece(dispatch, piece, field, -1);
-        } else if (keyCode === 39) {
-            // right arrow
-            movePiece(dispatch, piece, field, 1);
-        } else if (keyCode === 40) {
-            // down arrow
-            dropPiece(dispatch, field, piece, gameStatus);
-        } else if (keyCode === 38) {
-            // up arrow
-            rotatePiece(dispatch, field, piece, 1);
-        } else if (keyCode === 32) {
-            // space bar
-            hardDrop(dispatch, piece);
-        }
+        // left arrow
+        if (keyCode === 37) movePiece(dispatch, piece, field, -1);
+        // right arrow
+        else if (keyCode === 39) movePiece(dispatch, piece, field, 1);
+        // down arrow
+        else if (keyCode === 40) dropPiece(dispatch, field, piece, gameStatus);
+        // up arrow
+        else if (keyCode === 38) rotatePiece(dispatch, field, piece, 1);
+        // space bar
+        else if (keyCode === 32) hardDrop(dispatch, piece);
     }
 };

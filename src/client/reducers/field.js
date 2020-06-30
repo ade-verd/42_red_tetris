@@ -1,6 +1,7 @@
 import { FIELD_HEIGHT, FIELD_WIDTH } from '../../constants';
 import { ACTIONS } from '../middlewares/handleSocket';
-import { checkCollision } from '../helpers/checkCollision'
+import { checkCollision } from '../helpers/checkCollision';
+import { asyncEmitSpectrum } from '../actions/game/spectrum';
 
 export const incrementRowsCleared = asyncDispatch => {
     asyncDispatch({ action: ACTIONS.REDUCE, type: 'INCREMENT_ROWSCLEARED' });
@@ -41,12 +42,12 @@ export const updateField = (asyncDispatch, prevField, piece) => {
     setRowsCleared(asyncDispatch, { rowsCleared: 0 });
     asyncDispatch({ action: ACTIONS.REDUCE, type: 'SET_ROWSCLEARED', rowsCleared: 0 });
 
-    if(checkCollision(piece, prevField, { x: 0, y: 0 })) {
+    if (checkCollision(piece, prevField, { x: 0, y: 0 })) {
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'GAMEOVER' });
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
         return {
             field: prevField,
-        }
+        };
     }
 
     // 1. Flush the stage
@@ -83,6 +84,7 @@ export const updateField = (asyncDispatch, prevField, piece) => {
     // 4. Check if we collided
     if (piece.collided) {
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'GET_TETROMINO' });
+        asyncEmitSpectrum(asyncDispatch, user.roomId, user.id);
         return {
             field: sweepRows(asyncDispatch, newField),
         };
@@ -98,7 +100,12 @@ const reducer = (state = {}, action) => {
         case 'FIRST_RENDER':
             return createField();
         case 'UPDATE':
-            return updateField(action.asyncDispatch, state.field, action.piece);
+            return updateField(
+                action.asyncDispatch,
+                state.field,
+                action.piece,
+                action.allStates.usr,
+            );
         case 'RESET':
             return createField();
         default:

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledField = styled.div`
+export const StyledSpectrum = styled.div`
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;

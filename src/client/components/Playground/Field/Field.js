@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { StyledField, Row } from './Field.style';
 import Cell from './Cell/Cell';
@@ -16,11 +16,7 @@ const buildField = field => {
 const Field = ({ field }) => {
     if (!field) return null;
 
-    return (
-        <StyledField width={field[0].length} height={field.length}>
-            {buildField(field)}
-        </StyledField>
-    );
+    return <StyledField>{buildField(field)}</StyledField>;
 };
 
 export default Field;
