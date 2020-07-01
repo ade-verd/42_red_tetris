@@ -1,4 +1,5 @@
 import { ACTIONS } from '../../middleware/handleSocket';
+import { updateStatePlayersNames } from '../players/getPlayer';
 
 export const emitGetActiveRooms = dispatch =>
     dispatch({
@@ -11,12 +12,7 @@ export const onGotActiveRooms = dispatch => {
         action: ACTIONS.LISTEN,
         event: 'rooms:players:got',
         fn: payload => {
-            dispatch({
-                action: ACTIONS.REDUCE,
-                type: 'UPDATE_PLAYERS_NAMES',
-                players: payload.players,
-                error: payload.error,
-            });
+            updateStatePlayersNames(dispatch, payload);
         },
     });
 };
