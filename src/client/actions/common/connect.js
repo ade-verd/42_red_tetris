@@ -6,6 +6,14 @@ export const socketIoConnect = dispatch => {
     dispatch({ action: ACTIONS.CONNECT });
 };
 
+export const dispatchReduceSaveSocket = (dispatch, socket) => {
+    dispatch({
+        action: ACTIONS.REDUCE,
+        type: 'SAVE_SOCKET',
+        socket,
+    });
+};
+
 export const onSocketConnect = dispatch => {
     const socket = dispatch({ action: ACTIONS.GET_SOCKET });
 
@@ -13,11 +21,7 @@ export const onSocketConnect = dispatch => {
         action: ACTIONS.LISTEN,
         event: 'connect',
         fn: () => {
-            dispatch({
-                action: ACTIONS.REDUCE,
-                type: 'SAVE_SOCKET',
-                socket,
-            });
+            dispatchReduceSaveSocket(dispatch, socket);
         },
     });
 

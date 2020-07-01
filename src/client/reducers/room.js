@@ -40,7 +40,7 @@ const checkAndUpdatePlayersNames = (store, rooms, action) => {
 };
 
 const handleUpdateActiveRooms = (state, action) => {
-    if (action.error !== undefined) {
+    if (action.error !== undefined || !action.rooms) {
         notify({ type: 'error', msg: action.error });
         return handleError(state, action.error, 'updateRoomsError');
     }

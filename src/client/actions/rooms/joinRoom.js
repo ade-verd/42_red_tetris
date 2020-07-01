@@ -18,19 +18,22 @@ export const emitJoinRoom = (store, roomId) => {
     });
 };
 
+export const dispatchReduceRoomJoined = (dispatch, payload) => {
+    dispatch({
+        action: ACTIONS.REDUCE,
+        type: 'ROOM_JOINED',
+        roomId: _.get(payload, 'payload.room_id'),
+        roomName: _.get(payload, 'update.value.room_name'),
+        error: payload.error,
+    });
+};
+
 export const onRoomJoined = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'rooms:joined',
         fn: payload => {
-            console.log('AFF', payload);
-            dispatch({
-                action: ACTIONS.REDUCE,
-                type: 'ROOM_JOINED',
-                roomId: _.get(payload, 'payload.room_id'),
-                roomName: _.get(payload, 'update.value.room_name'),
-                error: payload.error,
-            });
+            dispatchReduceRoomJoined(dispatch, payload);
         },
     });
 };

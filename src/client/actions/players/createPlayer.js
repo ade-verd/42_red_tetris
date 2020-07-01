@@ -3,7 +3,7 @@ import { getUserCookie, setUserCookie } from './userCookie';
 
 export const createPlayerPayload = name => ({ name });
 
-const dispatchPlayerCreated = (dispatch, payload) => {
+export const dispatchReducePlayerCreated = (dispatch, payload) => {
     dispatch({
         action: ACTIONS.REDUCE,
         type: 'PLAYER_CREATED',
@@ -25,7 +25,7 @@ export const onPlayerCreated = ({ dispatch, getState }) => {
         event: 'players:created',
         fn: payload => {
             setUserCookie(getState().usr, payload.player, payload.error);
-            dispatchPlayerCreated(dispatch, payload);
+            dispatchReducePlayerCreated(dispatch, payload);
         },
     });
 };

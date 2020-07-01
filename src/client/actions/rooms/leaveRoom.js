@@ -5,7 +5,7 @@ export const leaveRoomPayload = (roomId, playerId) => ({
     player_id: playerId,
 });
 
-export const emitLeaveRoom = store => {
+export const dispatchEmitLeaveRoom = store => {
     const { id: playerId, roomId } = store.getState().usr;
 
     store.dispatch({
@@ -13,12 +13,20 @@ export const emitLeaveRoom = store => {
         event: 'rooms:leave',
         data: leaveRoomPayload(roomId, playerId),
     });
+};
+
+export const dispatchReduceLeaveRoom = store => {
     store.dispatch({
         action: ACTIONS.REDUCE,
         type: 'LEAVE_ROOM',
         roomId: null,
         roomName: null,
     });
+};
+
+export const emitLeaveRoom = store => {
+    dispatchEmitLeaveRoom(store);
+    dispatchReduceLeaveRoom(store);
 };
 
 export const onRoomLeft = dispatch => {

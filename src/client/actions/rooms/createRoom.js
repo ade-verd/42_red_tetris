@@ -5,25 +5,30 @@ export const createRoomPayload = (roomName, roomCreaterId) => ({
     admin_id: roomCreaterId,
 });
 
-export const emitCreateRoom = (dispatch, roomName, roomCreaterId) =>
+export const emitCreateRoom = (dispatch, roomName, roomCreaterId) => {
     dispatch({
         action: ACTIONS.EMIT,
         event: 'rooms:create',
         data: createRoomPayload(roomName, roomCreaterId),
     });
+};
+
+export const dispatchReduceRoomCreated = (dispatch, payload) => {
+    dispatch({
+        action: ACTIONS.REDUCE,
+        type: 'ROOM_CREATED',
+        roomId: payload.room_id,
+        roomName: payload.room_name,
+        error: payload.error,
+    });
+};
 
 export const onRoomCreated = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'rooms:created',
         fn: payload => {
-            dispatch({
-                action: ACTIONS.REDUCE,
-                type: 'ROOM_CREATED',
-                roomId: payload.room_id,
-                roomName: payload.room_name,
-                error: payload.error,
-            });
+            dispatchReduceRoomCreated(dispatch, payload);
         },
     });
 };

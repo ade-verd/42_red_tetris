@@ -40,6 +40,16 @@ const insertedPlayer = () => ({
     updated_at: new Date('2020-01-01T10:00:00Z'),
 });
 
+const playerStringFields = () => ({
+    _id: '00000000000000000000000d',
+    socket_id: '0000000004',
+    name: 'Waldo',
+    room_id: null,
+    blocks_consumed: 0,
+    created_at: '2020-01-01T10:00:00Z',
+    updated_at: '2020-01-01T10:00:00Z',
+});
+
 const player1 = () => ({
     socket_id: '0000000005',
     room_id: null,
@@ -78,6 +88,7 @@ const player5 = () => ({
 module.exports = {
     default: toBeInsertedDirectly,
     insertedPlayer,
+    playerStringFields,
     player1,
     player2,
     player3,
