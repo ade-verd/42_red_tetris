@@ -4,10 +4,7 @@ import notify from '../actions/notifications';
 
 const handleError = (state, error, errorFieldName) => {
     console.error(`[room reducer][${errorFieldName}]`, error);
-    return {
-        ...state,
-        [errorFieldName]: error,
-    };
+    return { ...state };
 };
 
 const checkAndUpdatePlayersNames = (store, rooms, action) => {
@@ -51,7 +48,6 @@ const handleUpdateActiveRooms = (state, action) => {
         ...state,
         rooms: action.rooms,
         lobby: action.lobby,
-        updateRoomsError: null,
         updatedAt: Date.now(),
     };
 };
@@ -62,7 +58,7 @@ const handleRoomCreation = (state, action) => {
         return handleError(state, action.error, 'roomCreationError');
     }
 
-    return { ...state, roomCreationError: null };
+    return { ...state };
 };
 
 const handleRoomJoined = (state, action) => {
@@ -71,7 +67,7 @@ const handleRoomJoined = (state, action) => {
         return handleError(state, action.error, 'roomJoinedError');
     }
 
-    return { ...state, roomJoinedError: null };
+    return { ...state };
 };
 
 const handleRoomLeft = (state, action) => {
@@ -80,7 +76,7 @@ const handleRoomLeft = (state, action) => {
         return handleError(state, action.error, 'roomLeftError');
     }
 
-    return { ...state, roomLeftError: null };
+    return { ...state };
 };
 
 const reducer = (state = {}, action) => {

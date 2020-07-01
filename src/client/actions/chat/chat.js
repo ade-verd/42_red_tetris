@@ -10,24 +10,29 @@ export const createChatPayload = ({ playerId, playerName, roomId, msg, date }) =
     date: newDate(date).valueOf(),
 });
 
-export const emitChatMessage = (dispatch, payload) =>
+export const emitChatMessage = (dispatch, payload) => {
     dispatch({
         action: ACTIONS.EMIT,
         event: 'chat:message:send',
         data: createChatPayload(payload),
     });
+};
+
+export const addMessageToState = (dispatch, payload) => {
+    dispatch({
+        action: ACTIONS.REDUCE,
+        type: 'CHAT_MESSAGE_RECEIVED',
+        payload,
+        error: payload.error,
+    });
+};
 
 export const onChatMessageReceived = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'chat:message:broadcasted',
         fn: payload => {
-            dispatch({
-                action: ACTIONS.REDUCE,
-                type: 'CHAT_MESSAGE_RECEIVED',
-                payload,
-                error: payload.error,
-            });
+            addMessageToState(dispatch, payload);
         },
     });
 };

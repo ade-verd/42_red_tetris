@@ -3,8 +3,6 @@ const updateRowsScore = state => {
         return state;
     }
 
-    console.log('RORO,', state.rowsCleared);
-
     const linePoints = [40, 100, 300, 1200];
 
     return {

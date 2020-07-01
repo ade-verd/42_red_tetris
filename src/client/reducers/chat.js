@@ -8,7 +8,6 @@ const handleError = (state, error, errorFieldName) => {
     console.error(`[chat reducer][${errorFieldName}]`, error);
     return {
         ...state,
-        [errorFieldName]: error,
     };
 };
 
@@ -18,7 +17,6 @@ const handleMessageReceived = (state, action) => {
         return handleError(state, action.error, 'chatError');
     }
 
-    console.log('CHATT', action.payload);
     const roomId = action.payload.toRoomId;
     const previousRoomMessages = _.get(state, ['msg', roomId], []);
     const roomMessages = [...previousRoomMessages, action.payload];
@@ -26,7 +24,6 @@ const handleMessageReceived = (state, action) => {
     return {
         ...state,
         msg: { ...state.msg, [roomId]: roomMessages },
-        chatError: null,
     };
 };
 

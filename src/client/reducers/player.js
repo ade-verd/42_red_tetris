@@ -4,10 +4,7 @@ import notify from '../actions/notifications';
 
 const handleError = (state, error, errorFieldName) => {
     console.error(`[player reducer][${errorFieldName}]`, error);
-    return {
-        ...state,
-        [errorFieldName]: error,
-    };
+    return { ...state };
 };
 
 const handlePlayerCreated = (state, action) => {
@@ -26,7 +23,6 @@ const handlePlayerCreated = (state, action) => {
             ...state.players,
             [action.player._id]: action.player.name,
         },
-        creationError: null,
     };
 };
 
@@ -44,7 +40,6 @@ const handleUpdatePlayersNames = (state, action) => {
     return {
         ...state,
         players: { ...state.players, ...roomPlayers },
-        updateNamesError: null,
     };
 };
 
