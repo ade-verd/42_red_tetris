@@ -2,14 +2,15 @@
 
 import notify from '../actions/notifications';
 
+import { newDate } from '../lib/utils/date';
+import { ACTIONS } from '../middleware/handleSocket';
+
 const handleError = (state, error, errorFieldName) => {
     console.error(`[room reducer][${errorFieldName}]`, error);
     return { ...state };
 };
 
 const checkAndUpdatePlayersNames = (store, rooms, action) => {
-    if (!rooms) return;
-
     let idsChecked = [];
     const playerState = store.getState().play.players;
     rooms.forEach(room => {
@@ -37,8 +38,9 @@ const checkAndUpdatePlayersNames = (store, rooms, action) => {
 };
 
 const handleUpdateActiveRooms = (state, action) => {
-    if (action.error !== undefined || !action.rooms) {
-        notify({ type: 'error', msg: action.error });
+    if (action.error !== undefined || !action.rooms || !action.lobby) {
+        const msgError = action.error ? action.error : 'Error: invalid active rooms payload';
+        notify({ type: 'error', msg: msgError });
         return handleError(state, action.error, 'updateRoomsError');
     }
 
@@ -48,7 +50,7 @@ const handleUpdateActiveRooms = (state, action) => {
         ...state,
         rooms: action.rooms,
         lobby: action.lobby,
-        updatedAt: Date.now(),
+        updatedAt: newDate().valueOf(),
     };
 };
 

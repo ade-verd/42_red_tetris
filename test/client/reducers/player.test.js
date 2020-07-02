@@ -11,7 +11,7 @@ import * as notify from '../../../src/client/actions/notifications';
 
 import playersFixtures from '../../fixtures/players.fixtures';
 
-describe.only('client/reducers/player', function() {
+describe('client/reducers/player', function() {
     const sandbox = sinon.createSandbox();
 
     beforeEach(() => {

@@ -29,16 +29,20 @@ export const emitLeaveRoom = store => {
     dispatchReduceLeaveRoom(store);
 };
 
+export const dispatchReduceRoomLeft = (dispatch, payload) => {
+    dispatch({
+        action: ACTIONS.REDUCE,
+        type: 'ROOM_LEFT',
+        error: payload.error,
+    });
+};
+
 export const onRoomLeft = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'rooms:left',
         fn: payload => {
-            dispatch({
-                action: ACTIONS.REDUCE,
-                type: 'ROOM_LEFT',
-                error: payload.error,
-            });
+            dispatchReduceRoomLeft(dispatch, payload);
         },
     });
 };
