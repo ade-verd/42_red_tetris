@@ -11,7 +11,7 @@ const roomsModels = require('../../../../src/server/models/rooms');
 
 const fixtures = require('../../../fixtures/rooms.fixtures');
 
-const { GAME_STATUS } = require('../../../../src/constants');
+const { GAME_STATUS, TETRIMINOS } = require('../../../../src/constants');
 
 describe('models/rooms', () => {
     const sandbox = sinon.createSandbox();
@@ -404,7 +404,7 @@ describe('models/rooms', () => {
                             [0, 'I', 0, 0],
                             [0, 'I', 0, 0],
                         ],
-                        color: '29, 174, 236',
+                        color: TETRIMINOS.I.color,
                         rotationsPossible: 2,
                     },
                     {
@@ -412,7 +412,7 @@ describe('models/rooms', () => {
                             ['O', 'O'],
                             ['O', 'O'],
                         ],
-                        color: '255, 239, 53',
+                        color: TETRIMINOS.O.color,
                         rotationsPossible: 1,
                     },
                 ],

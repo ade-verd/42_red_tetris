@@ -9,7 +9,11 @@ const roomsLib = require('../../../../src/server/models/rooms');
 const playersLib = require('../../../../src/server/models/players');
 const getPieces = require('../../../../src/server/lib/pieces/getPieces');
 
-const { GAME_STATUS, PIECES_NUMBER_AT_ROOM_CREATION } = require('../../../../src/constants');
+const {
+    GAME_STATUS,
+    PIECES_NUMBER_AT_ROOM_CREATION,
+    TETRIMINOS,
+} = require('../../../../src/constants');
 const fixtures = require('../../../fixtures/rooms.fixtures.js');
 
 describe('lib/rooms/roomInOut', () => {
@@ -46,7 +50,7 @@ describe('lib/rooms/roomInOut', () => {
                         [0, 'I', 0, 0],
                         [0, 'I', 0, 0],
                     ],
-                    color: '29, 174, 236',
+                    color: TETRIMINOS.I.color,
                     rotationsPossible: 2,
                 },
                 {
@@ -54,7 +58,7 @@ describe('lib/rooms/roomInOut', () => {
                         ['O', 'O'],
                         ['O', 'O'],
                     ],
-                    color: '255, 239, 53',
+                    color: TETRIMINOS.O.color,
                     rotationsPossible: 1,
                 },
             ];

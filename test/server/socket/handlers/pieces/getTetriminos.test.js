@@ -13,6 +13,7 @@ const fixtures = {
     ...require('../../../../fixtures/tetriminos.fixtures.js'),
     ...require('../../../../fixtures/rooms.fixtures.js'),
 };
+const { TETRIMINOS } = require('../../../../../src/constants/tetriminos');
 
 describe('socket/handlers/pieces/getTetriminos', function() {
     const sandbox = sinon.createSandbox();
@@ -70,7 +71,7 @@ describe('socket/handlers/pieces/getTetriminos', function() {
                             [0, 'I', 0, 0],
                             [0, 'I', 0, 0],
                         ],
-                        color: '29, 174, 236',
+                        color: TETRIMINOS.I.color,
                         rotationsPossible: 2,
                     },
                 ],

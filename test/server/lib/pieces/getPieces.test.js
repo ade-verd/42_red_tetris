@@ -12,6 +12,8 @@ const fixtures = {
     ...require('../../../fixtures/rooms.fixtures.js'),
 };
 
+const { TETRIMINOS } = require('../../../../src/constants/tetriminos');
+
 describe('lib/pieces/getPieces', () => {
     const sandbox = sinon.createSandbox();
 
@@ -45,7 +47,7 @@ describe('lib/pieces/getPieces', () => {
                             [0, 'L', 0],
                             [0, 'L', 'L'],
                         ],
-                        color: '244, 146, 49',
+                        color: TETRIMINOS.L.color,
                         rotationsPossible: 4,
                     },
                     {
@@ -54,7 +56,7 @@ describe('lib/pieces/getPieces', () => {
                             ['S', 'S', 0],
                             [0, 0, 0],
                         ],
-                        color: '141, 196, 73',
+                        color: TETRIMINOS.S.color,
                         rotationsPossible: 2,
                     },
                 ],
@@ -110,7 +112,7 @@ describe('lib/pieces/getPieces', () => {
                                 ['O', 'O'],
                                 ['O', 'O'],
                             ],
-                            color: '255, 239, 53',
+                            color: TETRIMINOS.O.color,
                             rotationsPossible: 1,
                         },
                     ],
@@ -125,7 +127,7 @@ describe('lib/pieces/getPieces', () => {
                             ['O', 'O'],
                             ['O', 'O'],
                         ],
-                        color: '255, 239, 53',
+                        color: TETRIMINOS.O.color,
                         rotationsPossible: 1,
                     },
                 ],
@@ -148,7 +150,7 @@ describe('lib/pieces/getPieces', () => {
                         ['O', 'O'],
                         ['O', 'O'],
                     ],
-                    color: '255, 239, 53',
+                    color: TETRIMINOS.O.color,
                     rotationsPossible: 1,
                 },
             ]);
@@ -198,7 +200,7 @@ describe('lib/pieces/getPieces', () => {
                         [0, 'I', 0, 0],
                         [0, 'I', 0, 0],
                     ],
-                    color: '29, 174, 236',
+                    color: TETRIMINOS.I.color,
                     rotationsPossible: 2,
                 },
                 {
@@ -206,7 +208,8 @@ describe('lib/pieces/getPieces', () => {
                         ['O', 'O'],
                         ['O', 'O'],
                     ],
-                    color: '255, 239, 53',
+
+                    color: TETRIMINOS.O.color,
                     rotationsPossible: 1,
                 },
             ]);
@@ -247,7 +250,7 @@ describe('lib/pieces/getPieces', () => {
                         [0, 'I', 0, 0],
                         [0, 'I', 0, 0],
                     ],
-                    color: '29, 174, 236',
+                    color: TETRIMINOS.I.color,
                     rotationsPossible: 2,
                 },
                 {
@@ -255,7 +258,7 @@ describe('lib/pieces/getPieces', () => {
                         ['O', 'O'],
                         ['O', 'O'],
                     ],
-                    color: '255, 239, 53',
+                    color: TETRIMINOS.O.color,
                     rotationsPossible: 1,
                 },
             ]);
@@ -296,7 +299,7 @@ describe('lib/pieces/getPieces', () => {
                         [0, 'I', 0, 0],
                         [0, 'I', 0, 0],
                     ],
-                    color: '29, 174, 236',
+                    color: TETRIMINOS.I.color,
                     rotationsPossible: 2,
                 },
                 {
@@ -304,7 +307,7 @@ describe('lib/pieces/getPieces', () => {
                         ['O', 'O'],
                         ['O', 'O'],
                     ],
-                    color: '255, 239, 53',
+                    color: TETRIMINOS.O.color,
                     rotationsPossible: 1,
                 },
             ]);
