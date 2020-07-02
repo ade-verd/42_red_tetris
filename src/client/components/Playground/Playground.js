@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Field from './Field/Field';
 import StartButton from './StartButton/StartButton';
@@ -7,11 +7,15 @@ import Spectrums from './Spectrums/Spectrums';
 
 import { StyledPlayground } from './Playground.style';
 
-import { store } from '../../store/store';
+import { getRoom } from '../../helpers/getRoom';
 import { useInterval } from '../../helpers/useInterval';
+
+import { store } from '../../store/store';
 
 const Playground = props => {
     const { field, gameStatus, piece, spectrums, user, rooms, ...dispatchs } = props;
+    const { score, rows, rowsCleared, level, gameOver } = gameStatus;
+    const [isAdmin, setIsAdmin] = useState(false);
     const {
         listen,
         startGame,
@@ -23,11 +27,12 @@ const Playground = props => {
         reactivateDropTime,
         drop,
     } = dispatchs;
-    const { score, rows, rowsCleared, level, gameOver } = gameStatus;
     const playgroundRef = useRef(null);
 
     console.debug(
         '[Playground] State: ',
+        'store =',
+        store.getState(),
         'field =',
         field,
         'gameStatus',
@@ -36,15 +41,22 @@ const Playground = props => {
         piece,
         'spectrums =',
         spectrums,
+        'rooms =',
+        rooms,
         'dispatchs =',
         dispatchs,
     );
 
     useEffect(() => {
-        listen();
+        listen(playgroundRef);
         firstRender(store.dispatch);
         emitGetRandomTetriminos(store.dispatch, user.roomId, 1, 20);
     }, []);
+
+    useEffect(() => {
+        const currentRoom = getRoom(rooms.rooms, user.roomId);
+        if (currentRoom) setIsAdmin(currentRoom.players_ids[0] === user.id);
+    }, [rooms.rooms]);
 
     useEffect(() => {
         updateGameStatus(store.dispatch);
@@ -77,7 +89,19 @@ const Playground = props => {
                         <Display text={`Level: ${level}`} />
                     </div>
                 )}
-                <StartButton callback={() => startGame(store.dispatch, playgroundRef)} />
+                {isAdmin ? (
+                    <StartButton
+                        callback={() =>
+                            startGame(
+                                store.dispatch,
+                                user.roomId,
+                                piece.pieces,
+                                piece.index,
+                                playgroundRef,
+                            )
+                        }
+                    />
+                ) : null}
             </aside>
         </StyledPlayground>
     );

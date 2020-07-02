@@ -103,7 +103,7 @@ const reducer = (state = {}, action) => {
             return updateField(
                 action.asyncDispatch,
                 state.field,
-                action.piece,
+                action.allStates.pce,
                 action.allStates.usr,
             );
         case 'RESET':

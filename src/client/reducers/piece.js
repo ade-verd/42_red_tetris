@@ -24,6 +24,13 @@ const setPieces = (state, pieces) => {
     };
 };
 
+const setIndex = (state, index) => {
+    return {
+        ...state,
+        index: index,
+    };
+};
+
 const setPos = (state, asyncDispatch, { x, y }, collided) => {
     if (x !== 0) {
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'UPDATE_PROJECTION' });
@@ -104,6 +111,8 @@ const reducer = (state = {}, action) => {
             return firstRender();
         case 'SET_PIECES':
             return setPieces(state, action.pieces);
+        case 'SET_INDEX':
+            return setIndex(state, action.index);
         case 'SET_POS':
             return setPos(state, action.asyncDispatch, action.pos, action.collided);
         case 'SET_DROPTIME':
