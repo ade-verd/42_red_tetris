@@ -11,7 +11,7 @@ const { handlers } = require('../../../src/server/socket/index');
 const roomsHandlers = require('../../../src/server/socket/handlers/rooms');
 const playerSocketLib = require('../../../src/server/socket/lib/playersSocket/checkConnectedSocket');
 
-describe('socket/index.js', function() {
+describe.skip('socket/index.js', function() {
     const sandbox = sinon.createSandbox();
 
     const socketUrl = config.server.url;

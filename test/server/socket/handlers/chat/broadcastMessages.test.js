@@ -14,7 +14,7 @@ const {
 
 const clientActions = require('../../../../../src/client/actions/chat/chat');
 
-describe('socket/handlers/chat/broadcastMessages', function() {
+describe.skip('socket/handlers/chat/broadcastMessages', function() {
     const sandbox = sinon.createSandbox();
 
     const socketUrl = config.server.url;

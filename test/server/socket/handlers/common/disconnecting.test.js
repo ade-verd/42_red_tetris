@@ -9,7 +9,7 @@ const config = require('../../../../../src/server/config');
 const disconnectRoomSocket = require('../../../../../src/server/socket/lib/roomSocket/disconnectRoomSocket');
 const getActiveRooms = require('../../../../../src/server/socket/handlers/rooms/getActiveRooms');
 
-describe('socket/handlers/common/disconnecting', function() {
+describe.skip('socket/handlers/common/disconnecting', function() {
     const sandbox = sinon.createSandbox();
 
     const socketUrl = config.server.url;

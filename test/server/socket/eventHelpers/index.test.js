@@ -74,10 +74,10 @@ describe('Socket event helpers', function() {
         });
     });
 
-    describe('#bindEvent()', function() {
+    describe.skip('#bindEvent()', function() {
         const socketUrl = config.server.url;
         const options = {
-            // transports: ['websocket'],
+            transports: ['websocket'],
             'force new connection': true,
         };
 
