@@ -15,6 +15,7 @@ const updateRowsScore = state => {
 const reducer = (state = {}, action) => {
     switch (action.type) {
         case 'FIRST_RENDER':
+        case 'RESET':
             return {
                 score: 0,
                 rows: 0,
@@ -43,14 +44,6 @@ const reducer = (state = {}, action) => {
             return {
                 ...state,
                 gameOver: true,
-            };
-        case 'RESET':
-            return {
-                score: 0,
-                rows: 0,
-                rowsCleared: 0,
-                level: 1,
-                gameOver: false,
             };
         default:
             return state;

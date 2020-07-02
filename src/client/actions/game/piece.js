@@ -1,6 +1,14 @@
 import { ACTIONS } from '../../middleware/handleSocket';
 import { checkCollision } from '../../helpers/checkCollision';
 
+export const incrementLevel = dispatch => {
+    dispatch({ action: ACTIONS.REDUCE, type: 'INCREMENT_LEVEL' });
+};
+
+export const setGameOver = dispatch => {
+    dispatch({ action: ACTIONS.REDUCE, type: 'SET_GAMEOVER' });
+};
+
 export const reactivateDropTime = (dispatch, { keyCode }, gameStatus) => {
     const { level, gameOver } = gameStatus;
     if (!gameOver) {
@@ -15,7 +23,7 @@ export const drop = (dispatch, field, piece, gameStatus) => {
     const { rows, level } = gameStatus;
     // Increase level when player has cleared 10 rows
     if (rows > level * 10) {
-        dispatch({ action: ACTIONS.REDUCE, type: 'INCREMENT_LEVEL' });
+        incrementLevel(dispatch);
         // Also increase speed
         dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: 1000 / (level + 1) });
     }
@@ -26,7 +34,7 @@ export const drop = (dispatch, field, piece, gameStatus) => {
         // Game over !
         if (piece.pos.y < 1) {
             console.debug('GAME OVER !');
-            dispatch({ action: ACTIONS.REDUCE, type: 'SET_GAMEOVER', gameOver: true });
+            setGameOver(dispatch);
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
         }
         dispatch({ action: ACTIONS.REDUCE, type: 'SET_POS', pos: { x: 0, y: 0 }, collided: true });

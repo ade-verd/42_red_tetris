@@ -1,6 +1,18 @@
 import { FIELD_HEIGHT, FIELD_WIDTH } from '../../constants';
 import { ACTIONS } from '../middleware/handleSocket';
 
+export const incrementRowsCleared = asyncDispatch => {
+    asyncDispatch({ action: ACTIONS.REDUCE, type: 'INCREMENT_ROWSCLEARED' });
+};
+
+export const setRowsCleared = (asyncDispatch, { rowsCleared }) => {
+    asyncDispatch({
+        action: ACTIONS.REDUCE,
+        type: 'SET_ROWSCLEARED',
+        rowsCleared,
+    });
+};
+
 export const createField = () => {
     const newField = Array.from(Array(FIELD_HEIGHT), () =>
         new Array(FIELD_WIDTH).fill([0, 'clear', false]),
@@ -14,8 +26,7 @@ const sweepRows = (asyncDispatch, newField) => {
     const isClear = cell => cell[0] === 0;
     const reducer = (ack, row) => {
         if (row.findIndex(isClear) === -1) {
-            console.log('RARA');
-            asyncDispatch({ action: ACTIONS.REDUCE, type: 'INCREMENT_ROWSCLEARED' });
+            incrementRowsCleared(asyncDispatch);
             ack.unshift(new Array(newField[0].length).fill([0, 'clear', false]));
             return ack;
         }
@@ -26,7 +37,7 @@ const sweepRows = (asyncDispatch, newField) => {
 };
 
 export const updateField = (asyncDispatch, prevField, piece) => {
-    asyncDispatch({ action: ACTIONS.REDUCE, type: 'SET_ROWSCLEARED', rowsCleared: 0 });
+    setRowsCleared(asyncDispatch, { rowsCleared: 0 });
     // 1. Flush the stage
     const newField = prevField.map(row =>
         row.map(cell => (cell[1] === 'clear' ? [0, 'clear', false] : cell)),
