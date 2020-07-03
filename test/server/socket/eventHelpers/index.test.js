@@ -74,7 +74,8 @@ describe('Socket event helpers', function() {
         });
     });
 
-    describe.skip('#bindEvent()', function() {
+    // describe.skip('#bindEvent()', function() {
+    describe('#bindEvent()', function() {
         const socketUrl = config.server.url;
         const options = {
             transports: ['websocket'],
@@ -98,7 +99,11 @@ describe('Socket event helpers', function() {
             const event = {
                 onEventName: 'should_bind_event',
                 emitEventName: 'should_bind_event',
-                fakeFunction: sinon.fake.returns('42'),
+                functionExpect: (...args) => {
+                    expect(args).to.deep.equal([socket, { string: 'abdef', number: 1 }]);
+                    client.disconnect();
+                    done();
+                },
                 rules: {
                     string: Joi.string().required(),
                     number: Joi.number()
@@ -110,7 +115,7 @@ describe('Socket event helpers', function() {
                 event.onEventName,
                 event.emitEventName,
                 event.rules,
-                event.fakeFunction,
+                event.functionExpect,
             );
 
             let socket;
@@ -121,15 +126,6 @@ describe('Socket event helpers', function() {
 
             const client = ioClient.connect(socketUrl, options);
             client.emit('should_bind_event', { string: 'abdef', number: 1 });
-
-            setTimeout(() => {
-                expect(event.fakeFunction.callCount).to.equal(1);
-                expect(event.fakeFunction.args).to.deep.equal([
-                    [socket, { string: 'abdef', number: 1 }],
-                ]);
-                client.disconnect();
-                done();
-            }, 200);
         });
 
         it('should return an error if the payload does not match with the schema', function(done) {
