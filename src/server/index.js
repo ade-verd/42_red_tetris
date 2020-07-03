@@ -54,9 +54,9 @@ const stop = cb => {
     io.close();
     app.close(() => {
         app.unref();
+        loginfo('Engine stopped');
+        cb();
     });
-    loginfo('Engine stopped');
-    cb();
 };
 
 const create = params => {

@@ -33,7 +33,7 @@ const emitActiveRooms = async () => {
         io.emit(EMIT_EVENT, payload);
     } catch (err) {
         io.emit(EMIT_EVENT, { error: err.toString() });
-        console.error(FUNCTION_NAME, { err });
+        console.log(FUNCTION_NAME, { err });
     }
 };
 

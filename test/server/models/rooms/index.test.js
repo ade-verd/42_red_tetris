@@ -180,7 +180,6 @@ describe('models/rooms', () => {
             const projection = { _id: 0, created_at: 0, updated_at: 0 };
             const res = await roomsModels.findRoomsByGameStatus(regex, projection).toArray();
 
-            console.log(res);
             expect(res).to.deep.equal([
                 {
                     room_name: 'room_4',

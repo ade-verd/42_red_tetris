@@ -122,10 +122,13 @@ describe('Socket event helpers', function() {
             io.on('connection', _socket => {
                 socket = _socket;
                 eventHelpers.bindEvent(socket, eventCreated);
+                // io.emit('connected');
             });
 
             const client = ioClient.connect(socketUrl, options);
+            // client.on('connected', () => {
             client.emit('should_bind_event', { string: 'abdef', number: 1 });
+            // });
         });
 
         it('should return an error if the payload does not match with the schema', function(done) {

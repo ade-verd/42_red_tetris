@@ -14,6 +14,7 @@ module.exports = {
     require: ['@babel/register', 'ignore-styles'],
     slow: 70,
     timeout: 2000,
+    retries: 2,
     exit: true,
     ui: 'bdd',
     'watch-files': ['src', 'test'],

@@ -58,7 +58,7 @@ describe('socket/index.js', function() {
     it('should call emitActiveRooms every x seconds', function(done) {
         sandbox.stub(config.rooms, 'refreshIntervalMs').value(50);
         sandbox.stub(eventHelpers, 'bindEvent');
-        const emitActiveRoomsStub = sandbox.stub(roomsHandlers, 'emitActiveRooms');
+        const emitActiveRoomsStub = sandbox.stub(roomsHandlers, 'emitActiveRooms').returns();
         // const checkSocketsStub = sandbox.stub(playerSocketLib, 'checkConnectedSocket');
 
         const client = io.connect(socketUrl, options);
