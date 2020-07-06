@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { StyledStartButton } from './StartButton.style';
 
-import { store } from '../../../store/store';
+import { store } from '../../../../store/store';
 
 const StartButton = ({ callback }) => {
     const userState = store.getState().usr;
-    const [label, setLabel] = useState('Start Game');
+    const [label, setLabel] = useState('Start');
 
     const onClick = () => {
         callback(userState.roomId);

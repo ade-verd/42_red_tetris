@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyledSpectrum, Row } from './Spectrum.style';
+import { StyledWrapper, StyledSpectrum, Row } from './Spectrum.style';
 import Cell from './Cell/Cell';
 
 const buildSpectrum = spectrum => {
@@ -14,13 +14,14 @@ const buildSpectrum = spectrum => {
 };
 
 const Spectrum = ({ spectrums, playerId }) => {
-    const spectrum = spectrums[playerId];
-    if (!spectrum) return null;
+    const data = spectrums[playerId];
+    if (!data) return null;
 
     return (
-        <StyledSpectrum width={spectrum[0].length} height={spectrum.length}>
-            {buildSpectrum(spectrum)}
-        </StyledSpectrum>
+        <StyledWrapper>
+            <StyledSpectrum>{buildSpectrum(data.spectrum)}</StyledSpectrum>
+            {data.playerName}
+        </StyledWrapper>
     );
 };
 

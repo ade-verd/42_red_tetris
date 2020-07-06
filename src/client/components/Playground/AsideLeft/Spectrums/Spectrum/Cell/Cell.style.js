@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const cellSize = 1; // manually chosen
+const cellSize = 1.3; // manually chosen
 
 export const StyledCell = styled.div`
     flex: 1 1 auto;

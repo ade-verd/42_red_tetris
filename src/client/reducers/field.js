@@ -1,7 +1,7 @@
 import { FIELD_HEIGHT, FIELD_WIDTH } from '../../constants';
 import { ACTIONS } from '../middlewares/handleSocket';
 import { checkCollision } from '../helpers/checkCollision';
-import { asyncEmitSpectrum } from '../actions/game/spectrum';
+import { emitSpectrum } from '../actions/game/spectrum';
 
 export const incrementRowsCleared = asyncDispatch => {
     asyncDispatch({ action: ACTIONS.REDUCE, type: 'INCREMENT_ROWSCLEARED' });
@@ -24,7 +24,7 @@ export const createField = () => {
     };
 };
 
-const sweepRows = (asyncDispatch, newField) => {
+const sweepRows = (asyncDispatch, newField, { roomId, id, name }) => {
     const isClear = cell => cell[0] === 0;
     const reducer = (ack, row) => {
         if (row.findIndex(isClear) === -1) {
@@ -35,7 +35,10 @@ const sweepRows = (asyncDispatch, newField) => {
         ack.push(row);
         return ack;
     };
-    return newField.reduce(reducer, []);
+    const sweptField = newField.reduce(reducer, []);
+
+    emitSpectrum(asyncDispatch, roomId, id, name, sweptField);
+    return sweptField;
 };
 
 export const updateField = (asyncDispatch, prevField, piece) => {
@@ -84,9 +87,8 @@ export const updateField = (asyncDispatch, prevField, piece) => {
     // 4. Check if we collided
     if (piece.collided) {
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'GET_TETROMINO' });
-        asyncEmitSpectrum(asyncDispatch, user.roomId, user.id);
         return {
-            field: sweepRows(asyncDispatch, newField),
+            field: sweepRows(asyncDispatch, newField, user),
         };
     }
 
