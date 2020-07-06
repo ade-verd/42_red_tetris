@@ -1,21 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import Field from './Field/Field';
-import StartButton from './StartButton/StartButton';
-import Display from './Display/Display';
-import Spectrums from './Spectrums/Spectrums';
-
 import { StyledPlayground } from './Playground.style';
 
+import AsideLeft from './AsideLeft/AsideLeft';
+import Field from './Field/Field';
+import AsideRight from './AsideRight/AsideRight';
+
 import { getRoom } from '../../helpers/getRoom';
+import { useInterval } from '../../helpers/useInterval';
 
 import { store } from '../../index';
-import { useInterval } from '../../helpers/useInterval';
 
 const Playground = props => {
     const { field, gameStatus, piece, spectrums, user, rooms, ...dispatchs } = props;
-    const { score, rows, rowsCleared, level, gameOver } = gameStatus;
     const [isAdmin, setIsAdmin] = useState(false);
+    const playgroundRef = useRef(null);
     const {
         listen,
         startGame,
@@ -27,7 +26,6 @@ const Playground = props => {
         reactivateDropTime,
         drop,
     } = dispatchs;
-    const playgroundRef = useRef(null);
 
     console.debug(
         '[Playground] State: ',
@@ -60,7 +58,7 @@ const Playground = props => {
 
     useEffect(() => {
         updateGameStatus(store.dispatch);
-    }, [rowsCleared]);
+    }, [gameStatus.rowsCleared]);
 
     useEffect(() => {
         updateField(store.dispatch, field, piece);
@@ -77,32 +75,22 @@ const Playground = props => {
             onKeyDown={event => move(store.dispatch, event, field, piece, gameStatus)}
             onKeyUp={event => reactivateDropTime(store.dispatch, event, gameStatus)}
         >
-            <Spectrums spectrums={spectrums} user={user} rooms={rooms} />
+            <AsideLeft
+                gameStatus={gameStatus}
+                spectrums={spectrums}
+                user={user}
+                rooms={rooms} 
+            />
             <Field field={field} />
-            <aside>
-                {gameOver ? (
-                    <Display gameOver={gameOver} text="GAME OVER" />
-                ) : (
-                    <div>
-                        <Display text={`Score: ${score}`} />
-                        <Display text={`Rows: ${rows}`} />
-                        <Display text={`Level: ${level}`} />
-                    </div>
-                )}
-                {isAdmin ? (
-                    <StartButton
-                        callback={() =>
-                            startGame(
-                                store.dispatch,
-                                user.roomId,
-                                piece.pieces,
-                                piece.index,
-                                playgroundRef,
-                            )
-                        }
-                    />
-                ) : null}
-            </aside>
+            <AsideRight
+                gameOver={gameStatus.gameOver}
+                isAdmin={isAdmin}
+                dispatch={store.dispatch}
+                user={user}
+                piece={piece}
+                playgroundRef={playgroundRef}
+                startGame={startGame}
+            />
         </StyledPlayground>
     );
 };

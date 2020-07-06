@@ -10,7 +10,7 @@ const handleError = (state, error, errorFieldName) => {
     };
 };
 
-const setSpectrum = (state, playerId, spectrum, error) => {
+const setSpectrum = (state, playerId, playerName, spectrum, error) => {
     if (error !== undefined) {
         if (error.startsWith('ValidationError')) {
             notify({ type: 'warning', msg: 'Spectrum name is missing' });
@@ -22,19 +22,26 @@ const setSpectrum = (state, playerId, spectrum, error) => {
 
     return {
         ...state,
-        [playerId]: spectrum,
+        [playerId]: { playerName, spectrum },
     };
 };
 
 const reducer = (state = {}, action) => {
     switch (action.type) {
         case 'SET_SPECTRUM':
-            return setSpectrum(state, action.playerId, action.spectrum, action.error);
+            return setSpectrum(
+                state,
+                action.playerId,
+                action.playerName,
+                action.spectrum,
+                action.error,
+            );
         case 'EMIT_SPECTRUM':
             emitSpectrum(
                 action.asyncDispatch,
                 action.roomId,
                 action.playerId,
+                action.playerName,
                 action.allStates.fld.field,
             );
             return state;

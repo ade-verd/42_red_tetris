@@ -16,7 +16,8 @@
 .icon {
     flex: 0 0 2em;
     font-size: 1.66em;
-    color: #95e773;
+    /* color: #95e773; */
+    color: #e6443a
 }
 
 .name {

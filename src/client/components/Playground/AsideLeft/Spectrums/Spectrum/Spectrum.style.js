@@ -1,11 +1,22 @@
 import styled from 'styled-components';
 
-export const StyledField = styled.div`
+export const StyledWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    margin: auto;
+
+    color: white;
+`
+
+export const StyledSpectrum = styled.div`
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
 
-    border: 5px solid #fff;
+    margin-bottom: 5px;
+    border: 2px solid #fff;
     border-radius: 5px;
 
     background: #222;

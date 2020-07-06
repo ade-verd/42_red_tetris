@@ -9,6 +9,7 @@ export const StyledPlayground = styled.div`
     border-radius: 5px;
     background-color: rgba(30, 30, 35, 0.9);
     margin: inherit;
+    align-items: center;
 
     :focus {
         outline: none;
