@@ -10,8 +10,12 @@ const { handlers } = require('../../../src/server/socket/index');
 
 const roomsHandlers = require('../../../src/server/socket/handlers/rooms');
 const playerSocketLib = require('../../../src/server/socket/lib/playersSocket/checkConnectedSocket');
+const {
+    checkConnectedSocket,
+} = require('../../../src/server/socket/lib/playersSocket/checkConnectedSocket');
 
-describe.skip('socket/index.js', function() {
+// describe.skip('socket/index.js', function() {
+describe('socket/index.js', function() {
     const sandbox = sinon.createSandbox();
 
     const socketUrl = config.server.url;
@@ -37,20 +41,32 @@ describe.skip('socket/index.js', function() {
     });
 
     it('should bind event on connection', function(done) {
-        const refreshIntervalStub = sandbox.stub(config.rooms, 'refreshIntervalMs').value(100);
-        const bindEventStub = sandbox.stub(eventHelpers, 'bindEvent').returns(true);
-        const emitActiveRoomsStub = sandbox.stub(roomsHandlers, 'emitActiveRooms').returns(true);
-        // const checkSocketsStub = sandbox.stub(playerSocketLib, 'checkConnectedSocket').returns(true);
+        const bindEventStub = sandbox.stub(eventHelpers, 'bindEvent');
+        sandbox.stub(roomsHandlers, 'emitActiveRooms');
 
         const client = io.connect(socketUrl, options);
 
         client.on('server/start', () => {
             setTimeout(() => {
-                expect(bindEventStub.callCount).to.equal(handlers.length);
-                expect(emitActiveRoomsStub.callCount).to.equal(1);
-                expect(emitActiveRoomsStub.args).to.deep.equal([[]]);
-                // expect(checkSocketsStub.args).to.deep.equal([[]]);
+                expect(bindEventStub.callCount % handlers.length).to.equal(0);
+                client.disconnect();
+                done();
+            }, 200);
+        });
+    });
 
+    it('should call emitActiveRooms every x seconds', function(done) {
+        sandbox.stub(config.rooms, 'refreshIntervalMs').value(50);
+        sandbox.stub(eventHelpers, 'bindEvent');
+        const emitActiveRoomsStub = sandbox.stub(roomsHandlers, 'emitActiveRooms').returns();
+        // const checkSocketsStub = sandbox.stub(playerSocketLib, 'checkConnectedSocket');
+
+        const client = io.connect(socketUrl, options);
+
+        client.on('server/start', () => {
+            setTimeout(() => {
+                expect(emitActiveRoomsStub.callCount).to.be.at.least(2);
+                // expect(checkSocketsStub.callCount).to.be.at.least(2);
                 client.disconnect();
                 done();
             }, 150);

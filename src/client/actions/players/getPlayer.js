@@ -12,7 +12,7 @@ export const emitGetPlayer = (dispatch, playerId) => {
     });
 };
 
-export const updateStatePlayersNames = (dispatch, payload) => {
+export const updateStatePlayerName = (dispatch, payload) => {
     dispatch({
         action: ACTIONS.REDUCE,
         type: 'UPDATE_PLAYERS_NAMES',
@@ -26,7 +26,7 @@ export const onGotPlayer = dispatch => {
         action: ACTIONS.LISTEN,
         event: 'players:player:got',
         fn: payload => {
-            updateStatePlayersNames(dispatch, payload);
+            updateStatePlayerName(dispatch, payload);
         },
     });
 };

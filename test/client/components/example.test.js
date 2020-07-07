@@ -11,7 +11,7 @@ describe('Tetris Enzyme example', function() {
     it('should render <Board />', function() {
         const wrapper = shallow(<Tetris />);
 
-        console.log('[debug]:\n', wrapper.debug(), '\n[/debug]');
+        // console.log('[debug]:\n', wrapper.debug(), '\n[/debug]');
         expect(wrapper.contains(<Board prop={'prop'} />)).to.equal(true);
         expect(wrapper.find(Board)).to.have.lengthOf(1);
         expect(wrapper.find(Board))
@@ -22,7 +22,7 @@ describe('Tetris Enzyme example', function() {
     it('should render <div />', function() {
         const wrapper = shallow(<Board />);
 
-        console.log('[debug]:\n', wrapper.debug(), '\n[/debug]');
+        // console.log('[debug]:\n', wrapper.debug(), '\n[/debug]');
         expect(wrapper.contains(<div />)).to.equal(true);
     });
 });

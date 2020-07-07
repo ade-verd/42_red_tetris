@@ -34,10 +34,10 @@ const initSocketIo = io => {
     ioInstance.set(io);
     io.on('connection', socket => {
         console.log('Socket connected:', socket.id);
-        io.emit('server/start');
         handlers.forEach(handler => {
             eventHelpers.bindEvent(socket, handler);
         });
+        io.emit('server/start');
 
         setInterval(() => {
             // playerSocketLib.checkConnectedSocket(io);

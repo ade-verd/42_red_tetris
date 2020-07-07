@@ -107,7 +107,7 @@ describe('socket/lib/roomSocket/disconnectRoom', async () => {
             expect(_unsetPlayerSocketStub.args).to.deep.equal([['00000000000000000000000d']]);
         });
 
-        it('should not do anything if the socket id is not found in players collection', async () => {
+        it('should do nothing if the socket id is not found in players collection', async () => {
             const SOCKET = { client: { id: '0000000004' } };
             const ROOMS_SOCKET = ['000000000000000000000001'];
 
@@ -118,7 +118,7 @@ describe('socket/lib/roomSocket/disconnectRoom', async () => {
             expect(findStub.args).to.deep.equal([['0000000004']]);
         });
 
-        it('should not do anything if no socket rooms is joined', async () => {
+        it('should do nothing if no socket rooms is joined', async () => {
             const SOCKET = { client: { id: '0000000004' } };
             const ROOMS_SOCKET = undefined;
 
