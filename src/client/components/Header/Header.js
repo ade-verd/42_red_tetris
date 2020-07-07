@@ -14,7 +14,7 @@ const Header = () => {
         <div className={css.container}>
             <BackToHome store={store} user={user} />
             <div className={css.title}>
-                <span className={css.red}>RED</span>TETRIS
+                <span className={css.blue}>BLUE</span>TETRIS
             </div>
             <Logout user={user} />
         </div>

@@ -5,7 +5,7 @@
 
 body {
     background-color: #1e1e23 !important;
-    background-image: url('./assets/img/bg_retropie_red.png');
+    background-image: url('./assets/img/bg_retropie_blue.png');
     background-repeat: no-repeat;
     background-size: 100%;
     font-family: 'arcade' !important;
@@ -30,13 +30,13 @@ input[type='text'] {
 }
 input[type='text']:focus {
     // border: 2px solid #34b8ee;
-    border: 2px solid #cc0000;
+    border: 2px solid #009df3;
     border-radius: 5px;
     outline: none;
 }
 
 // $primary: #34b8ee;
-$primary: #cc0000;
+$primary: #009df3;
 $secondary: #555559;
 $warning: #f8ae2a;
 $danger: #e6443a;

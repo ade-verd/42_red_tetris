@@ -23,5 +23,5 @@ export const StyledDisplay = styled.div`
     padding: ${props => (props.title === 'NEXT' ? '20% 5% 0 0' : '10px')};
     ${props => (props.gameOver ? 'padding-bottom: 20px' : '')};
 
-    color: ${props => (props.gameOver ? '#cc0000' : 'white')};
+    color: ${props => (props.gameOver ? '#009df3' : 'white')};
 `;
