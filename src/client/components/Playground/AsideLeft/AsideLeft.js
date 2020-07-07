@@ -13,9 +13,9 @@ const AsideLeft = props => {
         <StyledAsideLeft>
             <Spectrums spectrums={spectrums} user={user} rooms={rooms} />
             <StyledBottom>
-                <Display title='SCORE' content={score} />
-                <Display title='ROWS' content={rows} />
-                <Display title='LEVEL' content={level} />
+                <Display title="SCORE" content={score} />
+                <Display title="ROWS" content={rows} />
+                <Display title="LEVEL" content={level} />
             </StyledBottom>
         </StyledAsideLeft>
     );

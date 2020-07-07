@@ -19,14 +19,8 @@ export const StyledDisplay = styled.div`
 
     width: min-content;
     font-size: 3vmin;
-    ${props => (props.title === 'NEXT' || props.gameOver
-        ? 'margin: auto'
-        : 'margin-left: auto'
-    )};
-    padding: ${props => (props.title === 'NEXT'
-        ? '20% 5% 0 0'
-        : '10px'
-    )};
+    ${props => (props.title === 'NEXT' || props.gameOver ? 'margin: auto' : 'margin-left: auto')};
+    padding: ${props => (props.title === 'NEXT' ? '20% 5% 0 0' : '10px')};
     ${props => (props.gameOver ? 'padding-bottom: 20px' : '')};
 
     color: ${props => (props.gameOver ? '#cc0000' : 'white')};

@@ -1,6 +1,6 @@
 import { ACTIONS } from '../middlewares/handleSocket';
 import { emitMalus } from '../actions/game/malus';
-import { setRowsCleared } from '../reducers/field'
+import { setRowsCleared } from '../reducers/field';
 
 const updateRowsScore = (state, asyncDispatch, roomId) => {
     if (state.rowsCleared === 0) return state;

@@ -19,11 +19,6 @@ const emitMalus = async (socket, payload) => {
     console.log('[socket event emited][to:', roomId, ']', EMIT_EVENT, { malus });
 };
 
-export const malus = helpers.createEvent(
-    ON_EVENT,
-    EMIT_EVENT,
-    schema,
-    async (socket, payload) => {
-        await emitMalus(socket, payload);
-    },
-);
+export const malus = helpers.createEvent(ON_EVENT, EMIT_EVENT, schema, async (socket, payload) => {
+    await emitMalus(socket, payload);
+});

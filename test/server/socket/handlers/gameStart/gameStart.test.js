@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const ioClt = require('socket.io-client');
-const { getIo }  = require('../../../../../src/server/socket/index');
+const ioInstance = require('../../../../../src/server/socket/ioInstance');
 
 const { startServer } = require('../../../../helpers/server');
 const config = require('../../../../../src/server/config');
@@ -11,7 +11,7 @@ const actionClient = require('../../../../../src/client/actions/game/gameStart')
 describe.skip('socket/handlers/gameStart/gameStart', function() {
     const sandbox = sinon.createSandbox();
 
-    // const ioSrv = getIo();
+    const ioSrv = ioInstance.get();
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
@@ -31,9 +31,9 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
 
         const ROOM_ID = '000000000000000000000001';
         
-        // ioSrv.on('connection', socket => {
-        //     socket.join(ROOM_ID);
-        // });
+        ioSrv.on('connection', socket => {
+            socket.join(ROOM_ID);
+        });
 
         client1 = ioClt.connect(socketUrl, options);
         client2 = ioClt.connect(socketUrl, options);

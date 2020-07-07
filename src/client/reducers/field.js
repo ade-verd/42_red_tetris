@@ -101,9 +101,7 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
     };
 };
 
-const malusField = (prevField) => {
-
-
+const malusField = prevField => {
     return {
         field: newField,
     };

@@ -8,7 +8,7 @@ export const StyledWrapper = styled.div`
     margin: auto;
 
     color: white;
-`
+`;
 
 export const StyledSpectrum = styled.div`
     display: flex;

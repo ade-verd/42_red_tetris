@@ -75,12 +75,7 @@ const Playground = props => {
             onKeyDown={event => move(store.dispatch, event, field, piece, gameStatus)}
             onKeyUp={event => reactivateDropTime(store.dispatch, event, gameStatus)}
         >
-            <AsideLeft
-                gameStatus={gameStatus}
-                spectrums={spectrums}
-                user={user}
-                rooms={rooms} 
-            />
+            <AsideLeft gameStatus={gameStatus} spectrums={spectrums} user={user} rooms={rooms} />
             <Field field={field} />
             <AsideRight
                 gameOver={gameStatus.gameOver}

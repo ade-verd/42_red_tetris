@@ -11,11 +11,11 @@ export const emitMalus = (dispatch, roomId, malus) => {
     dispatch({
         action: ACTIONS.EMIT,
         event: 'malus:send',
-        data: getMalusPayload(roomId, malus)
+        data: getMalusPayload(roomId, malus),
     });
 };
 
-export const onMalus = (dispatch) => {
+export const onMalus = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'malus:sent',

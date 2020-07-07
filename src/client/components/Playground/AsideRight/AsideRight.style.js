@@ -7,7 +7,7 @@ export const StyledAsideRight = styled.div`
     height: 95%;
     width: 15%;
     margin-right: auto;
-    padding-top: 3%
+    padding-top: 3%;
 `;
 
 export const StyledBottom = styled.div`
@@ -15,5 +15,5 @@ export const StyledBottom = styled.div`
     flex-direction: column;
 
     margin-top: auto;
-    margin-bottom: 20%
+    margin-bottom: 20%;
 `;
