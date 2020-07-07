@@ -16,7 +16,8 @@ const fixtures = {
 
 const clientAction = require('../../../../../src/client/actions/common/createPlayerAndRoom');
 
-describe.skip('socket/handlers/common/createPlayerAndRoom', function() {
+// describe.skip('socket/handlers/common/createPlayerAndRoom', function() {
+describe('socket/handlers/common/createPlayerAndRoom', function() {
     const sandbox = sinon.createSandbox();
 
     const socketUrl = config.server.url;
