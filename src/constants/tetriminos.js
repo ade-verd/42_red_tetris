@@ -4,6 +4,10 @@ const TETRIMINOS = {
         shape: [[0]],
         color: '0, 0, 0',
     },
+    M: {
+        shape: [[0]],
+        color: '255,255,255',
+    },
     I: {
         shape: [
             [0, 'I', 0, 0],

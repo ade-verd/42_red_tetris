@@ -10,6 +10,7 @@ import { startGame, onGameStart } from '../actions/game/gameStart';
 import { updateGameStatus } from '../actions/game/gameStatus';
 import { move, reactivateDropTime, drop } from '../actions/game/piece';
 import { onSpectrum } from '../actions/game/spectrum';
+import { emitMalus, onMalus } from '../actions/game/malus';
 
 const mapStateToProps = state => {
     console.log('[Playground.container] State', state);
@@ -30,6 +31,7 @@ const mapDispatchToProps = dispatch => {
             onGameAction(dispatch);
             onGetRandomTetriminos(dispatch);
             onSpectrum(dispatch);
+            onMalus(dispatch);
         },
         onStart: roomId => {
             emitGameActionStart(dispatch, roomId);

@@ -25,9 +25,9 @@ export const createField = () => {
 };
 
 const sweepRows = (asyncDispatch, newField, { roomId, id, name }) => {
-    const isClear = cell => cell[0] === 0;
+    const isClearOrMalus = cell => cell[0] === 0 || cell[0] === 'M';
     const reducer = (ack, row) => {
-        if (row.findIndex(isClear) === -1) {
+        if (row.findIndex(isClearOrMalus) === -1) {
             incrementRowsCleared(asyncDispatch);
             ack.unshift(new Array(newField[0].length).fill([0, 'clear', false]));
             return ack;
@@ -41,10 +41,7 @@ const sweepRows = (asyncDispatch, newField, { roomId, id, name }) => {
     return sweptField;
 };
 
-export const updateField = (asyncDispatch, prevField, piece, user) => {
-    setRowsCleared(asyncDispatch, { rowsCleared: 0 });
-    asyncDispatch({ action: ACTIONS.REDUCE, type: 'SET_ROWSCLEARED', rowsCleared: 0 });
-
+export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) => {
     if (checkCollision(piece, prevField, { x: 0, y: 0 })) {
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'GAMEOVER' });
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
@@ -58,11 +55,18 @@ export const updateField = (asyncDispatch, prevField, piece, user) => {
         row.map(cell => (cell[1] === 'clear' ? [0, 'clear', false] : cell)),
     );
 
+    // 2. Draw malus row
+    if (malus) {
+        newField.push(new Array(newField[0].length).fill(['M', 'malus', false]));
+        newField.shift();
+    }
+
     // 2. Draw the projection
     piece.projection.tetromino.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
-                newField[y + piece.projection.pos.y][x + piece.projection.pos.x] = [
+                // If we draw malus row, we need to put projection's pos one cell upper
+                newField[y + piece.projection.pos.y - malus][x + piece.projection.pos.x] = [
                     value,
                     'clear',
                     true,
@@ -97,6 +101,14 @@ export const updateField = (asyncDispatch, prevField, piece, user) => {
     };
 };
 
+const malusField = (prevField) => {
+
+
+    return {
+        field: newField,
+    };
+};
+
 const reducer = (state = {}, action) => {
     switch (action.type) {
         case 'FIRST_RENDER':
@@ -107,7 +119,10 @@ const reducer = (state = {}, action) => {
                 state.field,
                 action.allStates.pce,
                 action.allStates.usr,
+                action.malus,
             );
+        case 'ADD_MALUS':
+            return malusField(state.field);
         case 'RESET':
             return createField();
         default:

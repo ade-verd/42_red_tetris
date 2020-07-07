@@ -1,9 +1,15 @@
-const updateRowsScore = state => {
-    if (state.rowsCleared === 0) {
-        return state;
-    }
+import { ACTIONS } from '../middlewares/handleSocket';
+import { emitMalus } from '../actions/game/malus';
+import { setRowsCleared } from '../reducers/field'
+
+const updateRowsScore = (state, asyncDispatch, roomId) => {
+    if (state.rowsCleared === 0) return state;
+    if (state.rowsCleared > 1) emitMalus(asyncDispatch, roomId, state.rowsCleared - 1);
 
     const linePoints = [40, 100, 300, 1200];
+
+    // Reset asynchronously rowsCleared after game status updated
+    setRowsCleared(asyncDispatch, { rowsCleared: 0 });
 
     return {
         ...state,
@@ -24,7 +30,7 @@ const reducer = (state = {}, action) => {
                 gameOver: false,
             };
         case 'UPDATE_ROWS_SCORE':
-            return updateRowsScore(state);
+            return updateRowsScore(state, action.asyncDispatch, action.allStates.usr.roomId);
         case 'INCREMENT_LEVEL':
             return {
                 ...state,

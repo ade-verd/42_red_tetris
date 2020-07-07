@@ -6,9 +6,9 @@ const { getIo }  = require('../../../../../src/server/socket/index');
 const { startServer } = require('../../../../helpers/server');
 const config = require('../../../../../src/server/config');
 
-const actionClient = require('../../../../../src/client/actions/game/gameStart');
+const actionClient = require('../../../../../src/client/actions/game/malus');
 
-describe.skip('socket/handlers/gameStart/gameStart', function() {
+describe.skip('socket/handlers/malus/malus', function() {
     const sandbox = sinon.createSandbox();
 
     // const ioSrv = getIo();
@@ -49,54 +49,31 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
         sandbox.restore();
     });
 
-    it('should emit game start', function(done) {
+    it('should emit malus', function(done) {
         const ROOM_ID = '000000000000000000000001';
-        const PIECES = [
-            { 
-                shape: [
-                    [0, 0, 0, 0],
-                    ['I', 'I', 'I', 'I'],
-                    [0, 0, 0, 0],
-                    [0, 0, 0, 0],
-                ],
-                color: '29, 174, 236',
-                rotationsPossible: 2,
-            },
-            { 
-                shape: [
-                    [0, 0, "Z"],
-                    [0, "Z", "Z"],
-                    [0, "Z", 0],
-                ],
-                color: '234, 32, 45',
-                rotationsPossible: 2,
-            },
-        ];
-        const INDEX = 0;
+        const MALUS = 2;
 
         client1.emit(
-            'game:start',
-            actionClient.getGameStartPayload(ROOM_ID, PIECES, INDEX),
+            'malus:send',
+            actionClient.getGameStartPayload(ROOM_ID, MALUS)
         );
-        client2.on('game:started', payload => {
+        client2.on('malus:sent', payload => {
             expect(payload).to.deep.equal({
-                pieces: PIECES,
-                index: INDEX,
+                malus: MALUS
             });
             done();
         });
     });
 
-    it('should not emit anything if an error occurs while starting game', function(done) {
-        const ROOM_ID = '000000000000000000000001';
-        const PIECES = null;
-        const INDEX = 0;
+    it('should not emit anything if an error occurs while sending malus', function(done) {
+        const ROOM_ID = null;
+        const PIECES = 2;
 
         client1.emit(
-            'game:start',
-            actionClient.getGameStartPayload(ROOM_ID, PIECES, INDEX),
+            'malus:send',
+            actionClient.getGameStartPayload(ROOM_ID, MALUS),
         );
-        client2.on('game:started', payload => {
+        client2.on('malus:sent', payload => {
             expect(payload).to.deep.equal(null);
             done();
         });

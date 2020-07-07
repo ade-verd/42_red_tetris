@@ -2,9 +2,9 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
 
-import { allStatesMiddleware } from '../../src/client/middleware/allStates';
-import { asyncDispatchMiddleware } from '../../src/client/middleware/asyncDispatch';
-import { handleSocket } from '../../src/client/middleware/handleSocket';
+import { allStatesMiddleware } from '../../src/client/middlewares/allStates';
+import { asyncDispatchMiddleware } from '../../src/client/middlewares/asyncDispatch';
+import { handleSocket } from '../../src/client/middlewares/handleSocket';
 
 export const configureStore = (reducer, socket, initialState, types) =>
     createStore(
