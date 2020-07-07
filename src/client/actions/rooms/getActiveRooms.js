@@ -1,11 +1,19 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
-import { updateStatePlayersNames } from '../players/getPlayer';
 
 export const emitGetActiveRooms = dispatch =>
     dispatch({
         action: ACTIONS.EMIT,
         event: 'rooms:get_active',
     });
+
+export const updateStatePlayersNames = (dispatch, payload) => {
+    dispatch({
+        action: ACTIONS.REDUCE,
+        type: 'UPDATE_PLAYERS_NAMES',
+        players: payload.players,
+        error: payload.error,
+    });
+};
 
 export const onGotActiveRooms = dispatch => {
     dispatch({
