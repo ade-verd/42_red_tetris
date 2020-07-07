@@ -1,6 +1,4 @@
-import io from 'socket.io-client';
-
-import config from '../config';
+'use strict';
 
 export const ACTIONS = {
     CONNECT: 'connect',
@@ -11,11 +9,7 @@ export const ACTIONS = {
     REDUCE: 'reduce',
 };
 
-let socket = null;
-
-export const handleSocket = () => {
-    socket = io(config.server.url);
-
+export const handleSocket = socket => {
     return ({ getState }) => next => payload => {
         if (typeof payload === 'function') {
             return next(payload);

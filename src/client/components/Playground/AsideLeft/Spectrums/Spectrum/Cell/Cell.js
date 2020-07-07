@@ -4,7 +4,7 @@ import { StyledCell } from './Cell.style';
 
 const COLORS = {
     clear: '0, 0, 0',
-    merged: '230, 68, 58',
+    merged: '204,0,0',
 };
 
 const Cell = ({ status }) => <StyledCell color={COLORS[status]} />;

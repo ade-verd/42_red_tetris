@@ -11,7 +11,7 @@ const TETRIMINOS = {
             [0, 'I', 0, 0],
             [0, 'I', 0, 0],
         ],
-        color: '40, 184, 242',
+        color: '204,0,0',
         rotationsPossible: 2,
     },
     O: {
@@ -19,7 +19,7 @@ const TETRIMINOS = {
             ['O', 'O'],
             ['O', 'O'],
         ],
-        color: '248, 255, 51',
+        color: '204,0,0',
         rotationsPossible: 1,
     },
     J: {
@@ -28,7 +28,7 @@ const TETRIMINOS = {
             [0, 'J', 0],
             ['J', 'J', 0],
         ],
-        color: '233, 66, 51',
+        color: '204,0,0',
         rotationsPossible: 4,
     },
     L: {
@@ -37,7 +37,7 @@ const TETRIMINOS = {
             [0, 'L', 0],
             [0, 'L', 'L'],
         ],
-        color: '250, 175, 1',
+        color: '204,0,0',
         rotationsPossible: 4,
     },
     S: {
@@ -46,7 +46,7 @@ const TETRIMINOS = {
             ['S', 'S', 0],
             [0, 0, 0],
         ],
-        color: '133, 138, 227',
+        color: '204,0,0',
         rotationsPossible: 2,
     },
     Z: {
@@ -55,7 +55,7 @@ const TETRIMINOS = {
             [0, 'Z', 'Z'],
             [0, 0, 0],
         ],
-        color: '149, 231, 115',
+        color: '204,0,0',
         rotationsPossible: 2,
     },
     T: {
@@ -64,7 +64,7 @@ const TETRIMINOS = {
             ['T', 'T', 'T'],
             [0, 0, 0],
         ],
-        color: '240, 239, 244',
+        color: '204,0,0',
         rotationsPossible: 4,
     },
 };

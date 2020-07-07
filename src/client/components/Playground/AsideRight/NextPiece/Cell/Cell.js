@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { StyledCell } from './Cell.style';
-import { TETROMINOS } from '../../../../../helpers/tetrominos';
+import { TETRIMINOS } from '../../../../../../constants/tetriminos';
 
 const Cell = ({ type }) => (
-    <StyledCell type={type} color={TETROMINOS[type].color} />
+    <StyledCell type={type} color={TETRIMINOS[type].color} />
 );
 
 export default React.memo(Cell);

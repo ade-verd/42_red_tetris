@@ -4,9 +4,9 @@ import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 import io from 'socket.io-client';
 
-import { asyncDispatchMiddleware } from '../middleware/asyncDispatch';
-import { allStatesMiddleware } from '../middleware/allStates';
-import { handleSocket } from '../middleware/handleSocket';
+import { asyncDispatchMiddleware } from '../middlewares/asyncDispatch';
+import { allStatesMiddleware } from '../middlewares/allStates';
+import { handleSocket } from '../middlewares/handleSocket';
 import rootReducer from '../reducers/index';
 
 import config from '../config';

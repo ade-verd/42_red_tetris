@@ -29,5 +29,5 @@ export const StyledDisplay = styled.div`
     )};
     ${props => (props.gameOver ? 'padding-bottom: 20px' : '')};
 
-    color: ${props => (props.gameOver ? '#e6443a' : 'white')};
+    color: ${props => (props.gameOver ? '#cc0000' : 'white')};
 `;

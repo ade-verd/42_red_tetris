@@ -14,5 +14,5 @@ export const StyledBottom = styled.div`
 
     height: min-content;
     margin-top: auto;
-    margin-left: 5vw;
+    margin-left: 3vw;
 `;

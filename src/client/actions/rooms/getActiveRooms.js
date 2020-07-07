@@ -1,4 +1,4 @@
-import { ACTIONS } from '../../middleware/handleSocket';
+import { ACTIONS } from '../../middlewares/handleSocket';
 import { updateStatePlayersNames } from '../players/getPlayer';
 
 export const emitGetActiveRooms = dispatch =>

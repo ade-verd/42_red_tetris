@@ -3,7 +3,7 @@
 import notify from '../actions/notifications';
 
 import { newDate } from '../lib/utils/date';
-import { ACTIONS } from '../middleware/handleSocket';
+import { ACTIONS } from '../middlewares/handleSocket';
 
 const handleError = (state, error, errorFieldName) => {
     console.error(`[room reducer][${errorFieldName}]`, error);

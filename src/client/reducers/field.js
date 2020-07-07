@@ -41,7 +41,7 @@ const sweepRows = (asyncDispatch, newField, { roomId, id, name }) => {
     return sweptField;
 };
 
-export const updateField = (asyncDispatch, prevField, piece) => {
+export const updateField = (asyncDispatch, prevField, piece, user) => {
     setRowsCleared(asyncDispatch, { rowsCleared: 0 });
     asyncDispatch({ action: ACTIONS.REDUCE, type: 'SET_ROWSCLEARED', rowsCleared: 0 });
 
