@@ -42,9 +42,10 @@ const sweepRows = (asyncDispatch, newField, { roomId, id, name }) => {
 };
 
 export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) => {
-    if (checkCollision(piece, prevField, { x: 0, y: 0 })) {
+    if (piece.pos.y === 0 && checkCollision(piece, prevField, { x: 0, y: 0 })) {
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'GAMEOVER' });
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
+        console.log('huio')
         return {
             field: prevField,
         };
@@ -61,7 +62,7 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
         newField.shift();
     }
 
-    // 2. Draw the projection
+    // 3. Draw the projection
     piece.projection.tetromino.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
@@ -75,10 +76,11 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
         });
     });
 
-    // 3. Draw the tetromino
+    // 4. Draw the tetromino
     piece.tetromino.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
+                console.log('HOI', newField[y + piece.pos.y][x + piece.pos.x], 'y =', y, 'piece.pos.y = ', piece.pos.y, 'x = ', x, 'piece.pos.x =', piece.pos.x);
                 newField[y + piece.pos.y][x + piece.pos.x] = [
                     value,
                     `${piece.collided ? 'merged' : 'clear'}`,
@@ -88,7 +90,7 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
         });
     });
 
-    // 4. Check if we collided
+    // 5. Check if we collided
     if (piece.collided) {
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'GET_TETROMINO' });
         return {
@@ -96,12 +98,6 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
         };
     }
 
-    return {
-        field: newField,
-    };
-};
-
-const malusField = prevField => {
     return {
         field: newField,
     };
@@ -119,8 +115,6 @@ const reducer = (state = {}, action) => {
                 action.allStates.usr,
                 action.malus,
             );
-        case 'ADD_MALUS':
-            return malusField(state.field);
         case 'RESET':
             return createField();
         default:

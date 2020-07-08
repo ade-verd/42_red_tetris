@@ -10,7 +10,7 @@ import { startGame, onGameStart } from '../actions/game/gameStart';
 import { updateGameStatus } from '../actions/game/gameStatus';
 import { move, reactivateDropTime, drop } from '../actions/game/piece';
 import { onSpectrum } from '../actions/game/spectrum';
-import { emitMalus, onMalus } from '../actions/game/malus';
+import { onMalus } from '../actions/game/malus';
 
 const mapStateToProps = state => {
     console.log('[Playground.container] State', state);

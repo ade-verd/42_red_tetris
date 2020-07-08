@@ -25,4 +25,4 @@ const Spectrum = ({ spectrums, playerId }) => {
     );
 };
 
-export default Spectrum;
+export default React.memo(Spectrum);

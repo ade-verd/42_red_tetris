@@ -24,7 +24,7 @@ export const drop = (dispatch, field, piece, gameStatus) => {
     // Increase level when player has cleared 10 rows
     if (rows > level * 10) {
         incrementLevel(dispatch);
-        // Also increase speed
+        // Also increase speed (+1 manually done because level not incremented instantly)
         dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: 1000 / (level + 1) });
     }
 
@@ -85,10 +85,15 @@ const rotatePiece = (dispatch, field, piece, dir) => {
 };
 
 const hardDrop = (dispatch, piece) => {
-    dispatch({ action: ACTIONS.REDUCE, type: 'SET_TETROMINO', pos: piece.projection.pos });
+    const newPos = { x: 0, y: piece.projection.pos.y - piece.pos.y }
+
+    dispatch({ action: ACTIONS.REDUCE, type: 'SET_POS', pos: newPos, collided: true });
 };
 
-export const move = (dispatch, { keyCode }, field, piece, gameStatus) => {
+export const move = (dispatch, event, field, piece, gameStatus) => {
+    event.preventDefault();
+    const { keyCode } = event;
+
     if (!gameStatus.gameOver) {
         // left arrow
         if (keyCode === 37) movePiece(dispatch, piece, field, -1);
