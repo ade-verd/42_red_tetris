@@ -58,7 +58,7 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
     // 2. Draw malus row
     for (let i = 0; i < malus; i++) {
         newField.push(new Array(newField[0].length).fill(['M', 'malus', false]));
-        newField.shift(); 
+        newField.shift();
     }
 
     // 3. Draw the projection
