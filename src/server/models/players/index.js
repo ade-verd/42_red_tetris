@@ -93,6 +93,19 @@ async function findAllBySocketIds(socketsIds, projection = {}) {
 }
 
 /**
+ * Returns players found with their id
+ *
+ * @param {Array<String>} playersIds - array of playerss identifier
+ * @param {Object} projection - optional projection of result fields
+ *
+ * @returns {Object} The mongo document
+ */
+async function findAllByIds(playersIds, projection = {}) {
+    const playersObjectIds = playersIds.map(id => new ObjectId(id));
+    return collection().find({ _id: { $in: playersObjectIds } }, { projection });
+}
+
+/**
  * Insert a new player into the database
  *
  * @param {Object} player - data about the inserted player
@@ -128,6 +141,7 @@ module.exports = {
     find,
     findOneById,
     findOneBySocketId,
+    findAllByIds,
     findAllBySocketIds,
     insertOne,
     updateOne,
