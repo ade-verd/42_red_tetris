@@ -12,8 +12,8 @@ export const setGameOver = dispatch => {
 export const reactivateDropTime = (dispatch, { keyCode }, gameStatus) => {
     const { level, gameOver } = gameStatus;
     if (!gameOver) {
-        // Activate the interval again when user releases down arrow
-        if (keyCode === 40) {
+        // Activate the interval again when user releases down arrow or spacebar
+        if (keyCode === 40 || keyCode === 32) {
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: 1000 / level });
         }
     }
@@ -87,6 +87,7 @@ const rotatePiece = (dispatch, field, piece, dir) => {
 const hardDrop = (dispatch, piece) => {
     const newPos = { x: 0, y: piece.projection.pos.y - piece.pos.y }
 
+    dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
     dispatch({ action: ACTIONS.REDUCE, type: 'SET_POS', pos: newPos, collided: true });
 };
 

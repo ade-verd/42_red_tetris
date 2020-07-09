@@ -1,5 +1,3 @@
-import { emitSpectrum } from '../actions/game/spectrum';
-
 import notify from '../actions/notifications';
 
 const handleError = (state, error, errorFieldName) => {
@@ -36,15 +34,6 @@ const reducer = (state = {}, action) => {
                 action.spectrum,
                 action.error,
             );
-        case 'EMIT_SPECTRUM':
-            emitSpectrum(
-                action.asyncDispatch,
-                action.roomId,
-                action.playerId,
-                action.playerName,
-                action.allStates.fld.field,
-            );
-            return state;
         default:
             return state;
     }
