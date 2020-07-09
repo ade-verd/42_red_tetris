@@ -6,7 +6,7 @@ export const incrementLevel = dispatch => {
 };
 
 export const setGameOver = dispatch => {
-    dispatch({ action: ACTIONS.REDUCE, type: 'SET_GAMEOVER' });
+    dispatch({ action: ACTIONS.REDUCE, type: 'GAMEOVER' });
 };
 
 export const reactivateDropTime = (dispatch, { keyCode }, gameStatus) => {
