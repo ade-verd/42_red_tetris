@@ -11,30 +11,26 @@ const handleError = (state, error, errorFieldName) => {
 };
 
 const checkAndUpdatePlayersNames = (store, rooms, action) => {
-    let idsChecked = [];
+    const idsMissing = [];
+    const idsAlreadyChecked = store.getState().rms.idsChecked || [];
     const playerState = store.getState().play.players;
-    rooms.forEach(room => {
-        let arePlayersMissing = false;
 
+    rooms.forEach(room => {
         room.players_ids.forEach(playerId => {
-            const isAlreadyChecked = idsChecked.includes(playerId);
+            const isAlreadyChecked =
+                idsMissing.includes(playerId) || idsAlreadyChecked.includes(playerId);
             const isInState = playerState && playerState[playerId];
 
             if (!isAlreadyChecked && !isInState) {
-                if (room._id) {
-                    arePlayersMissing = true;
-                    return;
-                }
-                action.fnUpdateOnePlayer(store.dispatch, playerId);
-                idsChecked = [...idsChecked, playerId];
+                idsMissing.push(playerId);
             }
         });
-
-        if (arePlayersMissing === true) {
-            action.fnUpdatePlayers(store.dispatch, room._id);
-            idsChecked = [...idsChecked, ...room.players_ids];
-        }
     });
+
+    if (idsMissing.length) {
+        action.fnUpdatePlayers(store.dispatch, idsMissing);
+    }
+    return [...idsAlreadyChecked, ...idsMissing];
 };
 
 const handleUpdateActiveRooms = (state, action) => {
@@ -45,11 +41,12 @@ const handleUpdateActiveRooms = (state, action) => {
     }
 
     const roomsAndLobby = [...action.rooms, action.lobby];
-    checkAndUpdatePlayersNames(action.store, roomsAndLobby, action);
+    const idsChecked = checkAndUpdatePlayersNames(action.store, roomsAndLobby, action);
     return {
         ...state,
         rooms: action.rooms,
         lobby: action.lobby,
+        idsChecked,
         updatedAt: newDate().valueOf(),
     };
 };

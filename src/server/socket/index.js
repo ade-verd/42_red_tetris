@@ -42,7 +42,6 @@ const initSocketIo = io => {
         let timer = new Date();
         setInterval(() => {
             const isDelayConsumed = new Date() - timer >= config.rooms.refreshIntervalMs;
-            console.log('Time since last one: ', new Date() - timer, 'seconds');
             if (isDelayConsumed) {
                 // playerSocketLib.checkConnectedSocket(io);
                 roomsHandlers.emitActiveRooms();

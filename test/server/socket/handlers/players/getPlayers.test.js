@@ -9,7 +9,7 @@ const playersLib = require('../../../../../src/server/models/players');
 
 const fixtures = require('../../../../fixtures/players.fixtures.js');
 
-describe('socket/handlers/players/getPlayer', function() {
+describe('socket/handlers/players/getPlayers', function() {
     const sandbox = sinon.createSandbox();
 
     const socketUrl = config.server.url;
@@ -36,25 +36,27 @@ describe('socket/handlers/players/getPlayer', function() {
 
     it('should emit the player data', function(done) {
         const findStub = sandbox
-            .stub(playersLib, 'findOneById')
-            .resolves(fixtures.insertedPlayer());
+            .stub(playersLib, 'findAllByIds')
+            .resolves({ toArray: () => [fixtures.insertedPlayer()] });
 
         const client = io.connect(socketUrl, options);
 
-        client.emit('players:player:get', { player_id: '00000000000000000000000d' });
-        client.on('players:player:got', payload => {
-            expect(findStub.args).to.deep.equal([['00000000000000000000000d', {}]]);
+        client.emit('players:players:get', { players_ids: ['00000000000000000000000d'] });
+        client.on('players:players:got', payload => {
+            expect(findStub.args).to.deep.equal([[['00000000000000000000000d']]]);
             expect(payload).to.deep.equal({
-                payload: { player_id: '00000000000000000000000d' },
-                player: {
-                    _id: '00000000000000000000000d',
-                    socket_id: '0000000004',
-                    room_id: null,
-                    name: 'Waldo',
-                    blocks_consumed: 0,
-                    created_at: '2020-01-01T10:00:00.000Z',
-                    updated_at: '2020-01-01T10:00:00.000Z',
-                },
+                payload: { players_ids: ['00000000000000000000000d'] },
+                players: [
+                    {
+                        _id: '00000000000000000000000d',
+                        socket_id: '0000000004',
+                        room_id: null,
+                        name: 'Waldo',
+                        blocks_consumed: 0,
+                        created_at: '2020-01-01T10:00:00.000Z',
+                        updated_at: '2020-01-01T10:00:00.000Z',
+                    },
+                ],
             });
             client.disconnect();
             done();
@@ -63,16 +65,16 @@ describe('socket/handlers/players/getPlayer', function() {
 
     it('should not emit anything if an error occurs while getting the player', function(done) {
         const findStub = sandbox
-            .stub(playersLib, 'findOneById')
+            .stub(playersLib, 'findAllByIds')
             .rejects(new Error('something happened'));
 
         const client = io.connect(socketUrl, options);
 
-        client.emit('players:player:get', { player_id: '00000000000000000000000d' });
-        client.on('players:player:got', payload => {
-            expect(findStub.args).to.deep.equal([['00000000000000000000000d', {}]]);
+        client.emit('players:players:get', { players_ids: ['00000000000000000000000d'] });
+        client.on('players:players:got', payload => {
+            expect(findStub.args).to.deep.equal([[['00000000000000000000000d']]]);
             expect(payload).to.deep.equal({
-                payload: { player_id: '00000000000000000000000d' },
+                payload: { players_ids: ['00000000000000000000000d'] },
                 error: 'Error: something happened',
             });
             client.disconnect();
