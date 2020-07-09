@@ -33,7 +33,6 @@ const handleUpdatePlayersNames = (state, action) => {
     }
 
     let roomPlayers = {};
-    console.log('PLAAYERS', action);
     action.players.forEach(player => {
         roomPlayers[player._id] = player.name;
     });

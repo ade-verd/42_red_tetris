@@ -45,7 +45,6 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
     if (piece.pos.y === 0 && checkCollision(piece, prevField, { x: 0, y: 0 })) {
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'GAMEOVER' });
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
-        console.log('huio')
         return {
             field: prevField,
         };
@@ -59,7 +58,7 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
     // 2. Draw malus row
     for (let i = 0; i < malus; i++) {
         newField.push(new Array(newField[0].length).fill(['M', 'malus', false]));
-        newField.shift(); 
+        newField.shift();
     }
 
     // 3. Draw the projection
@@ -80,7 +79,6 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
     piece.tetromino.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
-                console.log('HOI', newField[y + piece.pos.y][x + piece.pos.x], 'y =', y, 'piece.pos.y = ', piece.pos.y, 'x = ', x, 'piece.pos.x =', piece.pos.x);
                 newField[y + piece.pos.y][x + piece.pos.x] = [
                     value,
                     `${piece.collided ? 'merged' : 'clear'}`,

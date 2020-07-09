@@ -85,7 +85,7 @@ const rotatePiece = (dispatch, field, piece, dir) => {
 };
 
 const hardDrop = (dispatch, piece) => {
-    const newPos = { x: 0, y: piece.projection.pos.y - piece.pos.y }
+    const newPos = { x: 0, y: piece.projection.pos.y - piece.pos.y };
 
     dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
     dispatch({ action: ACTIONS.REDUCE, type: 'SET_POS', pos: newPos, collided: true });

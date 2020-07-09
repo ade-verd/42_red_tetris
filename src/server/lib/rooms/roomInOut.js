@@ -53,7 +53,6 @@ async function join(roomId, playerId, otherFields) {
 }
 
 async function leave(roomId, playerId) {
-    console.log('ROOM_ID', roomId);
     const result = await roomsLib.updateLeaveRoom(roomId, playerId);
     if (result.value === null) {
         throw new Error('the room has not been updated');

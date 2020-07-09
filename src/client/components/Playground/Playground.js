@@ -13,7 +13,7 @@ import { store } from '../../store/store';
 
 const Playground = props => {
     const { field, gameStatus, piece, spectrums, user, rooms, ...dispatchs } = props;
-    const [ isAdmin, setIsAdmin ] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const playgroundRef = useRef(null);
     const {
         listen,
