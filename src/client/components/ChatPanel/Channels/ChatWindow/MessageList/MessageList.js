@@ -43,7 +43,7 @@ const renderMessages = (userState, msgList, setLastMessageRef) => {
             const id = `msg${index}_${time.date.valueOf()}_${msgData.message}`;
 
             return (
-                <div id={id} ref={setLastMessageRef} className={classMsgContainer.join(' ')}>
+                <div key={id} ref={setLastMessageRef} className={classMsgContainer.join(' ')}>
                     {isMe || isLastAuthor ? null : (
                         <div className={css.author}>{msgData.fromPlayerName}</div>
                     )}
