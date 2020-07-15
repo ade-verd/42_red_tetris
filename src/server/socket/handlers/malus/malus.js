@@ -15,7 +15,7 @@ const EMIT_EVENT = 'malus:sent';
 const emitMalus = async (socket, payload) => {
     const [roomId, malus] = [payload.room_id, payload.malus];
 
-    socket.broadcast.to(roomId).emit(EMIT_EVENT, { malus });
+    socket.to(roomId).emit(EMIT_EVENT, { malus });
     console.log('[socket event emited][to:', roomId, ']', EMIT_EVENT, { malus });
 };
 
