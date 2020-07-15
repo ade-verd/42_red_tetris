@@ -17,9 +17,9 @@ const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
     const playersState = state.play.players;
     const isRoomFull = playersIds.length >= MAX_PLAYERS;
 
-    const formattedNames = playersIds.map(id => {
+    const formattedNames = playersIds.map((id, i) => {
         const name = (playersState && playersState[id]) || `GUEST_${(Math.random() * 100) | 0}`;
-        return <div>{name}</div>;
+        return <div key={`player_${i}`}>{name}</div>;
     });
 
     return (
