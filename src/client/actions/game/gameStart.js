@@ -1,5 +1,7 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
 
+import { emitGameActionStart } from './gameAction';
+
 const getGameStartPayload = (roomId, pieces, index) => {
     return {
         room_id: roomId,
@@ -36,5 +38,7 @@ export const startGame = (dispatch, roomId, pieces, index, elementToFocus) => {
     dispatch({ action: ACTIONS.REDUCE, type: 'GET_TETROMINO' });
     dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: 1000 });
     emitGameStart(dispatch, roomId, pieces, index);
+    emitGameActionStart(dispatch, roomId);
+
     elementToFocus.current.focus();
 };

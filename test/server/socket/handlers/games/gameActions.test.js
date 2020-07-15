@@ -9,6 +9,7 @@ const actionClient = require('../../../../../src/client/actions/game/gameAction.
 
 const gameActions = require('../../../../../src/server/lib/games/gameActions');
 const roomsLib = require('../../../../../src/server/models/rooms');
+const getActiveRooms = require('../../../../../src/server/socket/handlers/rooms/getActiveRooms');
 
 const { GAME_STATUS, GAME_ACTIONS } = require('../../../../../src/constants');
 describe('socket/handlers/games/gameActions', function() {
@@ -43,6 +44,7 @@ describe('socket/handlers/games/gameActions', function() {
         const findStub = sandbox
             .stub(roomsLib, 'findOneById')
             .resolves({ game_status: GAME_STATUS.PAUSE });
+        const getRoomsStub = sandbox.stub(getActiveRooms, 'emitActiveRooms');
 
         const client = io.connect(socketUrl, options);
 
@@ -59,6 +61,7 @@ describe('socket/handlers/games/gameActions', function() {
                 result: { modifiedCount: 1 },
                 status: GAME_STATUS.PAUSE,
             });
+            expect(getRoomsStub.args).to.deep.equal([[]]);
             client.disconnect();
             done();
         });
