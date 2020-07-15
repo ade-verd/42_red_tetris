@@ -2,7 +2,7 @@
 
 const { expect } = require('chai');
 
-const htmlEntities = require('../../../../src/client/lib/utils/htmlEntities');
+const htmlEntities = require('../../../../src/client/helpers/utils/htmlEntities');
 
 describe('lib/utils/htmlEntities', () => {
     it('should decode html entity', () => {

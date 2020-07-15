@@ -2,7 +2,7 @@
 
 import notify from '../actions/notifications';
 
-import { newDate } from '../lib/utils/date';
+import { newDate } from '../helpers/utils/date';
 import { ACTIONS } from '../middlewares/handleSocket';
 
 const handleError = (state, error, errorFieldName) => {

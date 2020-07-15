@@ -3,9 +3,9 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-const dateLib = require('../../../../src/client/lib/utils/date');
+const dateLib = require('../../../../src/client/helpers/utils/date');
 
-describe('lib/utils/date', () => {
+describe('helpers/utils/date', () => {
     describe('#newDate()', () => {
         let dateStub;
 

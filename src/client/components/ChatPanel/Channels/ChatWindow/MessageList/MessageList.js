@@ -2,7 +2,7 @@ import _, { last } from 'lodash';
 
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 
-import { timestampToDatetime } from '../../../../../lib/utils/date';
+import { timestampToDatetime } from '../../../../../helpers/utils/date';
 
 import css from './MessageList.module.css';
 

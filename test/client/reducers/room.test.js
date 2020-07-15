@@ -13,7 +13,7 @@ import { dispatchReduceRoomCreated } from '../../../src/client/actions/rooms/cre
 import { dispatchReduceUpdateActiveRooms } from '../../../src/client/actions/rooms/getRoomPlayers';
 
 import * as notify from '../../../src/client/actions/notifications';
-import * as dateUtils from '../../../src/client/lib/utils/date';
+import * as dateUtils from '../../../src/client/helpers/utils/date';
 
 import playersFixtures from '../../fixtures/players.fixtures';
 import roomsFixtures from '../../fixtures/rooms.fixtures';
