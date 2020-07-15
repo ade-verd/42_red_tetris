@@ -43,7 +43,7 @@ const initSocketIo = io => {
         setInterval(() => {
             const isDelayConsumed = new Date() - timer >= config.rooms.refreshIntervalMs;
             if (isDelayConsumed) {
-                // playerSocketLib.checkConnectedSocket(io);
+                playerSocketLib.checkConnectedSocket(io);
                 roomsHandlers.emitActiveRooms();
                 timer = new Date();
             }

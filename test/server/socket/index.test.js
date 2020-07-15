@@ -59,14 +59,14 @@ describe('socket/index.js', function() {
         sandbox.stub(config.rooms, 'refreshIntervalMs').value(50);
         sandbox.stub(eventHelpers, 'bindEvent');
         const emitActiveRoomsStub = sandbox.stub(roomsHandlers, 'emitActiveRooms').returns();
-        // const checkSocketsStub = sandbox.stub(playerSocketLib, 'checkConnectedSocket');
+        const checkSocketsStub = sandbox.stub(playerSocketLib, 'checkConnectedSocket');
 
         const client = io.connect(socketUrl, options);
 
         client.on('server/start', () => {
             setTimeout(() => {
                 expect(emitActiveRoomsStub.callCount).to.be.at.least(2);
-                // expect(checkSocketsStub.callCount).to.be.at.least(2);
+                expect(checkSocketsStub.callCount).to.be.at.least(2);
                 client.disconnect();
                 done();
             }, 150);
