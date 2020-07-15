@@ -188,13 +188,13 @@ describe('client/reducers/gameStatus', function() {
         });
     });
 
-    describe('SET_GAMEOVER', function() {
+    describe('GAMEOVER', function() {
         it('should set game over', function(done) {
             const initialState = {
                 gme: { score: 0, rows: 0, rowsCleared: 0, level: 1, gameOver: false },
             };
             const store = configureStore(rootReducer, null, initialState, {
-                SET_GAMEOVER: ({ dispatch, getState }) => {
+                GAMEOVER: ({ dispatch, getState }) => {
                     const state = getState().gme;
                     expect(state).to.deep.equal({
                         score: 0,

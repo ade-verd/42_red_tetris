@@ -13,7 +13,7 @@ import { dispatchReduceRoomCreated } from '../../../src/client/actions/rooms/cre
 import { dispatchReduceUpdateActiveRooms } from '../../../src/client/actions/rooms/getRoomPlayers';
 
 import * as notify from '../../../src/client/actions/notifications';
-import * as dateUtils from '../../../src/client/lib/utils/date';
+import * as dateUtils from '../../../src/client/helpers/utils/date';
 
 import playersFixtures from '../../fixtures/players.fixtures';
 import roomsFixtures from '../../fixtures/rooms.fixtures';
@@ -225,6 +225,11 @@ describe('client/reducers/room', function() {
                                 '00000000000000000000000c',
                             ],
                         },
+                        idsChecked: [
+                            '00000000000000000000000a',
+                            '00000000000000000000000b',
+                            '00000000000000000000000c',
+                        ],
                         updatedAt: 1577872800000,
                     });
                     done();
@@ -234,7 +239,7 @@ describe('client/reducers/room', function() {
             dispatchReduceUpdateActiveRooms(store, payload);
         });
 
-        it('should check and update one player name (emit "players:player:get")', function(done) {
+        it('should check and update missing players names (emit "players:players:get")', function(done) {
             const payload = {
                 rooms: [],
                 lobby: roomsFixtures.lobby(),
@@ -258,7 +263,7 @@ describe('client/reducers/room', function() {
                 UPDATE_ACTIVE_ROOMS: ({ dispatch, getState }) => {
                     expect(dateStub.args).to.deep.equal([[]]);
                     expect(socket.emit.args).to.deep.equal([
-                        ['players:player:get', { player_id: '00000000000000000000000c' }],
+                        ['players:players:get', { players_ids: ['00000000000000000000000c'] }],
                     ]);
 
                     const state = getState().rms;
@@ -271,50 +276,7 @@ describe('client/reducers/room', function() {
                                 '00000000000000000000000c',
                             ],
                         },
-                        updatedAt: 1577872800000,
-                    });
-                    done();
-                },
-            });
-
-            dispatchReduceUpdateActiveRooms(store, payload);
-        });
-
-        it("should check and update room's players names (emit 'rooms:players:get')", function(done) {
-            const payload = {
-                rooms: [roomsFixtures.roomStringFields()],
-                lobby: { players_ids: [] },
-                error: undefined,
-            };
-
-            const dateStub = sandbox
-                .stub(dateUtils, 'newDate')
-                .returns(new Date('2020-01-01T10:00:00Z'));
-
-            const initialState = { play: { players: {} } };
-            const socket = fakeSocket();
-            const store = configureStore(rootReducer, socket, initialState, {
-                UPDATE_ACTIVE_ROOMS: ({ dispatch, getState }) => {
-                    expect(dateStub.args).to.deep.equal([[]]);
-                    expect(socket.emit.args).to.deep.equal([
-                        ['rooms:players:get', { room_id: '000000000000000000000004' }],
-                    ]);
-
-                    const state = getState().rms;
-                    expect(state).to.deep.equal({
-                        rooms: [
-                            {
-                                _id: '000000000000000000000004',
-                                room_name: 'room_1',
-                                players_ids: ['00000000000000000000000a'],
-                                game_status: GAME_STATUS.WAITING,
-                                blocks_list: [],
-                                settings: {},
-                                created_at: '2020-01-01T10:00:00Z',
-                                updated_at: '2020-01-01T10:00:00Z',
-                            },
-                        ],
-                        lobby: { players_ids: [] },
+                        idsChecked: ['00000000000000000000000c'],
                         updatedAt: 1577872800000,
                     });
                     done();

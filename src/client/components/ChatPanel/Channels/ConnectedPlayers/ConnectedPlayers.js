@@ -4,8 +4,6 @@ import { library as fontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faUserCog } from '@fortawesome/free-solid-svg-icons';
 
-import { store } from '../../../../store/store';
-
 import css from './ConnectedPlayers.module.css';
 
 const getRoomOrLobby = (roomsState, roomId) => {
@@ -21,17 +19,15 @@ const getRoomOrLobby = (roomsState, roomId) => {
     return currentRoom;
 };
 
-const getPlayers = (isLobby, room) => {
+const getPlayers = (states, isLobby, room) => {
     if (!room || !room.players_ids) return null;
-
-    const playersState = store.getState().play;
 
     return room.players_ids.map((playerId, i) => {
         const icon = isLobby || i > 0 ? 'user' : 'user-cog';
-        const playerName = _.get(playersState, ['players', playerId]);
+        const playerName = _.get(states, ['players', playerId]);
         if (playerName) {
             return (
-                <div className={css.item}>
+                <div key={`connectedPlayer_${playerId}`} className={css.item}>
                     <FontAwesomeIcon className={css.icon} icon={['fas', icon]} />
                     <span className={css.name}>{playerName}</span>
                 </div>
@@ -52,11 +48,11 @@ const ConnectedPlayers = ({ isLobby, states }) => {
 
     useEffect(() => {
         if (isLobby) {
-            setLobbyUsers(getPlayers(isLobby, lobby));
+            setLobbyUsers(getPlayers(states, isLobby, lobby));
             console.log('[ConnectedPlayers] rendering lobby panel');
         } else {
             const room = getRoomOrLobby(rooms, roomId);
-            setRoomPlayers(getPlayers(isLobby, room));
+            setRoomPlayers(getPlayers(states, isLobby, room));
             console.log('[ConnectedPlayers] rendering room panel');
         }
     }, [isLobby, rooms, lobby]);

@@ -63,7 +63,7 @@ const create = params => {
     const promise = new Promise((resolve, reject) => {
         app = require('http').createServer();
         initApp(app, params, () => {
-            io = require('socket.io')(app);
+            io = require('socket.io')(app, { cookie: false });
             socket.initSocketIo(io);
             resolve({ stop });
         });

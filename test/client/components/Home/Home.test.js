@@ -39,6 +39,7 @@ describe('<Home /> component', function() {
     const propsFixtures = () => ({
         store,
         history: [],
+        players: {},
         chat: {},
         user: {},
         rooms: {},
@@ -70,6 +71,7 @@ describe('<Home /> component', function() {
         expect(wrapper.find(Lobby))
             .to.have.prop('states')
             .to.deep.equal({
+                players: {},
                 chat: {},
                 user: { id: '000000000000000000000001' },
                 rooms: {},

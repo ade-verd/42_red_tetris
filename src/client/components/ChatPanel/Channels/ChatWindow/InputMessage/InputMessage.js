@@ -66,7 +66,6 @@ const InputMessage = ({ isLobby, inputRef }) => {
                 value={message}
                 autoComplete="off"
                 spellCheck="false"
-                multiline={true}
             />
             <span className={iconClasses} onClick={sendMessage}>
                 <FontAwesomeIcon icon={['fas', 'paper-plane']} title="Send" />

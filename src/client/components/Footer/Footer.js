@@ -24,9 +24,9 @@ const authorsDiv = () => {
         if (a.name.toLowerCase() < b.name.toLowerCase()) return 1;
         return 0;
     });
-    return sortedAuthors.map(author => {
+    return sortedAuthors.map((author, i) => {
         return (
-            <div className={css.item}>
+            <div key={`author_${i}`} className={css.item}>
                 <a href={author.url} className={css.href}>
                     <span className={css.author}>{author.name}</span>
                 </a>

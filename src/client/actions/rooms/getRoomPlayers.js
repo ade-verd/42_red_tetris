@@ -1,6 +1,6 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
 
-import { emitGetPlayer } from '../players/getPlayer';
+import { emitGetPlayers } from '../players/getPlayers';
 import { dispatchReduceSaveSocket } from '../common/connect';
 
 export const getRoomPlayersPayload = roomId => ({
@@ -22,8 +22,7 @@ export const dispatchReduceUpdateActiveRooms = (store, payload) => {
         store,
         rooms: payload.rooms,
         lobby: payload.lobby,
-        fnUpdateOnePlayer: emitGetPlayer,
-        fnUpdatePlayers: emitGetRoomPlayers,
+        fnUpdatePlayers: emitGetPlayers,
         error: payload.error,
     });
 };

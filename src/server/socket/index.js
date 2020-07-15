@@ -39,9 +39,14 @@ const initSocketIo = io => {
         });
         io.emit('server/start');
 
+        let timer = new Date();
         setInterval(() => {
-            // playerSocketLib.checkConnectedSocket(io);
-            roomsHandlers.emitActiveRooms();
+            const isDelayConsumed = new Date() - timer >= config.rooms.refreshIntervalMs;
+            if (isDelayConsumed) {
+                playerSocketLib.checkConnectedSocket(io);
+                roomsHandlers.emitActiveRooms();
+                timer = new Date();
+            }
         }, config.rooms.refreshIntervalMs);
     });
 };

@@ -4,7 +4,6 @@
 }
 
 body {
-    background-color: #1e1e23 !important;
     background-image: url('./assets/img/bg_retropie_blue.png');
     background-repeat: no-repeat;
     background-size: 100%;
@@ -18,6 +17,7 @@ body,
     display: flex;
     flex-direction: column;
     height: 100%;
+    background-color: #1e1e23 !important;
 }
 
 input[type='text'] {

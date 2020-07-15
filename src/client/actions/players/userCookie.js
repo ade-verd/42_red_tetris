@@ -27,7 +27,7 @@ export const setUserCookie = (userState, player, error) => {
         date.setTime(date.getTime() + 60 * 60 * 1000); // 60 minutes
 
         const content = JSON.stringify({ _id, name, socketId });
-        cookie.set('user', content, { path: '/', expires: date });
+        cookie.set('user', content, { path: '/', expires: date, sameSite: 'strict' });
         console.debug('[setCookie]', content);
     }
 };
@@ -43,7 +43,7 @@ export const getUserCookie = () => {
 
 export const removeUserCookie = () => {
     const cookie = new Cookies();
-    cookie.remove('user', { path: '/' });
+    cookie.remove('user', { path: '/', sameSite: 'strict' });
     console.debug('[removeCookie]', 'removed');
 };
 

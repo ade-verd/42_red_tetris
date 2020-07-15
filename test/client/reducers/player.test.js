@@ -5,7 +5,7 @@ import { configureStore } from '../../helpers/client';
 import rootReducer from '../../../src/client/reducers';
 
 import { dispatchReducePlayerCreated } from '../../../src/client/actions/players/createPlayer';
-import { updateStatePlayerName } from '../../../src/client/actions/players/getPlayer';
+import { updateStatePlayersNames } from '../../../src/client/actions/players/getPlayers';
 
 import * as notify from '../../../src/client/actions/notifications';
 
@@ -96,7 +96,7 @@ describe('client/reducers/player', function() {
     describe('#handleUpdatePlayersNames() - UPDATE_PLAYERS_NAMES', function() {
         it('should update the state with players id and name ', function(done) {
             const payload = {
-                player: playersFixtures.playerStringFields(),
+                players: [playersFixtures.playerStringFields()],
                 error: undefined,
             };
 
@@ -113,7 +113,7 @@ describe('client/reducers/player', function() {
                 },
             });
 
-            updateStatePlayerName(store.dispatch, payload);
+            updateStatePlayersNames(store.dispatch, payload);
         });
 
         it('should return the state as it is and notify the user that an error occurred', function(done) {
@@ -136,7 +136,7 @@ describe('client/reducers/player', function() {
                 },
             });
 
-            updateStatePlayerName(store.dispatch, payload);
+            updateStatePlayersNames(store.dispatch, payload);
         });
     });
 });
