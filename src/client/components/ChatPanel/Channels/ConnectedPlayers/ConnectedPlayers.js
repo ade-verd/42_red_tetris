@@ -27,7 +27,7 @@ const getPlayers = (states, isLobby, room) => {
         const playerName = _.get(states, ['players', playerId]);
         if (playerName) {
             return (
-                <div className={css.item}>
+                <div key={`connectedPlayer_${playerId}`} className={css.item}>
                     <FontAwesomeIcon className={css.icon} icon={['fas', icon]} />
                     <span className={css.name}>{playerName}</span>
                 </div>
