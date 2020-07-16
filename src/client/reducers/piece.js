@@ -32,13 +32,17 @@ const setIndex = (state, index) => {
 };
 
 const setPos = (state, asyncDispatch, { x, y }, collided) => {
-    if (x !== 0) {
+    if (x !== 0 || y < 0) {
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'UPDATE_PROJECTION' });
     }
 
+    const X = state.pos.x + x;
+    // If the malus pushs the piece out of limit :
+    const Y = state.pos.y + y < 0 ? 0 : state.pos.y + y ;
+
     return {
         ...state,
-        pos: { x: state.pos.x + x, y: state.pos.y + y },
+        pos: { x: X, y: Y },
         collided,
     };
 };
