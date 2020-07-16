@@ -8,14 +8,17 @@ import { faPlusSquare, faMinusSquare } from '@fortawesome/free-solid-svg-icons';
 import { emitJoinRoom } from '../../../actions/rooms/joinRoom';
 import { store } from '../../../store/store';
 
-import { MAX_PLAYERS } from '../../../../constants';
+import { MAX_PLAYERS, GAME_STATUS } from '../../../../constants';
 import css from './DisplayRooms.module.css';
 
-const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
+const buildCollapsedCard = ({ eventKey, playersIds, roomId, state, statusValue }) => {
     if (!playersIds) return;
 
     const playersState = state.play.players;
+
+    const isWaiting = statusValue === GAME_STATUS.WAITING;
     const isRoomFull = playersIds.length >= MAX_PLAYERS;
+    const isDisabled = !isWaiting || isRoomFull;
 
     const formattedNames = playersIds.map((id, i) => {
         const name = (playersState && playersState[id]) || `GUEST_${(Math.random() * 100) | 0}`;
@@ -32,9 +35,9 @@ const buildCollapsedCard = (eventKey, playersIds, roomId, state) => {
                 <div className={css['item-details']}>{formattedNames}</div>
                 <div className={css['item-details']}>
                     <Button
-                        disabled={isRoomFull ? true : false}
-                        className={isRoomFull ? css['btn-full'] : css['btn-join']}
-                        variant={isRoomFull ? 'warning' : 'primary'}
+                        disabled={isDisabled}
+                        className={isDisabled ? css['btn-full'] : css['btn-join']}
+                        variant={isDisabled ? 'warning' : 'primary'}
                         onClick={() => emitJoinRoom(store, roomId)}
                     >
                         {isRoomFull ? 'Full' : 'Join'}
@@ -82,7 +85,7 @@ const Row = props => {
                 <div className={css.item}>{playersNumber}</div>
                 <div className={css.item}>{statusValue}</div>
             </Accordion.Toggle>
-            {buildCollapsedCard(eventKey, playersIds, roomId, state)}
+            {buildCollapsedCard({ eventKey, playersIds, roomId, state, statusValue })}
         </Accordion>
     );
 };

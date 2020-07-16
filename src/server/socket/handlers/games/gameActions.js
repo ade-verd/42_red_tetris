@@ -5,6 +5,7 @@ const Joi = require('@hapi/joi');
 const helpers = require('../../eventHelpers');
 
 const Game = require('../../../lib/games/classGame');
+const getActiveRooms = require('../rooms/getActiveRooms.js');
 
 const { GAME_ACTIONS } = require('../../../../constants');
 
@@ -25,6 +26,7 @@ const _runActionGame = async (socket, payload) => {
         const result = await game[payload.action]();
         const status = await game.status();
         socket.emit(EMIT_EVENT, { payload, result, status });
+        await getActiveRooms.emitActiveRooms();
     } catch (err) {
         socket.emit(EMIT_EVENT, { payload, error: err.toString() });
         console.error(FUNCTION_NAME, { payload, err });
