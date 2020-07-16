@@ -15,9 +15,8 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
-        'force new connection': true,
+        forceNew: true,
     };
-
 
     let server;
     let client1;
@@ -30,7 +29,7 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
         });
 
         const ROOM_ID = '000000000000000000000001';
-        
+
         ioSrv.on('connection', socket => {
             socket.join(ROOM_ID);
         });
@@ -52,7 +51,7 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
     it('should emit game start', function(done) {
         const ROOM_ID = '000000000000000000000001';
         const PIECES = [
-            { 
+            {
                 shape: [
                     [0, 0, 0, 0],
                     ['I', 'I', 'I', 'I'],
@@ -62,11 +61,11 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
                 color: '29, 174, 236',
                 rotationsPossible: 2,
             },
-            { 
+            {
                 shape: [
-                    [0, 0, "Z"],
-                    [0, "Z", "Z"],
-                    [0, "Z", 0],
+                    [0, 0, 'Z'],
+                    [0, 'Z', 'Z'],
+                    [0, 'Z', 0],
                 ],
                 color: '234, 32, 45',
                 rotationsPossible: 2,
@@ -74,11 +73,8 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
         ];
         const INDEX = 0;
 
-        client1.emit(
-            'game:start',
-            actionClient.getGameStartPayload(ROOM_ID, PIECES, INDEX),
-        );
-        client2.on('game:started', payload => {
+        client1.emit('game:start', actionClient.getGameStartPayload(ROOM_ID, PIECES, INDEX));
+        client2.once('game:started', payload => {
             expect(payload).to.deep.equal({
                 pieces: PIECES,
                 index: INDEX,
@@ -92,11 +88,8 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
         const PIECES = null;
         const INDEX = 0;
 
-        client1.emit(
-            'game:start',
-            actionClient.getGameStartPayload(ROOM_ID, PIECES, INDEX),
-        );
-        client2.on('game:started', payload => {
+        client1.emit('game:start', actionClient.getGameStartPayload(ROOM_ID, PIECES, INDEX));
+        client2.once('game:started', payload => {
             expect(payload).to.deep.equal(null);
             done();
         });

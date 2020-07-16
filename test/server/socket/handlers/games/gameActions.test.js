@@ -18,7 +18,7 @@ describe('socket/handlers/games/gameActions', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
-        'force new connection': true,
+        forceNew: true,
     };
 
     let server;
@@ -46,12 +46,14 @@ describe('socket/handlers/games/gameActions', function() {
             .resolves({ game_status: GAME_STATUS.PAUSE });
         const getRoomsStub = sandbox.stub(getActiveRooms, 'emitActiveRooms');
 
-        const client = io.connect(socketUrl, options);
-
         const ROOM_ID = '000000000000000000000001';
         const ACTION = GAME_ACTIONS.PAUSE;
-        client.emit('games:action:run', actionClient.gameActionPayload(ROOM_ID, ACTION));
-        client.on('games:action:ran', payload => {
+
+        const client = io.connect(socketUrl, options);
+        client.on('connect', () => {
+            client.emit('games:action:run', actionClient.gameActionPayload(ROOM_ID, ACTION));
+        });
+        client.once('games:action:ran', payload => {
             expect(pauseStub.args).to.deep.equal([['000000000000000000000001']]);
             expect(findStub.args).to.deep.equal([
                 ['000000000000000000000001', { _id: 0, game_status: 1 }],
@@ -72,12 +74,14 @@ describe('socket/handlers/games/gameActions', function() {
             .stub(gameActions, GAME_ACTIONS.PAUSE)
             .rejects(new Error('something happened'));
 
-        const client = io.connect(socketUrl, options);
-
         const ROOM_ID = '000000000000000000000001';
         const ACTION = GAME_ACTIONS.PAUSE;
-        client.emit('games:action:run', actionClient.gameActionPayload(ROOM_ID, ACTION));
-        client.on('games:action:ran', payload => {
+
+        const client = io.connect(socketUrl, options);
+        client.on('connect', () => {
+            client.emit('games:action:run', actionClient.gameActionPayload(ROOM_ID, ACTION));
+        });
+        client.once('games:action:ran', payload => {
             expect(pauseStub.args).to.deep.equal([['000000000000000000000001']]);
             expect(payload).to.deep.equal({
                 payload: { room_id: '000000000000000000000001', action: GAME_ACTIONS.PAUSE },

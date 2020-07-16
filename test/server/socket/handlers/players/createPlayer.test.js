@@ -18,7 +18,7 @@ describe('socket/handlers/players/createPlayer', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
-        'force new connection': true,
+        forceNew: true,
     };
 
     let server;
@@ -47,8 +47,10 @@ describe('socket/handlers/players/createPlayer', function() {
 
         const client = io.connect(socketUrl, options);
 
-        client.emit('players:create', actionClient.createPlayerPayload('Waldo'));
-        client.on('players:created', payload => {
+        client.on('connect', () => {
+            client.emit('players:create', actionClient.createPlayerPayload('Waldo'));
+        });
+        client.once('players:created', payload => {
             expect(insertStub.args).to.deep.equal([
                 [{ socket_id: client.id, room_id: null, name: 'Waldo' }],
             ]);
@@ -77,8 +79,10 @@ describe('socket/handlers/players/createPlayer', function() {
 
         const client = io.connect(socketUrl, options);
 
-        client.emit('players:create', actionClient.createPlayerPayload('Waldo'));
-        client.on('players:created', payload => {
+        client.on('connect', () => {
+            client.emit('players:create', actionClient.createPlayerPayload('Waldo'));
+        });
+        client.once('players:created', payload => {
             expect(insertStub.args).to.deep.equal([
                 [{ socket_id: client.id, room_id: null, name: 'Waldo' }],
             ]);

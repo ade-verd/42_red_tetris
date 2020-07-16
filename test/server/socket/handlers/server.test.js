@@ -10,7 +10,7 @@ describe('socket/handlers/server test', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
-        'force new connection': true,
+        forceNew: true,
     };
 
     let server;
@@ -28,8 +28,10 @@ describe('socket/handlers/server test', function() {
     it('should pong after ping', function(done) {
         const client = io.connect(socketUrl, options);
 
-        client.emit('action', ping());
-        client.on('action', payload => {
+        client.on('connect', () => {
+            client.emit('action', ping());
+        });
+        client.once('action', payload => {
             expect(payload).to.deep.equal({ type: 'pong' });
             client.disconnect();
             done();
@@ -39,8 +41,10 @@ describe('socket/handlers/server test', function() {
     it('should not pong', function(done) {
         const client = io.connect(socketUrl, options);
 
-        client.emit('action', { type: 'NOTping' });
-        client.on('action', () => {
+        client.on('connect', () => {
+            client.emit('action', { type: 'NOTping' });
+        });
+        client.once('action', () => {
             throw new Error('should not be call');
         });
         setTimeout(() => {

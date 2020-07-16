@@ -17,7 +17,7 @@ describe('socket/handlers/rooms/createRoom', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
-        'force new connection': true,
+        forceNew: true,
     };
 
     let server;
@@ -43,11 +43,13 @@ describe('socket/handlers/rooms/createRoom', function() {
 
         const client = io.connect(socketUrl, options);
 
-        client.emit(
-            'rooms:create',
-            actionClient.createRoomPayload('room_1', '00000000000000000000000a'),
-        );
-        client.on('rooms:created', payload => {
+        client.on('connect', () => {
+            client.emit(
+                'rooms:create',
+                actionClient.createRoomPayload('room_1', '00000000000000000000000a'),
+            );
+        });
+        client.once('rooms:created', payload => {
             expect(joinOrCreateStub.args).to.deep.equal([['room_1', '00000000000000000000000a']]);
             expect(payload).to.deep.equal({
                 room_id: '000000000000000000000004',
@@ -65,11 +67,13 @@ describe('socket/handlers/rooms/createRoom', function() {
 
         const client = io.connect(socketUrl, options);
 
-        client.emit(
-            'rooms:create',
-            actionClient.createRoomPayload('room_1', '00000000000000000000000a'),
-        );
-        client.on('rooms:created', payload => {
+        client.on('connect', () => {
+            client.emit(
+                'rooms:create',
+                actionClient.createRoomPayload('room_1', '00000000000000000000000a'),
+            );
+        });
+        client.once('rooms:created', payload => {
             expect(joinOrCreateStub.args).to.deep.equal([['room_1', '00000000000000000000000a']]);
             expect(payload).to.deep.equal({
                 payload: {

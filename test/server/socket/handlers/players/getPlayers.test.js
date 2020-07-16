@@ -15,7 +15,7 @@ describe('socket/handlers/players/getPlayers', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
-        'force new connection': true,
+        forceNew: true,
     };
 
     let server;
@@ -41,8 +41,10 @@ describe('socket/handlers/players/getPlayers', function() {
 
         const client = io.connect(socketUrl, options);
 
-        client.emit('players:players:get', { players_ids: ['00000000000000000000000d'] });
-        client.on('players:players:got', payload => {
+        client.on('connect', () => {
+            client.emit('players:players:get', { players_ids: ['00000000000000000000000d'] });
+        });
+        client.once('players:players:got', payload => {
             expect(findStub.args).to.deep.equal([[['00000000000000000000000d']]]);
             expect(payload).to.deep.equal({
                 payload: { players_ids: ['00000000000000000000000d'] },
@@ -70,8 +72,10 @@ describe('socket/handlers/players/getPlayers', function() {
 
         const client = io.connect(socketUrl, options);
 
-        client.emit('players:players:get', { players_ids: ['00000000000000000000000d'] });
-        client.on('players:players:got', payload => {
+        client.on('connect', () => {
+            client.emit('players:players:get', { players_ids: ['00000000000000000000000d'] });
+        });
+        client.once('players:players:got', payload => {
             expect(findStub.args).to.deep.equal([[['00000000000000000000000d']]]);
             expect(payload).to.deep.equal({
                 payload: { players_ids: ['00000000000000000000000d'] },
