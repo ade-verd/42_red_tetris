@@ -45,6 +45,7 @@ const ConnectedPlayers = ({ isLobby, states }) => {
     const roomId = states.user.roomId;
     const lobby = states.rooms.lobby;
     const rooms = states.rooms.rooms;
+    const players = states.players;
 
     useEffect(() => {
         if (isLobby) {
@@ -55,7 +56,7 @@ const ConnectedPlayers = ({ isLobby, states }) => {
             setRoomPlayers(getPlayers(states, isLobby, room));
             console.log('[ConnectedPlayers] rendering room panel');
         }
-    }, [isLobby, rooms, lobby]);
+    }, [isLobby, rooms, lobby, players]);
 
     return <div className={css.container}>{isLobby ? lobbyUsers : roomPlayers}</div>;
 };
