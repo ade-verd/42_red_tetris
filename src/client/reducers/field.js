@@ -65,8 +65,10 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
     piece.projection.tetromino.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
-                // If we draw malus row, we need to put projection's pos one cell upper
-                newField[y + piece.projection.pos.y - malus][x + piece.projection.pos.x] = [
+                // If we draw malus row, we need to put projection's pos cell upper
+                const Y = y + piece.projection.pos.y - malus < 0 ? 0 : y + piece.projection.pos.y - malus;
+                const X = x + piece.projection.pos.x;
+                newField[Y][X] = [
                     value,
                     'clear',
                     true,
@@ -79,7 +81,10 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
     piece.tetromino.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value !== 0) {
-                newField[y + piece.pos.y][x + piece.pos.x] = [
+                // Same here if malus
+                const Y = y + piece.pos.y - malus < 0 ? 0 : y + piece.pos.y - malus;
+                const X = x + piece.pos.x;
+                newField[Y][X] = [
                     value,
                     `${piece.collided ? 'merged' : 'clear'}`,
                     false,
