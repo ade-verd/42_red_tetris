@@ -34,10 +34,10 @@ export const onGameStart = (dispatch, elementToFocus) => {
 };
 
 export const startGame = (dispatch, roomId, pieces, index, elementToFocus) => {
+    emitGameStart(dispatch, roomId, pieces, index);
     dispatch({ action: ACTIONS.REDUCE, type: 'RESET' });
     dispatch({ action: ACTIONS.REDUCE, type: 'GET_TETROMINO' });
     dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: 1000 });
-    emitGameStart(dispatch, roomId, pieces, index);
     emitGameActionStart(dispatch, roomId);
 
     elementToFocus.current.focus();

@@ -7,10 +7,16 @@ const StartButton = ({ callback }) => {
     const userState = store.getState().usr;
     const [label, setLabel] = useState('Start');
 
-    const onClick = () => {
+    const start = () => {
         callback(userState.roomId);
-        setLabel('Restart');
+        setLabel('Reset');
     };
+
+    const reset = () => {
+        setLabel('Start');
+    };
+
+    const onClick = label === 'Start' ? start : reset;
 
     return <StyledStartButton onClick={onClick}>{label}</StyledStartButton>;
 };
