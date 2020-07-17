@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { StyledStartButton } from './StartButton.style';
 
-import { emitGameReset } from '../../../../actions/game/gameReset';
+import { emitGameReset } from '../../../../../actions/game/gameReset';
 
-import { store } from '../../../../store/store';
+import { store } from '../../../../../store/store';
 
 const StartButton = ({ startGame, resetGame }) => {
     const userState = store.getState().usr;

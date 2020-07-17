@@ -2,9 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { StyledPlayground } from './Playground.style';
 
-import AsideLeft from './AsideLeft/AsideLeft';
-import Field from './Field/Field';
-import AsideRight from './AsideRight/AsideRight';
+import FieldWrapper from './FieldWrapper/FieldWrapper';
+import Spectrums from './Spectrums/Spectrums';
 
 import { getRoom } from '../../helpers/getRoom';
 import { useInterval } from '../../helpers/useInterval';
@@ -17,8 +16,6 @@ const Playground = props => {
     const playgroundRef = useRef(null);
     const {
         listen,
-        startGame,
-        resetGame,
         emitGetRandomTetriminos,
         updateField,
         updateGameStatus,
@@ -78,18 +75,8 @@ const Playground = props => {
             onKeyDown={event => move(store.dispatch, event, field, piece, gameStatus)}
             onKeyUp={event => reactivateDropTime(store.dispatch, event, gameStatus)}
         >
-            <AsideLeft gameStatus={gameStatus} spectrums={spectrums} user={user} rooms={rooms} />
-            <Field field={field} />
-            <AsideRight
-                gameOver={gameStatus.gameOver}
-                isAdmin={isAdmin}
-                dispatch={store.dispatch}
-                user={user}
-                piece={piece}
-                playgroundRef={playgroundRef}
-                startGame={startGame}
-                resetGame={resetGame}
-            />
+            <Spectrums spectrums={spectrums} user={user} rooms={rooms} />
+            <FieldWrapper {...props} isAdmin={isAdmin} playgroundRef={playgroundRef} />
         </StyledPlayground>
     );
 };

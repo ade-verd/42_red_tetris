@@ -13,6 +13,6 @@ export const StyledField = styled.div`
 
 export const Row = styled.div`
     display: flex;
-    flex: 1 1 auto;
+    flex: 0 0;
     flex-wrap: nowrap;
 `;

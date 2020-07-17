@@ -3,11 +3,12 @@ import React from 'react';
 import Spectrum from './Spectrum/Spectrum';
 import { StyledSpectrums } from './Spectrums.style';
 
-import { getRoom } from '../../../../helpers/getRoom';
+import { getRoom } from '../../../helpers/getRoom';
 
 const Spectrums = ({ spectrums, user, rooms }) => {
     const currentRoom = getRoom(rooms.rooms, user.roomId);
     if (!currentRoom) return null;
+    if (currentRoom.players_ids.length <= 1) return null;
 
     return (
         <StyledSpectrums>

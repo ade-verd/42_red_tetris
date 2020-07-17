@@ -6,8 +6,8 @@ const cellSize = 4; // manually chosen
 
 export const StyledCell = styled.div`
     flex: 1 1 auto;
-    height: ${cellSize + 'vh'};
-    width: ${cellSize + 'vh'};
+    height: ${cellSize + 'vmin'};
+    width: ${cellSize + 'vmin'};
     background: rgba(
         ${props => props.color},
         ${props => (props.color === '0, 0, 0' ? '0' : '0.8')}
