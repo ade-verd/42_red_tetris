@@ -9,7 +9,9 @@ export const gameActionPayload = (roomId, action) => ({
 });
 
 export const emitGameActionStart = dispatch => {
-    const { usr: { roomId } } = store.getState();
+    const {
+        usr: { roomId },
+    } = store.getState();
 
     dispatch({
         action: ACTIONS.EMIT,

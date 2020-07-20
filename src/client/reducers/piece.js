@@ -50,7 +50,7 @@ const setPos = (state, asyncDispatch, { x, y }, collided) => {
 
     const X = state.pos.x + x;
     // If the malus pushs the piece out of limit :
-    const Y = state.pos.y + y < 0 ? 0 : state.pos.y + y ;
+    const Y = state.pos.y + y < 0 ? 0 : state.pos.y + y;
 
     return {
         ...state,

@@ -31,8 +31,12 @@ export const onGameStart = (dispatch, elementToFocus) => {
         event: 'game:started',
         fn: payload => {
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_PIECES', pieces: payload.pieces });
-            dispatch({ action: ACTIONS.REDUCE, type: 'SET_INDEX', index: payload.index - 1});
-            dispatch({ action: ACTIONS.REDUCE, type: 'SET_NEXT_TETROMINO', nextTetromino: payload.nextTetromino });
+            dispatch({ action: ACTIONS.REDUCE, type: 'SET_INDEX', index: payload.index - 1 });
+            dispatch({
+                action: ACTIONS.REDUCE,
+                type: 'SET_NEXT_TETROMINO',
+                nextTetromino: payload.nextTetromino,
+            });
             dispatch({ action: ACTIONS.REDUCE, type: 'GET_TETROMINO' });
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: 1000 });
             elementToFocus.current.focus();

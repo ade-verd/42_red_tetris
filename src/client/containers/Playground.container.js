@@ -7,7 +7,7 @@ import { emitGameActionStart, onGameAction } from '../actions/game/gameAction';
 import { resetGame } from '../actions/game/gameReset';
 import { updateField } from '../actions/game/field';
 import { startGame, onGameStart } from '../actions/game/gameStart';
-import { onGameReset } from '../actions/game/gameReset'
+import { onGameReset } from '../actions/game/gameReset';
 import { updateGameStatus } from '../actions/game/gameStatus';
 import { move, reactivateDropTime, drop } from '../actions/game/piece';
 import { onSpectrum } from '../actions/game/spectrum';

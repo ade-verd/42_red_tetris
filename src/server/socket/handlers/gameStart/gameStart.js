@@ -21,7 +21,9 @@ const getPiecesJoi = () => {
 const getNextTetrominoJoi = () => {
     const shapeRow = Joi.array().items(Joi.alternatives(Joi.string(), Joi.number()).required());
 
-    return Joi.array().items(shapeRow).required();
+    return Joi.array()
+        .items(shapeRow)
+        .required();
 };
 
 const schema = {
@@ -35,7 +37,12 @@ const ON_EVENT = 'game:start';
 const EMIT_EVENT = 'game:started';
 
 const emitGameStart = async (socket, payload) => {
-    const [roomId, pieces, index, nextTetromino] = [payload.room_id, payload.pieces, payload.index, payload.nextTetromino];
+    const [roomId, pieces, index, nextTetromino] = [
+        payload.room_id,
+        payload.pieces,
+        payload.index,
+        payload.nextTetromino,
+    ];
 
     socket.to(roomId).emit(EMIT_EVENT, { pieces, index, nextTetromino });
     console.log('[socket event emited][to:', roomId, ']', EMIT_EVENT, {
