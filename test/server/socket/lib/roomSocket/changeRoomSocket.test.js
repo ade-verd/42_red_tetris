@@ -15,7 +15,7 @@ describe('socket/lib/roomSocket/changeRoomSocket', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
-        'force new connection': true,
+        forceNew: true,
     };
 
     let server;
@@ -45,11 +45,11 @@ describe('socket/lib/roomSocket/changeRoomSocket', function() {
         const client = ioClient.connect(socketUrl, options);
 
         const movements = {};
-        client.on('rooms:socket:joined', payload => {
+        client.once('rooms:socket:joined', payload => {
             expect(payload).to.deep.equal({ roomId: TO });
             movements.to = payload.roomId;
         });
-        client.on('rooms:socket:left', payload => {
+        client.once('rooms:socket:left', payload => {
             expect(payload).to.deep.equal({ roomId: FROM });
             movements.from = payload.roomId;
         });
@@ -73,11 +73,11 @@ describe('socket/lib/roomSocket/changeRoomSocket', function() {
         const client = ioClient.connect(socketUrl, options);
 
         const movements = {};
-        client.on('rooms:socket:joined', payload => {
+        client.once('rooms:socket:joined', payload => {
             expect(payload).to.deep.equal({ roomId: TO });
             movements.to = payload.roomId;
         });
-        client.on('rooms:socket:left', payload => {
+        client.once('rooms:socket:left', payload => {
             expect(payload).to.deep.equal({ roomId: FROM });
             movements.from = payload.roomId;
         });
@@ -103,11 +103,11 @@ describe('socket/lib/roomSocket/changeRoomSocket', function() {
         const client = ioClient.connect(socketUrl, options);
 
         const movements = {};
-        client.on('rooms:socket:joined', payload => {
+        client.once('rooms:socket:joined', payload => {
             expect(payload).to.deep.equal({ roomId: TO });
             movements.to = payload.roomId;
         });
-        client.on('rooms:socket:left', payload => {
+        client.once('rooms:socket:left', payload => {
             expect(payload).to.deep.equal({ roomId: FROM });
             movements.from = payload.roomId;
         });

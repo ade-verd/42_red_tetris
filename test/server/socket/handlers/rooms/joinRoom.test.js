@@ -15,7 +15,7 @@ describe('socket/handlers/rooms/joinRoom', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
-        'force new connection': true,
+        forceNew: true,
     };
 
     let server;
@@ -45,8 +45,10 @@ describe('socket/handlers/rooms/joinRoom', function() {
 
         const client = io.connect(socketUrl, options);
 
-        client.emit('rooms:join', actionClient.joinRoomPayload(ROOM_ID, PLAYER_ID));
-        client.on('rooms:joined', payload => {
+        client.on('connect', () => {
+            client.emit('rooms:join', actionClient.joinRoomPayload(ROOM_ID, PLAYER_ID));
+        });
+        client.once('rooms:joined', payload => {
             expect(joinStub.args).to.deep.equal([
                 ['000000000000000000000001', '00000000000000000000000a'],
             ]);
@@ -65,12 +67,15 @@ describe('socket/handlers/rooms/joinRoom', function() {
     it('should not emit anything if an error occurs while creating player', function(done) {
         const joinStub = sandbox.stub(roomInOut, 'join').rejects(new Error('something happened'));
 
-        const client = io.connect(socketUrl, options);
-
         const ROOM_ID = '000000000000000000000001';
         const PLAYER_ID = '00000000000000000000000a';
-        client.emit('rooms:join', actionClient.joinRoomPayload(ROOM_ID, PLAYER_ID));
-        client.on('rooms:joined', payload => {
+
+        const client = io.connect(socketUrl, options);
+
+        client.on('connect', () => {
+            client.emit('rooms:join', actionClient.joinRoomPayload(ROOM_ID, PLAYER_ID));
+        });
+        client.once('rooms:joined', payload => {
             expect(joinStub.args).to.deep.equal([
                 ['000000000000000000000001', '00000000000000000000000a'],
             ]);

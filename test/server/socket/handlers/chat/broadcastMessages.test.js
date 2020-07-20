@@ -21,7 +21,7 @@ describe('socket/handlers/chat/broadcastMessages', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
-        'force new connection': true,
+        forceNew: true,
     };
 
     let server;
@@ -61,16 +61,19 @@ describe('socket/handlers/chat/broadcastMessages', function() {
             '[]      client2 (not a receiver)',
         ];
         let roomSockets = [];
+        let socketsClients = [];
 
         const ioServer = ioInstance.get();
         ioServer.on('connection', socket => {
             if (roomSockets.length < 2) {
                 socket.join(msgPayload.toRoomId);
                 roomSockets.push(socket);
+            } else {
+                socketsClients[0].emit(ON_EVENT, msgPayload);
             }
         });
 
-        const socketsClients = CLIENTS.map(client => ioClient.connect(socketUrl, options));
+        socketsClients = CLIENTS.map(() => ioClient.connect(socketUrl, options));
 
         let messagesReceived;
         socketsClients.forEach((client, index) => {
@@ -78,10 +81,6 @@ describe('socket/handlers/chat/broadcastMessages', function() {
                 messagesReceived = { ...messagesReceived, ['client' + index]: payload };
             });
         });
-
-        setTimeout(() => {
-            socketsClients[0].emit(ON_EVENT, msgPayload);
-        }, 100);
 
         setTimeout(() => {
             expect(messagesReceived).to.deep.equal({
@@ -98,8 +97,6 @@ describe('socket/handlers/chat/broadcastMessages', function() {
     it('should emit an error if something happened with io server', function(done) {
         const ioStub = sandbox.stub(ioInstance, 'get').returns(undefined);
 
-        const client = ioClient.connect(socketUrl, options);
-
         const msgPayload = clientActions.createChatPayload({
             playerId: '000000000000000000000001',
             playerName: 'Bobby',
@@ -114,7 +111,12 @@ describe('socket/handlers/chat/broadcastMessages', function() {
             date: 1577836800,
         };
 
-        client.emit(ON_EVENT, msgPayload);
+        const client = ioClient.connect(socketUrl, options);
+
+        client.on('connect', () => {
+            client.emit(ON_EVENT, msgPayload);
+        });
+
         client.on(EMIT_EVENT, payload => {
             expect(ioStub.args).to.deep.equal([[]]);
             expect(payload).to.deep.equal({

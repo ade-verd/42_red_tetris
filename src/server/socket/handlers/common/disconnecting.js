@@ -19,6 +19,7 @@ const _disconnect = async socket => {
     try {
         await disconnectRoomSocket.disconnect(socket, socketRooms);
         console.log(FUNCTION_NAME, socket.client.id, 'disconnected');
+        socket.emit(EMIT_EVENT, { socket_id: socket.client.id });
         await getActiveRooms.emitActiveRooms(socket);
     } catch (err) {
         socket.emit(EMIT_EVENT, { socketRooms, error: err.toString() });

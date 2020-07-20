@@ -10,9 +10,6 @@ const { handlers } = require('../../../src/server/socket/index');
 
 const roomsHandlers = require('../../../src/server/socket/handlers/rooms');
 const playerSocketLib = require('../../../src/server/socket/lib/playersSocket/checkConnectedSocket');
-const {
-    checkConnectedSocket,
-} = require('../../../src/server/socket/lib/playersSocket/checkConnectedSocket');
 
 // describe.skip('socket/index.js', function() {
 describe('socket/index.js', function() {
@@ -21,7 +18,7 @@ describe('socket/index.js', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
-        'force new connection': true,
+        forceNew: true,
     };
 
     let server;
@@ -46,12 +43,12 @@ describe('socket/index.js', function() {
 
         const client = io.connect(socketUrl, options);
 
-        client.on('server/start', () => {
-            setTimeout(() => {
+        client.once('connect', () => {
+            setTimeout(function() {
                 expect(bindEventStub.callCount % handlers.length).to.equal(0);
                 client.disconnect();
                 done();
-            }, 200);
+            }, 100);
         });
     });
 
@@ -63,13 +60,13 @@ describe('socket/index.js', function() {
 
         const client = io.connect(socketUrl, options);
 
-        client.on('server/start', () => {
-            setTimeout(() => {
+        client.once('connect', () => {
+            setTimeout(function() {
                 expect(emitActiveRoomsStub.callCount).to.be.at.least(2);
                 expect(checkSocketsStub.callCount).to.be.at.least(2);
                 client.disconnect();
                 done();
-            }, 150);
+            }, 200);
         });
     });
 });

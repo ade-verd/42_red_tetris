@@ -46,7 +46,9 @@ const emitNewSpectrum = async (socket, payload) => {
         }),
     );
 
-    socket.to(roomId).emit(EMIT_EVENT, { player_id: playerId, player_name: playerName, spectrum: newSpectrum });
+    socket
+        .to(roomId)
+        .emit(EMIT_EVENT, { player_id: playerId, player_name: playerName, spectrum: newSpectrum });
     console.log('[socket event emited][to:', roomId, ']', EMIT_EVENT, {
         player_id: playerId,
         player_name: playerName,

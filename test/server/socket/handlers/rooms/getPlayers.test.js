@@ -16,7 +16,7 @@ describe('socket/handlers/rooms/getPlayers', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
-        'force new connection': true,
+        forceNew: true,
     };
 
     let server;
@@ -44,8 +44,10 @@ describe('socket/handlers/rooms/getPlayers', function() {
 
         const client = io.connect(socketUrl, options);
 
-        client.emit('rooms:players:get', actionClient.getRoomPlayersPayload(ROOM_ID));
-        client.on('rooms:players:got', payload => {
+        client.on('connect', () => {
+            client.emit('rooms:players:get', actionClient.getRoomPlayersPayload(ROOM_ID));
+        });
+        client.once('rooms:players:got', payload => {
             expect(getPlayersNameStub.args).to.deep.equal([['000000000000000000000001']]);
             expect(payload).to.deep.equal({
                 payload: { room_id: '000000000000000000000001' },
@@ -64,11 +66,14 @@ describe('socket/handlers/rooms/getPlayers', function() {
             .stub(roomPlayers, 'getPlayersNames')
             .rejects(new Error('something happened'));
 
+        const ROOM_ID = '000000000000000000000001';
+
         const client = io.connect(socketUrl, options);
 
-        const ROOM_ID = '000000000000000000000001';
-        client.emit('rooms:players:get', actionClient.getRoomPlayersPayload(ROOM_ID));
-        client.on('rooms:players:got', payload => {
+        client.on('connect', () => {
+            client.emit('rooms:players:get', actionClient.getRoomPlayersPayload(ROOM_ID));
+        });
+        client.once('rooms:players:got', payload => {
             expect(getPlayersNameStub.args).to.deep.equal([['000000000000000000000001']]);
             expect(payload).to.deep.equal({
                 payload: { room_id: '000000000000000000000001' },

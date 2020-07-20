@@ -15,9 +15,8 @@ describe.skip('socket/handlers/malus/malus', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
-        'force new connection': true,
+        forceNew: true,
     };
-
 
     let server;
     let client1;
@@ -30,7 +29,7 @@ describe.skip('socket/handlers/malus/malus', function() {
         });
 
         const ROOM_ID = '000000000000000000000001';
-        
+
         ioSrv.on('connection', socket => {
             socket.join(ROOM_ID);
         });
@@ -53,13 +52,10 @@ describe.skip('socket/handlers/malus/malus', function() {
         const ROOM_ID = '000000000000000000000001';
         const MALUS = 2;
 
-        client1.emit(
-            'malus:send',
-            actionClient.getGameStartPayload(ROOM_ID, MALUS)
-        );
-        client2.on('malus:sent', payload => {
+        client1.emit('malus:send', actionClient.getGameStartPayload(ROOM_ID, MALUS));
+        client2.once('malus:sent', payload => {
             expect(payload).to.deep.equal({
-                malus: MALUS
+                malus: MALUS,
             });
             done();
         });
@@ -69,11 +65,8 @@ describe.skip('socket/handlers/malus/malus', function() {
         const ROOM_ID = null;
         const PIECES = 2;
 
-        client1.emit(
-            'malus:send',
-            actionClient.getGameStartPayload(ROOM_ID, MALUS),
-        );
-        client2.on('malus:sent', payload => {
+        client1.emit('malus:send', actionClient.getGameStartPayload(ROOM_ID, MALUS));
+        client2.once('malus:sent', payload => {
             expect(payload).to.deep.equal(null);
             done();
         });

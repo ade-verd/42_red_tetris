@@ -21,7 +21,7 @@ describe('socket/handlers/pieces/getTetriminos', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
-        'force new connection': true,
+        forceNew: true,
     };
 
     let server;
@@ -46,16 +46,18 @@ describe('socket/handlers/pieces/getTetriminos', function() {
             .stub(getPiecesLib, 'getTetriminos')
             .resolves(fixtures.generateBlocksList(1));
 
-        const client = io.connect(socketUrl, options);
-
         const ROOM_ID = '000000000000000000000001';
         const PIECE_POSITION = 0;
         const NUMBER = 1;
-        client.emit(
-            'tetriminos:get_random',
-            actionClient.getTetriminosPayload(ROOM_ID, PIECE_POSITION, NUMBER),
-        );
-        client.on('tetriminos:get_random', payload => {
+
+        const client = io.connect(socketUrl, options);
+        client.on('connect', () => {
+            client.emit(
+                'tetriminos:get_random',
+                actionClient.getTetriminosPayload(ROOM_ID, PIECE_POSITION, NUMBER),
+            );
+        });
+        client.once('tetriminos:get_random', payload => {
             expect(getTetriminosStub.args).to.deep.equal([['000000000000000000000001', 0, 1]]);
             expect(payload).to.deep.equal({
                 payload: {
@@ -86,16 +88,18 @@ describe('socket/handlers/pieces/getTetriminos', function() {
             .stub(getPiecesLib, 'getTetriminos')
             .rejects(new Error('something happened'));
 
-        const client = io.connect(socketUrl, options);
-
         const ROOM_ID = '000000000000000000000001';
         const PIECE_POSITION = 0;
         const NUMBER = 1;
-        client.emit(
-            'tetriminos:get_random',
-            actionClient.getTetriminosPayload(ROOM_ID, PIECE_POSITION, NUMBER),
-        );
-        client.on('tetriminos:get_random', payload => {
+
+        const client = io.connect(socketUrl, options);
+        client.on('connect', () => {
+            client.emit(
+                'tetriminos:get_random',
+                actionClient.getTetriminosPayload(ROOM_ID, PIECE_POSITION, NUMBER),
+            );
+        });
+        client.once('tetriminos:get_random', payload => {
             expect(getTetriminosStub.args).to.deep.equal([['000000000000000000000001', 0, 1]]);
             expect(payload).to.deep.equal({
                 payload: {

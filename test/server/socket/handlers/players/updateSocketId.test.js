@@ -16,7 +16,7 @@ describe('socket/handlers/players/updateSocketId', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
-        'force new connection': true,
+        forceNew: true,
     };
 
     let server;
@@ -48,8 +48,10 @@ describe('socket/handlers/players/updateSocketId', function() {
 
         const client = ioClient.connect(socketUrl, options);
 
-        client.emit('players:socket:update', { player_id: '00000000000000000000000d' });
-        client.on('players:socket:updated', payload => {
+        client.on('connect', () => {
+            client.emit('players:socket:update', { player_id: '00000000000000000000000d' });
+        });
+        client.once('players:socket:updated', payload => {
             expect(updateStub.args).to.deep.equal([
                 ['00000000000000000000000d', { socket_id: socket.client.id }],
             ]);
@@ -77,8 +79,10 @@ describe('socket/handlers/players/updateSocketId', function() {
 
         const client = ioClient.connect(socketUrl, options);
 
-        client.emit('players:socket:update', { player_id: '00000000000000000000000d' });
-        client.on('players:socket:updated', payload => {
+        client.on('connect', () => {
+            client.emit('players:socket:update', { player_id: '00000000000000000000000d' });
+        });
+        client.once('players:socket:updated', payload => {
             expect(updateStub.args).to.deep.equal([
                 ['00000000000000000000000d', { socket_id: socket.client.id }],
             ]);

@@ -15,7 +15,7 @@ describe('socket/handlers/rooms/leaveRoom', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
-        'force new connection': true,
+        forceNew: true,
     };
 
     let server;
@@ -43,8 +43,10 @@ describe('socket/handlers/rooms/leaveRoom', function() {
 
         const client = io.connect(socketUrl, options);
 
-        client.emit('rooms:leave', actionClient.leaveRoomPayload(ROOM_ID, PLAYER_ID));
-        client.on('rooms:left', payload => {
+        client.on('connect', () => {
+            client.emit('rooms:leave', actionClient.leaveRoomPayload(ROOM_ID, PLAYER_ID));
+        });
+        client.once('rooms:left', payload => {
             expect(leaveStub.args).to.deep.equal([
                 ['000000000000000000000001', '00000000000000000000000a'],
             ]);
@@ -63,12 +65,14 @@ describe('socket/handlers/rooms/leaveRoom', function() {
     it('should not emit anything if an error occurs while creating player', function(done) {
         const leaveStub = sandbox.stub(roomInOut, 'leave').rejects(new Error('something happened'));
 
-        const client = io.connect(socketUrl, options);
-
         const ROOM_ID = '000000000000000000000001';
         const PLAYER_ID = '00000000000000000000000a';
-        client.emit('rooms:leave', actionClient.leaveRoomPayload(ROOM_ID, PLAYER_ID));
-        client.on('rooms:left', payload => {
+
+        const client = io.connect(socketUrl, options);
+        client.on('connect', () => {
+            client.emit('rooms:leave', actionClient.leaveRoomPayload(ROOM_ID, PLAYER_ID));
+        });
+        client.once('rooms:left', payload => {
             expect(leaveStub.args).to.deep.equal([
                 ['000000000000000000000001', '00000000000000000000000a'],
             ]);

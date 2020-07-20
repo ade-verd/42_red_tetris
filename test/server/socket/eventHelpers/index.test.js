@@ -79,7 +79,7 @@ describe('Socket event helpers', function() {
         const socketUrl = config.server.url;
         const options = {
             transports: ['websocket'],
-            'force new connection': true,
+            forceNew: true,
         };
 
         let server;
@@ -94,11 +94,12 @@ describe('Socket event helpers', function() {
             server.stop(done);
         });
         it('should bind event', function(done) {
+            let socket;
             const io = ioServer.get();
 
             const event = {
-                onEventName: 'should_bind_event',
-                emitEventName: 'should_bind_event',
+                onEventName: 'event:bind',
+                emitEventName: 'event:binded',
                 functionExpect: (...args) => {
                     expect(args).to.deep.equal([socket, { string: 'abdef', number: 1 }]);
                     client.disconnect();
@@ -118,17 +119,15 @@ describe('Socket event helpers', function() {
                 event.functionExpect,
             );
 
-            let socket;
             io.on('connection', _socket => {
                 socket = _socket;
                 eventHelpers.bindEvent(socket, eventCreated);
-                // io.emit('connected');
             });
 
             const client = ioClient.connect(socketUrl, options);
-            // client.on('connected', () => {
-            client.emit('should_bind_event', { string: 'abdef', number: 1 });
-            // });
+            client.on('connect', () => {
+                client.emit('event:bind', { string: 'abdef', number: 1 });
+            });
         });
 
         it('should return an error if the payload does not match with the schema', function(done) {
@@ -159,8 +158,10 @@ describe('Socket event helpers', function() {
             });
 
             const client = ioClient.connect(socketUrl, options);
-            client.emit('event:bind', { string: 'missing_number' });
-            client.on('event:binded', payload => {
+            client.on('connect', () => {
+                client.emit('event:bind', { string: 'missing_number' });
+            });
+            client.once('event:binded', payload => {
                 expect(event.fakeFunction.callCount).to.equal(0);
                 expect(payload).to.deep.equal({
                     error: 'ValidationError: "number" is required',
