@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
 export const StyledPlayground = styled.div`
-    flex: 3 0 auto;
+    flex: 3 0;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    /* height: 100%; */
-    /* min-height: 0; */
+    flex-wrap: nowrap;
+    height: 100%;
+    min-height: 0;
 
     border: 2px solid #555559;
     border-radius: 5px;

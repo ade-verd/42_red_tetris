@@ -1,5 +1,5 @@
 .container {
-    flex: 999;
+    flex: 1;
     height: 100%;
     min-height: 0;
     display: flex;
