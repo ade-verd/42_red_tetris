@@ -18,7 +18,7 @@ const Playground = props => {
     const {
         listen,
         startGame,
-        firstRender,
+        resetGame,
         emitGetRandomTetriminos,
         updateField,
         updateGameStatus,
@@ -46,15 +46,18 @@ const Playground = props => {
     );
 
     useEffect(() => {
-        listen(playgroundRef);
-        firstRender(store.dispatch);
-        emitGetRandomTetriminos(store.dispatch, user.roomId, 1, 20);
-    }, []);
-
-    useEffect(() => {
         const currentRoom = getRoom(rooms.rooms, user.roomId);
         if (currentRoom) setIsAdmin(currentRoom.players_ids[0] === user.id);
     }, [rooms.rooms]);
+
+    useEffect(() => {
+        if (isAdmin) emitGetRandomTetriminos(store.dispatch, user.roomId, 1, 20);
+    }, [isAdmin]);
+
+    useEffect(() => {
+        listen(playgroundRef);
+        resetGame(store.dispatch);
+    }, []);
 
     useEffect(() => {
         updateGameStatus(store.dispatch);
@@ -85,6 +88,7 @@ const Playground = props => {
                 piece={piece}
                 playgroundRef={playgroundRef}
                 startGame={startGame}
+                resetGame={resetGame}
             />
         </StyledPlayground>
     );

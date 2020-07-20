@@ -20,7 +20,6 @@ const updateRowsScore = (state, asyncDispatch, roomId) => {
 
 const reducer = (state = {}, action) => {
     switch (action.type) {
-        case 'FIRST_RENDER':
         case 'RESET':
             return {
                 score: 0,

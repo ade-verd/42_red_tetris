@@ -3,18 +3,30 @@ import { ACTIONS } from '../middlewares/handleSocket';
 import { emitGetRandomTetriminos } from '../actions/game/getTetriminos';
 import { checkCollision } from '../helpers/checkCollision';
 
-const firstRender = () => {
-    return {
-        pos: { x: FIELD_WIDTH / 2 - 2, y: 0 },
-        collided: false,
-        tetromino: null,
-        nextTetromino: null,
-        dropTime: null,
-        pieces: [],
-        index: 0,
-        amount: 20,
-        projection: {},
-    };
+const resetGame = (state, isAdmin) => {
+    // Admin provides all the tetromino datas, so we keep it for him
+    if (isAdmin) {
+        return {
+            ...state,
+            pos: { x: FIELD_WIDTH / 2 - 2, y: 0 },
+            collided: false,
+            dropTime: null,
+            amount: 20,
+            projection: null,
+        };
+    } else {
+        return {
+            pos: { x: FIELD_WIDTH / 2 - 2, y: 0 },
+            collided: false,
+            tetromino: null,
+            nextTetromino: null,
+            dropTime: null,
+            pieces: null,
+            index: 0,
+            amount: 20,
+            projection: null,
+        };
+    }
 };
 
 const setPieces = (state, pieces) => {
@@ -38,7 +50,7 @@ const setPos = (state, asyncDispatch, { x, y }, collided) => {
 
     const X = state.pos.x + x;
     // If the malus pushs the piece out of limit :
-    const Y = state.pos.y + y < 0 ? 0 : state.pos.y + y ;
+    const Y = state.pos.y + y < 0 ? 0 : state.pos.y + y;
 
     return {
         ...state,
@@ -93,6 +105,13 @@ const getTetromino = (state, asyncDispatch, roomId, gameOver) => {
     }
 };
 
+const setNextTetromino = (state, nextTetromino) => {
+    return {
+        ...state,
+        nextTetromino,
+    };
+};
+
 const updateProjection = (state, field) => {
     const tetromino = JSON.parse(JSON.stringify(state.tetromino));
 
@@ -110,8 +129,8 @@ const updateProjection = (state, field) => {
 
 const reducer = (state = {}, action) => {
     switch (action.type) {
-        case 'FIRST_RENDER':
-            return firstRender();
+        case 'RESET':
+            return resetGame(state, action.isAdmin);
         case 'SET_PIECES':
             return setPieces(state, action.pieces);
         case 'SET_INDEX':
@@ -129,6 +148,8 @@ const reducer = (state = {}, action) => {
                 action.allStates.usr.roomId,
                 action.allStates.gme.gameOver,
             );
+        case 'SET_NEXT_TETROMINO':
+            return setNextTetromino(state, action.nextTetromino);
         case 'UPDATE_PROJECTION':
             return updateProjection(state, action.allStates.fld.field);
         default:

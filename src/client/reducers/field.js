@@ -66,13 +66,10 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
         row.forEach((value, x) => {
             if (value !== 0) {
                 // If we draw malus row, we need to put projection's pos cell upper
-                const Y = y + piece.projection.pos.y - malus < 0 ? 0 : y + piece.projection.pos.y - malus;
+                const Y =
+                    y + piece.projection.pos.y - malus < 0 ? 0 : y + piece.projection.pos.y - malus;
                 const X = x + piece.projection.pos.x;
-                newField[Y][X] = [
-                    value,
-                    'clear',
-                    true,
-                ];
+                newField[Y][X] = [value, 'clear', true];
             }
         });
     });
@@ -84,11 +81,7 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
                 // Same here if malus
                 const Y = y + piece.pos.y - malus < 0 ? 0 : y + piece.pos.y - malus;
                 const X = x + piece.pos.x;
-                newField[Y][X] = [
-                    value,
-                    `${piece.collided ? 'merged' : 'clear'}`,
-                    false,
-                ];
+                newField[Y][X] = [value, `${piece.collided ? 'merged' : 'clear'}`, false];
             }
         });
     });
@@ -108,7 +101,7 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
 
 const reducer = (state = {}, action) => {
     switch (action.type) {
-        case 'FIRST_RENDER':
+        case 'RESET':
             return createField();
         case 'UPDATE':
             return updateField(
@@ -118,8 +111,6 @@ const reducer = (state = {}, action) => {
                 action.allStates.usr,
                 action.malus,
             );
-        case 'RESET':
-            return createField();
         default:
             return state;
     }

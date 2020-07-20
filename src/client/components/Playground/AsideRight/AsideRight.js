@@ -7,9 +7,9 @@ import StartButton from './StartButton/StartButton';
 import NextPiece from './NextPiece/NextPiece';
 
 const AsideRight = props => {
-    const { gameOver, isAdmin, dispatch, user, piece, playgroundRef, startGame } = props;
+    const { gameOver, isAdmin, dispatch, piece, playgroundRef, startGame, resetGame } = props;
     const callback = () => {
-        startGame(dispatch, user.roomId, piece.pieces, piece.index, playgroundRef);
+        startGame(dispatch, playgroundRef);
     };
 
     const nextPiece = piece.nextTetromino ? <NextPiece nextPiece={piece.nextTetromino} /> : null;
@@ -19,7 +19,7 @@ const AsideRight = props => {
             <Display title="NEXT" content={nextPiece} />
             <StyledBottom>
                 {gameOver ? <Display content="GAME OVER" /> : null}
-                {isAdmin ? <StartButton callback={callback} /> : null}
+                {isAdmin ? <StartButton startGame={callback} resetGame={resetGame} /> : null}
             </StyledBottom>
         </StyledAsideRight>
     );
