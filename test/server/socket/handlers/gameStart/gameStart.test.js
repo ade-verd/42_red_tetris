@@ -99,16 +99,11 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
         const INDEX = 0;
         const NEXT_TETROMINO = null;
 
-<<<<<<< HEAD
-        client1.emit('game:start', actionClient.getGameStartPayload(ROOM_ID, PIECES, INDEX));
-        client2.once('game:started', payload => {
-=======
         client1.emit(
             'game:start',
             actionClient.getGameStartPayload(ROOM_ID, PIECES, INDEX, NEXT_TETROMINO),
         );
         client2.on('game:started', payload => {
->>>>>>> [oozkaya] Reset button added
             expect(payload).to.deep.equal(null);
             done();
         });
