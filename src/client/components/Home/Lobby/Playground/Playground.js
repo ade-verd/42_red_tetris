@@ -16,6 +16,7 @@ const Playground = props => {
     const playgroundRef = useRef(null);
     const {
         listen,
+        resetGame,
         emitGetRandomTetriminos,
         updateField,
         updateGameStatus,

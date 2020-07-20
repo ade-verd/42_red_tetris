@@ -11,7 +11,7 @@ import { store } from '../../../../../../store/store';
 const AsideRight = props => {
     const { gameOver, isAdmin, user, piece, playgroundRef, startGame, resetGame } = props;
     const callback = () => {
-        startGame(store.dispatch, user.roomId, piece.pieces, piece.index, playgroundRef);
+        startGame(store.dispatch, playgroundRef);
     };
 
     const nextPiece = piece.nextTetromino ? <NextPiece nextPiece={piece.nextTetromino} /> : null;
