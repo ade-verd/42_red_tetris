@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const StyledPlayground = styled.div`
-    flex: 3;
+    flex: 3 0 auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

@@ -18,6 +18,10 @@
     margin-top: 0.25em;
 }
 
+.icon {
+    font-size: 8vmax;
+}
+
 .grey {
     color: #555559 !important;
 }

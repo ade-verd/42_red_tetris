@@ -36,7 +36,10 @@ const CreatePlayer = ({}) => {
     return (
         <div className={css.container}>
             <div className={css.item}>
-                <FontAwesomeIcon className={css.grey} icon={['fas', 'user-plus']} size="8x" />
+                <FontAwesomeIcon
+                    className={[css.icon, css.grey].join(' ')}
+                    icon={['fas', 'user-plus']}
+                />
             </div>
             <div className={css.item}>
                 {/* <div>Create player:</div> */}
