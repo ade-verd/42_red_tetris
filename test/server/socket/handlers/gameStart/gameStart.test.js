@@ -72,12 +72,22 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
             },
         ];
         const INDEX = 0;
+        const NEXT_TETROMINO = [
+            [0, 0, 0, 0],
+            ['I', 'I', 'I', 'I'],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+        ];
 
-        client1.emit('game:start', actionClient.getGameStartPayload(ROOM_ID, PIECES, INDEX));
-        client2.once('game:started', payload => {
+        client1.emit(
+            'game:start',
+            actionClient.getGameStartPayload(ROOM_ID, PIECES, INDEX, NEXT_TETROMINO),
+        );
+        client2.on('game:started', payload => {
             expect(payload).to.deep.equal({
                 pieces: PIECES,
                 index: INDEX,
+                nextTetromino: NEXT_TETROMINO,
             });
             done();
         });
@@ -87,9 +97,18 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
         const ROOM_ID = '000000000000000000000001';
         const PIECES = null;
         const INDEX = 0;
+        const NEXT_TETROMINO = null;
 
+<<<<<<< HEAD
         client1.emit('game:start', actionClient.getGameStartPayload(ROOM_ID, PIECES, INDEX));
         client2.once('game:started', payload => {
+=======
+        client1.emit(
+            'game:start',
+            actionClient.getGameStartPayload(ROOM_ID, PIECES, INDEX, NEXT_TETROMINO),
+        );
+        client2.on('game:started', payload => {
+>>>>>>> [oozkaya] Reset button added
             expect(payload).to.deep.equal(null);
             done();
         });

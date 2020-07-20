@@ -108,7 +108,7 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
 
 const reducer = (state = {}, action) => {
     switch (action.type) {
-        case 'FIRST_RENDER':
+        case 'RESET':
             return createField();
         case 'UPDATE':
             return updateField(
@@ -118,8 +118,6 @@ const reducer = (state = {}, action) => {
                 action.allStates.usr,
                 action.malus,
             );
-        case 'RESET':
-            return createField();
         default:
             return state;
     }

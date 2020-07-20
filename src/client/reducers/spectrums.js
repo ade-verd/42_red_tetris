@@ -26,6 +26,9 @@ const setSpectrum = (state, playerId, playerName, spectrum, error) => {
 
 const reducer = (state = {}, action) => {
     switch (action.type) {
+        case 'RESET':
+            console.log('SPESPE', state);
+            return {};
         case 'SET_SPECTRUM':
             return setSpectrum(
                 state,

@@ -4,9 +4,10 @@ import Playground from '../components/Playground/Playground';
 
 import { emitGetRandomTetriminos, onGetRandomTetriminos } from '../actions/game/getTetriminos';
 import { emitGameActionStart, onGameAction } from '../actions/game/gameAction';
-import { firstRender } from '../actions/game/firstRender';
+import { resetGame } from '../actions/game/gameReset';
 import { updateField } from '../actions/game/field';
 import { startGame, onGameStart } from '../actions/game/gameStart';
+import { onGameReset } from '../actions/game/gameReset'
 import { updateGameStatus } from '../actions/game/gameStatus';
 import { move, reactivateDropTime, drop } from '../actions/game/piece';
 import { onSpectrum } from '../actions/game/spectrum';
@@ -28,17 +29,18 @@ const mapDispatchToProps = dispatch => {
     return {
         listen: elementToFocus => {
             onGameStart(dispatch, elementToFocus);
+            onGameReset(dispatch);
             onGameAction(dispatch);
             onGetRandomTetriminos(dispatch);
             onSpectrum(dispatch);
             onMalus(dispatch);
         },
-        onStart: roomId => {
-            emitGameActionStart(dispatch, roomId);
+        onStart: () => {
+            emitGameActionStart(dispatch);
         },
         emitGetRandomTetriminos,
         startGame,
-        firstRender,
+        resetGame,
         updateField,
         updateGameStatus,
         move,
