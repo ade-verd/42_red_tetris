@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
-import CreatePlayer from '../CreatePlayer/CreatePlayer';
-import Footer from '../Footer/Footer';
-import Lobby from '../Lobby/Lobby';
-import Header from '../Header/Header';
+import CreatePlayer from './CreatePlayer/CreatePlayer';
+import Footer from './Footer/Footer';
+import Lobby from './Lobby/Lobby';
+import Header from './Header/Header';
 
 import css from './Home.module.css';
 

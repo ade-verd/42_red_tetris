@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import Playground from '../components/Playground/Playground';
+import Playground from '../components/Home/Lobby/Playground/Playground';
 
 import { emitGetRandomTetriminos, onGetRandomTetriminos } from '../actions/game/getTetriminos';
 import { emitGameActionStart, onGameAction } from '../actions/game/gameAction';

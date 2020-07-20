@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import Rooms from '../components/Rooms/Rooms';
+import Rooms from '../components/Home/Lobby/Rooms/Rooms';
 
 import { emitCreateRoom, onRoomCreated } from '../actions/rooms/createRoom';
 import { emitJoinRoom, onRoomJoined } from '../actions/rooms/joinRoom';
