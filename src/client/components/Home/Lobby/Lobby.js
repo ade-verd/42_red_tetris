@@ -16,7 +16,7 @@ const displayRoomsOrGame = userState => {
 const Lobby = ({ states }) => {
     useEffect(() => {
         console.log('[Lobby] Rendering');
-    });
+    }, [states.user.roomId]);
 
     return (
         <div className={css.container}>

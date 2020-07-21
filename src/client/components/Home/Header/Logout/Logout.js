@@ -60,4 +60,4 @@ const Logout = ({ user }) => {
     );
 };
 
-export default Logout;
+export default React.memo(Logout);

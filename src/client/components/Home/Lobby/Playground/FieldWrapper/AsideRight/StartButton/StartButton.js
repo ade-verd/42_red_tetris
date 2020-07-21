@@ -17,7 +17,7 @@ const StartButton = ({ startGame, resetGame }) => {
         setLabel('Start');
     };
 
-    const onClick = label === 'Start' ? start : reset;
+    const onClick = () => (label === 'Start' ? start() : reset());
 
     return <StyledStartButton onClick={onClick}>{label}</StyledStartButton>;
 };

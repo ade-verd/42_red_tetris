@@ -44,6 +44,11 @@ const Playground = props => {
     );
 
     useEffect(() => {
+        listen(playgroundRef);
+        resetGame(store.dispatch);
+    }, []);
+
+    useEffect(() => {
         const currentRoom = getRoom(rooms.rooms, user.roomId);
         if (currentRoom) setIsAdmin(currentRoom.players_ids[0] === user.id);
     }, [rooms.rooms]);
@@ -51,11 +56,6 @@ const Playground = props => {
     useEffect(() => {
         if (isAdmin) emitGetRandomTetriminos(store.dispatch, user.roomId, 1, 20);
     }, [isAdmin]);
-
-    useEffect(() => {
-        listen(playgroundRef);
-        resetGame(store.dispatch);
-    }, []);
 
     useEffect(() => {
         updateGameStatus(store.dispatch);
@@ -82,4 +82,4 @@ const Playground = props => {
     );
 };
 
-export default Playground;
+export default React.memo(Playground);

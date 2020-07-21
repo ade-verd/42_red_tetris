@@ -61,4 +61,4 @@ const ConnectedPlayers = ({ isLobby, states }) => {
     return <div className={css.container}>{isLobby ? lobbyUsers : roomPlayers}</div>;
 };
 
-export default ConnectedPlayers;
+export default React.memo(ConnectedPlayers);

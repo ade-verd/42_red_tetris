@@ -35,6 +35,8 @@ export const onGameReset = dispatch => {
 
 export const resetGame = (dispatch, isAdmin = false) => {
     dispatch({ action: ACTIONS.REDUCE, type: 'RESET', isAdmin });
-    emitGameReset(dispatch);
-    emitGameAction(dispatch, GAME_ACTIONS.STOP);
+    if (isAdmin) {
+        emitGameReset(dispatch);
+        emitGameAction(dispatch, GAME_ACTIONS.STOP);
+    }
 };

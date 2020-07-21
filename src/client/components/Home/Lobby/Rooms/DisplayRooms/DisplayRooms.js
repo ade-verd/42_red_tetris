@@ -119,4 +119,4 @@ const ActiveRooms = props => {
     return <div className={css['main-container']}>{table.map(row => row)}</div>;
 };
 
-export default ActiveRooms;
+export default React.memo(ActiveRooms);

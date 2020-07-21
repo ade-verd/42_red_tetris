@@ -82,4 +82,4 @@ const MessageList = ({ isLobby, states }) => {
     );
 };
 
-export default MessageList;
+export default React.memo(MessageList);

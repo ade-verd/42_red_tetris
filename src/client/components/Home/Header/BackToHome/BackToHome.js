@@ -28,4 +28,4 @@ function BackToHome({ store, user }) {
     );
 }
 
-export default BackToHome;
+export default React.memo(BackToHome);
