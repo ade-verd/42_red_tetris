@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { StyledStartButton } from './StartButton.style';
 
-import { emitGameReset } from '../../../../../../../actions/game/gameReset';
-
 import { store } from '../../../../../../../store/store';
 
 const StartButton = ({ startGame, resetGame }) => {
@@ -16,7 +14,6 @@ const StartButton = ({ startGame, resetGame }) => {
 
     const reset = () => {
         resetGame(store.dispatch, true);
-        emitGameReset(store.dispatch);
         setLabel('Start');
     };
 

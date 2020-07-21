@@ -1,6 +1,9 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
 
 import { store } from '../../store/store';
+import { emitGameAction } from '../game/gameAction';
+
+import { GAME_ACTIONS } from '../../../constants';
 
 const getGameResetPayload = roomId => {
     return {
@@ -32,4 +35,6 @@ export const onGameReset = dispatch => {
 
 export const resetGame = (dispatch, isAdmin = false) => {
     dispatch({ action: ACTIONS.REDUCE, type: 'RESET', isAdmin });
+    emitGameReset(dispatch);
+    emitGameAction(dispatch, GAME_ACTIONS.STOP);
 };
