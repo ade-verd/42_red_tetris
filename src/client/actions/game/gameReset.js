@@ -3,6 +3,9 @@ import { ACTIONS } from '../../middlewares/handleSocket';
 import { emitGameOver } from './status'
 
 import { store } from '../../store/store';
+import { emitGameAction } from '../game/gameAction';
+
+import { GAME_ACTIONS } from '../../../constants';
 
 const getGameResetPayload = roomId => {
     return {
@@ -34,6 +37,11 @@ export const onGameReset = dispatch => {
 
 export const resetGame = (dispatch, isAdmin = false) => {
     dispatch({ action: ACTIONS.REDUCE, type: 'RESET', isAdmin });
-    // We also need to reset game_over from every player in the database
-    if (isAdmin) emitGameOver(dispatch, true);
+
+    if (isAdmin) {
+        emitGameReset(dispatch);
+        emitGameAction(dispatch, GAME_ACTIONS.STOP);
+        // We emit 'true' to force reset game_over fields in database
+        emitGameOver(dispatch, true);
+    }
 };

@@ -8,7 +8,7 @@ export const gameActionPayload = (roomId, action) => ({
     action,
 });
 
-export const emitGameActionStart = dispatch => {
+export const emitGameAction = (dispatch, action) => {
     const {
         usr: { roomId },
     } = store.getState();
@@ -16,7 +16,7 @@ export const emitGameActionStart = dispatch => {
     dispatch({
         action: ACTIONS.EMIT,
         event: 'games:action:run',
-        data: gameActionPayload(roomId, GAME_ACTIONS.START),
+        data: gameActionPayload(roomId, action),
     });
 };
 
