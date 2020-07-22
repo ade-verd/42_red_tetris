@@ -12,6 +12,7 @@ const FieldWrapper = ({ field, gameStatus, isAdmin, piece, user, playgroundRef, 
             <AsideLeft gameStatus={gameStatus} />
             <Field field={field} />
             <AsideRight
+                gameWon={gameStatus.gameWon}
                 gameOver={gameStatus.gameOver}
                 isAdmin={isAdmin}
                 user={user}

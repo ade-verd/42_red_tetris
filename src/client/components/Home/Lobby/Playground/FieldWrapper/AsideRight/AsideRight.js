@@ -11,6 +11,7 @@ import { store } from '../../../../../../store/store';
 const AsideRight = props => {
     const { gameWon, gameOver, isAdmin, piece, playgroundRef, startGame, resetGame } = props;
     const status = gameWon ? 'GAME WON' : 'GAME OVER';
+    console.log('OHLO',status);
     const _startGame = () => {
         startGame(store.dispatch, playgroundRef);
     };
