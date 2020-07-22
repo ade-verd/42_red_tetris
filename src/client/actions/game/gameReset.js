@@ -1,6 +1,6 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
 
-import { emitGameOver } from './status'
+import { emitGameOver } from './status';
 
 import { store } from '../../store/store';
 import { emitGameAction } from '../game/gameAction';

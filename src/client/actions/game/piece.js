@@ -10,8 +10,8 @@ export const setGameOver = dispatch => {
 };
 
 export const reactivateDropTime = (dispatch, { keyCode }, gameStatus) => {
-    const { level, gameWon, gameOver } = gameStatus;
-    if (!gameWon || !gameOver) {
+    const { level, gameWon, gameOver, playing } = gameStatus;
+    if ((!gameWon || !gameOver) && playing) {
         // Activate the interval again when user releases down arrow or spacebar
         if (keyCode === 40 || keyCode === 32) {
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: 1000 / level });
@@ -92,10 +92,11 @@ const hardDrop = (dispatch, piece) => {
 };
 
 export const move = (dispatch, event, field, piece, gameStatus) => {
+    const { gameWon, gameOver, playing } = gameStatus;
     event.preventDefault();
     const { keyCode } = event;
 
-    if (!gameStatus.gameWon || !gameStatus.gameOver) {
+    if ((!gameWon || !gameOver) && playing) {
         // left arrow
         if (keyCode === 37) movePiece(dispatch, piece, field, -1);
         // right arrow

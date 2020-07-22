@@ -29,6 +29,7 @@ const reducer = (state = {}, action) => {
                 level: 1,
                 gameOver: false,
                 gameWon: false,
+                playing: false,
             };
         case 'UPDATE_ROWS_SCORE':
             return updateRowsScore(state, action.asyncDispatch, action.allStates.usr.roomId);
@@ -57,6 +58,11 @@ const reducer = (state = {}, action) => {
             return {
                 ...state,
                 gameWon: true,
+            };
+        case 'PLAYING':
+            return {
+                ...state,
+                playing: true,
             };
         default:
             return state;

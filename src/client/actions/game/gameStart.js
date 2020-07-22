@@ -32,6 +32,7 @@ export const onGameStart = (dispatch, elementToFocus) => {
         action: ACTIONS.LISTEN,
         event: 'game:started',
         fn: payload => {
+            dispatch({ action: ACTIONS.REDUCE, type: 'PLAYING' });
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_PIECES', pieces: payload.pieces });
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_INDEX', index: payload.index - 1 });
             dispatch({
@@ -47,6 +48,7 @@ export const onGameStart = (dispatch, elementToFocus) => {
 };
 
 export const startGame = (dispatch, elementToFocus) => {
+    dispatch({ action: ACTIONS.REDUCE, type: 'PLAYING' });
     dispatch({ action: ACTIONS.REDUCE, type: 'GET_TETROMINO' });
     dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: 1000 });
     emitGameStart(dispatch);
