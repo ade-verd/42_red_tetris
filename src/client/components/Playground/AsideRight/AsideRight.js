@@ -7,8 +7,9 @@ import StartButton from './StartButton/StartButton';
 import NextPiece from './NextPiece/NextPiece';
 
 const AsideRight = props => {
-    const { gameOver, isAdmin, dispatch, piece, playgroundRef, startGame, resetGame } = props;
-    const callback = () => {
+    const { gameWon, gameOver, isAdmin, dispatch, piece, playgroundRef, startGame, resetGame } = props;
+    const status = gameWon ? 'GAME WON' : 'GAME OVER';
+    const _startGame = () => {
         startGame(dispatch, playgroundRef);
     };
 
@@ -18,8 +19,8 @@ const AsideRight = props => {
         <StyledAsideRight>
             <Display title="NEXT" content={nextPiece} />
             <StyledBottom>
-                {gameOver ? <Display content="GAME OVER" /> : null}
-                {isAdmin ? <StartButton startGame={callback} resetGame={resetGame} /> : null}
+                {gameWon || gameOver ? <Display content={status} /> : null}
+                {isAdmin ? <StartButton startGame={_startGame} resetGame={resetGame} /> : null}
             </StyledBottom>
         </StyledAsideRight>
     );

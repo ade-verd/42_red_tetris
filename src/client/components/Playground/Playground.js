@@ -81,6 +81,7 @@ const Playground = props => {
             <AsideLeft gameStatus={gameStatus} spectrums={spectrums} user={user} rooms={rooms} />
             <Field field={field} />
             <AsideRight
+                gameWon={gameStatus.gameWon}
                 gameOver={gameStatus.gameOver}
                 isAdmin={isAdmin}
                 dispatch={store.dispatch}

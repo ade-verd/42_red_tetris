@@ -1,5 +1,6 @@
 import { ACTIONS } from '../middlewares/handleSocket';
 import { emitMalus } from '../actions/game/malus';
+import { emitGameOver } from '../actions/game/status';
 import { setRowsCleared } from '../reducers/field';
 
 const updateRowsScore = (state, asyncDispatch, roomId) => {
@@ -27,6 +28,7 @@ const reducer = (state = {}, action) => {
                 rowsCleared: 0,
                 level: 1,
                 gameOver: false,
+                gameWon: false,
             };
         case 'UPDATE_ROWS_SCORE':
             return updateRowsScore(state, action.asyncDispatch, action.allStates.usr.roomId);
@@ -46,9 +48,15 @@ const reducer = (state = {}, action) => {
                 rowsCleared: state.rowsCleared + 1,
             };
         case 'GAMEOVER':
+            emitGameOver(action.asyncDispatch);
             return {
                 ...state,
                 gameOver: true,
+            };
+        case 'GAMEWON':
+            return {
+                ...state,
+                gameWon: true,
             };
         default:
             return state;

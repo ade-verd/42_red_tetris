@@ -9,6 +9,7 @@ const piecesHandlers = require('./handlers/pieces');
 const spectrumsHandlers = require('./handlers/spectrums');
 const gameStartHandlers = require('./handlers/gameStart');
 const gameResetHandlers = require('./handlers/gameReset');
+const statusHandlers = require('./handlers/status');
 const malusHandlers = require('./handlers/malus');
 const playersHandlers = require('./handlers/players');
 const roomsHandlers = require('./handlers/rooms');
@@ -26,6 +27,7 @@ const handlers = Object.values({
     ...spectrumsHandlers,
     ...gameStartHandlers,
     ...gameResetHandlers,
+    ...statusHandlers,
     ...malusHandlers,
     ...playersHandlers,
     ...roomsHandlers,

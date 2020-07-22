@@ -19,9 +19,13 @@ export const StyledDisplay = styled.div`
 
     width: min-content;
     font-size: 3vmin;
-    ${props => (props.title === 'NEXT' || props.gameOver ? 'margin: auto' : 'margin-left: auto')};
+    ${props => (props.title === 'NEXT' || props.gameWon || props.gameOver ? 'margin: auto' : 'margin-left: auto')};
     padding: ${props => (props.title === 'NEXT' ? '20% 5% 0 0' : '10px')};
-    ${props => (props.gameOver ? 'padding-bottom: 20px' : '')};
+    ${props => (props.gameWon || props.gameOver ? 'padding-bottom: 20px' : '')};
 
-    color: ${props => (props.gameOver ? '#009df3' : 'white')};
+    color: ${props => {
+        if (props.gameWon) return '#8bc34a';
+        if (props.gameOver) return '#e6443a';
+        return 'white';
+    }};
 `;

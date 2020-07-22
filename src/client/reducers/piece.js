@@ -76,8 +76,8 @@ const setTetromino = (state, asyncDispatch, tetromino, pos) => {
     };
 };
 
-const getTetromino = (state, asyncDispatch, roomId, gameOver) => {
-    if (gameOver) return state;
+const getTetromino = (state, asyncDispatch, roomId, { gameWon, gameOver }) => {
+    if (gameWon || gameOver) return state;
 
     asyncDispatch({ action: ACTIONS.REDUCE, type: 'UPDATE_PROJECTION' });
     // If we almost reached the end of pieces array (2 pieces left), we emit to ask new pieces
@@ -146,7 +146,7 @@ const reducer = (state = {}, action) => {
                 state,
                 action.asyncDispatch,
                 action.allStates.usr.roomId,
-                action.allStates.gme.gameOver,
+                action.allStates.gme,
             );
         case 'SET_NEXT_TETROMINO':
             return setNextTetromino(state, action.nextTetromino);
