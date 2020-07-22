@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const StyledContainer = styled.div`
-    /* flex: 1; */
+    flex: 1;
 `;
 
 export const StyledTitle = styled.div`
@@ -12,7 +12,7 @@ export const StyledTitle = styled.div`
     margin-top: 10px;
     margin-${props => (props.title === 'NEXT' ? 'right' : 'left')}: auto;
     border-radius: ${props => (props.title === 'NEXT' ? '0 15px 15px 0' : '15px 0 0 15px')};
-    padding: 0 ${props => (props.title === 'NEXT' ? '20%' : '15px')};
+    padding: 0 ${props => (props.title === 'NEXT' ? '20% 0 20%' : '15px')};
 
     background-color: white;
     color: black;
