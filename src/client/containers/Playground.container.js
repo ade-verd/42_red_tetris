@@ -21,9 +21,10 @@ const mapStateToProps = state => {
         field: state.fld.field,
         gameStatus: state.gme,
         piece: state.pce,
+        players: state.play.players,
+        rooms: state.rms,
         spectrums: state.spe,
         user: state.usr,
-        rooms: state.rms,
     };
 };
 

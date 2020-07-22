@@ -5,19 +5,25 @@ import { StyledSpectrums } from './Spectrums.style';
 
 import { getRoom } from '../../../../../helpers/getRoom';
 
-const Spectrums = ({ spectrums, user, rooms }) => {
+const Spectrums = ({ players, rooms, spectrums, user }) => {
     const currentRoom = getRoom(rooms.rooms, user.roomId);
     if (!currentRoom) return null;
 
     const isSinglePlayer = currentRoom.players_ids.length <= 1;
-    const isSpectrumsDataEmpty = Object.keys(spectrums).length === 0;
-    if (isSinglePlayer || isSpectrumsDataEmpty) return null;
+    if (isSinglePlayer) return null;
 
     return (
         <StyledSpectrums>
-            {currentRoom.players_ids.map(id => (
-                <Spectrum key={id} spectrums={spectrums} playerId={id} />
-            ))}
+            {currentRoom.players_ids.map(playerId =>
+                playerId !== user.id ? (
+                    <Spectrum
+                        key={playerId}
+                        players={players}
+                        playerId={playerId}
+                        spectrums={spectrums}
+                    />
+                ) : null,
+            )}
         </StyledSpectrums>
     );
 };

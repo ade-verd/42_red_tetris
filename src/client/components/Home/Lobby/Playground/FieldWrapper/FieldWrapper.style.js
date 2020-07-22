@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const StyledFieldWrapper = styled.div`
-    flex: 1 0;
+    flex: 2 0;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;

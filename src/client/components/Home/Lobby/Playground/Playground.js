@@ -11,7 +11,7 @@ import { useInterval } from '../../../../helpers/useInterval';
 import { store } from '../../../../store/store';
 
 const Playground = props => {
-    const { field, gameStatus, piece, spectrums, user, rooms, ...dispatchs } = props;
+    const { field, gameStatus, piece, players, rooms, spectrums, user, ...dispatchs } = props;
     const [isAdmin, setIsAdmin] = useState(false);
     const playgroundRef = useRef(null);
     const {
@@ -76,7 +76,7 @@ const Playground = props => {
             onKeyDown={event => move(store.dispatch, event, field, piece, gameStatus)}
             onKeyUp={event => reactivateDropTime(store.dispatch, event, gameStatus)}
         >
-            <Spectrums spectrums={spectrums} user={user} rooms={rooms} />
+            <Spectrums players={players} rooms={rooms} spectrums={spectrums} user={user} />
             <FieldWrapper {...props} isAdmin={isAdmin} playgroundRef={playgroundRef} />
         </StyledPlayground>
     );

@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+export const StyledContainer = styled.div`
+    /* flex: 1; */
+`;
+
 export const StyledTitle = styled.div`
     display: flex;
 
@@ -19,7 +23,10 @@ export const StyledDisplay = styled.div`
 
     width: min-content;
     font-size: 2vmin;
-    ${props => (props.title === 'NEXT' || props.gameWon || props.gameOver ? 'margin: auto' : 'margin-left: auto')};
+    ${props =>
+        props.title === 'NEXT' || props.gameWon || props.gameOver
+            ? 'margin: auto'
+            : 'margin-left: auto'};
     padding: ${props => (props.title === 'NEXT' ? '20% 5% 0 0' : '10px')};
     ${props => (props.gameWon || props.gameOver ? 'padding-bottom: 20px' : '')};
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StyledTitle, StyledDisplay } from './Display.style';
+import { StyledContainer, StyledTitle, StyledDisplay } from './Display.style';
 
 const Display = ({ title, content }) => {
     const gameWon = content === 'GAME WON';
