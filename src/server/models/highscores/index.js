@@ -1,6 +1,7 @@
 'use strict';
 
 const Joi = require('@hapi/joi');
+const { ObjectId } = require('mongodb');
 
 const { COLLECTION, INDEXES } = require('./definition');
 const { getDb } = require('../../lib/mongodb');
@@ -12,6 +13,7 @@ function _validate(room) {
         player_name: Joi.string().required(),
         score: Joi.number().required(),
         created_at: Joi.date().default(dateLib.newDate()),
+        updated_at: Joi.date().default(dateLib.newDate()),
     }).required();
 
     return Joi.attempt(room, schema);
@@ -69,9 +71,27 @@ async function insertOne(highscoreObject) {
     return res.ops[0];
 }
 
+/**
+ * Update a score or insert if it doesn't exist ({ upsert: true })
+ *
+ * @param {ObjectId} playerId     - identifier of the updated player
+ * @param {Object} updatedFields - fields that are updated
+ *
+ * @returns {Object/null} result of update if succeeded, null otherwise
+ */
+async function updateOne(playerId, updatedFields) {
+    const result = await collection().updateOne(
+        { _id: ObjectId.createFromHexString(playerId) },
+        { $set: { ...updatedFields, updated_at: dateLib.newDate() } },
+        { upsert: true },
+    );
+    return result;
+}
+
 module.exports = {
     collection,
     createIndexes,
     findHighScores,
     insertOne,
+    updateOne,
 };

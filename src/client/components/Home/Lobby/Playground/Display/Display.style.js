@@ -2,10 +2,6 @@ import styled from 'styled-components';
 
 import { cellSize } from '../FieldWrapper/AsideRight/NextPiece/Cell/Cell.style';
 
-export const StyledContainer = styled.div`
-    flex: 1;
-`;
-
 const widthNext = 5 * cellSize + 'vmin'; /* Horizontal I tetrimino = 4 * cellSize vmin */
 
 export const StyledTitle = styled.div`

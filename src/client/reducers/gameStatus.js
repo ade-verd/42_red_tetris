@@ -1,6 +1,6 @@
-import { ACTIONS } from '../middlewares/handleSocket';
 import { emitMalus } from '../actions/game/malus';
 import { emitGameOver } from '../actions/game/status';
+import { emitScore } from '../actions/highscores/highscores';
 import { setRowsCleared } from '../reducers/field';
 
 const updateRowsScore = (state, asyncDispatch, roomId) => {
@@ -50,6 +50,7 @@ const reducer = (state = {}, action) => {
             };
         case 'GAMEOVER':
             emitGameOver(action.asyncDispatch);
+            emitScore(action.asyncDispatch);
             return {
                 ...state,
                 gameOver: true,
