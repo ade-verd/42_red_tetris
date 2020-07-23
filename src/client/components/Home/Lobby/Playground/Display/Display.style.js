@@ -11,6 +11,8 @@ const widthNext = 5 * cellSize + 'vmin'; /* Horizontal I tetrimino = 4 * cellSiz
 export const StyledTitle = styled.div`
     display: flex;
 
+    justify-content: center;
+
     width: ${props => (props.title === 'NEXT' ? widthNext : 'min-content')};
     font-size: 2vmin;
     margin-top: 10px;
