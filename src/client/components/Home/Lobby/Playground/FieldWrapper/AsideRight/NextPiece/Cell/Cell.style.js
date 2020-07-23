@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const margin = 0.5;
 const tetriminoBorder = 4;
-const cellSize = 4; // manually chosen
+export const cellSize = 4; // manually chosen
 
 export const StyledCell = styled.div`
     flex: 1 1 auto;

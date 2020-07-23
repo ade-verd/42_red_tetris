@@ -5,6 +5,8 @@ export const StyledAsideRight = styled.div`
     display: flex;
     flex-direction: column;
 
+    align-items: flex-start;
+    align-content: center;
     justify-content: space-between;
     padding-top: 3%;
 `;

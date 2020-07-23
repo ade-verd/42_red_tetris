@@ -4,7 +4,6 @@ export const StyledNextPiece = styled.div`
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    margin: auto;
 `;
 
 export const Row = styled.div`
