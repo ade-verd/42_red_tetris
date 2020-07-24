@@ -16,7 +16,7 @@ const ON_EVENT = 'score:send';
 const EMIT_EVENT = 'score:sent'
 const FUNCTION_NAME = '[updateOrInsertScore]'
 
-const updateOrInsertScore = async (socket, payload) => {
+const insertScore = async (socket, payload) => {
     const [playerId, playerName, score] = [
         payload.player_id,
         payload.player_name,
@@ -24,7 +24,7 @@ const updateOrInsertScore = async (socket, payload) => {
     ];
 
     try {
-        await highscoresLib.updateOne(playerId, { player_name: playerName, score });
+        await highscoresLib.insertOne({ player_id: playerId, player_name: playerName, score });
     } catch (err) {
         socket.emit(EMIT_EVENT, { payload, error: err.toString() });
         console.error(FUNCTION_NAME, { payload, err });
@@ -36,6 +36,6 @@ export const updateHighscores = helpers.createEvent(
     EMIT_EVENT,
     schema,
     async (socket, payload) => {
-        await updateOrInsertScore(socket, payload);
+        await insertScore(socket, payload);
     },
 );
