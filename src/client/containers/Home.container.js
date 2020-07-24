@@ -9,6 +9,7 @@ import {
     checkUserCookie,
 } from '../actions/players/createPlayer';
 import { onGotPlayers } from '../actions/players/getPlayers';
+import { onRoomCreated } from '../actions/rooms/createRoom';
 import { socketIoConnect, onSocketConnect } from '../actions/common/connect';
 
 const mapStateToProps = state => {
@@ -25,6 +26,7 @@ const mapDispatchToProps = dispatch => {
             onGotPlayers(dispatch);
             onChatMessageReceived(dispatch);
             onPlayerCreated(store);
+            onRoomCreated(dispatch);
             onSocketConnect(dispatch);
         },
     };
