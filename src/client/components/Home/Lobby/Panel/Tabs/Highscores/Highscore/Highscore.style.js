@@ -2,6 +2,13 @@ import styled from 'styled-components';
 import { UserStar } from '@styled-icons/remix-fill/UserStar';
 import { User } from '@styled-icons/remix-fill/User';
 
+export const StyledEmpty = styled.div`
+    flex: 1;
+    display: flex;
+    align-self: center;
+    align-items: center;
+`;
+
 export const StyledHighscore = styled.div`
     display: flex;
     flex-direction: row;

@@ -1,8 +1,15 @@
 import React from 'react';
 
-import { StyledHighscore, StyledName, FirstPlayerIcon, PlayerIcon } from './Highscore.style'
+import {
+    StyledEmpty,
+    StyledHighscore,
+    StyledName,
+    FirstPlayerIcon,
+    PlayerIcon,
+} from './Highscore.style';
 
-const Highscore = ({ highscore, index }) => {
+const Highscore = ({ highscore, index, none }) => {
+    if (!highscore) return <StyledEmpty>No Highscores</StyledEmpty>;
     return (
         <StyledHighscore>
             {index === 0 ? <FirstPlayerIcon /> : <PlayerIcon />}

@@ -21,11 +21,13 @@ const Highscores = () => {
 
     return (
         <StyledHighscores>
-            {highscores
-                ? highscores.map((highscore, i) => (
-                      <Highscore key={`highscore_${i}`} highscore={highscore} index={i} />
-                  ))
-                : null}
+            {highscores && highscores.length ? (
+                highscores.map((highscore, i) => (
+                    <Highscore key={`highscore_${i}`} highscore={highscore} index={i} />
+                ))
+            ) : (
+                <Highscore />
+            )}
         </StyledHighscores>
     );
 };
