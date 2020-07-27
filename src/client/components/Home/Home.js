@@ -26,7 +26,6 @@ export const Home = ({ store, history, players, chat, user, rooms, ...dispatchs 
     useEffect(() => {
         dispatchs.listen(store);
         dispatchs.socketIoConnect(store.dispatch);
-        dispatchs.checkUserCookie(store);
     }, []);
 
     useEffect(() => {

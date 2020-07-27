@@ -3,11 +3,7 @@ import { connect } from 'react-redux';
 import Home from '../components/Home/Home';
 
 import { onChatMessageReceived } from '../actions/chat/chat';
-import {
-    emitCreatePlayer,
-    onPlayerCreated,
-    checkUserCookie,
-} from '../actions/players/createPlayer';
+import { emitCreatePlayer, onPlayerCreated } from '../actions/players/createPlayer';
 import { onGotPlayers } from '../actions/players/getPlayers';
 import { onRoomCreated } from '../actions/rooms/createRoom';
 import { socketIoConnect, onSocketConnect } from '../actions/common/connect';
@@ -19,7 +15,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        checkUserCookie,
         emitCreatePlayer,
         socketIoConnect,
         listen: store => {
