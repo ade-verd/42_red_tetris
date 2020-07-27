@@ -1,7 +1,5 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
 
-import { store } from '../../store/store';
-
 const handleError = (error, errorFieldName) => {
     if (error.startsWith('ValidationError')) {
         notify({ type: 'warning', msg: 'Game status payload one field is missing' });
@@ -18,7 +16,7 @@ export const getStatusPayload = (id, roomId) => {
     };
 };
 
-export const emitGameOver = dispatch => {
+export const emitGameOver = (store, dispatch) => {
     const {
         usr: { id, roomId },
     } = store.getState();
@@ -30,11 +28,11 @@ export const emitGameOver = dispatch => {
     });
 };
 
-export const onGameWon = dispatch => {
+export const onGameWon = (dispatch) => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'status:gameWon',
-        fn: payload => {
+        fn: (payload) => {
             if (payload && payload.error) return handleError(payload.error, 'creationError');
             console.debug('GAME WON !');
             dispatch({ action: ACTIONS.REDUCE, type: 'GAMEWON' });

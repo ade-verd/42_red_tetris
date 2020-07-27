@@ -1,8 +1,5 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
 
-import { emitGameOver } from './status';
-
-import { store } from '../../store/store';
 import { emitGameAction } from '../game/gameAction';
 
 import { GAME_ACTIONS } from '../../../constants';
@@ -16,40 +13,40 @@ const handleError = (error, errorFieldName) => {
     console.error(`[gameReset action][${errorFieldName}]`, error);
 };
 
-export const getGameResetPayload = roomId => {
+export const getGameResetPayload = (roomId) => {
     return {
         room_id: roomId,
     };
 };
 
-export const emitGameReset = dispatch => {
+export const emitGameReset = (store) => {
     const {
         usr: { roomId },
     } = store.getState();
 
-    dispatch({
+    store.dispatch({
         action: ACTIONS.EMIT,
         event: 'game:reset',
         data: getGameResetPayload(roomId),
     });
 };
 
-export const onGameReset = dispatch => {
+export const onGameReset = (dispatch) => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'game:reseted',
-        fn: payload => {
+        fn: (payload) => {
             if (payload && payload.error) return handleError(payload.error, 'creationError');
             dispatch({ action: ACTIONS.REDUCE, type: 'RESET' });
         },
     });
 };
 
-export const resetGame = (dispatch, isAdmin = false) => {
-    dispatch({ action: ACTIONS.REDUCE, type: 'RESET', isAdmin });
+export const resetGame = (store, isAdmin = false) => {
+    store.dispatch({ action: ACTIONS.REDUCE, type: 'RESET', isAdmin });
 
     if (isAdmin) {
-        emitGameReset(dispatch);
-        emitGameAction(dispatch, GAME_ACTIONS.STOP);
+        emitGameReset(store);
+        emitGameAction(store.dispatch, GAME_ACTIONS.STOP);
     }
 };

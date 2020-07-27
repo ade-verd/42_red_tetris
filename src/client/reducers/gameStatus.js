@@ -49,8 +49,8 @@ const reducer = (state = {}, action) => {
                 rowsCleared: state.rowsCleared + 1,
             };
         case 'GAMEOVER':
-            emitGameOver(action.asyncDispatch);
-            emitScore(action.asyncDispatch);
+            emitGameOver(action.store, action.asyncDispatch);
+            emitScore(action.store, action.asyncDispatch);
             return {
                 ...state,
                 gameOver: true,

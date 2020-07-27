@@ -1,6 +1,6 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
 
-import { store } from '../../store/store';
+// import { store } from '../../store/store';
 
 const handleError = (error, errorFieldName) => {
     if (error.startsWith('ValidationError')) {
@@ -26,7 +26,9 @@ export const emitMalus = (dispatch, roomId, malus) => {
     });
 };
 
-export const onMalus = dispatch => {
+export const onMalus = store => {
+    const { dispatch } = store;
+
     const level = (store.gme && store.game.level) || 1;
     dispatch({
         action: ACTIONS.LISTEN,
