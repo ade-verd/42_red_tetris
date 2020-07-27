@@ -29,11 +29,13 @@ export const StyledName = styled.div`
 `;
 
 export const FirstPlayerIcon = styled(UserStar)`
+    font-size: 1.25vmin;
     color: #009df3;
     margin-right: 1em;
 `;
 
 export const PlayerIcon = styled(User)`
+    font-size: 1.25vmin;
     color: #009df3;
     margin-right: 1em;
 `;

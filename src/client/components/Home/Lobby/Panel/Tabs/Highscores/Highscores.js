@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-import { StyledHighscores, StyledLabel } from './Highscores.style'
-import Highscore from './Highscore/Highscore'
+import { StyledHighscores } from './Highscores.style';
+import Highscore from './Highscore/Highscore';
 
-import { emitGetHighscores, onHighscores } from '../../../../actions/highscores/highscores'
+import { emitGetHighscores, onHighscores } from '../../../../../../actions/highscores/highscores';
 
-import { store } from '../../../../store/store';
+import { store } from '../../../../../../store/store';
 
 const Highscores = () => {
     const [highscores, setHighscores] = useState(null);
@@ -21,8 +21,11 @@ const Highscores = () => {
 
     return (
         <StyledHighscores>
-            <StyledLabel>Highscores</StyledLabel>
-            {highscores ? highscores.map((highscore, i) => <Highscore key={highscore.name} highscore={highscore} index={i} />) : null}
+            {highscores
+                ? highscores.map((highscore, i) => (
+                      <Highscore key={`highscore_${i}`} highscore={highscore} index={i} />
+                  ))
+                : null}
         </StyledHighscores>
     );
 };

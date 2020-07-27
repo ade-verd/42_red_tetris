@@ -4,6 +4,7 @@
     flex-direction: column;
     height: 100%;
     min-height: 0;
+    overflow: hidden;
 }
 
 .tabContent {
@@ -14,10 +15,6 @@
     min-height: 0;
 }
 
-.tabs {
-    color: #fff;
-}
-
 .buttonsGroup {
     display: flex;
     flex-direction: row;
@@ -26,7 +23,7 @@
 
 .btn {
     flex: 1;
-    border-radius: 5px 5px 0 0 !important;
+    border-radius: 0 0 0 0 !important;
 }
 
 .btn.checked {
@@ -40,4 +37,16 @@ input[type='radio'] {
 
 .noCursor {
     cursor: default !important;
+}
+
+.firstBtn {
+    border-radius: 5px 0 0 0 !important;
+}
+
+.lastBtn {
+    border-radius: 0 5px 0 0 !important;
+}
+
+.btn:not(:last-child) {
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
 }
