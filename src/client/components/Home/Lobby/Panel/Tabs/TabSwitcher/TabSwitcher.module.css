@@ -1,0 +1,35 @@
+.buttonsGroup {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.btn {
+    flex: 1;
+    border-radius: 0 0 0 0 !important;
+}
+
+.btn.checked {
+    background-color: #fff !important;
+    color: #555559 !important;
+}
+
+input[type='radio'] {
+    display: none; /* Hide radio circle */
+}
+
+.noCursor {
+    cursor: default !important;
+}
+
+.firstBtn {
+    border-radius: 5px 0 0 0 !important;
+}
+
+.lastBtn {
+    border-radius: 0 5px 0 0 !important;
+}
+
+.btn:not(:last-child) {
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+}
