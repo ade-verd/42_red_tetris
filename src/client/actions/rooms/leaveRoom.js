@@ -11,6 +11,7 @@ export const dispatchEmitLeaveRoom = store => {
     store.dispatch({
         action: ACTIONS.EMIT,
         event: 'rooms:leave',
+        type: 'rooms:leave',
         data: leaveRoomPayload(roomId, playerId),
     });
 };
@@ -41,6 +42,7 @@ export const onRoomLeft = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'rooms:left',
+        type: 'rooms:left',
         fn: payload => {
             dispatchReduceRoomLeft(dispatch, payload);
         },

@@ -8,6 +8,7 @@ export const emitGetPlayers = (dispatch, playersIds) => {
     dispatch({
         action: ACTIONS.EMIT,
         event: 'players:players:get',
+        type: 'players:players:get',
         data: getPlayersPayload(playersIds),
     });
 };
@@ -25,6 +26,7 @@ export const onGotPlayers = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'players:players:got',
+        type: 'players:players:got',
         fn: payload => {
             updateStatePlayersNames(dispatch, payload);
         },

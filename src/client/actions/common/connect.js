@@ -17,6 +17,7 @@ export const onSocketConnect = dispatch => {
 
     dispatch({
         action: ACTIONS.LISTEN,
+        type: 'connect',
         event: 'connect',
         fn: () => {
             dispatchReduceSaveSocket(dispatch, socket);

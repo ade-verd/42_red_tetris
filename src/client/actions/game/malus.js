@@ -13,6 +13,7 @@ export const emitMalus = (dispatch, roomId, malus) => {
     dispatch({
         action: ACTIONS.EMIT,
         event: 'malus:send',
+        type: 'malus:send',
         data: getMalusPayload(roomId, malus),
     });
 };
@@ -22,6 +23,7 @@ export const onMalus = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'malus:sent',
+        type: 'malus:sent',
         fn: payload => {
             // Turning off then on while handling malus to avoid side effects
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });

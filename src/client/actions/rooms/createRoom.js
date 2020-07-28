@@ -9,6 +9,7 @@ export const emitCreateRoom = (dispatch, roomName, roomCreaterId) => {
     dispatch({
         action: ACTIONS.EMIT,
         event: 'rooms:create',
+        type: 'rooms:create',
         data: createRoomPayload(roomName, roomCreaterId),
     });
 };
@@ -27,6 +28,7 @@ export const onRoomCreated = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'rooms:created',
+        type: 'rooms:created',
         fn: payload => {
             dispatchReduceRoomCreated(dispatch, payload);
         },

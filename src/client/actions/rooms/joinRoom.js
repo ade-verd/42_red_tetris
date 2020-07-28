@@ -32,6 +32,7 @@ export const onRoomJoined = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'rooms:joined',
+        type: 'rooms:joined',
         fn: payload => {
             dispatchReduceRoomJoined(dispatch, payload);
         },

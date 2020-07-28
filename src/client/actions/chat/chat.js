@@ -13,6 +13,7 @@ export const createChatPayload = ({ playerId, playerName, roomId, msg, date }) =
 export const emitChatMessage = (dispatch, payload) => {
     dispatch({
         action: ACTIONS.EMIT,
+        type: 'chat:message:send',
         event: 'chat:message:send',
         data: createChatPayload(payload),
     });
@@ -30,6 +31,7 @@ export const addMessageToState = (dispatch, payload) => {
 export const onChatMessageReceived = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
+        type: 'chat:message:broadcasted',
         event: 'chat:message:broadcasted',
         fn: payload => {
             addMessageToState(dispatch, payload);

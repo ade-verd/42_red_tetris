@@ -13,6 +13,7 @@ export const emitSpectrum = (dispatch, roomId, playerId, playerName, field) => {
     dispatch({
         action: ACTIONS.EMIT,
         event: 'spectrum:update',
+        type: 'spectrum:update',
         data: getSpectrumPayload(roomId, playerId, playerName, field),
     });
 };
@@ -21,6 +22,7 @@ export const onSpectrum = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'spectrum:updated',
+        type: 'spectrum:updated',
         fn: payload => {
             dispatch({
                 action: ACTIONS.REDUCE,

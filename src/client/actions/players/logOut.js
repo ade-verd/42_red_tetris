@@ -4,6 +4,7 @@ export const emitDisconnect = dispatch =>
     dispatch({
         action: ACTIONS.EMIT,
         event: 'log:out',
+        type: 'log:out',
     });
 
 export const updateStateAtLogout = dispatch => {

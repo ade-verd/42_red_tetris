@@ -18,6 +18,7 @@ export const emitGameOver = (dispatch, reset = false) => {
     dispatch({
         action: ACTIONS.EMIT,
         event: 'status:gameOver',
+        type: 'status:gameOver',
         data: getStatusPayload(id, roomId, reset),
     });
 };
@@ -26,6 +27,7 @@ export const onGameWon = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'status:gameWon',
+        type: 'status:gameWon',
         fn: () => {
             console.debug('GAME WON !');
             dispatch({ action: ACTIONS.REDUCE, type: 'GAMEWON' });

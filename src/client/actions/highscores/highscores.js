@@ -13,12 +13,13 @@ const getScorePayload = (id, name, score) => {
 export const emitScore = dispatch => {
     const {
         usr: { id, name },
-        gme: { score }
+        gme: { score },
     } = store.getState();
 
     dispatch({
         action: ACTIONS.EMIT,
         event: 'score:send',
+        type: 'score:send',
         data: getScorePayload(id, name, score),
     });
 };
@@ -27,6 +28,7 @@ export const emitGetHighscores = dispatch => {
     dispatch({
         action: ACTIONS.EMIT,
         event: 'highscores:request',
+        type: 'highscores:request',
     });
 };
 
@@ -34,6 +36,7 @@ export const onHighscores = (dispatch, setHighscores) => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'highscores:requested',
+        type: 'highscores:requested',
         fn: payload => {
             setHighscores(payload.highscores);
         },

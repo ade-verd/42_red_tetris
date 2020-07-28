@@ -9,8 +9,8 @@ const buildEmptySpectrum = () =>
     Array.from(Array(FIELD_HEIGHT), () => new Array(FIELD_WIDTH).fill('clear'));
 
 const buildSpectrum = spectrum => {
-    return spectrum.map(row => (
-        <Row>
+    return spectrum.map((row, y) => (
+        <Row key={y}>
             {row.map((cell, x) => (
                 <Cell key={x} status={cell} />
             ))}

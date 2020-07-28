@@ -16,6 +16,7 @@ export const emitGameAction = (dispatch, action) => {
     dispatch({
         action: ACTIONS.EMIT,
         event: 'games:action:run',
+        type: 'games:action:run',
         data: gameActionPayload(roomId, action),
     });
 };
@@ -24,6 +25,7 @@ export const onGameAction = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'games:action:ran',
+        type: 'games:action:ran',
         fn: payload => {
             // TO DO
             console.log('[onGameAction] /! Reducer not implemented', payload);
