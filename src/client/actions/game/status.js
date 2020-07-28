@@ -2,7 +2,7 @@ import { ACTIONS } from '../../middlewares/handleSocket';
 
 import { store } from '../../store/store';
 
-const getStatusPayload = (id, roomId, reset) => {
+export const getStatusPayload = (id, roomId, reset) => {
     return {
         player_id: id,
         room_id: roomId,

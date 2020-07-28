@@ -8,10 +8,10 @@ const config = require('../../../../../src/server/config');
 
 const actionClient = require('../../../../../src/client/actions/game/gameReset');
 
-describe.skip('socket/handlers/gameStart/gameStart', function() {
+describe('socket/handlers/gameReset/gameReset', function() {
     const sandbox = sinon.createSandbox();
 
-    const ioSrv = ioInstance.get();
+
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
@@ -22,15 +22,15 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
     let server;
     let client1;
     let client2;
-    before(cb => {
-        startServer(config.server, function(err, srv) {
+    before(async () => {
+        await startServer(config.server, function(err, srv) {
             if (err) throw err;
             server = srv;
-            cb();
         });
 
         const ROOM_ID = '000000000000000000000001';
-        
+
+        const ioSrv = ioInstance.get();
         ioSrv.on('connection', socket => {
             socket.join(ROOM_ID);
         });
@@ -40,9 +40,10 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
     });
 
     after(done => {
-        server.stop(done);
+        server.stop();
         client1.disconnect();
         client2.disconnect();
+        done();
     });
 
     afterEach(() => {
@@ -56,8 +57,8 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
             'game:reset',
             actionClient.getGameResetPayload(ROOM_ID),
         );
-        client2.on('game:reseted', payload => {
-            expect(payload).to.deep.equal(null);
+        client2.once('game:reseted', payload => {
+            expect(payload).to.deep.equal(undefined);
             done();
         });
     });
@@ -67,10 +68,11 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
 
         client1.emit(
             'game:reset',
-            actionClient.getGameStartPayload(ROOM_ID),
+            actionClient.getGameResetPayload(ROOM_ID),
         );
-        client2.on('game:reseted', payload => {
-            expect(payload).to.deep.equal(null);
+        // Error will be sent back to client1
+        client1.once('game:reseted', payload => {
+            expect(payload.error).to.deep.equal('ValidationError: "room_id" must be a string');
             done();
         });
     });
