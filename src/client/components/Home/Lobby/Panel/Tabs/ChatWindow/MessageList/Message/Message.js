@@ -1,38 +1,48 @@
-import _, { last } from 'lodash';
+import React from 'react';
 
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { timestampToDatetime } from '../../../../../../../../helpers/utils/date';
 
-import { timestampToDatetime } from '../../../../../../../helpers/utils/date';
+import css from './Message.module.css';
 
-import css from './MessageList.module.css';
+export const TYPES = { INFO: 'info', SENT: 'sent', RECEIVED: 'received' };
 
-const renderMessages = (userState, msgList, setLastMessageRef) => {
-    const userId = userState.id;
-    let lastAuthorId;
-    const msgListLength = msgList && msgList.length;
+const buildContainerClass = msgType => {
+    const className = [css.msgContainer];
 
-            const classMsgContainer = [css.msgContainer];
-            const isMe = msgData.fromPlayerId === userId;
-            const isLastAuthor = msgData.fromPlayerId === lastAuthorId;
-            isMe ? classMsgContainer.push(css.right) : classMsgContainer.push(css.left);
-            lastAuthorId = msgData.fromPlayerId;
-            const time = timestampToDatetime(msgData.date);
-            const ref = msgListLength === index + 1 ? setLastMessageRef : null;
-            const id = `msg${index}_${time.date.valueOf()}_${msgData.message}`;
+    switch (msgType) {
+        case TYPES.INFO:
+            className.push(css.info);
+            break;
+        case TYPES.SENT:
+            className.push(css.right);
+            break;
+        case TYPES.RECEIVED:
+            className.push(css.left);
+            break;
+    }
 
-            return (
-                <div key={id} ref={setLastMessageRef} className={classMsgContainer.join(' ')}>
-                    {isMe || isLastAuthor ? null : (
-                        <div className={css.author}>{msgData.fromPlayerName}</div>
-                    )}
-                    <div className={css.msgAndTime}>
-                        <div className={css.text}>{msgData.message}</div>
-                        {<div className={css.time}>{`${time.h}:${time.m}`}</div>}
-                    </div>
-                </div>
-            );
+    return className.join(' ');
 };
 
-const Message = ({ isLobby, states }) => buildMessage();
+const buildMessage = ({ msgData, msgType, previousAuthorId, setLastMessageRef }) => {
+    const isLastAuthor = msgData.fromPlayerId === previousAuthorId;
+    const isAuthorNameDisplayed = msgType !== TYPES.SENT && !isLastAuthor;
+    const isTimeDisplayed = msgType !== TYPES.INFO;
+    const time = isTimeDisplayed && timestampToDatetime(msgData.date);
+
+    return (
+        <div ref={setLastMessageRef} className={buildContainerClass(msgType)}>
+            {isAuthorNameDisplayed ? (
+                <div className={css.author}>{msgData.fromPlayerName}</div>
+            ) : null}
+            <div className={isTimeDisplayed ? css.msgAndTime : css.msgOnly}>
+                <div className={css.text}>{msgData.message}</div>
+                {isTimeDisplayed ? <div className={css.time}>{`${time.h}:${time.m}`}</div> : null}
+            </div>
+        </div>
+    );
+};
+
+const Message = props => buildMessage(props);
 
 export default React.memo(Message);

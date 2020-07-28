@@ -1,8 +1,6 @@
-import _, { last } from 'lodash';
-
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 
-import { timestampToDatetime } from '../../../../../../../helpers/utils/date';
+import Message, { TYPES } from './Message/Message';
 
 import css from './MessageList.module.css';
 
@@ -25,37 +23,27 @@ const scrollToBottom = ({ listRef, ref: lastElement }) => {
     }
 };
 
-const renderMessages = (userState, msgList, setLastMessageRef) => {
-    const userId = userState.id;
-    let lastAuthorId;
-    const msgListLength = msgList && msgList.length;
+const infoMessage = () => (
+    <Message msgData={{ message: `Say 👋 to other players` }} msgType={TYPES.INFO} />
+);
 
-    return (
-        msgList &&
-        msgList.map((msgData, index) => {
-            const classMsgContainer = [css.msgContainer];
-            const isMe = msgData.fromPlayerId === userId;
-            const isLastAuthor = msgData.fromPlayerId === lastAuthorId;
-            isMe ? classMsgContainer.push(css.right) : classMsgContainer.push(css.left);
-            lastAuthorId = msgData.fromPlayerId;
-            const time = timestampToDatetime(msgData.date);
-            const ref = msgListLength === index + 1 ? setLastMessageRef : null;
-            const id = `msg${index}_${time.date.valueOf()}_${msgData.message}`;
+const renderMessages = (userState, msgList, setLastMessageRef) =>
+    msgList &&
+    msgList.map((msgData, index, array) => {
+        const isMe = msgData.fromPlayerId === userState.id;
+        const msgType = isMe ? TYPES.SENT : TYPES.RECEIVED;
+        const previousAuthorId = index > 0 ? array[index - 1].fromPlayerId : null;
 
-            return (
-                <div key={id} ref={setLastMessageRef} className={classMsgContainer.join(' ')}>
-                    {isMe || isLastAuthor ? null : (
-                        <div className={css.author}>{msgData.fromPlayerName}</div>
-                    )}
-                    <div className={css.msgAndTime}>
-                        <div className={css.text}>{msgData.message}</div>
-                        {<div className={css.time}>{`${time.h}:${time.m}`}</div>}
-                    </div>
-                </div>
-            );
-        })
-    );
-};
+        return (
+            <Message
+                key={`msg_${index}`}
+                msgData={msgData}
+                msgType={msgType}
+                previousAuthorId={previousAuthorId}
+                setLastMessageRef={setLastMessageRef}
+            />
+        );
+    });
 
 const MessageList = ({ isLobby, states }) => {
     const listRef = useRef(null);
@@ -77,6 +65,7 @@ const MessageList = ({ isLobby, states }) => {
 
     return (
         <div className={css.container} ref={listRef}>
+            {infoMessage()}
             {msgToRender}
         </div>
     );

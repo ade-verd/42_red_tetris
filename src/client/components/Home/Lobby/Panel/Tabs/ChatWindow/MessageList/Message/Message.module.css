@@ -1,15 +1,3 @@
-.container {
-    flex: 1 0;
-    height: 100%;
-
-    background-color: #1e1e23;
-    color: #fff;
-    opacity: 0.9;
-
-    overflow-y: auto;
-    scroll-behavior: smooth;
-}
-
 .msgContainer {
     flex: 0;
     margin-top: 0.25em;
@@ -21,6 +9,15 @@
 .author {
     font-style: bold;
     font-size: 0.75em;
+}
+
+.msgOnly {
+    flex-grow: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    align-content: stretch;
 }
 
 .msgAndTime {
@@ -61,4 +58,13 @@
     border-radius: 5px 5px 0 5px;
     background-color: #95e773;
     color: #414252;
+}
+
+.info {
+    margin: 0.5em auto 0.25em;
+    clear: both;
+    border-radius: 5px 5px 5px 5px;
+    background-color: #009df3;
+    color: #fff;
+    text-align: center !important;
 }
