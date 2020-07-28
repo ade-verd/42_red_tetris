@@ -13,15 +13,11 @@ const schema = {
 };
 
 const ON_EVENT = 'score:send';
-const EMIT_EVENT = 'score:sent'
-const FUNCTION_NAME = '[updateOrInsertScore]'
+const EMIT_EVENT = 'score:sent';
+const FUNCTION_NAME = '[updateOrInsertScore]';
 
 const insertScore = async (socket, payload) => {
-    const [playerId, playerName, score] = [
-        payload.player_id,
-        payload.player_name,
-        payload.score,
-    ];
+    const [playerId, playerName, score] = [payload.player_id, payload.player_name, payload.score];
 
     try {
         await highscoresLib.insertOne({ player_id: playerId, player_name: playerName, score });

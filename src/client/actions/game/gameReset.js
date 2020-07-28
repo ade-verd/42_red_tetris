@@ -7,7 +7,16 @@ import { emitGameAction } from '../game/gameAction';
 
 import { GAME_ACTIONS } from '../../../constants';
 
-const getGameResetPayload = roomId => {
+const handleError = (error, errorFieldName) => {
+    if (error.startsWith('ValidationError')) {
+        notify({ type: 'warning', msg: 'Game reset payload one field is missing' });
+    } else {
+        notify({ type: 'error', msg: 'Error while reseting the game' });
+    }
+    console.error(`[gameReset action][${errorFieldName}]`, error);
+};
+
+export const getGameResetPayload = roomId => {
     return {
         room_id: roomId,
     };
@@ -30,6 +39,7 @@ export const onGameReset = dispatch => {
         action: ACTIONS.LISTEN,
         event: 'game:reseted',
         fn: () => {
+            if (payload.error) return handleError(payload.error, 'creationError');
             dispatch({ action: ACTIONS.REDUCE, type: 'RESET' });
         },
     });

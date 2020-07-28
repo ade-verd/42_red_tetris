@@ -8,10 +8,9 @@ const config = require('../../../../../src/server/config');
 
 const actionClient = require('../../../../../src/client/actions/game/gameStart');
 
-describe.skip('socket/handlers/gameStart/gameStart', function() {
+describe('socket/handlers/gameStart/gameStart', function() {
     const sandbox = sinon.createSandbox();
 
-    const ioSrv = ioInstance.get();
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
@@ -21,15 +20,15 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
     let server;
     let client1;
     let client2;
-    before(cb => {
-        startServer(config.server, function(err, srv) {
+    before(async () => {
+        await startServer(config.server, function(err, srv) {
             if (err) throw err;
             server = srv;
-            cb();
         });
 
         const ROOM_ID = '000000000000000000000001';
 
+        const ioSrv = ioInstance.get();
         ioSrv.on('connection', socket => {
             socket.join(ROOM_ID);
         });
@@ -39,9 +38,10 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
     });
 
     after(done => {
-        server.stop(done);
+        server.stop();
         client1.disconnect();
         client2.disconnect();
+        done();
     });
 
     afterEach(() => {
@@ -79,11 +79,13 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
             [0, 0, 0, 0],
         ];
 
+        const PIECE = { pieces: PIECES, index: INDEX, tetromino: NEXT_TETROMINO };
+
         client1.emit(
             'game:start',
-            actionClient.getGameStartPayload(ROOM_ID, PIECES, INDEX, NEXT_TETROMINO),
+            actionClient.getGameStartPayload(ROOM_ID, PIECE),
         );
-        client2.on('game:started', payload => {
+        client2.once('game:started', payload => {
             expect(payload).to.deep.equal({
                 pieces: PIECES,
                 index: INDEX,
@@ -99,12 +101,15 @@ describe.skip('socket/handlers/gameStart/gameStart', function() {
         const INDEX = 0;
         const NEXT_TETROMINO = null;
 
+        const PIECE =  { pieces: PIECES, index: INDEX, tetromino: NEXT_TETROMINO };
+
         client1.emit(
             'game:start',
-            actionClient.getGameStartPayload(ROOM_ID, PIECES, INDEX, NEXT_TETROMINO),
+            actionClient.getGameStartPayload(ROOM_ID, PIECE),
         );
-        client2.on('game:started', payload => {
-            expect(payload).to.deep.equal(null);
+        // Error will be sent back to client1
+        client1.once('game:started', payload => {
+            expect(payload.error).to.deep.equal('ValidationError: "pieces" must be an array');
             done();
         });
     });

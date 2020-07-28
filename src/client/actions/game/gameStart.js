@@ -5,7 +5,16 @@ import { store } from '../../store/store';
 
 import { GAME_ACTIONS } from '../../../constants';
 
-const getGameStartPayload = (roomId, piece) => {
+const handleError = (error, errorFieldName) => {
+    if (error.startsWith('ValidationError')) {
+        notify({ type: 'warning', msg: 'Game start payload one field is missing' });
+    } else {
+        notify({ type: 'error', msg: 'Error while starting the game' });
+    }
+    console.error(`[gameStart action][${errorFieldName}]`, error);
+};
+
+export const getGameStartPayload = (roomId, piece) => {
     return {
         room_id: roomId,
         pieces: piece.pieces,
@@ -32,6 +41,7 @@ export const onGameStart = (dispatch, elementToFocus) => {
         action: ACTIONS.LISTEN,
         event: 'game:started',
         fn: payload => {
+            if (payload.error) return handleError(payload.error, 'creationError');
             dispatch({ action: ACTIONS.REDUCE, type: 'PLAYING' });
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_PIECES', pieces: payload.pieces });
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_INDEX', index: payload.index - 1 });
