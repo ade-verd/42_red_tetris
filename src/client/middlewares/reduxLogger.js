@@ -11,7 +11,7 @@ const titleFormatter = (action, time, took) => {
 };
 
 const options = {
-    diff: false,
+    diff: true,
     titleFormatter,
 };
 
