@@ -5,14 +5,13 @@ import { createLogger } from 'redux-logger';
 
 const titleFormatter = (action, time, took) => {
     const actionName = typeof action.action === 'string' && action.action.toUpperCase();
-    const type = action.type || action.event;
+    const type = action.type || action.event || action.action;
 
     return `action @ ${time} [${actionName}] ${type}`;
-    // return `action @ ${time} [${actionName}] ${type} (in ${took.toFixed(2)} ms)`;
 };
 
 const options = {
-    diff: true,
+    diff: false,
     titleFormatter,
 };
 

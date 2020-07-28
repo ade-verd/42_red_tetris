@@ -23,7 +23,6 @@ const emitGameStart = dispatch => {
     dispatch({
         action: ACTIONS.EMIT,
         event: 'game:start',
-        type: 'game:start',
         data: getGameStartPayload(roomId, piece),
     });
 };
@@ -32,7 +31,6 @@ export const onGameStart = (dispatch, elementToFocus) => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'game:started',
-        type: 'game:started',
         fn: payload => {
             dispatch({ action: ACTIONS.REDUCE, type: 'PLAYING' });
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_PIECES', pieces: payload.pieces });

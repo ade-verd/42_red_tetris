@@ -8,7 +8,6 @@ export const createPlayerAndRoomPayload = ({ playerName, roomName }) => ({
 export const emitCreatePlayerAndRoom = (dispatch, playerName, roomName) =>
     dispatch({
         action: ACTIONS.EMIT,
-        type: 'players_rooms:create_join',
         event: 'players_rooms:create_join',
         data: createPlayerAndRoomPayload({ playerName, roomName }),
     });

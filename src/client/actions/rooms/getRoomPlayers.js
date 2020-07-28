@@ -11,7 +11,6 @@ export const emitGetRoomPlayers = (dispatch, roomId) => {
     dispatch({
         action: ACTIONS.EMIT,
         event: 'rooms:players:get',
-        type: 'rooms:players:get',
         data: getRoomPlayersPayload(roomId),
     });
 };
@@ -32,7 +31,6 @@ export const onGotRoomPlayers = store => {
     store.dispatch({
         action: ACTIONS.LISTEN,
         event: 'rooms:got_active',
-        type: 'rooms:got_active',
         fn: payload => {
             dispatchReduceUpdateActiveRooms(store, payload);
         },

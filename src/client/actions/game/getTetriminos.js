@@ -12,7 +12,6 @@ export const emitGetRandomTetriminos = (dispatch, roomId, piecePosition, piecesA
     dispatch({
         action: ACTIONS.EMIT,
         event: 'tetriminos:get_random',
-        type: 'tetriminos:get_random',
         data: getTetriminosPayload(roomId, piecePosition, piecesAmount),
     });
 };
@@ -21,7 +20,6 @@ export const onGetRandomTetriminos = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'tetriminos:get_random',
-        type: 'tetriminos:get_random',
         fn: payload => {
             dispatch({
                 action: ACTIONS.REDUCE,

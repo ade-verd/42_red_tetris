@@ -21,7 +21,6 @@ export const emitGameReset = dispatch => {
     dispatch({
         action: ACTIONS.EMIT,
         event: 'game:reset',
-        type: 'game:reset',
         data: getGameResetPayload(roomId),
     });
 };
@@ -30,7 +29,6 @@ export const onGameReset = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'game:reseted',
-        type: 'game:reseted',
         fn: () => {
             dispatch({ action: ACTIONS.REDUCE, type: 'RESET' });
         },
