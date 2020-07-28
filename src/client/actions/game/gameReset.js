@@ -38,8 +38,8 @@ export const onGameReset = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'game:reseted',
-        fn: () => {
-            if (payload.error) return handleError(payload.error, 'creationError');
+        fn: payload => {
+            if (payload && payload.error) return handleError(payload.error, 'creationError');
             dispatch({ action: ACTIONS.REDUCE, type: 'RESET' });
         },
     });
@@ -51,7 +51,5 @@ export const resetGame = (dispatch, isAdmin = false) => {
     if (isAdmin) {
         emitGameReset(dispatch);
         emitGameAction(dispatch, GAME_ACTIONS.STOP);
-        // We emit 'true' to force reset game_over fields in database
-        emitGameOver(dispatch, true);
     }
 };

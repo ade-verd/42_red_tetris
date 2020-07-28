@@ -1,5 +1,4 @@
 const { expect } = require('chai');
-const sinon = require('sinon');
 const ioClt = require('socket.io-client');
 const ioInstance = require('../../../../../src/server/socket/ioInstance');
 
@@ -9,8 +8,6 @@ const config = require('../../../../../src/server/config');
 const actionClient = require('../../../../../src/client/actions/game/malus');
 
 describe('socket/handlers/malus/malus', function() {
-    const sandbox = sinon.createSandbox();
-
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
@@ -42,10 +39,6 @@ describe('socket/handlers/malus/malus', function() {
         client1.disconnect();
         client2.disconnect();
         done();
-    });
-
-    afterEach(() => {
-        sandbox.restore();
     });
 
     it('should emit malus', function(done) {

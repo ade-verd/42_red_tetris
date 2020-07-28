@@ -6,117 +6,89 @@ const ioInstance = require('../../../../../src/server/socket/ioInstance');
 const { startServer } = require('../../../../helpers/server');
 const config = require('../../../../../src/server/config');
 
-const actionClient = require('../../../../../src/client/actions/game/spectrum');
+const actionClient = require('../../../../../src/client/actions/game/status');
+const playersLib = require('../../../../../src/server/models/players');
+const fixtures = require('../../../../fixtures/players.fixtures');
 
-describe.skip('socket/handlers/highscores/highscores', function() {
+describe('socket/handlers/status/status', function() {
     const sandbox = sinon.createSandbox();
 
-    const ioSrv = ioInstance.get();
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
         forceNew: true,
     };
 
-    // console.log('TEST', ioSrv, ioInstance)
-
     let server;
     let client1;
     let client2;
-    before(cb => {
-        startServer(config.server, function(err, srv) {
+    before(async () => {
+        await startServer(config.server, function(err, srv) {
             if (err) throw err;
             server = srv;
-            cb();
         });
-
+        
         const ROOM_ID = '000000000000000000000001';
-
+        
+        const ioSrv = ioInstance.get();
         ioSrv.on('connection', socket => {
             socket.join(ROOM_ID);
         });
-
+        
         client1 = ioClt.connect(socketUrl, options);
         client2 = ioClt.connect(socketUrl, options);
     });
 
     after(done => {
-        server.stop(done);
+        server.stop();
         client1.disconnect();
         client2.disconnect();
+        done();
     });
 
     afterEach(() => {
         sandbox.restore();
     });
 
-    it('should emit new updated spectrum', function(done) {
+    it('should receive gameOver and emit gameWon', function(done) {
         const ROOM_ID = '000000000000000000000001';
         const PLAYER_ID = '000000000000000000000002';
-        const PLAYER_NAME = 'PLAYER01';
-        const FIELD = [
-            [
-                [0, 'clear', false],
-                [0, 'clear', false],
-                ['l', 'merged', false],
-                [0, 'clear', false],
-            ],
-            [
-                [0, 'clear', false],
-                ['l', 'merged', false],
-                ['l', 'merged', false],
-                [0, 'clear', false],
-            ],
-            [
-                [0, 'clear', false],
-                [0, 'clear', false],
-                [0, 'clear', false],
-                [0, 'clear', false],
-            ],
-            [
-                [0, 'clear', false],
-                [0, 'clear', false],
-                [0, 'clear', false],
-                [0, 'clear', false],
-            ],
-        ];
-        const EXPECTED_SPECTRUM = [
-            ['clear', 'clear', 'merged', 'clear'],
-            ['clear', 'merged', 'merged', 'clear'],
-            ['clear', 'merged', 'merged', 'clear'],
-            ['clear', 'merged', 'merged', 'clear'],
-        ];
+        const updateStub = sandbox.stub(playersLib, 'updateOne').resolves();
+        
+        client2.on('connect', () => {
+            const findStub = sandbox.stub(playersLib, 'find').resolves({ toArray: () => fixtures.playersWithWinner(client2.id) });
 
-        client1.emit(
-            'spectrum:update',
-            actionClient.getSpectrumPayload(ROOM_ID, PLAYER_ID, PLAYER_NAME, FIELD),
-        );
-        client2.once('spectrum:updated', payload => {
-            expect(payload).to.deep.equal({
-                player_id: PLAYER_ID,
-                player_name: PLAYER_NAME,
-                spectrum: EXPECTED_SPECTRUM,
+            client1.emit(
+                'status:gameOver',
+                actionClient.getStatusPayload(PLAYER_ID, ROOM_ID),
+            );
+
+            client2.once('status:gameWon', payload => {
+                expect(updateStub.args).to.deep.equal([[ PLAYER_ID, { game_over: true } ]]);
+                expect(findStub.args).to.deep.equal([[{ room_id: ROOM_ID }]]);
+                expect(payload).to.deep.equal(undefined);
+                done();
             });
-            done();
         });
     });
 
-    it('should not emit anything if an error occurs while updating spectrum', function(done) {
-        const ROOM_ID = '000000000000000000000001';
+    it('should not emit anything if an error occurs while receiving gameOver', function(done) {
+        const ROOM_ID = null;
         const PLAYER_ID = '000000000000000000000002';
-        const PLAYER_NAME = 'PLAYER01';
-        const FIELD = null;
+
 
         client1.emit(
-            'spectrum:update',
-            actionClient.getSpectrumPayload(ROOM_ID, PLAYER_ID, PLAYER_NAME, FIELD),
+            'status:gameOver',
+            actionClient.getStatusPayload(PLAYER_ID, ROOM_ID),
         );
-        client2.once('spectrum:updated', payload => {
-            expect(payload).to.deep.equal(null);
+        // Error will be sent back to client1
+        client1.once('status:gameWon', payload => {
+            expect(payload.error).to.deep.equal('ValidationError: "room_id" must be a string');
             done();
         });
     });
 });
+
 
 describe.skip('socket/handlers/highscores/score', function() {
     console.log('score tests');
