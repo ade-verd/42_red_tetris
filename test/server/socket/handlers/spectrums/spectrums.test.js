@@ -22,7 +22,6 @@ describe('socket/handlers/spectrums/spectrums', function() {
         });
 
         const ROOM_ID = '000000000000000000000001';
-
         const ioSrv = ioInstance.get();
         ioSrv.on('connection', socket => {
             socket.join(ROOM_ID);

@@ -28,11 +28,11 @@ export const emitGameOver = (store, dispatch) => {
     });
 };
 
-export const onGameWon = (dispatch) => {
+export const onGameWon = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'status:gameWon',
-        fn: (payload) => {
+        fn: payload => {
             if (payload && payload.error) return handleError(payload.error, 'creationError');
             console.debug('GAME WON !');
             dispatch({ action: ACTIONS.REDUCE, type: 'GAMEWON' });

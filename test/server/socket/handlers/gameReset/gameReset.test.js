@@ -12,7 +12,6 @@ const playersLib = require('../../../../../src/server/models/players');
 describe('socket/handlers/gameReset/gameReset', function() {
     const sandbox = sinon.createSandbox();
 
-
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
@@ -56,12 +55,11 @@ describe('socket/handlers/gameReset/gameReset', function() {
 
         const updateManyStub = sandbox.stub(playersLib, 'updateMany').resolves();
 
-        client1.emit(
-            'game:reset',
-            actionClient.getGameResetPayload(ROOM_ID),
-        );
+        client1.emit('game:reset', actionClient.getGameResetPayload(ROOM_ID));
         client2.once('game:reseted', payload => {
-            expect(updateManyStub.args).to.deep.equal([[ { room_id: ROOM_ID }, { game_over: false } ]]);
+            expect(updateManyStub.args).to.deep.equal([
+                [{ room_id: ROOM_ID }, { game_over: false }],
+            ]);
             expect(payload).to.deep.equal(undefined);
             done();
         });
@@ -70,10 +68,7 @@ describe('socket/handlers/gameReset/gameReset', function() {
     it('should not emit anything if an error occurs while reseting game', function(done) {
         const ROOM_ID = null;
 
-        client1.emit(
-            'game:reset',
-            actionClient.getGameResetPayload(ROOM_ID),
-        );
+        client1.emit('game:reset', actionClient.getGameResetPayload(ROOM_ID));
         // Error will be sent back to client1
         client1.once('game:reseted', payload => {
             expect(payload.error).to.deep.equal('ValidationError: "room_id" must be a string');

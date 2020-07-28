@@ -13,13 +13,13 @@ const handleError = (error, errorFieldName) => {
     console.error(`[gameReset action][${errorFieldName}]`, error);
 };
 
-export const getGameResetPayload = (roomId) => {
+export const getGameResetPayload = roomId => {
     return {
         room_id: roomId,
     };
 };
 
-export const emitGameReset = (store) => {
+export const emitGameReset = store => {
     const {
         usr: { roomId },
     } = store.getState();
@@ -31,11 +31,11 @@ export const emitGameReset = (store) => {
     });
 };
 
-export const onGameReset = (dispatch) => {
+export const onGameReset = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'game:reseted',
-        fn: (payload) => {
+        fn: payload => {
             if (payload && payload.error) return handleError(payload.error, 'creationError');
             dispatch({ action: ACTIONS.REDUCE, type: 'RESET' });
         },
