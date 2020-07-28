@@ -2,7 +2,6 @@ import { FIELD_HEIGHT, FIELD_WIDTH } from '../../constants';
 import { ACTIONS } from '../middlewares/handleSocket';
 import { checkCollision } from '../helpers/checkCollision';
 import { emitSpectrum } from '../actions/game/spectrum';
-import { emitGameOver } from '../actions/game/status';
 
 export const incrementRowsCleared = asyncDispatch => {
     asyncDispatch({ action: ACTIONS.REDUCE, type: 'INCREMENT_ROWSCLEARED' });
