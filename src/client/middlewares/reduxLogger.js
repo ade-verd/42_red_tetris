@@ -10,7 +10,10 @@ const titleFormatter = (action, time, took) => {
     return `action @ ${time} [${actionName}] ${type}`;
 };
 
+const collapsed = (getState, action, logEntry) => !logEntry.error;
+
 const options = {
+    collapsed,
     diff: true,
     titleFormatter,
 };
