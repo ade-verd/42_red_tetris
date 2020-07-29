@@ -7,11 +7,9 @@ import { emitGetHighscores, onHighscores } from '../../../../../../actions/highs
 
 import { store } from '../../../../../../store/store';
 
-const Highscores = () => {
-    const [highscores, setHighscores] = useState(null);
-
+const Highscores = ({ highscores }) => {
     useEffect(() => {
-        onHighscores(store.dispatch, setHighscores);
+        onHighscores(store.dispatch);
         emitGetHighscores(store.dispatch);
     }, []);
 

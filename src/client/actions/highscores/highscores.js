@@ -30,12 +30,20 @@ export const emitGetHighscores = dispatch => {
     });
 };
 
-export const onHighscores = (dispatch, setHighscores) => {
+export const updateHighscoresState = (dispatch, payload) => {
+    dispatch({
+        action: ACTIONS.REDUCE,
+        type: 'UPDATE_HIGHSCORES',
+        highscores: payload.highscores,
+    });
+};
+
+export const onHighscores = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'highscores:requested',
         fn: payload => {
-            setHighscores(payload.highscores);
+            updateHighscoresState(dispatch, payload);
         },
     });
 };

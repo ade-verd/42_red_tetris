@@ -15,7 +15,7 @@ const displayCreatePlayerOrLobby = states => {
     return <Lobby states={states} />;
 };
 
-export const Home = ({ store, history, players, chat, user, rooms, ...dispatchs }) => {
+export const Home = ({ store, history, chat, highscores, players, rooms, user, ...dispatchs }) => {
     useEffect(() => {
         const roomName = user.roomName ? user.roomName : '';
         const userName = user.name ? `[${user.name}]` : '';
@@ -35,7 +35,7 @@ export const Home = ({ store, history, players, chat, user, rooms, ...dispatchs 
     return (
         <div className={css.container}>
             <Header />
-            {displayCreatePlayerOrLobby({ chat, user, rooms, players })}
+            {displayCreatePlayerOrLobby({ chat, highscores, players, rooms, user })}
             <Footer />
         </div>
     );

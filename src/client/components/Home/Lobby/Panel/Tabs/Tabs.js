@@ -19,7 +19,7 @@ const HIGHSCORES = {
 };
 
 const renderTab = (states, activeTab) => {
-    if (activeTab === HIGHSCORES) return <Highscores />;
+    if (activeTab === HIGHSCORES) return <Highscores highscores={states.highscores} />;
 
     const isLobby = activeTab === LOBBY;
     return (
