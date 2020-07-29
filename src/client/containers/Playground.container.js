@@ -16,7 +16,6 @@ import { onGameWon } from '../actions/game/status';
 import { GAME_ACTIONS } from '../../constants';
 
 const mapStateToProps = state => {
-    console.log('[Playground.container] State', state);
     return {
         field: state.fld.field,
         gameStatus: state.gme,

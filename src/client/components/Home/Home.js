@@ -29,7 +29,7 @@ export const Home = ({ store, history, players, chat, user, rooms, ...dispatchs 
     }, []);
 
     useEffect(() => {
-        console.log('[Home] Rendering');
+        console.debug('[Home] Rendering');
     });
 
     return (

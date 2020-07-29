@@ -10,7 +10,7 @@ const Lobby = ({ states }) => {
     const displayGame = states.user && states.user.roomId;
 
     useEffect(() => {
-        console.log('[Lobby] Rendering');
+        console.debug('[Lobby] Rendering');
     }, [states.user.roomId]);
 
     return (
