@@ -2,8 +2,10 @@ import styled from 'styled-components';
 
 export const StyledHighscores = styled.div`
     display: flex;
-    flex: 1 1;
+    flex: 1;
     flex-direction: column;
+    flex-wrap: nowrap;
+    overflow: hidden;
 
     height: 100%;
     min-height: 0;

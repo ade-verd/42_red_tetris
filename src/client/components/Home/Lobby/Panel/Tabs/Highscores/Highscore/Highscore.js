@@ -4,6 +4,8 @@ import {
     StyledEmpty,
     StyledHighscore,
     StyledName,
+    StyledScore,
+    StyledText,
     FirstPlayerIcon,
     PlayerIcon,
 } from './Highscore.style';
@@ -14,7 +16,8 @@ const Highscore = ({ highscore, index, none }) => {
         <StyledHighscore>
             {index === 0 ? <FirstPlayerIcon /> : <PlayerIcon />}
             <StyledName>{highscore.name}</StyledName>
-            {highscore.score}
+            <StyledScore>{highscore.score}</StyledScore>
+            <StyledText>{' pts'}</StyledText>
         </StyledHighscore>
     );
 };
