@@ -20,9 +20,11 @@ const Highscores = ({ highscores }) => {
     return (
         <StyledHighscores>
             {highscores && highscores.length ? (
-                highscores.map((highscore, i) => (
-                    <Highscore key={`highscore_${i}`} highscore={highscore} index={i} />
-                ))
+                highscores
+                    .filter(item => item.score > 0)
+                    .map((highscore, i) => (
+                        <Highscore key={`highscore_${i}`} highscore={highscore} index={i} />
+                    ))
             ) : (
                 <Highscore />
             )}
