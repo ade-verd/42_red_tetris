@@ -34,8 +34,8 @@ const buildNextPiece = nextPiece => {
     newNextPiece = clearEmptyRows(nextPiece);
     newNextPiece = clearEmptyColumns(newNextPiece);
 
-    return newNextPiece.map(row => (
-        <Row>
+    return newNextPiece.map((row, y) => (
+        <Row key={y}>
             {row.map((cell, x) => (
                 <Cell key={x} type={cell} />
             ))}
