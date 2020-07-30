@@ -1,5 +1,14 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
 
+const handleError = (error, errorFieldName) => {
+    if (error.startsWith('ValidationError')) {
+        notify({ type: 'warning', msg: 'Spectrum payload one field is missing' });
+    } else {
+        notify({ type: 'error', msg: 'Error while sending spectrum' });
+    }
+    console.error(`[spectrum action][${errorFieldName}]`, error);
+};
+
 export const getSpectrumPayload = (roomId, playerId, playerName, field) => {
     return {
         room_id: roomId,
@@ -22,6 +31,7 @@ export const onSpectrum = dispatch => {
         action: ACTIONS.LISTEN,
         event: 'spectrum:updated',
         fn: payload => {
+            if (payload.error) return handleError(payload.error, 'creationError');
             dispatch({
                 action: ACTIONS.REDUCE,
                 type: 'SET_SPECTRUM',

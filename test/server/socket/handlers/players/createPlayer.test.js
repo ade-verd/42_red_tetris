@@ -52,7 +52,7 @@ describe('socket/handlers/players/createPlayer', function() {
         });
         client.once('players:created', payload => {
             expect(insertStub.args).to.deep.equal([
-                [{ socket_id: client.id, room_id: null, name: 'Waldo' }],
+                [{ socket_id: client.id, room_id: null, name: 'Waldo', game_over: false }],
             ]);
             expect(findStub.args).to.deep.equal([['00000000000000000000000d', undefined]]);
             expect(payload).to.deep.equal({
@@ -84,7 +84,7 @@ describe('socket/handlers/players/createPlayer', function() {
         });
         client.once('players:created', payload => {
             expect(insertStub.args).to.deep.equal([
-                [{ socket_id: client.id, room_id: null, name: 'Waldo' }],
+                [{ socket_id: client.id, room_id: null, name: 'Waldo', game_over: false }],
             ]);
             expect(payload).to.deep.equal({
                 payload: {

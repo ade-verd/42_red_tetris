@@ -136,6 +136,22 @@ async function updateOne(playerId, updatedFields) {
     return result;
 }
 
+/**
+ * Update multiple players from identifiers
+ *
+ * @param {ObjectId} identifiers  - identifiers of the updated players
+ * @param {Object} updatedFields - fields that are updated
+ *
+ * @returns {Object/null} result of update if succeeded, null otherwise
+ */
+async function updateMany(identifiers, updatedFields) {
+    const result = await collection().updateMany(
+        identifiers,
+        { $set: { ...updatedFields, updated_at: dateLib.newDate() } },
+    );
+    return result;
+}
+
 module.exports = {
     collection,
     createIndexes,
@@ -146,4 +162,5 @@ module.exports = {
     findAllBySocketIds,
     insertOne,
     updateOne,
+    updateMany,
 };

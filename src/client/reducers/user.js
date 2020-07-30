@@ -35,13 +35,6 @@ const handleUpdateActiveRooms = (state, action) => {
     return handleRoomUpdate(state, { error });
 };
 
-const handleUserCookieSettings = (state, action) => {
-    return {
-        ...state,
-        isUserCookieEnable: action.isUserCookieEnable === true,
-    };
-};
-
 const handleSaveSocket = (state, action) => {
     return {
         ...state,
@@ -61,8 +54,6 @@ const reducer = (state = {}, action) => {
             return handleUpdateActiveRooms(state, action);
         case 'USER_LOGOUT':
             return handleUserLogOut(state);
-        case 'USER_COOKIE_SETTINGS':
-            return handleUserCookieSettings(state, action);
         case 'SAVE_SOCKET':
             return handleSaveSocket(state, action);
         default:

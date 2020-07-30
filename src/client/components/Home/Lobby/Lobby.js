@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 
-import Highscores from './Highscores/Highscores';
-import ChatPanel from './ChatPanel/ChatPanel';
+import Panel from './Panel/Panel';
 import Playground from '../../../containers/Playground.container';
 import Rooms from '../../../containers/Rooms.container';
 
@@ -11,14 +10,13 @@ const Lobby = ({ states }) => {
     const displayGame = states.user && states.user.roomId;
 
     useEffect(() => {
-        console.log('[Lobby] Rendering');
+        console.debug('[Lobby] Rendering');
     }, [states.user.roomId]);
 
     return (
         <div className={css.container}>
-            {displayGame ? null : <Highscores />}
             {displayGame ? <Playground /> : <Rooms />}
-            <ChatPanel states={states} />
+            <Panel states={states} />
         </div>
     );
 };

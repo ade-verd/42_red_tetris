@@ -1,5 +1,4 @@
 const { expect } = require('chai');
-const sinon = require('sinon');
 const ioClt = require('socket.io-client');
 const ioInstance = require('../../../../../src/server/socket/ioInstance');
 
@@ -8,46 +7,42 @@ const config = require('../../../../../src/server/config');
 
 const actionClient = require('../../../../../src/client/actions/game/spectrum');
 
-describe.skip('socket/handlers/spectrums/spectrums', function() {
-    const sandbox = sinon.createSandbox();
-
-    const ioSrv = ioInstance.get();
+describe('socket/handlers/spectrums/spectrums', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
         forceNew: true,
     };
 
-    // console.log('TEST', ioSrv, ioInstance)
-
     let server;
-    let client1;
-    let client2;
-    before(cb => {
-        startServer(config.server, function(err, srv) {
+    before(async () => {
+        await startServer(config.server, function(err, srv) {
             if (err) throw err;
             server = srv;
-            cb();
         });
 
         const ROOM_ID = '000000000000000000000001';
 
+        const ioSrv = ioInstance.get();
         ioSrv.on('connection', socket => {
             socket.join(ROOM_ID);
         });
+    });
 
+    let client1;
+    let client2;
+    beforeEach(() => {
         client1 = ioClt.connect(socketUrl, options);
         client2 = ioClt.connect(socketUrl, options);
     });
 
     after(done => {
         server.stop(done);
-        client1.disconnect();
-        client2.disconnect();
     });
 
     afterEach(() => {
-        sandbox.restore();
+        client1.disconnect();
+        client2.disconnect();
     });
 
     it('should emit new updated spectrum', function(done) {
@@ -111,8 +106,9 @@ describe.skip('socket/handlers/spectrums/spectrums', function() {
             'spectrum:update',
             actionClient.getSpectrumPayload(ROOM_ID, PLAYER_ID, PLAYER_NAME, FIELD),
         );
-        client2.once('spectrum:updated', payload => {
-            expect(payload).to.deep.equal(null);
+        // Error will be sent back to client1
+        client1.once('spectrum:updated', payload => {
+            expect(payload.error).to.deep.equal('ValidationError: "field" must be an array');
             done();
         });
     });

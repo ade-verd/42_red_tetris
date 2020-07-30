@@ -50,11 +50,11 @@ const ConnectedPlayers = ({ isLobby, states }) => {
     useEffect(() => {
         if (isLobby) {
             setLobbyUsers(getPlayers(states, isLobby, lobby));
-            console.log('[ConnectedPlayers] rendering lobby panel');
+            console.debug('[ConnectedPlayers] rendering lobby panel');
         } else {
             const room = getRoomOrLobby(rooms, roomId);
             setRoomPlayers(getPlayers(states, isLobby, room));
-            console.log('[ConnectedPlayers] rendering room panel');
+            console.debug('[ConnectedPlayers] rendering room panel');
         }
     }, [isLobby, rooms, lobby, players]);
 

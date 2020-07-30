@@ -1,6 +1,4 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
-import { getUserCookie } from '../players/userCookie';
-import { checkSocketId } from '../players/updateSocketId';
 
 export const socketIoConnect = dispatch => {
     dispatch({ action: ACTIONS.CONNECT });
@@ -24,7 +22,4 @@ export const onSocketConnect = dispatch => {
             dispatchReduceSaveSocket(dispatch, socket);
         },
     });
-
-    const cookie = getUserCookie();
-    checkSocketId(dispatch, socket, cookie);
 };

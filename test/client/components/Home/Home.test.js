@@ -45,7 +45,6 @@ describe('<Home /> component', function() {
         rooms: {},
         listen: sandbox.stub(),
         socketIoConnect: sandbox.stub(),
-        checkUserCookie: sandbox.stub(),
     });
 
     afterEach(() => {

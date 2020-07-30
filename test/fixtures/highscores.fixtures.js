@@ -72,7 +72,33 @@ const highscore = () => ({
 	score: 99999999,
 });
 
+const getHighscoresOf3 = () => ([
+	{
+		_id: new ObjectId('000000000000000000000001'),
+		player_id: '00000000000000000000000a',
+		player_name: 'AAA',
+		score: 333,
+		created_at: new Date('2020-01-01T10:00:00Z'),
+		updated_at: new Date('2020-01-01T10:00:00Z'),
+	},
+	{
+		_id: new ObjectId('000000000000000000000002'),
+		player_id: '00000000000000000000000b',
+		player_name: 'BBB',
+		score: 222,
+		created_at: new Date('2020-01-01T10:00:00Z'),
+	},
+	{
+		_id: new ObjectId('000000000000000000000003'),
+		player_id: '00000000000000000000000c',
+		player_name: 'CCC',
+		score: 111,
+		created_at: new Date('2020-01-01T10:00:00Z'),
+	}
+]);
+
 module.exports = {
 	default: toBeInsertedDirectly,
 	highscore,
+	getHighscoresOf3,
 }

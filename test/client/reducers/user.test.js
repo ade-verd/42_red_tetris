@@ -5,7 +5,6 @@ import { configureStore, fakeSocket } from '../../helpers/client';
 import rootReducer from '../../../src/client/reducers';
 
 import { dispatchReduceSaveSocket } from '../../../src/client/actions/common/connect';
-import { setUserCookieSettings } from '../../../src/client/actions/players/userCookie';
 import { updateStateAtLogout } from '../../../src/client/actions/players/logOut';
 import { dispatchReducePlayerCreated } from '../../../src/client/actions/players/createPlayer';
 import { dispatchReduceLeaveRoom } from '../../../src/client/actions/rooms/leaveRoom';
@@ -385,27 +384,6 @@ describe('client/reducers/user', function() {
             });
 
             updateStateAtLogout(store.dispatch);
-        });
-    });
-
-    describe('#handleUserCookieSettings() - USER_COOKIE_SETTINGS', function() {
-        it('should update state with cookies enabled or not', function(done) {
-            const payload = {
-                isUserCookieEnable: true,
-            };
-
-            const initialState = {};
-            const store = configureStore(rootReducer, null, initialState, {
-                USER_COOKIE_SETTINGS: ({ dispatch, getState }) => {
-                    const state = getState().usr;
-                    expect(state).to.deep.equal({
-                        isUserCookieEnable: true,
-                    });
-                    done();
-                },
-            });
-
-            setUserCookieSettings(store.dispatch, payload.isUserCookieEnable);
         });
     });
 

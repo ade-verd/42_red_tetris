@@ -1,5 +1,4 @@
 const { expect } = require('chai');
-const sinon = require('sinon');
 const ioClt = require('socket.io-client');
 const ioInstance = require('../../../../../src/server/socket/ioInstance');
 
@@ -8,10 +7,7 @@ const config = require('../../../../../src/server/config');
 
 const actionClient = require('../../../../../src/client/actions/game/malus');
 
-describe.skip('socket/handlers/malus/malus', function() {
-    const sandbox = sinon.createSandbox();
-
-    const ioSrv = ioInstance.get();
+describe('socket/handlers/malus/malus', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
@@ -19,40 +15,41 @@ describe.skip('socket/handlers/malus/malus', function() {
     };
 
     let server;
-    let client1;
-    let client2;
-    before(cb => {
-        startServer(config.server, function(err, srv) {
+    before(async () => {
+        await startServer(config.server, function(err, srv) {
             if (err) throw err;
             server = srv;
-            cb();
         });
 
         const ROOM_ID = '000000000000000000000001';
 
+        const ioSrv = ioInstance.get();
         ioSrv.on('connection', socket => {
             socket.join(ROOM_ID);
         });
+    });
 
+    let client1;
+    let client2;
+    beforeEach(() => {
         client1 = ioClt.connect(socketUrl, options);
         client2 = ioClt.connect(socketUrl, options);
     });
 
     after(done => {
         server.stop(done);
-        client1.disconnect();
-        client2.disconnect();
     });
 
     afterEach(() => {
-        sandbox.restore();
+        client1.disconnect();
+        client2.disconnect();
     });
 
     it('should emit malus', function(done) {
         const ROOM_ID = '000000000000000000000001';
         const MALUS = 2;
 
-        client1.emit('malus:send', actionClient.getGameStartPayload(ROOM_ID, MALUS));
+        client1.emit('malus:send', actionClient.getMalusPayload(ROOM_ID, MALUS));
         client2.once('malus:sent', payload => {
             expect(payload).to.deep.equal({
                 malus: MALUS,
@@ -63,11 +60,12 @@ describe.skip('socket/handlers/malus/malus', function() {
 
     it('should not emit anything if an error occurs while sending malus', function(done) {
         const ROOM_ID = null;
-        const PIECES = 2;
+        const MALUS = 2;
 
-        client1.emit('malus:send', actionClient.getGameStartPayload(ROOM_ID, MALUS));
-        client2.once('malus:sent', payload => {
-            expect(payload).to.deep.equal(null);
+        client1.emit('malus:send', actionClient.getMalusPayload(ROOM_ID, MALUS));
+        // Error will be sent back to client1
+        client1.once('malus:sent', payload => {
+            expect(payload.error).to.deep.equal('ValidationError: "room_id" must be a string');
             done();
         });
     });

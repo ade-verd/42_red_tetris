@@ -1,5 +1,4 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
-import { removeUserCookie } from './userCookie';
 
 export const emitDisconnect = dispatch =>
     dispatch({
@@ -15,7 +14,6 @@ export const updateStateAtLogout = dispatch => {
 };
 
 export const logOut = dispatch => {
-    removeUserCookie();
     emitDisconnect(dispatch);
     updateStateAtLogout(dispatch);
 };

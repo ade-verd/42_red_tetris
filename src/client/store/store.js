@@ -1,12 +1,12 @@
 import React from 'react';
 import { createStore, applyMiddleware } from 'redux';
-import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 import io from 'socket.io-client';
 
 import { asyncDispatchMiddleware } from '../middlewares/asyncDispatch';
 import { allStatesMiddleware } from '../middlewares/allStates';
 import { handleSocket } from '../middlewares/handleSocket';
+import reduxLogger from '../middlewares/reduxLogger';
 import rootReducer from '../reducers/index';
 
 import config from '../config';
@@ -21,7 +21,7 @@ export const store = createStore(
         thunk,
         asyncDispatchMiddleware,
         allStatesMiddleware,
-        createLogger(),
+        reduxLogger,
         handleSocket(socket),
     ),
 );

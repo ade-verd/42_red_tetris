@@ -1,5 +1,4 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
-import { getUserCookie, setUserCookie } from './userCookie';
 
 export const createPlayerPayload = name => ({ name });
 
@@ -24,16 +23,7 @@ export const onPlayerCreated = ({ dispatch, getState }) => {
         action: ACTIONS.LISTEN,
         event: 'players:created',
         fn: payload => {
-            setUserCookie(getState().usr, payload.player, payload.error);
             dispatchReducePlayerCreated(dispatch, payload);
         },
     });
-};
-
-export const checkUserCookie = store => {
-    const cookie = getUserCookie();
-
-    if (cookie && cookie._id && cookie.name) {
-        dispatchReducePlayerCreated(store.dispatch, { player: cookie });
-    }
 };

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { StyledPlayground } from './Playground.style';
 
+import Confetti from './Confetti/Confetti';
 import FieldWrapper from './FieldWrapper/FieldWrapper';
 import Spectrums from './Spectrums/Spectrums';
 
@@ -24,24 +25,6 @@ const Playground = props => {
         reactivateDropTime,
         drop,
     } = dispatchs;
-
-    console.debug(
-        '[Playground] State: ',
-        'store =',
-        store.getState(),
-        'field =',
-        field,
-        'gameStatus',
-        gameStatus,
-        'piece =',
-        piece,
-        'spectrums =',
-        spectrums,
-        'rooms =',
-        rooms,
-        'dispatchs =',
-        dispatchs,
-    );
 
     useEffect(() => {
         listen(playgroundRef);
@@ -76,6 +59,7 @@ const Playground = props => {
             onKeyDown={event => move(store.dispatch, event, field, piece, gameStatus)}
             onKeyUp={event => reactivateDropTime(store.dispatch, event, gameStatus)}
         >
+            {/* <Confetti playgroundRef={playgroundRef} isGameWon={gameStatus.gameWon} /> */}
             <Spectrums players={players} rooms={rooms} spectrums={spectrums} user={user} />
             <FieldWrapper {...props} isAdmin={isAdmin} playgroundRef={playgroundRef} />
         </StyledPlayground>

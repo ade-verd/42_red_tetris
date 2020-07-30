@@ -3,14 +3,14 @@
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
-    justify-content: start;
+    justify-content: flex-end;
     align-content: center;
 }
 
 .item {
     flex: 0 1 auto;
     margin: 1em;
-    font-size: 1.66vmin;
+    font-size: 1em;
 }
 
 .icon {

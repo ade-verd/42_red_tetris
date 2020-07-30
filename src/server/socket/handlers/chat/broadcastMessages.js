@@ -18,10 +18,17 @@ const ON_EVENT = 'chat:message:send';
 const EMIT_EVENT = 'chat:message:broadcasted';
 const FUNCTION_NAME = '[broadcastMessages]';
 
+const LOBBY = 'lobby';
+
 const _broadcast = async (socket, payload) => {
     try {
         const io = ioInstance.get();
-        io.in(payload.toRoomId).emit(EMIT_EVENT, payload);
+
+        if (payload.toRoomId === LOBBY) {
+            io.emit(EMIT_EVENT, payload);
+        } else {
+            io.in(payload.toRoomId).emit(EMIT_EVENT, payload);
+        }
     } catch (err) {
         socket.emit(EMIT_EVENT, { payload, error: err.toString() });
         console.error(FUNCTION_NAME, { payload, err });

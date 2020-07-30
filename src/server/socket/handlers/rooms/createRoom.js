@@ -15,7 +15,7 @@ const schema = {
 
 const ON_EVENT = 'rooms:create';
 const EMIT_EVENT = 'rooms:created';
-const FUNCTION_NAME = '[createRoom]';
+const FUNCTION_NAME = '[createNewRoom]';
 
 const createNewRoom = async (socket, payload) => {
     try {

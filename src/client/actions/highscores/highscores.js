@@ -2,7 +2,7 @@ import { ACTIONS } from '../../middlewares/handleSocket';
 
 import { store } from '../../store/store';
 
-const getScorePayload = (id, name, score) => {
+export const getScorePayload = (id, name, score) => {
     return {
         player_id: id,
         player_name: name,
@@ -13,7 +13,7 @@ const getScorePayload = (id, name, score) => {
 export const emitScore = dispatch => {
     const {
         usr: { id, name },
-        gme: { score }
+        gme: { score },
     } = store.getState();
 
     dispatch({
@@ -30,12 +30,20 @@ export const emitGetHighscores = dispatch => {
     });
 };
 
-export const onHighscores = (dispatch, setHighscores) => {
+export const updateHighscoresState = (dispatch, payload) => {
+    dispatch({
+        action: ACTIONS.REDUCE,
+        type: 'UPDATE_HIGHSCORES',
+        highscores: payload.highscores,
+    });
+};
+
+export const onHighscores = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'highscores:requested',
         fn: payload => {
-            setHighscores(payload.highscores);
+            updateHighscoresState(dispatch, payload);
         },
     });
 };

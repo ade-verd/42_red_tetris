@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import Rooms from '../components/Home/Lobby/Rooms/Rooms';
 
-import { emitCreateRoom, onRoomCreated } from '../actions/rooms/createRoom';
+import { emitCreateRoom } from '../actions/rooms/createRoom';
 import { emitJoinRoom, onRoomJoined } from '../actions/rooms/joinRoom';
 import { emitLeaveRoom, onRoomLeft } from '../actions/rooms/leaveRoom';
 import { emitGetRoomPlayers, onGotRoomPlayers } from '../actions/rooms/getRoomPlayers';
@@ -23,7 +23,6 @@ const mapDispatchToProps = dispatch => {
         emitGetActiveRooms,
         emitGetRoomPlayers,
         listen: () => {
-            onRoomCreated(dispatch);
             onRoomJoined(dispatch);
             onRoomLeft(dispatch);
             onGotActiveRooms(dispatch);

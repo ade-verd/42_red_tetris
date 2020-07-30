@@ -13,6 +13,7 @@ const schema = {
 };
 
 const ON_EVENT = 'score:send';
+<<<<<<< HEAD
 const EMIT_EVENT = 'score:sent'
 const FUNCTION_NAME = '[updateOrInsertScore]'
 
@@ -22,9 +23,21 @@ const insertScore = async (socket, payload) => {
         payload.player_name,
         payload.score,
     ];
+=======
+const EMIT_EVENT = 'score:sent';
+const FUNCTION_NAME = '[insertScore]';
+>>>>>>> playgroundV2
 
+const insertScore = async (socket, payload) => {
+    const [playerId, playerName, score] = [payload.player_id, payload.player_name, payload.score];
     try {
+<<<<<<< HEAD
         await highscoresLib.insertOne({ player_id: playerId, player_name: playerName, score });
+=======
+        console.log('ENTERED');
+        await highscoresLib.insertOne({ player_id: playerId, player_name: playerName, score });
+        // socket.emit(EMIT_EVENT, 'TEST');
+>>>>>>> playgroundV2
     } catch (err) {
         socket.emit(EMIT_EVENT, { payload, error: err.toString() });
         console.error(FUNCTION_NAME, { payload, err });

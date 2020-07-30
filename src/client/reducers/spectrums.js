@@ -11,7 +11,7 @@ const handleError = (state, error, errorFieldName) => {
 const setSpectrum = (state, playerId, playerName, spectrum, error) => {
     if (error !== undefined) {
         if (error.startsWith('ValidationError')) {
-            notify({ type: 'warning', msg: 'Spectrum name is missing' });
+            notify({ type: 'warning', msg: 'Spectrum payload one field is missing' });
         } else {
             notify({ type: 'error', msg: 'Error while creating the spectrum' });
         }

@@ -40,18 +40,73 @@ describe('socket/handlers/chat/broadcastMessages', function() {
         sandbox.restore();
     });
 
+    it('should broadcast the payload message to all clients, including sender', function(done) {
+        const msgPayload = clientActions.createChatPayload({
+            playerId: '000000000000000000000001',
+            playerName: 'Bobby',
+            msg: "Hello, it's me: Bobby",
+            roomId: 'lobby',
+            date: 1577836800,
+        });
+        const EXPECTED_MSG = {
+            fromPlayerId: '000000000000000000000001',
+            fromPlayerName: 'Bobby',
+            toRoomId: 'lobby',
+            message: "Hello, it's me: Bobby",
+            date: 1577836800,
+        };
+        const CLIENTS = [
+            '[LOBBY] client0 (sender & receiver)',
+            '[LOBBY] client1 (receiver)',
+            '[]      client2 (receiver)',
+        ];
+        let roomSockets = [];
+        let socketsClients = [];
+
+        const ioServer = ioInstance.get();
+        ioServer.on('connection', socket => {
+            if (roomSockets.length < 2) {
+                socket.join(msgPayload.toRoomId);
+                roomSockets.push(socket);
+            } else {
+                socketsClients[0].emit(ON_EVENT, msgPayload);
+            }
+        });
+
+        socketsClients = CLIENTS.map(() => ioClient.connect(socketUrl, options));
+
+        let messagesReceived;
+        socketsClients.forEach((client, index) => {
+            client.on(EMIT_EVENT, payload => {
+                messagesReceived = { ...messagesReceived, ['client' + index]: payload };
+            });
+        });
+
+        setTimeout(() => {
+            expect(messagesReceived).to.deep.equal({
+                client0: EXPECTED_MSG,
+                client1: EXPECTED_MSG,
+                client2: EXPECTED_MSG,
+            });
+            socketsClients.forEach(client => {
+                client.disconnect();
+            });
+            done();
+        }, 200);
+    });
+
     it('should broadcast the payload message to all clients in room, including sender', function(done) {
         const msgPayload = clientActions.createChatPayload({
             playerId: '000000000000000000000001',
             playerName: 'Bobby',
-            roomId: 'LOBBY',
+            roomId: '000000000000000000000001',
             msg: "Hello, it's me: Bobby",
             date: 1577836800,
         });
         const EXPECTED_MSG = {
             fromPlayerId: '000000000000000000000001',
             fromPlayerName: 'Bobby',
-            toRoomId: 'LOBBY',
+            toRoomId: '000000000000000000000001',
             message: "Hello, it's me: Bobby",
             date: 1577836800,
         };
@@ -101,12 +156,13 @@ describe('socket/handlers/chat/broadcastMessages', function() {
             playerId: '000000000000000000000001',
             playerName: 'Bobby',
             msg: "Hello, it's me: Bobby",
+            roomId: '000000000000000000000001',
             date: 1577836800,
         });
         const EXPECTED_MSG = {
             fromPlayerId: '000000000000000000000001',
             fromPlayerName: 'Bobby',
-            toRoomId: 'lobby',
+            toRoomId: '000000000000000000000001',
             message: "Hello, it's me: Bobby",
             date: 1577836800,
         };

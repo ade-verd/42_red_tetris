@@ -1,20 +1,16 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
-const io = require('socket.io-client');
+const ioClt = require('socket.io-client');
+const ioInstance = require('../../../../../src/server/socket/ioInstance');
 
 const { startServer } = require('../../../../helpers/server');
 const config = require('../../../../../src/server/config');
 
-const actionClient = require('../../../../../src/client/actions/game/getTetriminos.js');
+const actionClient = require('../../../../../src/client/actions/game/status');
+const playersLib = require('../../../../../src/server/models/players');
+const fixtures = require('../../../../fixtures/players.fixtures');
 
-const getPiecesLib = require('../../../../../src/server/lib/pieces/getPieces');
-
-const fixtures = {
-    ...require('../../../../fixtures/tetriminos.fixtures.js'),
-    ...require('../../../../fixtures/rooms.fixtures.js'),
-};
-
-describe('socket/handlers/status', function() {
+describe('socket/handlers/status/status', function() {
     const sandbox = sinon.createSandbox();
 
     const socketUrl = config.server.url;
@@ -24,12 +20,25 @@ describe('socket/handlers/status', function() {
     };
 
     let server;
-    before(cb => {
-        startServer(config.server, function(err, srv) {
+    before(async () => {
+        await startServer(config.server, function(err, srv) {
             if (err) throw err;
             server = srv;
-            cb();
         });
+
+        const ROOM_ID = '000000000000000000000001';
+
+        const ioSrv = ioInstance.get();
+        ioSrv.on('connection', socket => {
+            socket.join(ROOM_ID);
+        });
+    });
+
+    let client1;
+    let client2;
+    beforeEach(() => {
+        client1 = ioClt.connect(socketUrl, options);
+        client2 = ioClt.connect(socketUrl, options);
     });
 
     after(done => {
@@ -37,78 +46,49 @@ describe('socket/handlers/status', function() {
     });
 
     afterEach(() => {
+        client1.disconnect();
+        client2.disconnect();
         sandbox.restore();
     });
 
-    it('should emit new randow pieces', function(done) {
-        const getTetriminosStub = sandbox
-            .stub(getPiecesLib, 'getTetriminos')
-            .resolves(fixtures.generateBlocksList(1));
-
+    it('should receive gameOver and emit gameWon', function(done) {
         const ROOM_ID = '000000000000000000000001';
-        const PIECE_POSITION = 0;
-        const NUMBER = 1;
+        const PLAYER_ID = '000000000000000000000002';
+        const updateStub = sandbox
+            .stub(playersLib, 'updateOne')
+            .resolves();
+        
+        client2.on('connect', () => {
+            const findStub = sandbox
+                .stub(playersLib, 'find')
+                .resolves({ toArray: () => fixtures.playersWithWinner(client2.id) });
 
-        const client = io.connect(socketUrl, options);
-        client.on('connect', () => {
-            client.emit(
-                'tetriminos:get_random',
-                actionClient.getTetriminosPayload(ROOM_ID, PIECE_POSITION, NUMBER),
+            client1.emit(
+                'status:gameOver',
+                actionClient.getStatusPayload(PLAYER_ID, ROOM_ID),
             );
-        });
-        client.once('tetriminos:get_random', payload => {
-            expect(getTetriminosStub.args).to.deep.equal([['000000000000000000000001', 0, 1]]);
-            expect(payload).to.deep.equal({
-                payload: {
-                    room_id: '000000000000000000000001',
-                    pieces_position: 0,
-                    number: 1,
-                },
-                pieces: [
-                    {
-                        shape: [
-                            [0, 'I', 0, 0],
-                            [0, 'I', 0, 0],
-                            [0, 'I', 0, 0],
-                            [0, 'I', 0, 0],
-                        ],
-                        color: TETRIMINOS.I.color,
-                        rotationsPossible: 2,
-                    },
-                ],
+
+            client2.once('status:gameWon', payload => {
+                expect(updateStub.args).to.deep.equal([[ PLAYER_ID, { game_over: true } ]]);
+                expect(findStub.args).to.deep.equal([[{ room_id: ROOM_ID }]]);
+                expect(payload).to.deep.equal(undefined);
+                done();
             });
-            client.disconnect();
-            done();
         });
     });
 
-    it('should not emit anything if an error occurs while getting pieces', function(done) {
-        const getTetriminosStub = sandbox
-            .stub(getPiecesLib, 'getTetriminos')
-            .rejects(new Error('something happened'));
+    it('should not emit anything if an error occurs while receiving gameOver', function(done) {
+        const ROOM_ID = null;
+        const PLAYER_ID = '000000000000000000000002';
 
-        const ROOM_ID = '000000000000000000000001';
-        const PIECE_POSITION = 0;
-        const NUMBER = 1;
 
-        const client = io.connect(socketUrl, options);
-        client.on('connect', () => {
-            client.emit(
-                'tetriminos:get_random',
-                actionClient.getTetriminosPayload(ROOM_ID, PIECE_POSITION, NUMBER),
-            );
-        });
-        client.once('tetriminos:get_random', payload => {
-            expect(getTetriminosStub.args).to.deep.equal([['000000000000000000000001', 0, 1]]);
-            expect(payload).to.deep.equal({
-                payload: {
-                    room_id: '000000000000000000000001',
-                    pieces_position: 0,
-                    number: 1,
-                },
-                error: 'Error: something happened',
-            });
-            client.disconnect();
+        client1.emit(
+            'status:gameOver',
+            actionClient.getStatusPayload(PLAYER_ID, ROOM_ID),
+        );
+        // Error will be sent back to client1
+        client1.once('status:gameWon', payload => {
+            expect(payload.error).to.deep.equal('ValidationError: "room_id" must be a string');
             done();
         });
     });
