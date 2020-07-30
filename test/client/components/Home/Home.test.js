@@ -39,10 +39,11 @@ describe('<Home /> component', function() {
     const propsFixtures = () => ({
         store,
         history: [],
-        players: {},
         chat: {},
-        user: {},
+        highscores: {},
+        players: {},
         rooms: {},
+        user: {},
         listen: sandbox.stub(),
         socketIoConnect: sandbox.stub(),
     });
@@ -70,10 +71,11 @@ describe('<Home /> component', function() {
         expect(wrapper.find(Lobby))
             .to.have.prop('states')
             .to.deep.equal({
-                players: {},
                 chat: {},
-                user: { id: '000000000000000000000001' },
+                players: {},
+                highscores: {},
                 rooms: {},
+                user: { id: '000000000000000000000001' },
             });
         expect(wrapper.contains(<Footer />)).to.equal(true);
     });

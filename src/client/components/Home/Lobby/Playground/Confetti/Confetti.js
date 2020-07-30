@@ -1,17 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
-import useWindowSize from 'react-use-window-size';
-import Confetti from 'react-confetti';
+// import React, { useEffect, useRef, useState } from 'react';
+// import useWindowSize from 'react-use-window-size';
+// import Confetti from 'react-confetti';
 
-const ConfettiWrapper = ({ playgroundRef, isGameWon }) => {
-    const [run, setRun] = useState(false);
+// const ConfettiWrapper = ({ playgroundRef, isGameWon }) => {
+//     const [run, setRun] = useState(false);
 
-    const { width, height } = useWindowSize();
+//     const { width, height } = useWindowSize();
 
-    useEffect(() => {
-        isGameWon ? setRun(true) : setRun(false);
-    }, [isGameWon]);
+//     useEffect(() => {
+//         isGameWon ? setRun(true) : setRun(false);
+//     }, [isGameWon]);
 
-    return <Confetti run={run} width={width} height={height} />;
-};
+//     return <Confetti run={run} width={width} height={height} />;
+// };
 
-export default ConfettiWrapper;
+// export default ConfettiWrapper;
