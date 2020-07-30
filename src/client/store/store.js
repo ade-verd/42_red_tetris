@@ -14,6 +14,8 @@ import config from '../config';
 const initialState = {};
 const socket = io(config.server.url);
 
+console.log('PORT', process.env.PORT);
+
 export const store = createStore(
     rootReducer,
     initialState,
