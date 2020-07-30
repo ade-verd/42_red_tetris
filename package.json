@@ -16,14 +16,13 @@
         "client-dev": "webpack-dev-server --watch-poll --colors --hot --inline --host 0.0.0.0 --port 8080",
         "srv-dev": "DEBUG=tetris:* babel-watch -w src src/server/main.js",
         "srv-dist": "DEBUG=tetris:* babel src --out-dir dist",
-        "dist": "npm run srv-dist ; npm run client-dist",
         "mocha": "cross-env NODE_ENV=test mocha",
         "mocha:loop": "while :; do set -e; npm run mocha; done",
         "nyc": "cross-env NODE_ENV=test nyc mocha",
         "prettier": "prettier --check 'src/**/*.js'",
         "prettier:write": "prettier --write 'src/**/*.js'",
         "test": "npm run prettier && cross-env NODE_ENV=test nyc mocha",
-        "heroku-postbuild": "npm run client-dist"
+        "heroku-postbuild": "npm run srv-dist ; npm run client-dist"
     },
     "dependencies": {
         "@babel/runtime": "^7.8.4",
