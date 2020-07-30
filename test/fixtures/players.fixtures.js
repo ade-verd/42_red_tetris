@@ -7,6 +7,7 @@ const toBeInsertedDirectly = () => [
         room_id: null,
         name: 'Will',
         blocks_consumed: 0,
+        game_over: false,
         created_at: new Date('2020-01-01T10:00:00Z'),
         updated_at: new Date('2020-01-01T10:00:00Z'),
     },
@@ -16,6 +17,7 @@ const toBeInsertedDirectly = () => [
         name: 'Carlton',
         room_id: null,
         blocks_consumed: 7,
+        game_over: false,
         created_at: new Date('2020-01-01T10:00:00Z'),
         updated_at: new Date('2020-01-01T10:00:00Z'),
     },
@@ -25,6 +27,7 @@ const toBeInsertedDirectly = () => [
         room_id: null,
         name: 'Jeffrey',
         blocks_consumed: 15,
+        game_over: false,
         created_at: new Date('2020-01-01T10:00:00Z'),
         updated_at: new Date('2020-01-01T10:00:00Z'),
     },
@@ -36,6 +39,7 @@ const insertedPlayer = () => ({
     name: 'Waldo',
     room_id: null,
     blocks_consumed: 0,
+    game_over: false,
     created_at: new Date('2020-01-01T10:00:00Z'),
     updated_at: new Date('2020-01-01T10:00:00Z'),
 });
@@ -46,6 +50,7 @@ const playerStringFields = () => ({
     name: 'Waldo',
     room_id: null,
     blocks_consumed: 0,
+    game_over: false,
     created_at: '2020-01-01T10:00:00Z',
     updated_at: '2020-01-01T10:00:00Z',
 });
@@ -55,6 +60,7 @@ const player1 = () => ({
     room_id: null,
     name: 'Chandler',
     blocks_consumed: 15,
+    game_over: false,
 });
 
 const player2 = () => ({
@@ -62,6 +68,7 @@ const player2 = () => ({
     room_id: null,
     name: 'Joey',
     blocks_consumed: 52,
+    game_over: false,
 });
 
 const player3 = () => ({
@@ -69,6 +76,7 @@ const player3 = () => ({
     room_id: null,
     name: 'Ross',
     blocks_consumed: 36,
+    game_over: false,
 });
 
 const player4 = () => ({
@@ -76,6 +84,7 @@ const player4 = () => ({
     room_id: null,
     name: 'Monica',
     blocks_consumed: 22,
+    game_over: false,
 });
 
 const player5 = () => ({
@@ -83,6 +92,7 @@ const player5 = () => ({
     room_id: null,
     name: 'Rachel',
     blocks_consumed: 39,
+    game_over: false,
 });
 
 const playersWithWinner = winnerSocketId => [

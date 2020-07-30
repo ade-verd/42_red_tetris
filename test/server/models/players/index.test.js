@@ -46,6 +46,7 @@ describe('models/players', () => {
                     name: 'Will',
                     room_id: null,
                     blocks_consumed: 0,
+                    game_over: false,
                     created_at: new Date('2020-01-01T10:00:00Z'),
                     updated_at: new Date('2020-01-01T10:00:00Z'),
                 },
@@ -55,6 +56,7 @@ describe('models/players', () => {
                     room_id: null,
                     name: 'Carlton',
                     blocks_consumed: 7,
+                    game_over: false,
                     created_at: new Date('2020-01-01T10:00:00Z'),
                     updated_at: new Date('2020-01-01T10:00:00Z'),
                 },
@@ -64,6 +66,7 @@ describe('models/players', () => {
                     room_id: null,
                     name: 'Jeffrey',
                     blocks_consumed: 15,
+                    game_over: false,
                     created_at: new Date('2020-01-01T10:00:00Z'),
                     updated_at: new Date('2020-01-01T10:00:00Z'),
                 },
@@ -81,6 +84,7 @@ describe('models/players', () => {
                     room_id: null,
                     name: 'Will',
                     blocks_consumed: 0,
+                    game_over: false,
                     created_at: new Date('2020-01-01T10:00:00Z'),
                     updated_at: new Date('2020-01-01T10:00:00Z'),
                 },
@@ -110,6 +114,7 @@ describe('models/players', () => {
                     name: 'Will',
                     room_id: null,
                     blocks_consumed: 0,
+                    game_over: false,
                     created_at: new Date('2020-01-01T10:00:00Z'),
                     updated_at: new Date('2020-01-01T10:00:00Z'),
                 },
@@ -119,6 +124,7 @@ describe('models/players', () => {
                     room_id: null,
                     name: 'Carlton',
                     blocks_consumed: 7,
+                    game_over: false,
                     created_at: new Date('2020-01-01T10:00:00Z'),
                     updated_at: new Date('2020-01-01T10:00:00Z'),
                 },
@@ -150,6 +156,7 @@ describe('models/players', () => {
                     name: 'Will',
                     room_id: null,
                     blocks_consumed: 0,
+                    game_over: false,
                     created_at: new Date('2020-01-01T10:00:00Z'),
                     updated_at: new Date('2020-01-01T10:00:00Z'),
                 },
@@ -159,6 +166,7 @@ describe('models/players', () => {
                     room_id: null,
                     name: 'Carlton',
                     blocks_consumed: 7,
+                    game_over: false,
                     created_at: new Date('2020-01-01T10:00:00Z'),
                     updated_at: new Date('2020-01-01T10:00:00Z'),
                 },
@@ -189,6 +197,7 @@ describe('models/players', () => {
                 room_id: null,
                 name: 'Will',
                 blocks_consumed: 0,
+                game_over: false,
                 created_at: new Date('2020-01-01T10:00:00Z'),
                 updated_at: new Date('2020-01-01T10:00:00Z'),
             });
@@ -226,6 +235,7 @@ describe('models/players', () => {
                 room_id: null,
                 name: 'Will',
                 blocks_consumed: 0,
+                game_over: false,
                 created_at: new Date('2020-01-01T10:00:00Z'),
                 updated_at: new Date('2020-01-01T10:00:00Z'),
             });
@@ -267,6 +277,7 @@ describe('models/players', () => {
                 room_id: null,
                 name: 'Chandler',
                 blocks_consumed: 15,
+                game_over: false,
                 created_at: new Date('2000-01-01T10:00:00Z'),
                 updated_at: new Date('2000-01-01T10:00:00Z'),
             };
@@ -315,6 +326,7 @@ describe('models/players', () => {
                 room_id: null,
                 name: 'Will',
                 blocks_consumed: 1,
+                game_over: false,
                 created_at: new Date('2020-01-01T10:00:00Z'),
                 updated_at: new Date('2050-01-01T10:00:00Z'),
             };
@@ -346,7 +358,10 @@ describe('models/players', () => {
             const dateStub = sandbox.stub(dateLib, 'newDate').returns(FAKE_DATE);
 
             const ROOM_ID = '000000000000000000000001';
-            const result = await playersModels.updateMany({ room_id: ROOM_ID }, { game_over: false });
+            const result = await playersModels.updateMany(
+                { room_id: ROOM_ID },
+                { game_over: false },
+            );
 
             const expectedPlayers = [
                 {
@@ -379,11 +394,11 @@ describe('models/players', () => {
                     created_at: new Date('2020-01-01T10:00:00Z'),
                     updated_at: new Date('2050-01-01T10:00:00Z'),
                 },
-            ]
+            ];
             const playerA = await playersModels.findOneById('00000000000000000000000a');
             const playerB = await playersModels.findOneById('00000000000000000000000b');
             const playerC = await playersModels.findOneById('00000000000000000000000c');
-            const playersFound = [ playerA, playerB, playerC ];
+            const playersFound = [playerA, playerB, playerC];
 
             expect(dateStub.callCount).to.equal(1);
             expect(result.modifiedCount).to.equal(3);
@@ -392,7 +407,10 @@ describe('models/players', () => {
 
         it('should not update anything if the identifiers do not exist', async () => {
             const ROOM_ID = '11111111111111111111111';
-            const result = await playersModels.updateMany({ room_id: ROOM_ID }, { game_over: false });
+            const result = await playersModels.updateMany(
+                { room_id: ROOM_ID },
+                { game_over: false },
+            );
 
             expect(result.matchedCount).to.equal(0);
             expect(result.modifiedCount).to.equal(0);

@@ -49,7 +49,7 @@ const initApp = (app, params, cb) => {
     }
 };
 
-const stop = (cb) => {
+const stop = cb => {
     mongodb.disconnect();
     io.close();
     app.close(() => {
@@ -59,7 +59,7 @@ const stop = (cb) => {
     });
 };
 
-const create = (params) => {
+const create = params => {
     const promise = new Promise((resolve, reject) => {
         app = require('http').createServer();
         initApp(app, params, () => {

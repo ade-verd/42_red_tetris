@@ -13,7 +13,6 @@ class asyncPlayer {
                 socket_id: socketId,
                 name,
                 room_id: roomId,
-                game_over: false,
             });
             this.id = insertedPlayer._id.toString();
             return this;

@@ -82,7 +82,7 @@ describe('socket/handlers/spectrums', function() {
                 ['clear', 'merged', 'merged', 'clear'],
                 ['clear', 'merged', 'merged', 'clear'],
             ];
-    
+
             client1.emit(
                 'spectrum:update',
                 actionClient.getSpectrumPayload(ROOM_ID, PLAYER_ID, PLAYER_NAME, FIELD),
@@ -96,13 +96,13 @@ describe('socket/handlers/spectrums', function() {
                 done();
             });
         });
-    
+
         it('should not emit if the payload is wrong', function(done) {
             const ROOM_ID = '000000000000000000000001';
             const PLAYER_ID = '000000000000000000000002';
             const PLAYER_NAME = 'PLAYER01';
             const FIELD = null;
-    
+
             client1.emit(
                 'spectrum:update',
                 actionClient.getSpectrumPayload(ROOM_ID, PLAYER_ID, PLAYER_NAME, FIELD),

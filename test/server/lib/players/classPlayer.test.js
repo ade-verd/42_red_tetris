@@ -72,6 +72,7 @@ describe('lib/players/classPlayer', () => {
                 room_id: null,
                 name: 'Waldo',
                 blocks_consumed: 0,
+                game_over: false,
                 created_at: new Date('2020-01-01T10:00:00Z'),
                 updated_at: new Date('2020-01-01T10:00:00Z'),
             });

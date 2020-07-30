@@ -53,38 +53,31 @@ describe('socket/handlers/gameReset', function() {
 
         it('should emit game reset', function(done) {
             const ROOM_ID = '000000000000000000000001';
-    
+
             const updateManyStub = sandbox.stub(playersLib, 'updateMany').resolves();
-    
-            client1.emit(
-                'game:reset',
-                actionClient.getGameResetPayload(ROOM_ID),
-            );
+
+            client1.emit('game:reset', actionClient.getGameResetPayload(ROOM_ID));
             client2.once('game:reseted', payload => {
-                expect(updateManyStub.args).to.deep.equal([[ { room_id: ROOM_ID }, { game_over: false } ]]);
+                expect(updateManyStub.args).to.deep.equal([
+                    [{ room_id: ROOM_ID }, { game_over: false }],
+                ]);
                 expect(payload).to.deep.equal(undefined);
                 done();
             });
         });
-    
-       it('should not emit if database call rejects an error', function(done) {
+
+        it('should not emit if database call rejects an error', function(done) {
             const ROOM_ID = '000000000000000000000001';
-    
+
             const updateManyStub = sandbox
                 .stub(playersLib, 'updateMany')
                 .rejects(new Error('something happened'));
-    
-            client1.emit(
-                'game:reset',
-                actionClient.getGameResetPayload(ROOM_ID),
-            );
+
+            client1.emit('game:reset', actionClient.getGameResetPayload(ROOM_ID));
             // Error will be sent back to client1
             client1.once('game:reseted', payload => {
                 expect(updateManyStub.args).to.deep.equal([
-                    [ 
-                        { room_id: ROOM_ID },
-                        { game_over: false }
-                    ]
+                    [{ room_id: ROOM_ID }, { game_over: false }],
                 ]);
                 expect(payload).to.deep.equal({
                     payload: {
@@ -95,19 +88,16 @@ describe('socket/handlers/gameReset', function() {
                 done();
             });
         });
-    
+
         it('should not emit if the payload is wrong', function(done) {
             const ROOM_ID = null;
-    
-            client1.emit(
-                'game:reset',
-                actionClient.getGameResetPayload(ROOM_ID),
-            );
+
+            client1.emit('game:reset', actionClient.getGameResetPayload(ROOM_ID));
             // Error will be sent back to client1
             client1.once('game:reseted', payload => {
                 expect(payload.error).to.deep.equal('ValidationError: "room_id" must be a string');
                 done();
             });
-        }); 
+        });
     });
 });

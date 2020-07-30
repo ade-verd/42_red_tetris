@@ -49,7 +49,7 @@ describe('socket/handlers/malus', function() {
         it('should emit malus', function(done) {
             const ROOM_ID = '000000000000000000000001';
             const MALUS = 2;
-    
+
             client1.emit('malus:send', actionClient.getMalusPayload(ROOM_ID, MALUS));
             client2.once('malus:sent', payload => {
                 expect(payload).to.deep.equal({
@@ -58,11 +58,11 @@ describe('socket/handlers/malus', function() {
                 done();
             });
         });
-    
+
         it('should not emit if the payload is wrong', function(done) {
             const ROOM_ID = null;
             const MALUS = 2;
-    
+
             client1.emit('malus:send', actionClient.getMalusPayload(ROOM_ID, MALUS));
             // Error will be sent back to client1
             client1.once('malus:sent', payload => {
@@ -71,5 +71,4 @@ describe('socket/handlers/malus', function() {
             });
         });
     });
-
 });

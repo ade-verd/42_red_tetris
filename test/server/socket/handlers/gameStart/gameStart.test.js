@@ -76,13 +76,10 @@ describe('socket/handlers/gameStart', function() {
                 [0, 0, 0, 0],
                 [0, 0, 0, 0],
             ];
-    
+
             const PIECE = { pieces: PIECES, index: INDEX, tetromino: NEXT_TETROMINO };
-    
-            client1.emit(
-                'game:start',
-                actionClient.getGameStartPayload(ROOM_ID, PIECE),
-            );
+
+            client1.emit('game:start', actionClient.getGameStartPayload(ROOM_ID, PIECE));
             client2.once('game:started', payload => {
                 expect(payload).to.deep.equal({
                     pieces: PIECES,
@@ -92,19 +89,16 @@ describe('socket/handlers/gameStart', function() {
                 done();
             });
         });
-    
+
         it('should not emit if the payload is wrong', function(done) {
             const ROOM_ID = '000000000000000000000001';
             const PIECES = null;
             const INDEX = 0;
             const NEXT_TETROMINO = null;
-    
-            const PIECE =  { pieces: PIECES, index: INDEX, tetromino: NEXT_TETROMINO };
-    
-            client1.emit(
-                'game:start',
-                actionClient.getGameStartPayload(ROOM_ID, PIECE),
-            );
+
+            const PIECE = { pieces: PIECES, index: INDEX, tetromino: NEXT_TETROMINO };
+
+            client1.emit('game:start', actionClient.getGameStartPayload(ROOM_ID, PIECE));
             // Error will be sent back to client1
             client1.once('game:started', payload => {
                 expect(payload.error).to.deep.equal('ValidationError: "pieces" must be an array');
