@@ -1,7 +1,5 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
 
-import { store } from '../../store/store';
-
 export const getScorePayload = (id, name, score) => {
     return {
         player_id: id,
@@ -10,7 +8,7 @@ export const getScorePayload = (id, name, score) => {
     };
 };
 
-export const emitScore = dispatch => {
+export const emitScore = (store, dispatch) => {
     const {
         usr: { id, name },
         gme: { score },
@@ -23,7 +21,7 @@ export const emitScore = dispatch => {
     });
 };
 
-export const emitGetHighscores = dispatch => {
+export const emitGetHighscores = (dispatch) => {
     dispatch({
         action: ACTIONS.EMIT,
         event: 'highscores:request',
@@ -38,11 +36,11 @@ export const updateHighscoresState = (dispatch, payload) => {
     });
 };
 
-export const onHighscores = dispatch => {
+export const onHighscores = (dispatch) => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'highscores:requested',
-        fn: payload => {
+        fn: (payload) => {
             updateHighscoresState(dispatch, payload);
         },
     });

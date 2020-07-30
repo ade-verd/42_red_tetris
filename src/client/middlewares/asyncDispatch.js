@@ -17,7 +17,7 @@ export const asyncDispatchMiddleware = store => next => action => {
         }
     }
 
-    const actionWithAsyncDispatch = Object.assign({}, action, { asyncDispatch });
+    const actionWithAsyncDispatch = Object.assign({}, action, { asyncDispatch, store });
 
     const res = next(actionWithAsyncDispatch);
 

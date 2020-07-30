@@ -17,10 +17,10 @@ import App from '../../../../src/client/App';
 import HomeContainer from '../../../../src/client/containers/Home.container';
 import { Home as HomeComponent } from '../../../../src/client/components/Home/Home';
 
-import CreatePlayer from '../../../../src/client/components/CreatePlayer/CreatePlayer';
-import Footer from '../../../../src/client/components/Footer/Footer';
-import Header from '../../../../src/client/components/Header/Header';
-import Lobby from '../../../../src/client/components/Lobby/Lobby';
+import CreatePlayer from '../../../../src/client/components/Home/CreatePlayer/CreatePlayer';
+import Footer from '../../../../src/client/components/Home/Footer/Footer';
+import Header from '../../../../src/client/components/Home/Header/Header';
+import Lobby from '../../../../src/client/components/Home/Lobby/Lobby';
 
 configureEnzyme({ adapter: new Adapter() });
 chai.use(chaiEnzyme());
@@ -39,10 +39,11 @@ describe('<Home /> component', function() {
     const propsFixtures = () => ({
         store,
         history: [],
-        players: {},
         chat: {},
-        user: {},
+        highscores: {},
+        players: {},
         rooms: {},
+        user: {},
         listen: sandbox.stub(),
         socketIoConnect: sandbox.stub(),
     });
@@ -70,10 +71,11 @@ describe('<Home /> component', function() {
         expect(wrapper.find(Lobby))
             .to.have.prop('states')
             .to.deep.equal({
-                players: {},
                 chat: {},
-                user: { id: '000000000000000000000001' },
+                players: {},
+                highscores: {},
                 rooms: {},
+                user: { id: '000000000000000000000001' },
             });
         expect(wrapper.contains(<Footer />)).to.equal(true);
     });

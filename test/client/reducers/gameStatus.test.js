@@ -5,7 +5,6 @@ import { configureStore, fakeSocket } from '../../helpers/client';
 import rootReducer from '../../../src/client/reducers';
 
 import { resetState } from '../../../src/client/actions/game/field.js';
-import { firstRender } from '../../../src/client/actions/game/firstRender.js';
 import { updateGameStatus } from '../../../src/client/actions/game/gameStatus.js';
 import { incrementLevel, setGameOver } from '../../../src/client/actions/game/piece.js';
 import { incrementRowsCleared, setRowsCleared } from '../../../src/client/reducers/field.js';
@@ -20,27 +19,6 @@ describe('client/reducers/gameStatus', function() {
     afterEach(() => {
         console.debug.restore();
         sandbox.restore();
-    });
-
-    describe('FIRST_RENDER', function() {
-        it('should init the state ', function(done) {
-            const initialState = {};
-            const store = configureStore(rootReducer, null, initialState, {
-                FIRST_RENDER: ({ dispatch, getState }) => {
-                    const state = getState().gme;
-                    expect(state).to.deep.equal({
-                        score: 0,
-                        rows: 0,
-                        rowsCleared: 0,
-                        level: 1,
-                        gameOver: false,
-                    });
-                    done();
-                },
-            });
-
-            firstRender(store.dispatch);
-        });
     });
 
     describe('UPDATE_ROWS_SCORE', function() {
@@ -225,6 +203,8 @@ describe('client/reducers/gameStatus', function() {
                         rowsCleared: 0,
                         level: 1,
                         gameOver: false,
+                        gameWon: false,
+                        playing: false,
                     });
                     done();
                 },

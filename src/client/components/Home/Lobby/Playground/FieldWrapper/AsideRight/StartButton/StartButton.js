@@ -13,7 +13,7 @@ const StartButton = ({ startGame, resetGame }) => {
     };
 
     const reset = () => {
-        resetGame(store.dispatch, true);
+        resetGame(store, true);
         setLabel('Start');
     };
 

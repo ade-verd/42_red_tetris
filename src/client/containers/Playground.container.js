@@ -15,6 +15,8 @@ import { onGameWon } from '../actions/game/status';
 
 import { GAME_ACTIONS } from '../../constants';
 
+import { store } from '../store/store';
+
 const mapStateToProps = state => {
     return {
         field: state.fld.field,
@@ -36,7 +38,7 @@ const mapDispatchToProps = dispatch => {
             onGameAction(dispatch);
             onGetRandomTetriminos(dispatch);
             onSpectrum(dispatch);
-            onMalus(dispatch);
+            onMalus(store);
         },
         onStart: () => {
             emitGameAction(dispatch, GAME_ACTIONS.START);

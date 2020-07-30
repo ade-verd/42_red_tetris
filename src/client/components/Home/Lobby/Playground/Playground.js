@@ -28,7 +28,7 @@ const Playground = props => {
 
     useEffect(() => {
         listen(playgroundRef);
-        resetGame(store.dispatch);
+        resetGame(store);
     }, []);
 
     useEffect(() => {
