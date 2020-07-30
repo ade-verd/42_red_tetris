@@ -18,9 +18,7 @@ function _validate(player) {
         blocks_consumed: Joi.number()
             .min(0)
             .default(0),
-        game_over: Joi.boolean()
-            .required()
-            .default(false),
+        game_over: Joi.boolean().default(false),
         created_at: Joi.date().default(dateLib.newDate()),
         updated_at: Joi.date().default(dateLib.newDate()),
     }).required();
