@@ -1,16 +1,15 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const ioClt = require('socket.io-client');
-const ioInstance = require('../../../../../src/server/socket/ioInstance');
 
 const { startServer } = require('../../../../helpers/server');
 const config = require('../../../../../src/server/config');
 
-const actionClient = require('../../../../../src/client/actions/game/status');
-const playersLib = require('../../../../../src/server/models/players');
-const fixtures = require('../../../../fixtures/players.fixtures');
+const actionClient = require('../../../../../src/client/actions/highscores/highscores');
+const highscoresLib = require('../../../../../src/server/models/highscores');
+const fixtures = require('../../../../fixtures/highscores.fixtures');
 
-describe('socket/handlers/status/status', function() {
+describe('socket/handlers/highscores', function() {
     const sandbox = sinon.createSandbox();
 
     const socketUrl = config.server.url;
@@ -20,76 +19,110 @@ describe('socket/handlers/status/status', function() {
     };
 
     let server;
-    let client1;
-    let client2;
     before(async () => {
         await startServer(config.server, function(err, srv) {
             if (err) throw err;
             server = srv;
         });
-        
-        const ROOM_ID = '000000000000000000000001';
-        
-        const ioSrv = ioInstance.get();
-        ioSrv.on('connection', socket => {
-            socket.join(ROOM_ID);
-        });
-        
-        client1 = ioClt.connect(socketUrl, options);
-        client2 = ioClt.connect(socketUrl, options);
     });
 
     after(done => {
-        server.stop();
-        client1.disconnect();
-        client2.disconnect();
-        done();
+        server.stop(done);
     });
 
-    afterEach(() => {
-        sandbox.restore();
-    });
+    describe('socket/handlers/highscores/highscores', function() {
+        let client;
+        beforeEach(() => {
+            client = ioClt.connect(socketUrl, options);
+        });
 
-    it('should receive gameOver and emit gameWon', function(done) {
-        const ROOM_ID = '000000000000000000000001';
-        const PLAYER_ID = '000000000000000000000002';
-        const updateStub = sandbox.stub(playersLib, 'updateOne').resolves();
-        
-        client2.on('connect', () => {
-            const findStub = sandbox.stub(playersLib, 'find').resolves({ toArray: () => fixtures.playersWithWinner(client2.id) });
+        afterEach(() => {
+            client.disconnect();
+            sandbox.restore();
+        });
 
-            client1.emit(
-                'status:gameOver',
-                actionClient.getStatusPayload(PLAYER_ID, ROOM_ID),
-            );
-
-            client2.once('status:gameWon', payload => {
-                expect(updateStub.args).to.deep.equal([[ PLAYER_ID, { game_over: true } ]]);
-                expect(findStub.args).to.deep.equal([[{ room_id: ROOM_ID }]]);
-                expect(payload).to.deep.equal(undefined);
+        it('should emit highscores', function(done) {
+            const HIGHSCORES = [
+                {
+                    name: 'AAA',
+                    score: 333,
+                },
+                {
+                    name: 'BBB',
+                    score: 222,
+                },
+                {
+                    name: 'CCC',
+                    score: 111,
+                },
+            ];
+    
+            const findHighScoresStub = sandbox
+                .stub(highscoresLib, 'findHighScores')
+                .resolves(fixtures.getHighscoresOf3());
+            
+            client.emit('highscores:request');
+    
+            client.once('highscores:requested', payload => {
+                expect(findHighScoresStub.args).to.deep.equal([[ 10 ]]);
+                expect(payload.highscores).to.deep.equal(HIGHSCORES);
+                done();
+            });
+        });
+    
+        it('should not emit anything if an error occurs while receiving gameOver', function(done) {
+            const findHighScoresStub = sandbox
+                .stub(highscoresLib, 'findHighScores')
+                .rejects(new Error('something happened'));
+    
+    
+            client.emit('highscores:request');
+    
+            client.once('highscores:requested', payload => {
+                expect(findHighScoresStub.args).to.deep.equal([[ 10 ]]);
+                expect(payload).to.deep.equal({
+                    payload: {},
+                    error: 'Error: something happened',
+                });
                 done();
             });
         });
     });
 
-    it('should not emit anything if an error occurs while receiving gameOver', function(done) {
-        const ROOM_ID = null;
-        const PLAYER_ID = '000000000000000000000002';
+    describe('socket/handlers/highscores/score', function() {
+        let client;
+        beforeEach(() => {
+            client = ioClt.connect(socketUrl, options);
+        });
 
+        afterEach(() => {
+            client.disconnect();
+            sandbox.restore();
+        });
 
-        client1.emit(
-            'status:gameOver',
-            actionClient.getStatusPayload(PLAYER_ID, ROOM_ID),
-        );
-        // Error will be sent back to client1
-        client1.once('status:gameWon', payload => {
-            expect(payload.error).to.deep.equal('ValidationError: "room_id" must be a string');
-            done();
+        it('should emit score', function(done) {
+            const PLAYER_ID = '000000000000000000000001';
+            const PLAYER_NAME = 'BOT';
+            const SCORE = 42;
+    
+            const insertOneStub = sandbox
+                .stub(highscoresLib, 'insertOne')
+                .resolves();
+            console.log('OK', insertOneStub);
+
+            client.on('connect', () => {
+                client.emit('score:send', actionClient.getScorePayload(PLAYER_ID, PLAYER_NAME, SCORE));
+                // expect(insertOneStub.args).to.deep.equal([[ { player_id: PLAYER_ID, player_name: PLAYER_NAME, score: SCORE } ]]);
+                console.log('OK2')
+                done();
+            });
+            
+            // client.on('score:sent', payload => {
+            //     console.log(payload);
+            //     console.log(insertOneStub.args);
+            //     console.log(insertOneStub.callCount);
+            //     expect(insertOneStub.args).to.deep.equal([[ { player_id: PLAYER_ID, player_name: PLAYER_NAME, score: SCORE } ]]);
+            // });
         });
     });
 });
-
-
-describe.skip('socket/handlers/highscores/score', function() {
-    console.log('score tests');
-})

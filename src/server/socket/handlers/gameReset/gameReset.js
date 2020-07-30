@@ -12,14 +12,13 @@ const schema = {
 
 const ON_EVENT = 'game:reset';
 const EMIT_EVENT = 'game:reseted';
+const FUNCTION_NAME = 'emitGameReset';
 
 const emitGameReset = async (socket, payload) => {
     const [roomId] = [payload.room_id];
 
     try {
-        await playersLib
-            .collection()
-            .updateMany({ room_id: roomId }, { $set: { game_over: false } });
+        await playersLib.updateMany({ room_id: roomId }, { game_over: false });
     } catch (err) {
         socket.emit(EMIT_EVENT, { payload, error: err.toString() });
         console.error(FUNCTION_NAME, { payload, err });

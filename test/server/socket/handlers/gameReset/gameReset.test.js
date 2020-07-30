@@ -7,6 +7,7 @@ const { startServer } = require('../../../../helpers/server');
 const config = require('../../../../../src/server/config');
 
 const actionClient = require('../../../../../src/client/actions/game/gameReset');
+const playersLib = require('../../../../../src/server/models/players');
 
 describe('socket/handlers/gameReset/gameReset', function() {
     const sandbox = sinon.createSandbox();
@@ -18,10 +19,7 @@ describe('socket/handlers/gameReset/gameReset', function() {
         'force new connection': true,
     };
 
-
     let server;
-    let client1;
-    let client2;
     before(async () => {
         await startServer(config.server, function(err, srv) {
             if (err) throw err;
@@ -34,30 +32,36 @@ describe('socket/handlers/gameReset/gameReset', function() {
         ioSrv.on('connection', socket => {
             socket.join(ROOM_ID);
         });
+    });
 
+    let client1;
+    let client2;
+    beforeEach(() => {
         client1 = ioClt.connect(socketUrl, options);
         client2 = ioClt.connect(socketUrl, options);
     });
 
     after(done => {
-        server.stop();
-        client1.disconnect();
-        client2.disconnect();
-        done();
+        server.stop(done);
     });
 
     afterEach(() => {
+        client1.disconnect();
+        client2.disconnect();
         sandbox.restore();
     });
 
     it('should emit game reset', function(done) {
         const ROOM_ID = '000000000000000000000001';
 
+        const updateManyStub = sandbox.stub(playersLib, 'updateMany').resolves();
+
         client1.emit(
             'game:reset',
             actionClient.getGameResetPayload(ROOM_ID),
         );
         client2.once('game:reseted', payload => {
+            expect(updateManyStub.args).to.deep.equal([[ { room_id: ROOM_ID }, { game_over: false } ]]);
             expect(payload).to.deep.equal(undefined);
             done();
         });

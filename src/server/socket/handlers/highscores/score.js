@@ -14,13 +14,14 @@ const schema = {
 
 const ON_EVENT = 'score:send';
 const EMIT_EVENT = 'score:sent';
-const FUNCTION_NAME = '[updateOrInsertScore]';
+const FUNCTION_NAME = '[insertScore]';
 
 const insertScore = async (socket, payload) => {
     const [playerId, playerName, score] = [payload.player_id, payload.player_name, payload.score];
-
     try {
+        console.log('ENTERED');
         await highscoresLib.insertOne({ player_id: playerId, player_name: playerName, score });
+        // socket.emit(EMIT_EVENT, 'TEST');
     } catch (err) {
         socket.emit(EMIT_EVENT, { payload, error: err.toString() });
         console.error(FUNCTION_NAME, { payload, err });
