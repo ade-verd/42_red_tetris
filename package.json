@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "@babel/runtime": "^7.8.4",
+        "@babel/runtime-corejs2": "^7.8.4",
         "@fortawesome/fontawesome-svg-core": "^1.2.27",
         "@fortawesome/free-brands-svg-icons": "^5.12.1",
         "@fortawesome/free-solid-svg-icons": "^5.12.1",
@@ -83,7 +84,6 @@
         "@babel/preset-env": "^7.0.0",
         "@babel/preset-react": "^7.8.3",
         "@babel/register": "^7.8.3",
-        "@babel/runtime-corejs2": "^7.8.4",
         "@istanbuljs/nyc-config-babel": "3.0.0",
         "babel-eslint": "9.0.0",
         "babel-loader": "8.0.6",
