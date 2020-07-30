@@ -7,7 +7,7 @@ const config = require('../../../../../src/server/config');
 
 const actionClient = require('../../../../../src/client/actions/game/malus');
 
-describe('socket/handlers/malus/malus', function() {
+describe('socket/handlers/malus', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
@@ -29,44 +29,47 @@ describe('socket/handlers/malus/malus', function() {
         });
     });
 
-    let client1;
-    let client2;
-    beforeEach(() => {
-        client1 = ioClt.connect(socketUrl, options);
-        client2 = ioClt.connect(socketUrl, options);
-    });
-
     after(done => {
         server.stop(done);
     });
 
-    afterEach(() => {
-        client1.disconnect();
-        client2.disconnect();
-    });
+    describe('socket/handlers/malus/malus', function() {
+        let client1;
+        let client2;
+        beforeEach(() => {
+            client1 = ioClt.connect(socketUrl, options);
+            client2 = ioClt.connect(socketUrl, options);
+        });
 
-    it('should emit malus', function(done) {
-        const ROOM_ID = '000000000000000000000001';
-        const MALUS = 2;
+        afterEach(() => {
+            client1.disconnect();
+            client2.disconnect();
+        });
 
-        client1.emit('malus:send', actionClient.getMalusPayload(ROOM_ID, MALUS));
-        client2.once('malus:sent', payload => {
-            expect(payload).to.deep.equal({
-                malus: MALUS,
+        it('should emit malus', function(done) {
+            const ROOM_ID = '000000000000000000000001';
+            const MALUS = 2;
+    
+            client1.emit('malus:send', actionClient.getMalusPayload(ROOM_ID, MALUS));
+            client2.once('malus:sent', payload => {
+                expect(payload).to.deep.equal({
+                    malus: MALUS,
+                });
+                done();
             });
-            done();
+        });
+    
+        it('should not emit if the payload is wrong', function(done) {
+            const ROOM_ID = null;
+            const MALUS = 2;
+    
+            client1.emit('malus:send', actionClient.getMalusPayload(ROOM_ID, MALUS));
+            // Error will be sent back to client1
+            client1.once('malus:sent', payload => {
+                expect(payload.error).to.deep.equal('ValidationError: "room_id" must be a string');
+                done();
+            });
         });
     });
 
-    it('should not emit anything if an error occurs while sending malus', function(done) {
-        const ROOM_ID = null;
-        const MALUS = 2;
-
-        client1.emit('malus:send', actionClient.getMalusPayload(ROOM_ID, MALUS));
-        // Error will be sent back to client1
-        client1.once('malus:sent', payload => {
-            expect(payload.error).to.deep.equal('ValidationError: "room_id" must be a string');
-            done();
-        });
-    });
 });

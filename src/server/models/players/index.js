@@ -145,10 +145,9 @@ async function updateOne(playerId, updatedFields) {
  * @returns {Object/null} result of update if succeeded, null otherwise
  */
 async function updateMany(identifiers, updatedFields) {
-    const result = await collection().updateMany(
-        identifiers,
-        { $set: { ...updatedFields, updated_at: dateLib.newDate() } },
-    );
+    const result = await collection().updateMany(identifiers, {
+        $set: { ...updatedFields, updated_at: dateLib.newDate() },
+    });
     return result;
 }
 
