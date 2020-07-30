@@ -9,13 +9,8 @@ import { handleSocket } from '../middlewares/handleSocket';
 import reduxLogger from '../middlewares/reduxLogger';
 import rootReducer from '../reducers/index';
 
-import config from '../config';
-
 const initialState = {};
-const socket = io(config.server.url);
-
-console.log('PORT', process.env.PORT);
-console.log('NODE_ENV', process.env.NODE_ENV);
+const socket = io();
 
 export const store = createStore(
     rootReducer,
