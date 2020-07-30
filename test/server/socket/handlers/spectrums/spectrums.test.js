@@ -15,30 +15,34 @@ describe('socket/handlers/spectrums/spectrums', function() {
     };
 
     let server;
-    let client1;
-    let client2;
     before(async () => {
         await startServer(config.server, function(err, srv) {
             if (err) throw err;
             server = srv;
         });
-        
+
         const ROOM_ID = '000000000000000000000001';
-        
+
         const ioSrv = ioInstance.get();
         ioSrv.on('connection', socket => {
             socket.join(ROOM_ID);
         });
-        
+    });
+
+    let client1;
+    let client2;
+    beforeEach(() => {
         client1 = ioClt.connect(socketUrl, options);
         client2 = ioClt.connect(socketUrl, options);
     });
 
     after(done => {
-        server.stop();
+        server.stop(done);
+    });
+
+    afterEach(() => {
         client1.disconnect();
         client2.disconnect();
-        done();
     });
 
     it('should emit new updated spectrum', function(done) {

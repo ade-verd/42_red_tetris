@@ -20,43 +20,48 @@ describe('socket/handlers/status/status', function() {
     };
 
     let server;
-    let client1;
-    let client2;
     before(async () => {
         await startServer(config.server, function(err, srv) {
             if (err) throw err;
             server = srv;
         });
-        
+
         const ROOM_ID = '000000000000000000000001';
-        
+
         const ioSrv = ioInstance.get();
         ioSrv.on('connection', socket => {
             socket.join(ROOM_ID);
         });
-        
+    });
+
+    let client1;
+    let client2;
+    beforeEach(() => {
         client1 = ioClt.connect(socketUrl, options);
         client2 = ioClt.connect(socketUrl, options);
     });
 
     after(done => {
-        server.stop();
-        client1.disconnect();
-        client2.disconnect();
-        done();
+        server.stop(done);
     });
 
     afterEach(() => {
+        client1.disconnect();
+        client2.disconnect();
         sandbox.restore();
     });
 
     it('should receive gameOver and emit gameWon', function(done) {
         const ROOM_ID = '000000000000000000000001';
         const PLAYER_ID = '000000000000000000000002';
-        const updateStub = sandbox.stub(playersLib, 'updateOne').resolves();
+        const updateStub = sandbox
+            .stub(playersLib, 'updateOne')
+            .resolves();
         
         client2.on('connect', () => {
-            const findStub = sandbox.stub(playersLib, 'find').resolves({ toArray: () => fixtures.playersWithWinner(client2.id) });
+            const findStub = sandbox
+                .stub(playersLib, 'find')
+                .resolves({ toArray: () => fixtures.playersWithWinner(client2.id) });
 
             client1.emit(
                 'status:gameOver',

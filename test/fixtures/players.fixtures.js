@@ -118,6 +118,39 @@ const playersWithWinner = winnerSocketId => [
     },
 ];
 
+const playersWithRoom = () => [
+    {
+        _id: new ObjectId('00000000000000000000000a'),
+        socket_id: '0000000001',
+        room_id: '000000000000000000000001',
+        name: 'Will',
+        blocks_consumed: 0,
+        game_over: true,
+        created_at: new Date('2020-01-01T10:00:00Z'),
+        updated_at: new Date('2020-01-01T10:00:00Z'),
+    },
+    {
+        _id: new ObjectId('00000000000000000000000b'),
+        socket_id: '0000000002',
+        name: 'Carlton',
+        room_id: '000000000000000000000001',
+        blocks_consumed: 7,
+        game_over: true,
+        created_at: new Date('2020-01-01T10:00:00Z'),
+        updated_at: new Date('2020-01-01T10:00:00Z'),
+    },
+    {
+        _id: new ObjectId('00000000000000000000000c'),
+        socket_id: '0000000003',
+        room_id: '000000000000000000000001',
+        name: 'Jeffrey',
+        blocks_consumed: 15,
+        game_over: false,
+        created_at: new Date('2020-01-01T10:00:00Z'),
+        updated_at: new Date('2020-01-01T10:00:00Z'),
+    },
+];
+
 module.exports = {
     default: toBeInsertedDirectly,
     insertedPlayer,
@@ -128,4 +161,5 @@ module.exports = {
     player4,
     player5,
     playersWithWinner,
+    playersWithRoom,
 };

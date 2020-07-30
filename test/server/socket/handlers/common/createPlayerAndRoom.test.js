@@ -107,7 +107,7 @@ describe('socket/handlers/common/createPlayerAndRoom', function() {
         });
         client.once('players:created', () => {
             expect(insertStub.args).to.deep.equal([
-                [{ socket_id: client.id, name: 'Waldo', room_id: null }],
+                [{ socket_id: client.id, name: 'Waldo', room_id: null, game_over: false }],
             ]);
             expect(createRoomStub.args).to.deep.equal([]);
             client.disconnect();
