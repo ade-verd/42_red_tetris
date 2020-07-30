@@ -15,6 +15,7 @@ const initialState = {};
 const socket = io(config.server.url);
 
 console.log('PORT', process.env.PORT);
+console.log('NODE_ENV', process.env.NODE_ENV);
 
 export const store = createStore(
     rootReducer,
