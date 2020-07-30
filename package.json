@@ -1,8 +1,14 @@
 {
-    "name": "red_tetrisboilerplate",
+    "name": "bluetetris",
     "version": "0.0.1",
-    "author": "redpelicans",
+    "contributors": [
+        "ade-verd",
+        "oozkaya"
+    ],
     "license": "MIT",
+    "engines": {
+        "node": "12.13.1"
+    },
     "scripts": {
         "start-services": "docker-compose -f docker-services.yml up -d",
         "eslint": "eslint src",
