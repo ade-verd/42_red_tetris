@@ -13,7 +13,7 @@ let io = null;
 let app = null;
 
 const handler = (req, res) => {
-    const file = req.url === '/bundle.js' ? '/../../bundle.js' : '/../../index.html';
+    const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html';
     fs.readFile(__dirname + file, (err, data) => {
         if (err) {
             logerror(err);
@@ -49,7 +49,7 @@ const initApp = (app, params, cb) => {
     }
 };
 
-const stop = cb => {
+const stop = (cb) => {
     mongodb.disconnect();
     io.close();
     app.close(() => {
@@ -59,7 +59,7 @@ const stop = cb => {
     });
 };
 
-const create = params => {
+const create = (params) => {
     const promise = new Promise((resolve, reject) => {
         app = require('http').createServer();
         initApp(app, params, () => {

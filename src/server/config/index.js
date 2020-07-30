@@ -14,16 +14,20 @@ module.exports = {
         host: process.env.CONFIG_MONGODB_HOST || 'localhost',
         port: process.env.CONFIG_MONGODB_PORT || 27017,
         get url() {
+            if (process.env.MONGODB_URI) return process.env.MONGODB_URI;
             return 'mongodb://' + this.host + ':' + this.port;
         },
-        options: {
-            useUnifiedTopology: true,
-            authSource: 'redtetris',
-            authMechanism: 'SCRAM-SHA-1',
-            auth: {
-                user: process.env.CONFIG_MONGODB_USERNAME || 'red',
-                password: process.env.CONFIG_MONGODB_PASSWORD || 'tetris',
-            },
+        get options() {
+            if (process.env.MONGODB_URI) return {};
+            return {
+                useUnifiedTopology: true,
+                authSource: 'redtetris',
+                authMechanism: 'SCRAM-SHA-1',
+                auth: {
+                    user: process.env.CONFIG_MONGODB_USERNAME || 'red',
+                    password: process.env.CONFIG_MONGODB_PASSWORD || 'tetris',
+                },
+            };
         },
     },
     rooms: {
