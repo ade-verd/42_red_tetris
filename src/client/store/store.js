@@ -9,8 +9,10 @@ import { handleSocket } from '../middlewares/handleSocket';
 import reduxLogger from '../middlewares/reduxLogger';
 import rootReducer from '../reducers/index';
 
+import config from '../config';
+
 const initialState = {};
-const socket = io();
+const socket = io(config.server.url);
 
 export const store = createStore(
     rootReducer,

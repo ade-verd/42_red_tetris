@@ -1,27 +1,25 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
-const webpack = require('webpack');
 
 module.exports = {
     entry: './src/client/index.js',
 
     output: {
-        path: path.join(__dirname, 'build'),
+        path: path.join(__dirname, '/dist/client'),
         filename: 'bundle.js',
         publicPath: '/',
     },
 
     devServer: {
         historyApiFallback: true,
+        contentBase: './src/client/',
     },
 
     plugins: [
-        // define HTML variables
-        new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
-            ASSETS_PATH: '/assets',
+        new HtmlWebpackPlugin({
+            favicon: './src/client/assets/img/favicon.ico',
+            template: './src/client/index.html',
         }),
-        new webpack.EnvironmentPlugin(['NODE_ENV', 'PORT']),
     ],
 
     module: {
@@ -61,6 +59,10 @@ module.exports = {
             {
                 test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
                 loader: 'url-loader?limit=100000',
+            },
+            {
+                test: /\.ico$/,
+                loader: 'file-loader?name=[name].[ext]',
             },
         ],
     },
