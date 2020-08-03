@@ -1,6 +1,7 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
+import notify from '../notifications';
 
-const handleError = (error, errorFieldName) => {
+export const handleError = (error, errorFieldName) => {
     if (error.startsWith('ValidationError')) {
         notify({ type: 'warning', msg: 'Spectrum payload one field is missing' });
     } else {

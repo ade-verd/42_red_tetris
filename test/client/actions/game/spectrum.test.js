@@ -8,12 +8,12 @@ import { toast } from 'react-toastify';
 import { ACTIONS } from '../../../../src/client/middlewares/handleSocket';
 import {
     handleError,
-    getMalusPayload,
-    emitMalus,
-    onMalus,
-} from '../../../../src/client/actions/game/malus';
+    getSpectrumPayload,
+    emitSpectrum,
+    onSpectrum,
+} from '../../../../src/client/actions/game/spectrum';
 
-describe('client/actions/game/malus', () => {
+describe('client/actions/game/spectrum', () => {
     const sandbox = sinon.createSandbox();
     let PAYLOAD;
     // To ignore 'Error: Actions may not have an undefined "type" property'
@@ -45,7 +45,7 @@ describe('client/actions/game/malus', () => {
         mockStore = configureStore(middlewares);
         sandbox.restore();
         PAYLOAD = {
-            ...getMalusPayload('01', 1),
+            ...getSpectrumPayload('01', '02', 'BOT', []),
             error: null,
         };
     });
@@ -56,98 +56,93 @@ describe('client/actions/game/malus', () => {
 
         handleError('ValidationError: test', 'errorName');
         expect(warningStub.args).to.deep.equal([
-            ['Malus payload one field is missing', { autoClose: 5000 }],
+            ['Spectrum payload one field is missing', { autoClose: 5000 }],
         ]);
 
         handleError('Error: test', 'errorName');
         expect(errorStub.args).to.deep.equal([
-            ['Error while sending the malus', { autoClose: 6000 }],
+            ['Error while sending spectrum', { autoClose: 6000 }],
         ]);
     });
 
-    it('should get malus payload', () => {
+    it('should get spectrum payload', () => {
         const ROOM_ID = '0000000000000000001';
-        const MALUS = 1;
+        const PLAYER_ID = '0000000000000000002';
+        const PLAYER_NAME = 'BOT';
+        const FIELD = [];
 
-        const payload = getMalusPayload(ROOM_ID, MALUS);
+        const payload = getSpectrumPayload(ROOM_ID, PLAYER_ID, PLAYER_NAME, FIELD);
 
         expect(payload).to.deep.equal({
             room_id: ROOM_ID,
-            malus: MALUS,
+            player_id: PLAYER_ID,
+            player_name: PLAYER_NAME,
+            field: FIELD,
         });
     });
 
-    it('should dispatch malus emitter', () => {
+    it('should dispatch spectrum emitter', () => {
         const initialState = {};
         const store = mockStore(initialState);
         delete PAYLOAD.error;
 
-        emitMalus(store.dispatch, PAYLOAD.room_id, PAYLOAD.malus);
+        emitSpectrum(
+            store.dispatch,
+            PAYLOAD.room_id,
+            PAYLOAD.player_id,
+            PAYLOAD.player_name,
+            PAYLOAD.field,
+        );
 
         const actions = store.getActions();
         expect(actions).to.deep.equal([
             {
                 action: ACTIONS.EMIT,
                 type: 'DEFINED',
-                event: 'malus:send',
+                event: 'spectrum:update',
                 data: PAYLOAD,
             },
         ]);
     });
 
-    it('should dispatch malus listener', () => {
-        const initialState = {
-            gme: { level: 2 },
-        };
+    it('should dispatch spectrum listener', () => {
+        const initialState = {};
         const store = mockStore(initialState);
 
-        onMalus(store);
+        onSpectrum(store.dispatch);
 
         const actions = store.getActions();
         expect(actions).to.deep.equal([
             {
                 action: ACTIONS.REDUCE,
-                type: 'SET_DROPTIME',
-                dropTime: null,
-            },
-            {
-                action: ACTIONS.REDUCE,
-                type: 'UPDATE',
-                malus: PAYLOAD.malus,
-            },
-            {
-                action: ACTIONS.REDUCE,
-                type: 'SET_POS',
-                pos: { x: 0, y: -PAYLOAD.malus },
-                collided: false,
-            },
-            {
-                action: ACTIONS.REDUCE,
-                type: 'SET_DROPTIME',
-                dropTime: 1000 / initialState.gme.level,
+                type: 'SET_SPECTRUM',
+                playerId: PAYLOAD.player_id,
+                playerName: PAYLOAD.player_name,
+                spectrum: PAYLOAD.spectrum,
+                error: PAYLOAD.error,
             },
             {
                 action: ACTIONS.LISTEN,
                 type: 'DEFINED',
-                event: 'malus:sent',
+                event: 'spectrum:updated',
                 fn: 'FUNCTION',
             },
         ]);
     });
 
-    it('should not dispatch malus listener if error', () => {
+    it('should not dispatch spectrum listener if error', () => {
         const initialState = {};
         const store = mockStore(initialState);
         PAYLOAD = { ...PAYLOAD, error: 'defined' };
 
-        onMalus(store);
+        onSpectrum(store.dispatch);
 
         const actions = store.getActions();
         expect(actions).to.deep.equal([
             {
                 action: ACTIONS.LISTEN,
                 type: 'DEFINED',
-                event: 'malus:sent',
+                event: 'spectrum:updated',
                 fn: 'FUNCTION',
             },
         ]);

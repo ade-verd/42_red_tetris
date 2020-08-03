@@ -8,12 +8,12 @@ import { toast } from 'react-toastify';
 import { ACTIONS } from '../../../../src/client/middlewares/handleSocket';
 import {
     handleError,
-    getMalusPayload,
-    emitMalus,
-    onMalus,
-} from '../../../../src/client/actions/game/malus';
+    getStatusPayload,
+    emitGameOver,
+    onGameWon,
+} from '../../../../src/client/actions/game/status';
 
-describe('client/actions/game/malus', () => {
+describe('client/actions/game/status', () => {
     const sandbox = sinon.createSandbox();
     let PAYLOAD;
     // To ignore 'Error: Actions may not have an undefined "type" property'
@@ -45,7 +45,7 @@ describe('client/actions/game/malus', () => {
         mockStore = configureStore(middlewares);
         sandbox.restore();
         PAYLOAD = {
-            ...getMalusPayload('01', 1),
+            ...getStatusPayload('01', '02', 'BOT', []),
             error: null,
         };
     });
@@ -56,98 +56,84 @@ describe('client/actions/game/malus', () => {
 
         handleError('ValidationError: test', 'errorName');
         expect(warningStub.args).to.deep.equal([
-            ['Malus payload one field is missing', { autoClose: 5000 }],
+            ['Game status payload one field is missing', { autoClose: 5000 }],
         ]);
 
         handleError('Error: test', 'errorName');
-        expect(errorStub.args).to.deep.equal([
-            ['Error while sending the malus', { autoClose: 6000 }],
-        ]);
+        expect(errorStub.args).to.deep.equal([['Error while sending status', { autoClose: 6000 }]]);
     });
 
-    it('should get malus payload', () => {
+    it('should get status payload', () => {
+        const PLAYER_ID = '0000000000000000002';
         const ROOM_ID = '0000000000000000001';
-        const MALUS = 1;
 
-        const payload = getMalusPayload(ROOM_ID, MALUS);
+        const payload = getStatusPayload(PLAYER_ID, ROOM_ID);
 
         expect(payload).to.deep.equal({
+            player_id: PLAYER_ID,
             room_id: ROOM_ID,
-            malus: MALUS,
         });
     });
 
-    it('should dispatch malus emitter', () => {
-        const initialState = {};
+    it('should dispatch status emitter', () => {
+        const initialState = {
+            usr: { id: PAYLOAD.player_id, roomId: PAYLOAD.room_id },
+        };
         const store = mockStore(initialState);
         delete PAYLOAD.error;
 
-        emitMalus(store.dispatch, PAYLOAD.room_id, PAYLOAD.malus);
+        emitGameOver(store, store.dispatch);
 
         const actions = store.getActions();
         expect(actions).to.deep.equal([
             {
                 action: ACTIONS.EMIT,
                 type: 'DEFINED',
-                event: 'malus:send',
+                event: 'status:gameOver',
                 data: PAYLOAD,
             },
         ]);
     });
 
-    it('should dispatch malus listener', () => {
-        const initialState = {
-            gme: { level: 2 },
-        };
+    it('should dispatch status listener', () => {
+        const initialState = {};
         const store = mockStore(initialState);
 
-        onMalus(store);
+        onGameWon(store.dispatch);
 
         const actions = store.getActions();
         expect(actions).to.deep.equal([
+            {
+                action: ACTIONS.REDUCE,
+                type: 'GAMEWON',
+            },
             {
                 action: ACTIONS.REDUCE,
                 type: 'SET_DROPTIME',
                 dropTime: null,
             },
             {
-                action: ACTIONS.REDUCE,
-                type: 'UPDATE',
-                malus: PAYLOAD.malus,
-            },
-            {
-                action: ACTIONS.REDUCE,
-                type: 'SET_POS',
-                pos: { x: 0, y: -PAYLOAD.malus },
-                collided: false,
-            },
-            {
-                action: ACTIONS.REDUCE,
-                type: 'SET_DROPTIME',
-                dropTime: 1000 / initialState.gme.level,
-            },
-            {
                 action: ACTIONS.LISTEN,
                 type: 'DEFINED',
-                event: 'malus:sent',
+                event: 'status:gameWon',
                 fn: 'FUNCTION',
             },
         ]);
     });
 
-    it('should not dispatch malus listener if error', () => {
+    it('should not dispatch status listener if error', () => {
         const initialState = {};
         const store = mockStore(initialState);
         PAYLOAD = { ...PAYLOAD, error: 'defined' };
 
-        onMalus(store);
+        onGameWon(store.dispatch);
 
         const actions = store.getActions();
         expect(actions).to.deep.equal([
             {
                 action: ACTIONS.LISTEN,
                 type: 'DEFINED',
-                event: 'malus:sent',
+                event: 'status:gameWon',
                 fn: 'FUNCTION',
             },
         ]);

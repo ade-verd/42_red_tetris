@@ -6,7 +6,7 @@ import rootReducer from '../../../src/client/reducers';
 
 import { resetState } from '../../../src/client/actions/game/field.js';
 import { updateGameStatus } from '../../../src/client/actions/game/gameStatus.js';
-import { incrementLevel, setGameOver } from '../../../src/client/actions/game/piece.js';
+const { incrementLevel, setGameOver } = require('../../../src/client/actions/game/piece.js');
 import { incrementRowsCleared, setRowsCleared } from '../../../src/client/reducers/field.js';
 
 describe('client/reducers/gameStatus', function() {
