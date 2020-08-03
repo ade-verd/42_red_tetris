@@ -5,7 +5,7 @@ const helpers = require('../../eventHelpers');
 const disconnectRoomSocket = require('../../lib/roomSocket/disconnectRoomSocket');
 const getActiveRooms = require('../rooms/getActiveRooms.js');
 
-const config = require('../../../../../src/server/config');
+const config = require('../../../config');
 
 const schema = null;
 
