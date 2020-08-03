@@ -1,29 +1,31 @@
---- # -----
-# This is a sample build configuration for JavaScript.
-# Check our guides at https://confluence.atlassian.com/x/14UWN for more examples.
-# Only use spaces to indent your .yml configuration.
 image: node:12.13.1
 
-clone:
-    depth: full
-
 pipelines:
-    default:
-        - step:
-          name: Install dependencies
-          script:
-              - npm install
-        - step:
-          name: Tests
-          script:
-              - npm test
-        - step:
-          name: Build
-          script:
-              - npm srv-dist
-              - npm client-dist
-        - step:
-          name: Deploy to production
-          deployment: production
-          script:
-              - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD
+  default:
+    - step:
+        name: Install dependencies
+        caches:
+          - node
+        script:
+          - npm install
+    - step:
+        name: Tests
+        script:
+          - npm test
+    - step:
+        name: Build
+        script:
+          - npm run srv-dist
+          - npm run client-dist
+          - npm run create-archive
+    - step:
+        name: Deploy to production
+        deployment: production
+        script:
+          - pipe: atlassian/heroku-deploy:1.1.4
+            variables:
+              HEROKU_API_KEY: $HEROKU_API_KEY
+              HEROKU_APP_NAME: $HEROKU_APP_NAME
+              ZIP_FILE: "bluetetris.tar.gz"
+              WAIT: "true"
+              DEBUG: "false"
