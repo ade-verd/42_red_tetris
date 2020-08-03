@@ -1,16 +1,29 @@
+--- # -----
 # This is a sample build configuration for JavaScript.
 # Check our guides at https://confluence.atlassian.com/x/14UWN for more examples.
 # Only use spaces to indent your .yml configuration.
-# -----
-# You can specify a custom docker image from Docker Hub as your build environment.
 image: node:12.13.1
 
+clone:
+    depth: full
+
 pipelines:
-  default:
-    - step:
-        caches:
-          - node
-        script: # Modify the commands below to build your repository.
-          - apt-get update ; apt-get -y install python3-minimal python3-pip ; pip3 install docker-compose
-          - npm install
-          - npm test
+    default:
+        - step:
+          name: Install dependencies
+          script:
+              - npm install
+        - step:
+          name: Tests
+          script:
+              - npm test
+        - step:
+          name: Build
+          script:
+              - npm srv-dist
+              - npm client-dist
+        - step:
+          name: Deploy to production
+          deployment: production
+          script:
+              - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD
