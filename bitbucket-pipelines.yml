@@ -1,31 +1,34 @@
 image: node:12.13.1
 
 pipelines:
-  default:
-    - step:
-        name: Install dependencies
-        caches:
-          - node
-        script:
-          - npm install
-    #    - step:
-    #        name: Tests
-    #        script:
-    #          - npm test
-    - step:
-        name: Build
-        script:
-          - npm run srv-dist
-          - npm run client-dist
-          - npm run create-archive
-    - step:
-        name: Deploy to production
-        deployment: production
-        script:
-          - pipe: atlassian/heroku-deploy:1.1.4
-            variables:
-              HEROKU_API_KEY: $HEROKU_API_KEY
-              HEROKU_APP_NAME: $HEROKU_APP_NAME
-              ZIP_FILE: "bluetetris.tar.gz"
-              WAIT: "true"
-              DEBUG: "false"
+  branches:
+    master:
+      #      - step:
+      #          name: Tests
+      #          caches:
+      #            - node
+      #          script:
+      #            - npm install
+      #            - npm test
+      - step:
+          name: Build
+          caches:
+            - node
+          script:
+            - npm install
+            - npm run srv-dist
+            - npm run client-dist
+            - npm run create-archive
+          artifacts:
+            - "bluetetris.tar.gz"
+      - step:
+          name: Deploy to production
+          deployment: production
+          script:
+            - pipe: atlassian/heroku-deploy:1.1.4
+              variables:
+                HEROKU_API_KEY: $HEROKU_API_KEY
+                HEROKU_APP_NAME: $HEROKU_APP_NAME
+                ZIP_FILE: "bluetetris.tar.gz"
+                WAIT: "true"
+                DEBUG: "false"
