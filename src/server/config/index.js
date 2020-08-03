@@ -10,7 +10,9 @@ module.exports = {
         },
     },
     db: {
-        name: 'redtetris',
+        name: process.env.MONGODB_URI
+            ? new URL(process.env.MONGODB_URI).pathname.substring(1)
+            : 'redtetris',
         host: process.env.CONFIG_MONGODB_HOST || 'localhost',
         port: process.env.CONFIG_MONGODB_PORT || 27017,
         get url() {

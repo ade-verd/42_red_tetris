@@ -12,17 +12,17 @@
     "scripts": {
         "start-services": "docker-compose -f docker-services.yml up -d",
         "eslint": "eslint src",
-        "client-dist": "cross-env NODE_ENV=production webpack --progress --colors",
+        "client-dist": "NODE_ENV=production webpack --mode production --progress --colors",
         "client-dev": "webpack-dev-server --watch-poll --colors --hot --inline --host 0.0.0.0 --port 8080",
-        "srv-dev": "DEBUG=tetris:* babel-watch -w src src/server/main.js",
-        "srv-dist": "DEBUG=tetris:* babel src --out-dir dist",
+        "srv-dev": "babel-watch -w src src/server/main.js",
+        "srv-dist": "babel src --out-dir dist",
         "mocha": "cross-env NODE_ENV=test mocha",
         "mocha:loop": "while :; do set -e; npm run mocha; done",
         "nyc": "cross-env NODE_ENV=test nyc mocha",
         "prettier": "prettier --check 'src/**/*.js'",
         "prettier:write": "prettier --write 'src/**/*.js'",
         "test": "npm run prettier && cross-env NODE_ENV=test nyc mocha",
-        "heroku-postbuild": "npm run srv-dist ; npm run client-dist"
+        "create-archive": "tar -czvf bluetetris.tar.gz dist Procfile package.json"
     },
     "dependencies": {
         "@babel/runtime": "^7.8.4",
@@ -47,6 +47,7 @@
         "react-confetti": "^6.0.0",
         "react-dev-utils": "^10.2.0",
         "react-dom": "^16.12.0",
+        "react-favicon": "0.0.18",
         "react-notifications": "^1.5.0-beta.0",
         "react-redux": "^7.1.3",
         "react-router-dom": "^5.1.2",

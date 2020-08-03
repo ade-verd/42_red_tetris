@@ -35,7 +35,10 @@ describe('socket/handlers/status/', function() {
     });
 
     after(done => {
-        server.stop(done);
+        server.stop();
+        client1.disconnect();
+        client2.disconnect();
+        done();
     });
 
     describe('socket/handlers/status/status', function() {
@@ -85,7 +88,7 @@ describe('socket/handlers/status/', function() {
                 .rejects(new Error('something happened'));
 
             client1.emit('status:gameOver', actionClient.getStatusPayload(PLAYER_ID, ROOM_ID));
-
+            // Error will be sent back to client1
             client1.once('status:gameWon', payload => {
                 expect(updateStub.args).to.deep.equal([[PLAYER_ID, { game_over: true }]]);
                 expect(findStub.args).to.deep.equal([[{ room_id: ROOM_ID }]]);

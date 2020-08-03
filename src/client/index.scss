@@ -31,13 +31,11 @@ input[type='text'] {
     font-family: 'arcade';
 }
 input[type='text']:focus {
-    // border: 2px solid #34b8ee;
     border: 2px solid #009df3;
     border-radius: 5px;
     outline: none;
 }
 
-// $primary: #34b8ee;
 $primary: #009df3;
 $secondary: #555559;
 $warning: #f8ae2a;

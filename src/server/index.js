@@ -1,22 +1,19 @@
 const fs = require('fs');
-const debug = require('debug');
 
 const mongodb = require('./lib/mongodb');
 const models = require('./models');
 
 const socket = require('./socket');
 
-const logerror = debug('tetris:error'),
-    loginfo = debug('tetris:info');
-
 let io = null;
 let app = null;
 
 const handler = (req, res) => {
-    const file = req.url === '/bundle.js' ? '/../../build/bundle.js' : '/../../index.html';
+    console.log('req.url', req.url);
+    const file = req.url === '/bundle.js' ? '/../client/bundle.js' : '/../client/index.html';
     fs.readFile(__dirname + file, (err, data) => {
         if (err) {
-            logerror(err);
+            console.error(err);
             res.writeHead(500);
             return res.end('Error loading index.html');
         }
@@ -31,7 +28,7 @@ const appListen = (app, params, cb) => {
     app.on('request', handler);
 
     app.listen({ host, port }, () => {
-        loginfo(`tetris listen on ${params.url}`);
+        console.log(`tetris listen on ${params.url}`);
         cb();
     });
 };
@@ -54,7 +51,7 @@ const stop = cb => {
     io.close();
     app.close(() => {
         app.unref();
-        loginfo('Engine stopped');
+        console.log('Engine stopped');
         cb();
     });
 };
@@ -73,6 +70,4 @@ const create = params => {
 
 module.exports = {
     create,
-    loginfo,
-    logerror,
 };

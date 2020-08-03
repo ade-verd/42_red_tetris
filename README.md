@@ -4,15 +4,15 @@ This starter kit was made to help students to develop red_tetris project : a Ful
 
 It helps:
 
-* to transpile with Babel ES6 code
-* to bundle with Wbepack JS files and hot reload client's code
-* to write tests and check code coverage. 
+-   to transpile with Babel ES6 code
+-   to bundle with Wbepack JS files and hot reload client's code
+-   to write tests and check code coverage.
 
 Because we use React, Redux, Node.js and Socket.io, we had to define 3 kinds of unit tests :
 
-* React ones like explained in redux documentation + `chai-equal-jsx`
-* Redux ones, but instead of just testing pure functions, we defined a middleware to test state’s impact after one or many actions.
-* Redux/Socket.io/Node.js, same as before, we use the same middleware but this time we can test state’s updates after socketio messages round trip.
+-   React ones like explained in redux documentation + `chai-equal-jsx`
+-   Redux ones, but instead of just testing pure functions, we defined a middleware to test state’s impact after one or many actions.
+-   Redux/Socket.io/Node.js, same as before, we use the same middleware but this time we can test state’s updates after socketio messages round trip.
 
 ### Install
 
@@ -23,7 +23,6 @@ $ npm install
 ```
 
 Edit `src/server/config/index.js` for your needs.
-
 
 ### Development Mode
 
@@ -51,12 +50,11 @@ content is served from /home/eric/JS/red_tetris_boilerplate
 webpack: bundle is now VALID.
 ```
 
-
 Point your browser to `http://0.0.0.0:8080/` it will load client side application. You should see `Soon, will be here a fantastic Tetris ...`, open your console and check you have :
 
 ```
 [HMR] Waiting for update signal from WDS...
-bundle.js:28328  action @ 14:29:58.602 ALERT_POP 
+bundle.js:28328  action @ 14:29:58.602 ALERT_POP
 bundle.js:28340  prev state Object
 bundle.js:28344  action Object
 bundle.js:28352  next state Object
@@ -71,12 +69,12 @@ As you can guess we are using webpack `hot reload` module, try to update any fil
 [WDS] App updated. Recompiling...
 ```
 
-
 #### Test
 
 Test, test and re-test …
 
 Stop server, or use an other setup (//TODO)
+
 ```
 $ npm run test
 ```
@@ -86,7 +84,6 @@ Tests are installed under `test` folder.
 #### fake.js
 
 A simple template to implement simple unit tests. In Tetris context you will try to test every functions or classes from server or client code. Just import your files and check (http://shouldjs.github.io/)[should] documentation to extend the test.
-
 
 #### redux.js
 
@@ -122,28 +119,25 @@ describe('Fake redux test', function(){
 ```
 
 1. We use a special middleware to set up hooks in action’s workflow.
-2. We use here the  root reducer, but it can be replaced by  any kind of reducer
+2. We use here the root reducer, but it can be replaced by any kind of reducer
 3. target is to check updates in our store, so we have to create a store for each check (`it()`), `configureStore` is a store helper.
 
-*configureStore* :
+_configureStore_ :
 
-* `reducer`:  not necessary the root one
-* `socket`:  (unused here)
-* `initial state`:  set up to realize the action
-* `actions hook`: object where keys are action’s type and values are callbacks. `action’s type` is one of your actions defined in your application, `callback` function will receive  {getState, dispatch, action} as real parameter.
+-   `reducer`: not necessary the root one
+-   `socket`: (unused here)
+-   `initial state`: set up to realize the action
+-   `actions hook`: object where keys are action’s type and values are callbacks. `action’s type` is one of your actions defined in your application, `callback` function will receive {getState, dispatch, action} as real parameter.
 
 Thanks to the hook you can react to actions, just to check a new state after an action, or to send actions to follow a workflow and check state at the end.
 
-
 In our sample, we register a callback when `ALERT_POP` will be dispatched and check that `state.message`is right. Callback is called after reducers.
-
 
 #### server.js
 
-Very similar to previous test, but offer to test server code involved in a client action. You can use this kind of solution to test a pipeline like `action -> fetch -> action -> reducer`. Here client / server communication is based on socket.io and we use a middleware inspired by [redux-socket.io](https://github.com/itaylor/redux-socket.io) to transparantly dispatch and receive socket.io messages. So our test covers  `action -> socket.emit -> server code -> client socket callback -> action -> reducer`. I do not know if it’s still a unit test, but it’s a useful solution to test.
+Very similar to previous test, but offer to test server code involved in a client action. You can use this kind of solution to test a pipeline like `action -> fetch -> action -> reducer`. Here client / server communication is based on socket.io and we use a middleware inspired by [redux-socket.io](https://github.com/itaylor/redux-socket.io) to transparantly dispatch and receive socket.io messages. So our test covers `action -> socket.emit -> server code -> client socket callback -> action -> reducer`. I do not know if it’s still a unit test, but it’s a useful solution to test.
 
 Let’s have a look on code:
-
 
 ```
 import chai from "chai"
@@ -158,7 +152,7 @@ chai.should()
 describe('Fake server test', function(){
   let tetrisServer
 
-// 2 
+// 2
   before(cb => startServer( params.server, function(err, server){
     tetrisServer = server
     cb()
@@ -178,7 +172,6 @@ describe('Fake server test', function(){
 });
 ```
 
-
 1. This time we will test server actions: it means client actions that transparently communicate with server
 2. for each `describe` we have to launch the server. Tetris server is statefull, so we can run multiple tests (`it`) on one server to check behavior (ex: multiple users, events)
 3. Now we have a socket (client connection), so middleware is able to send socket.io messages to server.
@@ -196,7 +189,6 @@ npm run coverage
 ```
 
 Check results …. of this command, and launch your browser to `./coverage/lcov-report/index.html`
-
 
 ### Production Mode
 
@@ -224,18 +216,18 @@ $ npm run client-dist
 > red_tetrisboilerplate@0.0.1 client-dist /home/eric/JS/red_tetris_boilerplate
 > NODE_ENV=production webpack --progress --colors
 
-Hash: 6841f78bfe6867fb2913  
+Hash: 6841f78bfe6867fb2913
 Version: webpack 1.13.0
 Time: 1923ms
     Asset    Size  Chunks             Chunk Names
 bundle.js  754 kB       0  [emitted]  main
     + 197 hidden modules
 
-$  DEBUG=tetris:* node dist/server/main.js 
+$  DEBUG=tetris:* node dist/server/main.js
   tetris:info tetris listen on http://0.0.0.0:3004 +0ms
   not yet ready to play tetris with U ...
 ```
 
-In production mode, node.js server serves `index.html` and `bundle.js`, so you have to point to url set up in `params.js` 
+In production mode, node.js server serves `index.html` and `bundle.js`, so you have to point to url set up in `params.js`
 
-That’s all folks ... 
+That’s all folks ...
