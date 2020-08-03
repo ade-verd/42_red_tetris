@@ -1,10 +1,11 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
+import notify from '../notifications';
 
 import { emitGameAction } from '../game/gameAction';
 
 import { GAME_ACTIONS } from '../../../constants';
 
-const handleError = (error, errorFieldName) => {
+export const handleError = (error, errorFieldName) => {
     if (error.startsWith('ValidationError')) {
         notify({ type: 'warning', msg: 'Game reset payload one field is missing' });
     } else {
@@ -47,6 +48,6 @@ export const resetGame = (store, isAdmin = false) => {
 
     if (isAdmin) {
         emitGameReset(store);
-        emitGameAction(store.dispatch, GAME_ACTIONS.STOP);
+        emitGameAction(store, GAME_ACTIONS.STOP);
     }
 };

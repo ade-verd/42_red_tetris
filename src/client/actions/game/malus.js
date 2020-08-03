@@ -1,12 +1,11 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
+import notify from '../notifications';
 
-// import { store } from '../../store/store';
-
-const handleError = (error, errorFieldName) => {
+export const handleError = (error, errorFieldName) => {
     if (error.startsWith('ValidationError')) {
         notify({ type: 'warning', msg: 'Malus payload one field is missing' });
     } else {
-        notify({ type: 'error', msg: 'Error while creating the spectrum' });
+        notify({ type: 'error', msg: 'Error while sending the malus' });
     }
     console.error(`[malus action][${errorFieldName}]`, error);
 };
@@ -28,14 +27,15 @@ export const emitMalus = (dispatch, roomId, malus) => {
 
 export const onMalus = store => {
     const { dispatch } = store;
+    const { gme } = store.getState();
 
-    const level = (store.gme && store.game.level) || 1;
+    const level = (gme && gme.level) || 1;
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'malus:sent',
         fn: payload => {
             if (payload.error) return handleError(payload.error, 'creationError');
-            // Turning off ,then on, while handling malus to avoid side effects
+            // Turning off, then on, while handling malus to avoid side effects
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
             dispatch({ action: ACTIONS.REDUCE, type: 'UPDATE', malus: payload.malus });
             dispatch({

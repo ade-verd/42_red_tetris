@@ -1,5 +1,5 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
-import { checkCollision } from '../../helpers/checkCollision';
+const h = require('../../helpers/checkCollision');
 
 export const incrementLevel = dispatch => {
     dispatch({ action: ACTIONS.REDUCE, type: 'INCREMENT_LEVEL' });
@@ -28,7 +28,7 @@ export const drop = (dispatch, field, piece, gameStatus) => {
         dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: 1000 / (level + 1) });
     }
 
-    if (!checkCollision(piece, field, { x: 0, y: 1 })) {
+    if (!h.checkCollision(piece, field, { x: 0, y: 1 })) {
         dispatch({ action: ACTIONS.REDUCE, type: 'SET_POS', pos: { x: 0, y: 1 }, collided: false });
     } else {
         // Game over !
@@ -41,19 +41,19 @@ export const drop = (dispatch, field, piece, gameStatus) => {
     }
 };
 
-const movePiece = (dispatch, piece, field, dir) => {
+export const movePiece = (dispatch, piece, field, dir) => {
     if (!checkCollision(piece, field, { x: dir, y: 0 })) {
         dispatch({ action: ACTIONS.REDUCE, type: 'SET_POS', pos: { x: dir, y: 0 } });
     }
 };
 
-const dropPiece = (dispatch, field, piece, gameStatus) => {
+export const dropPiece = (dispatch, field, piece, gameStatus) => {
     // When moving the piece down manually, we stop the interval drop time
     dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
     drop(dispatch, field, piece, gameStatus);
 };
 
-const rotate = (matrix, dir) => {
+export const rotate = (matrix, dir) => {
     // Make the rows to become cols (transpose)
     const mtrx = matrix.map((_, index) => matrix.map(column => column[index]));
     // Reverse each row to get a rotaded matrix
@@ -61,7 +61,7 @@ const rotate = (matrix, dir) => {
     return mtrx.reverse();
 };
 
-const rotatePiece = (dispatch, field, piece, dir) => {
+export const rotatePiece = (dispatch, field, piece, dir) => {
     const clonedPiece = JSON.parse(JSON.stringify(piece));
     clonedPiece.tetromino = rotate(clonedPiece.tetromino, dir);
 
@@ -84,7 +84,7 @@ const rotatePiece = (dispatch, field, piece, dir) => {
     });
 };
 
-const hardDrop = (dispatch, piece) => {
+export const hardDrop = (dispatch, piece) => {
     const newPos = { x: 0, y: piece.projection.pos.y - piece.pos.y };
 
     dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });

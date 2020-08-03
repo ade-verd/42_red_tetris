@@ -4,11 +4,10 @@ import { StyledStartButton } from './StartButton.style';
 import { store } from '../../../../../../../store/store';
 
 const StartButton = ({ startGame, resetGame }) => {
-    const userState = store.getState().usr;
     const [label, setLabel] = useState('Start');
 
     const start = () => {
-        startGame(userState.roomId);
+        startGame();
         setLabel('Reset');
     };
 

@@ -45,7 +45,7 @@ const Playground = props => {
     }, [gameStatus.rowsCleared]);
 
     useEffect(() => {
-        updateField(store.dispatch);
+        updateField(store);
     }, [piece.tetromino, piece.pos]);
 
     useInterval(() => {

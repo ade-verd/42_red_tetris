@@ -1,4 +1,4 @@
-export const checkCollision = (piece, field, { x: moveX, y: moveY }) => {
+const checkCollision = (piece, field, { x: moveX, y: moveY }) => {
     // Using for loops to be able to return (and break). Not possible with forEach
     for (let y = 0; y < piece.tetromino.length; y += 1) {
         for (let x = 0; x < piece.tetromino[y].length; x += 1) {
@@ -20,4 +20,8 @@ export const checkCollision = (piece, field, { x: moveX, y: moveY }) => {
     }
     // 5. If everything above is false
     return false;
+};
+
+module.exports = {
+    checkCollision,
 };

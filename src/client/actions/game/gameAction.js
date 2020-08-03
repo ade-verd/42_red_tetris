@@ -1,19 +1,17 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
 import { GAME_ACTIONS } from '../../../constants';
 
-import { store } from '../../store/store';
-
 export const gameActionPayload = (roomId, action) => ({
     room_id: roomId,
     action,
 });
 
-export const emitGameAction = (dispatch, action) => {
+export const emitGameAction = (store, action) => {
     const {
         usr: { roomId },
     } = store.getState();
 
-    dispatch({
+    store.dispatch({
         action: ACTIONS.EMIT,
         event: 'games:action:run',
         data: gameActionPayload(roomId, action),

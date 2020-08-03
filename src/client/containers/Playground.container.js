@@ -42,7 +42,7 @@ const mapDispatchToProps = dispatch => {
             onMalus(store);
         },
         onStart: () => {
-            emitGameAction(dispatch, GAME_ACTIONS.START);
+            emitGameAction(store, GAME_ACTIONS.START);
         },
         emitGetRandomTetriminos,
         startGame,
