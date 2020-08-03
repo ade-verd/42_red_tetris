@@ -22,8 +22,7 @@
         "prettier": "prettier --check 'src/**/*.js'",
         "prettier:write": "prettier --write 'src/**/*.js'",
         "test": "npm run prettier && cross-env NODE_ENV=test nyc mocha",
-        "heroku-postbuild": "npm run srv-dist ; npm run client-dist",
-        "create-archive": "tar -czvf bluetetris.tar.gz dist src Procfile package.json"
+        "create-archive": "tar -czvf bluetetris.tar.gz dist Procfile package.json"
     },
     "dependencies": {
         "@babel/runtime": "^7.8.4",
