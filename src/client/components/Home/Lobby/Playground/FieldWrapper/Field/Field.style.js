@@ -9,6 +9,7 @@ export const StyledField = styled.div`
     border-radius: 5px;
 
     background: #222;
+    opacity: ${props => (props.gameOver ? 0.5 : 1)};
 `;
 
 export const Row = styled.div`
