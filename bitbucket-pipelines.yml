@@ -8,10 +8,10 @@ pipelines:
           - node
         script:
           - npm install
-    - step:
-        name: Tests
-        script:
-          - npm test
+    #    - step:
+    #        name: Tests
+    #        script:
+    #          - npm test
     - step:
         name: Build
         script:
