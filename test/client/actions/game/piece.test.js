@@ -69,7 +69,7 @@ describe('client/actions/game/gameStart', () => {
         ]);
     });
 
-    it('should reactivate drop time', () => {
+    it('should reactivateDropTime', () => {
         const initialState = {};
         const store = mockStore(initialState);
         const EVENT = { keyCode: 32 };
@@ -87,7 +87,7 @@ describe('client/actions/game/gameStart', () => {
         ]);
     });
 
-    it('should not reactivate drop time (from gameStatus)', () => {
+    it('should not reactivateDropTime (from gameStatus)', () => {
         const initialState = {};
         const store = mockStore(initialState);
         const EVENT = { keyCode: 32 };
@@ -99,7 +99,7 @@ describe('client/actions/game/gameStart', () => {
         expect(actions).to.deep.equal([]);
     });
 
-    it('should not reactivate drop time (from keyCode)', () => {
+    it('should not reactivateDropTime (from keyCode)', () => {
         const initialState = {};
         const store = mockStore(initialState);
         const EVENT = { keyCode: 0 };
@@ -207,7 +207,7 @@ describe('client/actions/game/gameStart', () => {
         ]);
     });
 
-    it('should move piece', () => {
+    it('should movePiece', () => {
         const initialState = {};
         const store = mockStore(initialState);
         const DIR = 1;
@@ -225,7 +225,7 @@ describe('client/actions/game/gameStart', () => {
         ]);
     });
 
-    it('should not move piece', () => {
+    it('should not movePiece', () => {
         const initialState = {};
         const store = mockStore(initialState);
         const DIR = 1;
