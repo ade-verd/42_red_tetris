@@ -3,10 +3,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import configureStore from 'redux-mock-store';
-import { toast } from 'react-toastify';
 
 import { ACTIONS } from '../../../../src/client/middlewares/handleSocket';
-import { GAME_ACTIONS } from '../../../../src/constants';
 const helper = require('../../../../src/client/helpers/checkCollision');
 import {
     incrementLevel,
@@ -114,23 +112,128 @@ describe('client/actions/game/gameStart', () => {
     });
 
     it('should drop', () => {
-        const initialState = {
-            usr: { roomId: 'defined' },
-            pce: { pieces: [], index: 0, tetromino: [] },
-        };
+        const initialState = {};
         const store = mockStore(initialState);
+        const GAME_STATUS = { rows: 0, level: 1 };
         const checkCollisionStub = sandbox.stub(helper, 'checkCollision').resolves(false);
 
-        drop(store.dispatch);
+        drop(store.dispatch, null, null, GAME_STATUS);
 
         const actions = store.getActions();
         expect(actions).to.deep.equal([
             {
-                action: ACTIONS.EMIT,
-                type: 'DEFINED',
-                event: 'game:start',
-                data: { room_id: 'defined', pieces: [], index: 0, nextTetromino: [] },
+                action: ACTIONS.REDUCE,
+                type: 'SET_POS',
+                pos: { x: 0, y: 1 },
+                collided: false,
             },
         ]);
+    });
+
+    it('should increment level and drop', () => {
+        const initialState = {};
+        const store = mockStore(initialState);
+        const GAME_STATUS = { rows: 12, level: 1 };
+        const checkCollisionStub = sandbox.stub(helper, 'checkCollision').resolves(false);
+
+        drop(store.dispatch, null, null, GAME_STATUS);
+
+        const actions = store.getActions();
+        expect(actions).to.deep.equal([
+            {
+                action: ACTIONS.REDUCE,
+                type: 'INCREMENT_LEVEL',
+            },
+            {
+                action: ACTIONS.REDUCE,
+                type: 'SET_DROPTIME',
+                dropTime: 1000 / (GAME_STATUS.level + 1),
+            },
+            {
+                action: ACTIONS.REDUCE,
+                type: 'SET_POS',
+                pos: { x: 0, y: 1 },
+                collided: false,
+            },
+        ]);
+    });
+
+    it('should collide and not drop', () => {
+        const initialState = {};
+        const store = mockStore(initialState);
+        const GAME_STATUS = { rows: 0, level: 1 };
+        const PIECE = { pos: { x: 0, y: 2 } };
+        const checkCollisionStub = sandbox.stub(helper, 'checkCollision').resolves(true);
+
+        drop(store.dispatch, null, PIECE, GAME_STATUS);
+
+        const actions = store.getActions();
+        expect(actions).to.deep.equal([
+            {
+                action: ACTIONS.REDUCE,
+                type: 'SET_POS',
+                pos: { x: 0, y: 0 },
+                collided: true,
+            },
+        ]);
+    });
+
+    it('should game over and not drop', () => {
+        const initialState = {};
+        const store = mockStore(initialState);
+        const GAME_STATUS = { rows: 0, level: 1 };
+        const PIECE = { pos: { x: 0, y: 0 } };
+        const checkCollisionStub = sandbox.stub(helper, 'checkCollision').resolves(true);
+
+        drop(store.dispatch, null, PIECE, GAME_STATUS);
+
+        const actions = store.getActions();
+        expect(actions).to.deep.equal([
+            {
+                action: ACTIONS.REDUCE,
+                type: 'GAMEOVER',
+            },
+            {
+                action: ACTIONS.REDUCE,
+                type: 'SET_DROPTIME',
+                dropTime: null,
+            },
+            {
+                action: ACTIONS.REDUCE,
+                type: 'SET_POS',
+                pos: { x: 0, y: 0 },
+                collided: true,
+            },
+        ]);
+    });
+
+    it('should move piece', () => {
+        const initialState = {};
+        const store = mockStore(initialState);
+        const DIR = 1;
+        const checkCollisionStub = sandbox.stub(helper, 'checkCollision').resolves(false);
+
+        movePiece(store.dispatch, null, null, DIR);
+
+        const actions = store.getActions();
+        expect(actions).to.deep.equal([
+            {
+                action: ACTIONS.REDUCE,
+                type: 'SET_POS',
+                pos: { x: DIR, y: 0 },
+            },
+        ]);
+    });
+
+    it('should not move piece', () => {
+        const initialState = {};
+        const store = mockStore(initialState);
+        const DIR = 1;
+        const checkCollisionStub = sandbox.stub(helper, 'checkCollision').resolves(true);
+
+        movePiece(store.dispatch, null, null, DIR);
+
+        const actions = store.getActions();
+        expect(actions).to.deep.equal([]);
     });
 });
