@@ -9,8 +9,6 @@ import './actions/notifications/notifications.css';
 import { configureNotificationContainer } from './actions/notifications';
 import { handleHashRoute } from './actions/common/hashRoute';
 
-import './assets/img/favicon.ico';
-
 configureNotificationContainer();
 
 const App = ({ store }) => {
