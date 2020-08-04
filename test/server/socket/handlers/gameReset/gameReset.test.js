@@ -9,7 +9,7 @@ const config = require('../../../../../src/server/config');
 const actionClient = require('../../../../../src/client/actions/game/gameReset');
 const playersLib = require('../../../../../src/server/models/players');
 
-describe('socket/handlers/gameReset', function() {
+describe.skip('socket/handlers/gameReset', function() {
     const sandbox = sinon.createSandbox();
 
     const socketUrl = config.server.url;

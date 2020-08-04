@@ -54,6 +54,7 @@ describe('socket/handlers/players/getPlayers', function() {
                         socket_id: '0000000004',
                         room_id: null,
                         name: 'Waldo',
+                        game_over: false,
                         blocks_consumed: 0,
                         created_at: '2020-01-01T10:00:00.000Z',
                         updated_at: '2020-01-01T10:00:00.000Z',

@@ -62,6 +62,7 @@ describe('socket/handlers/players/createPlayer', function() {
                     socket_id: '0000000004',
                     room_id: null,
                     name: 'Waldo',
+                    game_over: false,
                     blocks_consumed: 0,
                     created_at: '2020-01-01T10:00:00.000Z',
                     updated_at: '2020-01-01T10:00:00.000Z',
@@ -84,7 +85,7 @@ describe('socket/handlers/players/createPlayer', function() {
         });
         client.once('players:created', payload => {
             expect(insertStub.args).to.deep.equal([
-                [{ socket_id: client.id, room_id: null, name: 'Waldo', game_over: false }],
+                [{ socket_id: client.id, room_id: null, name: 'Waldo' }],
             ]);
             expect(payload).to.deep.equal({
                 payload: {

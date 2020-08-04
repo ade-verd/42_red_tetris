@@ -7,7 +7,7 @@ const config = require('../../../../../src/server/config');
 
 const actionClient = require('../../../../../src/client/actions/game/malus');
 
-describe('socket/handlers/malus', function() {
+describe.skip('socket/handlers/malus', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],

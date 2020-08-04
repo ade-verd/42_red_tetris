@@ -7,7 +7,7 @@ const config = require('../../../../../src/server/config');
 
 const actionClient = require('../../../../../src/client/actions/game/spectrum');
 
-describe('socket/handlers/spectrums', function() {
+describe.skip('socket/handlers/spectrums', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],

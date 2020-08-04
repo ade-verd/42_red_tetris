@@ -8,11 +8,9 @@ const playerModel = require('../../../models/players/index');
 
 const changeRoomSocket = require('./changeRoomSocket');
 
-const LOG_PREFIX = '[disconnect]';
-
-const _unsetPlayerSocketId = async playerId => {
+const _unsetPlayerId = async playerId => {
     const player = await new Player({ playerId });
-    await player.update({ socket_id: null });
+    await player.update({ room_id: null, socket_id: null });
 };
 
 const _leaveRooms = async (socket, rooms, playerId) => {
@@ -42,10 +40,10 @@ const disconnect = async (socket, socketRooms) => {
         });
         await Promise.all([
             thisFunctions._leaveRooms(socket, rooms, playerId),
-            thisFunctions._unsetPlayerSocketId(playerId),
+            thisFunctions._unsetPlayerId(playerId),
         ]);
     }
 };
 
-const thisFunctions = { disconnect, _unsetPlayerSocketId, _leaveRooms };
+const thisFunctions = { disconnect, _unsetPlayerId, _leaveRooms };
 module.exports = thisFunctions;

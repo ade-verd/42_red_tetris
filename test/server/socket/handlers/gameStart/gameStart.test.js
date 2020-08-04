@@ -7,7 +7,7 @@ const config = require('../../../../../src/server/config');
 
 const actionClient = require('../../../../../src/client/actions/game/gameStart');
 
-describe('socket/handlers/gameStart', function() {
+describe.skip('socket/handlers/gameStart', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],

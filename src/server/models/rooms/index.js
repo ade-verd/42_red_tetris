@@ -181,7 +181,7 @@ async function updateLeaveRoom(roomId, playerId) {
         },
         {
             $pull: { players_ids: playerId },
-            $set: { room_id: null, updated_at: dateLib.newDate() },
+            $set: { updated_at: dateLib.newDate() },
         },
         { returnOriginal: false },
     );
