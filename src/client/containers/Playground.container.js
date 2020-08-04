@@ -8,7 +8,7 @@ import { updateField } from '../actions/game/field';
 import { startGame, onGameStart } from '../actions/game/gameStart';
 import { resetGame, onGameReset } from '../actions/game/gameReset';
 import { updateGameStatus } from '../actions/game/gameStatus';
-import { move, reactivateDropTime, drop } from '../actions/game/piece';
+import pieceActions from '../actions/game/piece';
 import { onSpectrum } from '../actions/game/spectrum';
 import { onMalus } from '../actions/game/malus';
 import { onGameWon, onGameOver } from '../actions/game/status';
@@ -49,9 +49,9 @@ const mapDispatchToProps = dispatch => {
         resetGame,
         updateField,
         updateGameStatus,
-        move,
-        reactivateDropTime,
-        drop,
+        move: pieceActions.move,
+        reactivateDropTime: pieceActions.reactivateDropTime,
+        drop: pieceActions.drop,
     };
 };
 

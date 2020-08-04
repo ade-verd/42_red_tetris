@@ -7,7 +7,6 @@ import configureStore from 'redux-mock-store';
 import { ACTIONS } from '../../../../src/client/middlewares/handleSocket';
 const helper = require('../../../../src/client/helpers/checkCollision');
 const pieceLib = require('../../../../src/client/actions/game/piece');
-console.log('ttt', pieceLib);
 const {
     incrementLevel,
     setGameOver,
@@ -19,7 +18,7 @@ const {
     rotatePiece,
     hardDrop,
     move,
-} = pieceLib;
+} = pieceLib.default;
 
 describe('client/actions/game/piece', () => {
     const sandbox = sinon.createSandbox();
@@ -216,7 +215,7 @@ describe('client/actions/game/piece', () => {
     it('should dropPiece', () => {
         const initialState = {};
         const store = mockStore(initialState);
-        const dropStub = sandbox.stub(pieceLib, 'drop').returns();
+        const dropStub = sandbox.stub(pieceLib.default, 'drop').returns();
 
         dropPiece(store.dispatch, null, null, null);
 
@@ -293,7 +292,7 @@ describe('client/actions/game/piece', () => {
         const PIECE = { tetromino: [], pos: { x: 0, y: 0 } };
         const DIR = 0;
         const checkCollisionStub = sandbox.stub(helper, 'checkCollision').returns(false);
-        const rotateStub = sandbox.stub(pieceLib, 'rotate').returns([]);
+        const rotateStub = sandbox.stub(pieceLib.default, 'rotate').returns([]);
 
         rotatePiece(store.dispatch, null, PIECE, DIR);
 
@@ -316,7 +315,7 @@ describe('client/actions/game/piece', () => {
         const PIECE = { tetromino: [[]], pos: { x: 0, y: 0 } };
         const DIR = 0;
         const checkCollisionStub = sandbox.stub(helper, 'checkCollision').returns(true);
-        const rotateStub = sandbox.stub(pieceLib, 'rotate').returns([[]]);
+        const rotateStub = sandbox.stub(pieceLib.default, 'rotate').returns([[]]);
 
         rotatePiece(store.dispatch, null, PIECE, DIR);
 
@@ -359,10 +358,10 @@ describe('client/actions/game/piece', () => {
     it('should move', () => {
         const GAME_STATUS = { gameWon: false, gameOver: false, playing: true };
         const EVENT = { preventDefault: () => {}, keyCode: 37 };
-        const movePieceStub = sandbox.stub(pieceLib, 'movePiece').returns();
-        const dropPieceStub = sandbox.stub(pieceLib, 'dropPiece').returns();
-        const rotatePieceStub = sandbox.stub(pieceLib, 'rotatePiece').returns();
-        const hardDropStub = sandbox.stub(pieceLib, 'hardDrop').returns();
+        const movePieceStub = sandbox.stub(pieceLib.default, 'movePiece').returns();
+        const dropPieceStub = sandbox.stub(pieceLib.default, 'dropPiece').returns();
+        const rotatePieceStub = sandbox.stub(pieceLib.default, 'rotatePiece').returns();
+        const hardDropStub = sandbox.stub(pieceLib.default, 'hardDrop').returns();
 
         move(null, EVENT, null, null, GAME_STATUS);
         expect(movePieceStub.args).to.deep.equal([[null, null, null, -1]]);

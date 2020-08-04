@@ -1,4 +1,4 @@
-import { ACTIONS } from '../../middlewares/handleSocket';
+const { ACTIONS } = require('../../middlewares/handleSocket');
 const helper = require('../../helpers/checkCollision');
 
 const incrementLevel = dispatch => {
@@ -122,4 +122,5 @@ const thisFunctions = {
     hardDrop,
     move,
 };
-module.exports = thisFunctions;
+
+export default thisFunctions;
