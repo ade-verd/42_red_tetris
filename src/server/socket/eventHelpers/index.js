@@ -32,7 +32,7 @@ function createEvent(onEventName, emitEventName, rules, fn) {
  */
 function bindEvent(socket, { onEventName, emitEventName, validation, fn }) {
     socket.on(onEventName, (payload = {}) => {
-        console.log('[socket event received]', onEventName, payload);
+        console.log('[socket event received]', onEventName, JSON.stringify(payload));
 
         if (validation) {
             const { error } = validation.validate(payload);

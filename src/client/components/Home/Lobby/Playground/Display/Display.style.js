@@ -25,16 +25,8 @@ export const StyledDisplay = styled.div`
 
     width: min-content;
     font-size: 2vmin;
-    ${props =>
-        props.title === 'NEXT' || props.gameWon || props.gameOver
-            ? 'margin: auto'
-            : 'margin-left: auto'};
+    ${props => (props.title === 'NEXT' ? 'margin: auto' : 'margin-left: auto')};
     padding: 10px;
-    ${props => (props.gameWon || props.gameOver ? 'padding-bottom: 20px' : '')};
 
-    color: ${props => {
-        if (props.gameWon) return '#8bc34a';
-        if (props.gameOver) return '#e6443a';
-        return 'white';
-    }};
+    color: white;
 `;

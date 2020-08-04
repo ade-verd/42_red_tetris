@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { StyledWrapper, StyledSpectrum, Row } from './Spectrum.style';
 import Cell from './Cell/Cell';
+import FieldMask from '../../FieldWrapper/Field/FieldMask/FieldMask';
 
 import { FIELD_HEIGHT, FIELD_WIDTH } from '../../../../../../../constants/';
 
@@ -23,12 +24,27 @@ const Spectrum = ({ players, spectrums, playerId }) => {
     if (!data) {
         const playerName = players[playerId];
         if (!playerName) return null;
-        data = { spectrum: buildEmptySpectrum(), playerName };
+        data = { spectrum: buildEmptySpectrum(), playerName, isGameOver: false };
     }
+
+    const [gameOverContent, setGameOverContent] = useState();
+
+    useEffect(() => {
+        if (spectrums && spectrums[playerId]) {
+            setGameOverContent(spectrums[playerId].isGameOver ? 'Game over' : '');
+        }
+    }, [data.isGameOver]);
 
     return (
         <StyledWrapper>
-            <StyledSpectrum>{buildSpectrum(data.spectrum)}</StyledSpectrum>
+            <StyledSpectrum>
+                <FieldMask
+                    isSpectrum={true}
+                    isGameOver={data.isGameOver}
+                    content={gameOverContent}
+                />
+                {buildSpectrum(data.spectrum)}
+            </StyledSpectrum>
             {data.playerName}
         </StyledWrapper>
     );

@@ -10,7 +10,6 @@ import { store } from '../../../../../../store/store';
 
 const AsideRight = props => {
     const { gameWon, gameOver, isAdmin, piece, playgroundRef, startGame, resetGame } = props;
-    const status = gameWon ? 'GAME WON' : 'GAME OVER';
     const _startGame = () => {
         startGame(store.dispatch, playgroundRef);
     };
@@ -21,7 +20,6 @@ const AsideRight = props => {
         <StyledAsideRight>
             <Display title="NEXT" content={nextPiece} />
             <StyledBottom>
-                {gameWon || gameOver ? <Display content={status} /> : null}
                 {isAdmin ? <StartButton startGame={_startGame} resetGame={resetGame} /> : null}
             </StyledBottom>
         </StyledAsideRight>

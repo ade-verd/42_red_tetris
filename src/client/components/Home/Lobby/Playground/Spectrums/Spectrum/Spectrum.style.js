@@ -14,6 +14,7 @@ export const StyledSpectrum = styled.div`
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
+    position: relative;
 
     margin-bottom: 5px;
     border: 2px solid #fff;

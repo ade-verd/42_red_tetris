@@ -8,6 +8,13 @@ const handleError = (state, error, errorFieldName) => {
     };
 };
 
+const setGameOver = ({ state, playerId }) => {
+    return {
+        ...state,
+        [playerId]: { ...state[playerId], isGameOver: true },
+    };
+};
+
 const setSpectrum = (state, playerId, playerName, spectrum, error) => {
     if (error !== undefined) {
         if (error.startsWith('ValidationError')) {
@@ -36,6 +43,8 @@ const reducer = (state = {}, action) => {
                 action.spectrum,
                 action.error,
             );
+        case 'SPECTRUM_SET_GAMEOVER':
+            return setGameOver({ state, playerId: action.playerId });
         default:
             return state;
     }

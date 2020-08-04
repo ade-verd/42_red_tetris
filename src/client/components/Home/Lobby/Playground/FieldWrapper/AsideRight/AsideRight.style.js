@@ -16,5 +16,5 @@ export const StyledBottom = styled.div`
     display: flex;
     flex-direction: column;
 
-    padding-bottom: 20%;
+    padding-bottom: 10%;
 `;

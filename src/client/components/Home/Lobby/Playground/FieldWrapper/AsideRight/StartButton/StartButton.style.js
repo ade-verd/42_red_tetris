@@ -9,7 +9,7 @@ export const StyledStartButton = styled.button`
     padding: 0 15px;
     font-size: 2vmin;
     border-radius: 0 15px 15px 0;
-    border-width: 4px 4px 4px 0;
+    border-width: 3px 3px 3px 0;
     border-style: solid;
     border-color: white;
 

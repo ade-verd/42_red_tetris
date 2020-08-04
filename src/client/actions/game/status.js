@@ -28,13 +28,28 @@ export const emitGameOver = (store, dispatch) => {
     });
 };
 
+export const updateSpectrumOnGameOver = (dispatch, payload) => {
+    dispatch({
+        action: ACTIONS.REDUCE,
+        type: 'SPECTRUM_SET_GAMEOVER',
+        playerId: payload.player_id,
+    });
+};
+
+export const onGameOver = dispatch => {
+    dispatch({
+        action: ACTIONS.LISTEN,
+        event: 'status:gameOver:broadcast',
+        fn: payload => updateSpectrumOnGameOver(dispatch, payload),
+    });
+};
+
 export const onGameWon = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'status:gameWon',
         fn: payload => {
             if (payload && payload.error) return handleError(payload.error, 'creationError');
-            console.debug('GAME WON !');
             dispatch({ action: ACTIONS.REDUCE, type: 'GAMEWON' });
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
         },

@@ -11,7 +11,7 @@ import { updateGameStatus } from '../actions/game/gameStatus';
 import { move, reactivateDropTime, drop } from '../actions/game/piece';
 import { onSpectrum } from '../actions/game/spectrum';
 import { onMalus } from '../actions/game/malus';
-import { onGameWon } from '../actions/game/status';
+import { onGameWon, onGameOver } from '../actions/game/status';
 
 import { GAME_ACTIONS } from '../../constants';
 
@@ -34,6 +34,7 @@ const mapDispatchToProps = dispatch => {
         listen: elementToFocus => {
             onGameStart(dispatch, elementToFocus);
             onGameReset(dispatch);
+            onGameOver(dispatch);
             onGameWon(dispatch);
             onGameAction(dispatch);
             onGetRandomTetriminos(dispatch);

@@ -14,8 +14,10 @@ export const StyledContent = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    max-width: inherit;
 
     color: #fff;
-    font-size: 2.5em;
-    white-space: nowrap;
+    font-size: ${props => (props.isSpectrum ? '2vmin' : '4vmin')};
+    white-space: ${props => (props.isSpectrum ? 'pre-line' : 'nowrap')};
+    text-align: center;
 `;
