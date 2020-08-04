@@ -4,12 +4,12 @@ export const StyledField = styled.div`
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
+    position: relative;
 
     border: 5px solid #fff;
     border-radius: 5px;
 
     background: #222;
-    opacity: ${props => (props.gameOver ? 0.5 : 1)};
 `;
 
 export const Row = styled.div`

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { StyledField, Row } from './Field.style';
 import Cell from './Cell/Cell';
+import FieldMask from './FieldMask/FieldMask';
 
 const buildField = field => {
     return field.map((row, i) => (
@@ -20,13 +21,12 @@ const Field = ({ field, gameStatus }) => {
 
     useEffect(() => {
         gameStatus.gameOver ? setContent('Game over') : setContent();
-        console.log('ABC', content);
     }, [gameStatus.gameOver]);
 
     return (
-        <StyledField gameOver={gameStatus.gameOver}>
+        <StyledField>
+            <FieldMask isGameOver={gameStatus.gameOver} content={content} />
             {buildField(field)}
-            {content}
         </StyledField>
     );
 };
