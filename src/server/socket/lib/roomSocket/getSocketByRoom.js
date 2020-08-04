@@ -12,9 +12,12 @@ const getIoRoomSockets = (io, roomSocketId) => {
 const getIoRoomPlayersIds = async (io, roomSocketId) => {
     const playersIds = { players_ids: [] };
 
-    const roomSocketsIds = Object.keys(getIoRoomSockets(io, roomSocketId));
-    if (roomSocketsIds.length) {
-        const playersCursor = await playersModel.findAllBySocketIds(roomSocketsIds, {});
+    const socketsIds = Object.keys(getIoRoomSockets(io, roomSocketId));
+    if (socketsIds.length) {
+        const playersCursor = await playersModel.findAllBySocketIds(
+            { socketsIds, roomId: roomSocketId },
+            {},
+        );
         await playersCursor.forEach(async player => {
             playersIds.players_ids.push(player._id);
         });
@@ -22,7 +25,13 @@ const getIoRoomPlayersIds = async (io, roomSocketId) => {
     return playersIds;
 };
 
+const getIoRoomPlayers = async (io, roomSocketId) => {
+    const socketsIds = Object.keys(getIoRoomSockets(io, roomSocketId));
+    return playersModel.findAllBySocketIds({ socketsIds, roomId: roomSocketId }, {});
+};
+
 module.exports = {
     getIoRoomSockets,
     getIoRoomPlayersIds,
+    getIoRoomPlayers,
 };

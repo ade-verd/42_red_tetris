@@ -58,7 +58,7 @@ const reducer = (state = {}, action) => {
         case 'GAMEWON':
             return {
                 ...state,
-                gameWon: true,
+                gameWon: action.winnerId,
             };
         case 'PLAYING':
             return {

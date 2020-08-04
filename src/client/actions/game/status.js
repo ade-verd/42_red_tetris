@@ -47,10 +47,10 @@ export const onGameOver = dispatch => {
 export const onGameWon = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
-        event: 'status:gameWon',
+        event: 'status:gameWon:broadcast',
         fn: payload => {
             if (payload && payload.error) return handleError(payload.error, 'creationError');
-            dispatch({ action: ACTIONS.REDUCE, type: 'GAMEWON' });
+            dispatch({ action: ACTIONS.REDUCE, type: 'GAMEWON', winnerId: payload.winnerId });
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
         },
     });

@@ -9,7 +9,7 @@ import NextPiece from './NextPiece/NextPiece';
 import { store } from '../../../../../../store/store';
 
 const AsideRight = props => {
-    const { gameWon, gameOver, isAdmin, piece, playgroundRef, startGame, resetGame } = props;
+    const { isAdmin, piece, playgroundRef, startGame, resetGame } = props;
     const _startGame = () => {
         startGame(store.dispatch, playgroundRef);
     };

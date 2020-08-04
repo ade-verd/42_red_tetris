@@ -18,10 +18,15 @@ const Field = ({ field, gameStatus }) => {
     if (!field) return null;
 
     const [content, setContent] = useState();
-
     useEffect(() => {
-        gameStatus.gameOver ? setContent('Game over') : setContent();
-    }, [gameStatus.gameOver]);
+        if (gameStatus.gameOver) {
+            setContent('Game over');
+        } else if (gameStatus.gameWon) {
+            setContent('Winner');
+        } else {
+            setContent('');
+        }
+    }, [gameStatus.gameOver, gameStatus.gameWon]);
 
     return (
         <StyledField>

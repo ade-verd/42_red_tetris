@@ -15,6 +15,13 @@ const setGameOver = ({ state, playerId }) => {
     };
 };
 
+const setGameWon = ({ state, winnerId }) => {
+    return {
+        ...state,
+        [winnerId]: { ...state[winnerId], isGameWon: true },
+    };
+};
+
 const setSpectrum = (state, playerId, playerName, spectrum, error) => {
     if (error !== undefined) {
         if (error.startsWith('ValidationError')) {
@@ -45,6 +52,8 @@ const reducer = (state = {}, action) => {
             );
         case 'SPECTRUM_SET_GAMEOVER':
             return setGameOver({ state, playerId: action.playerId });
+        case 'GAMEWON':
+            return setGameWon({ state, winnerId: action.winnerId });
         default:
             return state;
     }

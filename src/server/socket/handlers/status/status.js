@@ -6,6 +6,7 @@ const helpers = require('../../eventHelpers');
 const ioInstance = require('../../ioInstance');
 
 const playersLib = require('../../../models/players');
+const socketRoomLib = require('../../lib/roomSocket/getSocketByRoom');
 
 const schema = {
     player_id: Joi.string().required(),
@@ -14,7 +15,7 @@ const schema = {
 
 const ON_EVENT = 'status:gameOver';
 const EMIT_EVENT_GAMEOVER = 'status:gameOver:broadcast';
-const EMIT_EVENT_GAMEWON = 'status:gameWon';
+const EMIT_EVENT_GAMEWON = 'status:gameWon:broadcast';
 const FUNCTION_NAME = '[playersLib]';
 
 const emitGameOver = async (socket, payload) => {
@@ -28,27 +29,27 @@ const emitGameOver = async (socket, payload) => {
     }
 };
 
+const isWinner = async ({ io, roomId }) => {
+    const playersCursor = await socketRoomLib.getIoRoomPlayers(io, roomId);
+    const playersArray = await playersCursor.toArray();
+
+    const playingPlayers = playersArray.filter(player => player.game_over === false);
+    return playingPlayers.length === 1 ? playingPlayers[0] : false;
+};
+
 const emitGameWon = async (socket, payload) => {
     const io = ioInstance.get();
     const [playerId, roomId] = [payload.player_id, payload.room_id];
 
     try {
         await playersLib.updateOne(playerId, { game_over: true });
-        const playersCursor = await playersLib.find({ room_id: roomId });
-        const players = await playersCursor.toArray();
+        const winner = await isWinner({ io, playerId, roomId });
 
-        let isNotGameOver = 0;
-        let winnerSocketId = null;
-        for (const player of players) {
-            if (!player.game_over) {
-                isNotGameOver++;
-                winnerSocketId = player.socket_id;
-            }
-        }
-
-        if (isNotGameOver === 1) {
-            io.to(winnerSocketId).emit(EMIT_EVENT_GAMEWON);
-            console.log('[socket event emited][to:', winnerSocketId, ']', EMIT_EVENT_GAMEWON);
+        if (winner) {
+            io.to(roomId).emit(EMIT_EVENT_GAMEWON, { winnerId: winner._id });
+            console.log('[socket event emited][to:', roomId, ']', EMIT_EVENT_GAMEWON, {
+                winnerId: winner._id,
+            });
         }
     } catch (err) {
         socket.emit(EMIT_EVENT_GAMEWON, { payload, error: err.toString() });
@@ -56,12 +57,12 @@ const emitGameWon = async (socket, payload) => {
     }
 };
 
-export const handleWinner = helpers.createEvent(
+export const handleGameOver = helpers.createEvent(
     ON_EVENT,
     EMIT_EVENT_GAMEOVER,
     schema,
     async (socket, payload) => {
-        await emitGameOver(socket, payload);
-        await emitGameWon(socket, payload);
+        emitGameOver(socket, payload);
+        emitGameWon(socket, payload);
     },
 );

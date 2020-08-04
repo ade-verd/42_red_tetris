@@ -1,7 +1,7 @@
 'use strict';
 
 const Joi = require('@hapi/joi');
-const { ObjectId } = require('mongodb');
+const { ObjectId, isOb } = require('mongodb');
 
 const { getDb } = require('../../lib/mongodb');
 const dateLib = require('../../lib/utils/date');
@@ -85,12 +85,17 @@ async function findOneBySocketId(socketId, projection = {}) {
  * Returns players found with their socket id
  *
  * @param {Array<String>} socketsIds - array of sockets identifier
+ * @param {String} roomId - room identifier
  * @param {Object} projection - optional projection of result fields
  *
  * @returns {Object} The mongo document
  */
-async function findAllBySocketIds(socketsIds, projection = {}) {
-    return collection().find({ socket_id: { $in: socketsIds } }, { projection });
+async function findAllBySocketIds({ socketsIds, roomId }, projection = {}) {
+    let request = { socket_id: { $in: socketsIds } };
+    if (typeof roomId === 'string' && roomId.length % 12 === 0) {
+        request = { ...request, room_id: roomId };
+    }
+    return collection().find(request, { projection });
 }
 
 /**
