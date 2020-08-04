@@ -4,10 +4,24 @@ import { StyledWrapper, StyledSpectrum, Row } from './Spectrum.style';
 import Cell from './Cell/Cell';
 import FieldMask from '../../FieldWrapper/Field/FieldMask/FieldMask';
 
+import { setSpectrum } from '../../../../../../actions/game/spectrum';
+
+import { store } from '../../../../../../store/store';
+
 import { FIELD_HEIGHT, FIELD_WIDTH } from '../../../../../../../constants/';
 
 const buildEmptySpectrum = () =>
     Array.from(Array(FIELD_HEIGHT), () => new Array(FIELD_WIDTH).fill('clear'));
+
+const buildEmptySpectrumData = (players, playerId) => {
+    const payload = {
+        player_id: playerId,
+        player_name: players[playerId],
+        spectrum: buildEmptySpectrum(),
+    };
+    setSpectrum(store.dispatch, payload);
+    return { playerId, playerName: payload.player_name, spectrum: payload.spectrum };
+};
 
 const buildSpectrum = spectrum => {
     return spectrum.map((row, y) => (
@@ -20,34 +34,42 @@ const buildSpectrum = spectrum => {
 };
 
 const Spectrum = ({ players, spectrums, playerId }) => {
-    let data = spectrums[playerId];
-    if (!data) {
-        const playerName = players[playerId];
-        if (!playerName) return null;
-        data = { spectrum: buildEmptySpectrum(), playerName, isGameOver: false };
-    }
+    const [spectrumData, setSpectrumData] = useState();
+    const [gameStatus, setGameStatus] = useState();
 
-    const [gameOverContent, setGameOverContent] = useState();
+    useEffect(() => {
+        if (spectrums[playerId]) {
+            setSpectrumData(spectrums[playerId]);
+        } else {
+            setSpectrumData(buildEmptySpectrumData(players, playerId));
+        }
+    }, [spectrums[playerId]]);
 
     useEffect(() => {
         if (spectrums && spectrums[playerId]) {
-            setGameOverContent(spectrums[playerId].isGameOver ? 'Game over' : '');
+            if (spectrums[playerId].isGameWon) {
+                setGameStatus('Winner');
+            } else if (spectrums[playerId].isGameOver) {
+                setGameStatus('Game over');
+            } else {
+                setGameStatus('');
+            }
         }
-    }, [data.isGameOver]);
+    }, [spectrumData]);
 
-    return (
+    return spectrumData ? (
         <StyledWrapper>
             <StyledSpectrum>
                 <FieldMask
                     isSpectrum={true}
-                    isGameOver={data.isGameOver}
-                    content={gameOverContent}
+                    isGameOver={spectrumData.isGameOver || spectrumData.isGameWon}
+                    content={gameStatus}
                 />
-                {buildSpectrum(data.spectrum)}
+                {buildSpectrum(spectrumData.spectrum)}
             </StyledSpectrum>
-            {data.playerName}
+            {spectrumData.playerName}
         </StyledWrapper>
-    );
+    ) : null;
 };
 
 export default React.memo(Spectrum);

@@ -26,20 +26,24 @@ export const emitSpectrum = (dispatch, roomId, playerId, playerName, field) => {
     });
 };
 
+export const setSpectrum = (dispatch, payload) => {
+    dispatch({
+        action: ACTIONS.REDUCE,
+        type: 'SET_SPECTRUM',
+        playerId: payload.player_id,
+        playerName: payload.player_name,
+        spectrum: payload.spectrum,
+        error: payload.error,
+    });
+};
+
 export const onSpectrum = dispatch => {
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'spectrum:updated',
         fn: payload => {
             if (payload.error) return handleError(payload.error, 'creationError');
-            dispatch({
-                action: ACTIONS.REDUCE,
-                type: 'SET_SPECTRUM',
-                playerId: payload.player_id,
-                playerName: payload.player_name,
-                spectrum: payload.spectrum,
-                error: payload.error,
-            });
+            setSpectrum(dispatch, payload);
         },
     });
 };

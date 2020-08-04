@@ -14,15 +14,15 @@ const buildField = field => {
     ));
 };
 
-const Field = ({ field, gameStatus }) => {
+const Field = ({ field, gameStatus, user }) => {
     if (!field) return null;
 
     const [content, setContent] = useState();
     useEffect(() => {
-        if (gameStatus.gameOver) {
-            setContent('Game over');
-        } else if (gameStatus.gameWon) {
+        if (gameStatus.gameWon === user.id) {
             setContent('Winner');
+        } else if (gameStatus.gameOver) {
+            setContent('Game over');
         } else {
             setContent('');
         }
@@ -30,7 +30,7 @@ const Field = ({ field, gameStatus }) => {
 
     return (
         <StyledField>
-            <FieldMask isGameOver={gameStatus.gameOver} content={content} />
+            <FieldMask isGameOver={gameStatus.gameOver || gameStatus.gameWon} content={content} />
             {buildField(field)}
         </StyledField>
     );

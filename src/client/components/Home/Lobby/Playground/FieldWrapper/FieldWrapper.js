@@ -10,7 +10,7 @@ const FieldWrapper = ({ field, gameStatus, isAdmin, piece, user, playgroundRef, 
     return (
         <StyledFieldWrapper>
             <AsideLeft gameStatus={gameStatus} />
-            <Field field={field} gameStatus={gameStatus} />
+            <Field field={field} gameStatus={gameStatus} user={user} />
             <AsideRight
                 isAdmin={isAdmin}
                 user={user}
