@@ -34,7 +34,7 @@ const isWinner = async ({ io, roomId }) => {
     const playersArray = await playersCursor.toArray();
 
     const playingPlayers = playersArray.filter(player => player.game_over === false);
-    return playingPlayers.length === 1 ? playingPlayers[0] : false;
+    return playingPlayers.length === 1 ? playingPlayers[0] : null;
 };
 
 const emitGameWon = async (socket, payload) => {
@@ -43,7 +43,7 @@ const emitGameWon = async (socket, payload) => {
 
     try {
         await playersLib.updateOne(playerId, { game_over: true });
-        const winner = await isWinner({ io, playerId, roomId });
+        const winner = await thisFunctions.isWinner({ io, roomId });
 
         if (winner) {
             io.to(roomId).emit(EMIT_EVENT_GAMEWON, { winnerId: winner._id });
@@ -57,12 +57,21 @@ const emitGameWon = async (socket, payload) => {
     }
 };
 
-export const handleGameOver = helpers.createEvent(
+const handleGameOver = helpers.createEvent(
     ON_EVENT,
     EMIT_EVENT_GAMEOVER,
     schema,
     async (socket, payload) => {
-        emitGameOver(socket, payload);
-        emitGameWon(socket, payload);
+        thisFunctions.emitGameOver(socket, payload);
+        thisFunctions.emitGameWon(socket, payload);
     },
 );
+
+const thisFunctions = {
+    handleGameOver,
+    emitGameWon,
+    emitGameOver,
+    isWinner,
+};
+
+module.exports = thisFunctions;
