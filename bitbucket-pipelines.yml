@@ -10,6 +10,8 @@ pipelines:
           script:
             - npm install
             - npm test
+          services:
+            - mongo
       - step:
           name: Build
           caches:
@@ -32,3 +34,8 @@ pipelines:
                 ZIP_FILE: "bluetetris.tar.gz"
                 WAIT: "true"
                 DEBUG: "false"
+
+definitions:
+  services:
+    mongo:
+      image: mongo:4.2
