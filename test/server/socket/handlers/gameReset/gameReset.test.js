@@ -9,7 +9,7 @@ const config = require('../../../../../src/server/config');
 const actionClient = require('../../../../../src/client/actions/game/gameReset');
 const playersLib = require('../../../../../src/server/models/players');
 
-describe.skip('socket/handlers/gameReset', function() {
+describe('socket/handlers/gameReset', function() {
     const sandbox = sinon.createSandbox();
 
     const socketUrl = config.server.url;
@@ -40,9 +40,10 @@ describe.skip('socket/handlers/gameReset', function() {
     describe('socket/handlers/gameReset/gameReset', function() {
         let client1;
         let client2;
-        beforeEach(() => {
+        beforeEach(done => {
             client1 = ioClt.connect(socketUrl, options);
             client2 = ioClt.connect(socketUrl, options);
+            client1.on('connect', () => client2.on('connect', () => done()));
         });
 
         afterEach(() => {

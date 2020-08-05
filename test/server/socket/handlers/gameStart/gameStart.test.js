@@ -7,7 +7,7 @@ const config = require('../../../../../src/server/config');
 
 const actionClient = require('../../../../../src/client/actions/game/gameStart');
 
-describe.skip('socket/handlers/gameStart', function() {
+describe('socket/handlers/gameStart', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
@@ -36,9 +36,10 @@ describe.skip('socket/handlers/gameStart', function() {
     describe('socket/handlers/gameStart/gameStart', function() {
         let client1;
         let client2;
-        beforeEach(() => {
+        beforeEach(done => {
             client1 = ioClt.connect(socketUrl, options);
             client2 = ioClt.connect(socketUrl, options);
+            client1.on('connect', () => client2.on('connect', () => done()));
         });
 
         afterEach(() => {

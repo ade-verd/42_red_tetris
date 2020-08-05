@@ -7,7 +7,7 @@ const config = require('../../../../../src/server/config');
 
 const actionClient = require('../../../../../src/client/actions/game/spectrum');
 
-describe.skip('socket/handlers/spectrums', function() {
+describe('socket/handlers/spectrums', function() {
     const socketUrl = config.server.url;
     const options = {
         transports: ['websocket'],
@@ -35,9 +35,10 @@ describe.skip('socket/handlers/spectrums', function() {
     describe('socket/handlers/spectrums/spectrums', function() {
         let client1;
         let client2;
-        beforeEach(() => {
+        beforeEach(done => {
             client1 = ioClt.connect(socketUrl, options);
             client2 = ioClt.connect(socketUrl, options);
+            client1.on('connect', () => client2.on('connect', () => done()));
         });
 
         afterEach(() => {

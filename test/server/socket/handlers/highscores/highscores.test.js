@@ -32,8 +32,9 @@ describe('socket/handlers/highscores', function() {
 
     describe('socket/handlers/highscores/highscores', function() {
         let client;
-        beforeEach(() => {
+        beforeEach(done => {
             client = ioClt.connect(socketUrl, options);
+            client.on('connect', () => done());
         });
 
         afterEach(() => {
@@ -90,8 +91,9 @@ describe('socket/handlers/highscores', function() {
 
     describe('socket/handlers/highscores/score', function() {
         let client;
-        beforeEach(() => {
+        beforeEach(done => {
             client = ioClt.connect(socketUrl, options);
+            client.on('connect', () => done());
         });
 
         afterEach(() => {
