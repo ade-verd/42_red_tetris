@@ -19,7 +19,7 @@ describe('socket/lib/roomSocket/disconnectRoom', async () => {
         sandbox.restore();
     });
 
-    describe('#_unsetPlayerSocketId()', async () => {
+    describe('#_unsetPlayerId()', async () => {
         it('should update a player and set his socket id to null', async () => {
             const updateStub = sandbox
                 .stub(playersModel, 'updateOne')
@@ -27,10 +27,10 @@ describe('socket/lib/roomSocket/disconnectRoom', async () => {
 
             const PLAYER_ID = '00000000000000000000000a';
 
-            await disconnectRoomSocket._unsetPlayerSocketId(PLAYER_ID);
+            await disconnectRoomSocket._unsetPlayerId(PLAYER_ID);
 
             expect(updateStub.args).to.deep.equal([
-                ['00000000000000000000000a', { socket_id: null }],
+                ['00000000000000000000000a', { room_id: null, socket_id: null }],
             ]);
         });
     });
@@ -94,8 +94,8 @@ describe('socket/lib/roomSocket/disconnectRoom', async () => {
                 .stub(playersModel, 'findOneBySocketId')
                 .resolves(fixtures.insertedPlayer());
             const _leaveRoomsStub = sandbox.stub(disconnectRoomSocket, '_leaveRooms').resolves();
-            const _unsetPlayerSocketStub = sandbox
-                .stub(disconnectRoomSocket, '_unsetPlayerSocketId')
+            const _unsetPlayerStub = sandbox
+                .stub(disconnectRoomSocket, '_unsetPlayerId')
                 .resolves();
 
             await disconnectRoomSocket.disconnect(SOCKET, ROOMS_SOCKET);
@@ -104,7 +104,7 @@ describe('socket/lib/roomSocket/disconnectRoom', async () => {
             expect(_leaveRoomsStub.args).to.deep.equal([
                 [SOCKET, ['000000000000000000000001'], '00000000000000000000000d'],
             ]);
-            expect(_unsetPlayerSocketStub.args).to.deep.equal([['00000000000000000000000d']]);
+            expect(_unsetPlayerStub.args).to.deep.equal([['00000000000000000000000d']]);
         });
 
         it('should do nothing if the socket id is not found in players collection', async () => {
