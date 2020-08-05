@@ -1,7 +1,7 @@
 'use strict';
 
 const Joi = require('@hapi/joi');
-const { ObjectId, isOb } = require('mongodb');
+const { ObjectId } = require('mongodb');
 
 const { getDb } = require('../../lib/mongodb');
 const dateLib = require('../../lib/utils/date');
