@@ -56,9 +56,10 @@ const reducer = (state = {}, action) => {
                 gameOver: true,
             };
         case 'GAMEWON':
+            const userId = action.store.getState().usr.id;
             return {
                 ...state,
-                gameWon: action.winnerId,
+                gameWon: action.winnerId === userId,
             };
         case 'PLAYING':
             return {

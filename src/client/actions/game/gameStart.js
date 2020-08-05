@@ -52,7 +52,8 @@ export const onGameStart = (dispatch, elementToFocus) => {
             });
             dispatch({ action: ACTIONS.REDUCE, type: 'GET_TETROMINO' });
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: 1000 });
-            elementToFocus.current.focus();
+
+            if (elementToFocus && elementToFocus.current) elementToFocus.current.focus();
         },
     });
 };
@@ -64,5 +65,5 @@ export const startGame = (dispatch, elementToFocus) => {
     emitGameStart(dispatch);
     emitGameAction(dispatch, GAME_ACTIONS.START);
 
-    elementToFocus.current.focus();
+    if (elementToFocus && elementToFocus.current) elementToFocus.current.focus();
 };

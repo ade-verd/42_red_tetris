@@ -59,7 +59,7 @@ const Playground = props => {
             onKeyDown={event => move(store.dispatch, event, field, piece, gameStatus)}
             onKeyUp={event => reactivateDropTime(store.dispatch, event, gameStatus)}
         >
-            {/* <Confetti playgroundRef={playgroundRef} isGameWon={gameStatus.gameWon} /> */}
+            <Confetti playgroundRef={playgroundRef} isGameWon={gameStatus.gameWon} />
             <Spectrums players={players} rooms={rooms} spectrums={spectrums} user={user} />
             <FieldWrapper {...props} isAdmin={isAdmin} playgroundRef={playgroundRef} />
         </StyledPlayground>

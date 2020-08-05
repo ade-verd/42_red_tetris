@@ -14,12 +14,12 @@ const buildField = field => {
     ));
 };
 
-const Field = ({ field, gameStatus, user }) => {
+const Field = ({ field, gameStatus }) => {
     if (!field) return null;
 
     const [content, setContent] = useState();
     useEffect(() => {
-        if (gameStatus.gameWon === user.id) {
+        if (gameStatus.gameWon) {
             setContent('Winner');
         } else if (gameStatus.gameOver) {
             setContent('Game over');
