@@ -34,7 +34,15 @@ describe('socket/lib/roomSocket/getSocketByRoom', function() {
 
             const res = await getSocketByRoom.getIoRoomPlayersIds(IO, ROOM_SOCKET_ID);
 
-            expect(playerModelStub.args).to.deep.equal([[['0000000001', '0000000002'], {}]]);
+            expect(playerModelStub.args).to.deep.equal([
+                [
+                    {
+                        socketsIds: ['0000000001', '0000000002'],
+                        roomId: '000000000000000000000001',
+                    },
+                    {},
+                ],
+            ]);
             expect(res).to.deep.equal({
                 players_ids: [
                     new ObjectId('00000000000000000000000a'),
@@ -61,6 +69,60 @@ describe('socket/lib/roomSocket/getSocketByRoom', function() {
             expect(res).to.deep.equal({
                 players_ids: [],
             });
+        });
+    });
+
+    describe('#getIoRoomPlayers()', async () => {
+        it('should return a cursor with found players', async () => {
+            const ROOM_SOCKET_ID = '000000000000000000000001';
+            const SOCKETS_IDS = { '0000000001': true, '0000000002': true };
+            const IO = {
+                sockets: {
+                    adapter: {
+                        rooms: {
+                            [ROOM_SOCKET_ID]: { sockets: SOCKETS_IDS },
+                        },
+                    },
+                },
+            };
+
+            const findStub = sandbox
+                .stub(playersModel, 'findAllBySocketIds')
+                .resolves(fixtures.playersWithRoom().slice(0, 2));
+
+            const res = await getSocketByRoom.getIoRoomPlayers(IO, ROOM_SOCKET_ID);
+
+            expect(findStub.args).to.deep.equal([
+                [
+                    {
+                        socketsIds: ['0000000001', '0000000002'],
+                        roomId: '000000000000000000000001',
+                    },
+                    {},
+                ],
+            ]);
+            expect(res).to.deep.equal([
+                {
+                    _id: new ObjectId('00000000000000000000000a'),
+                    socket_id: '0000000001',
+                    room_id: '000000000000000000000001',
+                    name: 'Will',
+                    blocks_consumed: 0,
+                    game_over: true,
+                    created_at: new Date('2020-01-01T10:00:00Z'),
+                    updated_at: new Date('2020-01-01T10:00:00Z'),
+                },
+                {
+                    _id: new ObjectId('00000000000000000000000b'),
+                    socket_id: '0000000002',
+                    name: 'Carlton',
+                    room_id: '000000000000000000000001',
+                    blocks_consumed: 7,
+                    game_over: true,
+                    created_at: new Date('2020-01-01T10:00:00Z'),
+                    updated_at: new Date('2020-01-01T10:00:00Z'),
+                },
+            ]);
         });
     });
 });
