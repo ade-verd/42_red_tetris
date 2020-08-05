@@ -3,13 +3,13 @@ image: node:12.13.1
 pipelines:
   branches:
     master:
-      #      - step:
-      #          name: Tests
-      #          caches:
-      #            - node
-      #          script:
-      #            - npm install
-      #            - npm test
+      - step:
+          name: Tests
+          caches:
+            - node
+          script:
+            - npm install
+            - npm test
       - step:
           name: Build
           caches:

@@ -125,7 +125,7 @@ describe('Socket event helpers', function() {
             });
 
             const client = ioClient.connect(socketUrl, options);
-            client.on('connect', () => {
+            client.once('connect', () => {
                 client.emit('event:bind', { string: 'abdef', number: 1 });
             });
         });

@@ -241,22 +241,17 @@ describe('socket/handlers/status/status', function() {
             const ROOM_ID = '000000000000000000000001';
             const payload = actionClient.getStatusPayload(PLAYER_ID, ROOM_ID);
 
-            let roomSockets = [];
+            let connected = 0;
             const ioServer = ioInstance.get();
             ioServer.on('connection', socket => {
-                if (roomSockets.length < 2) {
-                    socket.join(ROOM_ID);
-                    roomSockets.push(socket);
-                } else {
+                socket.join(ROOM_ID);
+                connected += 1;
+                if (connected === CLIENTS.length) {
                     statusHandler.emitGameOver(socket, payload);
                 }
             });
 
-            const CLIENTS = [
-                '[ROOM] client0 (sender & receiver)',
-                '[ROOM] client1 (receiver)',
-                '[]     client2 (not receiver)',
-            ];
+            const CLIENTS = ['[ROOM] client0 (sender & receiver)', '[ROOM] client1 (receiver)'];
             const socketsClients = CLIENTS.map(() => ioClient.connect(socketUrl, options));
 
             let eventReceived = {};
