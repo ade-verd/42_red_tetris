@@ -33,11 +33,11 @@ describe('helpers/utils/date', () => {
 
     describe('#timestampToDatetime()', () => {
         it('should return an object with date, hours, minutes, and seconds with leading zero', async () => {
-            const date = dateLib.timestampToDatetime('2020-01-01T17:22:03Z');
+            const date = dateLib.timestampToDatetime('2020-01-01T17:22:03');
 
             expect(date).to.deep.equal({
-                date: new Date('2020-01-01T17:22:03Z'),
-                h: '18',
+                date: new Date('2020-01-01T17:22:03'),
+                h: '17',
                 m: '22',
                 s: '03',
             });
