@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { StyledField, Row } from './Field.style';
 import Cell from './Cell/Cell';
 import FieldMask from './FieldMask/FieldMask';
+import Commands from './Commands/Commands';
 
 const buildField = field => {
     return field.map((row, i) => (
@@ -31,6 +32,7 @@ const Field = ({ field, gameStatus }) => {
     return (
         <StyledField>
             <FieldMask isGameOver={gameStatus.gameOver || gameStatus.gameWon} content={content} />
+            <Commands gameStatus={gameStatus} />
             {buildField(field)}
         </StyledField>
     );
