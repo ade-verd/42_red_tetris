@@ -16,12 +16,14 @@
         "client-dev": "webpack-dev-server --watch-poll --colors --hot --inline --host 0.0.0.0 --port 8080",
         "srv-dev": "babel-watch -w src src/server/main.js",
         "srv-dist": "babel src --out-dir dist",
+        "dist": "npm run srv-dist && npm run client-dist",
         "mocha": "cross-env NODE_ENV=test mocha",
         "mocha:loop": "while :; do set -e; npm run mocha; done",
         "nyc": "cross-env NODE_ENV=test nyc mocha",
         "prettier": "prettier --check 'src/**/*.js'",
         "prettier:write": "prettier --write 'src/**/*.js'",
         "test": "npm run prettier && cross-env NODE_ENV=test nyc mocha",
+        "heroku-postbuild": "if [ -n \"${CI}\" ] ; then npm run dist; else echo '[heroku-postbuild] Skip postbuild on CI'; fi",
         "create-archive": "tar -czvf bluetetris.tar.gz dist Procfile package.json"
     },
     "dependencies": {
