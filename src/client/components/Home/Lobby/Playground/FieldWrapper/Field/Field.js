@@ -15,7 +15,7 @@ const buildField = field => {
     ));
 };
 
-const Field = ({ field, gameStatus }) => {
+const Field = ({ field, gameStatus, isAdmin }) => {
     if (!field) return null;
 
     const [content, setContent] = useState();
@@ -32,7 +32,7 @@ const Field = ({ field, gameStatus }) => {
     return (
         <StyledField>
             <FieldMask isGameOver={gameStatus.gameOver || gameStatus.gameWon} content={content} />
-            <Commands gameStatus={gameStatus} />
+            <Commands gameStatus={gameStatus} isAdmin={isAdmin} />
             {buildField(field)}
         </StyledField>
     );

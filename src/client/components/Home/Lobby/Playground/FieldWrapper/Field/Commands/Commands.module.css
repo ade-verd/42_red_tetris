@@ -7,7 +7,15 @@
     flex-direction: column;
     flex-wrap: nowrap;
 
-    align-items: center;
+    justify-content: center;
 
     background: rgba(#222, 0.5);
+}
+
+.begin {
+    margin-top: 5em;
+    padding: 0 1em;
+
+    color: #555559;
+    text-align: center;
 }

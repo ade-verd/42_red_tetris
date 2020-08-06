@@ -6,13 +6,26 @@ import css from './Commands.module.css';
 import gameSettings from '../../../../../../../config/gameSettings';
 
 const buildCommands = () =>
-    gameSettings.commands.map(({ action, code, key }, i) => {
-        return <Command key={i} action={action} code={code} touchKey={key} />;
+    gameSettings.commands.map(({ action, key, type }, i) => {
+        return <Command key={i} action={action} touchKey={key} type={type} />;
     });
 
-const Commands = ({ gameStatus }) => {
+const clickToStart = startText => <div className={css.begin}>{startText}</div>;
+
+const Commands = ({ gameStatus, isAdmin }) => {
     if (gameStatus.playing) return null;
-    return <div className={css.container}> {buildCommands()} </div>;
+
+    const [startText, setStartText] = useState('');
+    useEffect(() => {
+        isAdmin ? setStartText('Click on Start to begin') : setStartText('Waiting for admin start');
+    }, [isAdmin]);
+
+    return (
+        <div className={css.container}>
+            {buildCommands()}
+            {clickToStart(startText)}
+        </div>
+    );
 };
 
 export default React.memo(Commands);

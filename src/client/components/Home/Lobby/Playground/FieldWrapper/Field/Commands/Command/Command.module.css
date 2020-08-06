@@ -1,54 +1,47 @@
 .container {
-    flex: 1;
-    align-items: center;
-
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 
+    align-items: center;
+    justify-content: center;
+
     color: #fff;
-    font-size: 1vmin;
+    font-size: 1.2vmin;
+
+    margin: 1.5em;
 }
 
-.item {
+.action {
+    flex: 2;
+    text-align: center;
+}
+
+.keyWrapper {
     flex: 1;
-    border: 3px red solid;
+    display: flex;
+    justify-content: center;
 }
 
 .keyboardKey {
-    cursor: pointer;
-    position: relative;
-    display: inline-block;
-    color: #aaa;
-    font: bold 12px arial;
+    color: #555559;
     text-decoration: none;
     text-align: center;
-    width: 44px;
-    height: 41px;
     background: #eff0f2;
     border-radius: 4px;
     border-top: 1px solid rgba(255, 255, 255, 0.8);
     box-shadow: inset 0 0 25px #e8e8e8, 0 1px 0 #c3c3c3, 0 2px 0 #c9c9c9, 0 2px 3px #333;
-    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
-    margin: 0px;
+
+    width: 3.8vmin;
+    height: 3.6vmin;
+    line-height: 3.6vmin;
 }
 
 .keyboardKey.arrow {
-    font-size: 8px;
-    height: 26px;
-    width: 46px;
-}
-.keyboardKey.arrow::before {
-    position: absolute;
-    top: 50%;
-    margin-top: -0.5em;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 10px;
+    font-size: 2.3em;
 }
 
 .keyboardKey.space {
-    width: 226px;
+    font-size: 1em;
+    width: 10vmin;
 }
