@@ -20,7 +20,7 @@ const buildEmptySpectrumData = (players, playerId) => {
         spectrum: buildEmptySpectrum(),
     };
     setSpectrum(store.dispatch, payload);
-    return { playerId, playerName: payload.player_name, spectrum: payload.spectrum };
+    return { playerId, playerName: players[playerId], spectrum: payload.spectrum };
 };
 
 const buildSpectrum = spectrum => {
@@ -40,10 +40,10 @@ const Spectrum = ({ players, spectrums, playerId }) => {
     useEffect(() => {
         if (spectrums[playerId]) {
             setSpectrumData(spectrums[playerId]);
-        } else {
+        } else if (players[playerId]) {
             setSpectrumData(buildEmptySpectrumData(players, playerId));
         }
-    }, [spectrums[playerId]]);
+    }, [spectrums[playerId], players[playerId]]);
 
     useEffect(() => {
         if (spectrums && spectrums[playerId]) {

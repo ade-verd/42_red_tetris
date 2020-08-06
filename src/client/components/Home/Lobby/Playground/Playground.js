@@ -66,4 +66,4 @@ const Playground = props => {
     );
 };
 
-export default React.memo(Playground);
+export default Playground;

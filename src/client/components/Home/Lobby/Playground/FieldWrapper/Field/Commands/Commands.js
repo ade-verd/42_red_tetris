@@ -28,4 +28,4 @@ const Commands = ({ gameStatus, isAdmin }) => {
     );
 };
 
-export default React.memo(Commands);
+export default Commands;
