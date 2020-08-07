@@ -18,7 +18,7 @@ const Commands = ({ gameStatus, isAdmin }) => {
     const [startText, setStartText] = useState('');
     useEffect(() => {
         isAdmin ? setStartText('Click on Start to begin') : setStartText('Waiting for admin start');
-    }, [isAdmin]);
+    }, [isAdmin, gameStatus.playing]);
 
     return (
         <div className={css.container}>
