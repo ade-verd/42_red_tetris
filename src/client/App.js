@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import Home from './containers/Home.container';
@@ -21,11 +21,7 @@ const App = ({ store }) => {
 
     return (
         <>
-            <Route
-                path="/"
-                exact
-                render={props => <Home {...props} history={history} store={store} />}
-            />
+            <Route path="/" render={props => <Home {...props} history={history} store={store} />} />
         </>
     );
 };
