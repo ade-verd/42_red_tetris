@@ -8,12 +8,12 @@ import chai, { expect } from 'chai';
 import chaiEnzyme from 'chai-enzyme';
 import sinon from 'sinon';
 
-import store from '../../../../../src/client/store/store';
-import * as helpers from '../../../../../src/client/helpers/getRoom';
+import store from '../../../../../../src/client/store/store';
+import * as helpers from '../../../../../../src/client/helpers/getRoom';
 
 /* Components */
-import Playground from '../../../../../src/client/components/Home/Lobby/Playground/Playground';
-import { StyledPlayground } from '../../../../../src/client/components/Home/Lobby/Playground/Playground.style';
+import Playground from '../../../../../../src/client/components/Home/Lobby/Playground/Playground';
+import { StyledPlayground } from '../../../../../../src/client/components/Home/Lobby/Playground/Playground.style';
 
 // Configure enzyme for react 16
 Enzyme.configure({ adapter: new Adapter() });
