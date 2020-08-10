@@ -10,6 +10,8 @@ import {
     handleError,
     getStatusPayload,
     emitGameOver,
+    updateSpectrumOnGameOver,
+    onGameOver,
     onGameWon,
 } from '../../../../src/client/actions/game/status';
 
@@ -30,6 +32,8 @@ describe('client/actions/game/status', () => {
         let callbackedAction = action;
 
         if (action.fn) {
+            if (action.event === 'status:gameWon:broadcast')
+                PAYLOAD = { ...PAYLOAD, winnerId: '01' };
             action.fn(PAYLOAD);
             callbackedAction = { ...action, fn: 'FUNCTION' };
         }
@@ -45,7 +49,8 @@ describe('client/actions/game/status', () => {
         mockStore = configureStore(middlewares);
         sandbox.restore();
         PAYLOAD = {
-            ...getStatusPayload('01', '02', 'BOT', []),
+            ...getStatusPayload('01', '02'),
+            winnerId: '01',
             error: null,
         };
     });
@@ -81,6 +86,7 @@ describe('client/actions/game/status', () => {
         };
         const store = mockStore(initialState);
         delete PAYLOAD.error;
+        delete PAYLOAD.winnerId;
 
         emitGameOver(store, store.dispatch);
 
@@ -95,7 +101,45 @@ describe('client/actions/game/status', () => {
         ]);
     });
 
-    it('should dispatch status listener', () => {
+    it('should dispatch SPECTRUM_SET_GAMEOVER action', () => {
+        const initialState = {};
+        const store = mockStore(initialState);
+
+        updateSpectrumOnGameOver(store.dispatch, { player_id: '01' });
+
+        const actions = store.getActions();
+        expect(actions).to.deep.equal([
+            {
+                action: ACTIONS.REDUCE,
+                type: 'SPECTRUM_SET_GAMEOVER',
+                playerId: '01',
+            },
+        ]);
+    });
+
+    it('should dispatch on game over status listener', () => {
+        const initialState = {};
+        const store = mockStore(initialState);
+
+        onGameOver(store.dispatch);
+
+        const actions = store.getActions();
+        expect(actions).to.deep.equal([
+            {
+                action: ACTIONS.REDUCE,
+                type: 'SPECTRUM_SET_GAMEOVER',
+                playerId: '01',
+            },
+            {
+                action: ACTIONS.LISTEN,
+                type: 'DEFINED',
+                event: 'status:gameOver:broadcast',
+                fn: 'FUNCTION',
+            },
+        ]);
+    });
+
+    it('should dispatch on game won status listener', () => {
         const initialState = {};
         const store = mockStore(initialState);
 
@@ -106,6 +150,7 @@ describe('client/actions/game/status', () => {
             {
                 action: ACTIONS.REDUCE,
                 type: 'GAMEWON',
+                winnerId: PAYLOAD.winnerId,
             },
             {
                 action: ACTIONS.REDUCE,
@@ -115,13 +160,13 @@ describe('client/actions/game/status', () => {
             {
                 action: ACTIONS.LISTEN,
                 type: 'DEFINED',
-                event: 'status:gameWon',
+                event: 'status:gameWon:broadcast',
                 fn: 'FUNCTION',
             },
         ]);
     });
 
-    it('should not dispatch status listener if error', () => {
+    it('should not dispatch on game won status listener if error', () => {
         const initialState = {};
         const store = mockStore(initialState);
         PAYLOAD = { ...PAYLOAD, error: 'defined' };
@@ -133,7 +178,7 @@ describe('client/actions/game/status', () => {
             {
                 action: ACTIONS.LISTEN,
                 type: 'DEFINED',
-                event: 'status:gameWon',
+                event: 'status:gameWon:broadcast',
                 fn: 'FUNCTION',
             },
         ]);

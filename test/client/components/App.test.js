@@ -64,8 +64,8 @@ describe('<App />', function() {
 
         expect(handleHashRouteStub.args).to.deep.equal([[store, '']]);
         expect(wrapper.find(Route))
-            .to.have.props(['path', 'exact'])
-            .deep.equal(['/', true]);
+            .to.have.props(['path'])
+            .deep.equal(['/']);
         expect(wrapper.find(HomeContainer)).to.have.lengthOf(1);
         expect(wrapper.find(HomeComponent)).to.have.lengthOf(1);
     });

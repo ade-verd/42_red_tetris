@@ -46,9 +46,12 @@ describe('<Playground /> component', () => {
 
     // const useRefStub = sandbox.stub(React, 'useRef').returns(42);
 
-    const getRoomStub = sandbox.stub(helpers, 'getRoom').returns({ players_ids: ['01'] });
+    let getRoomStub;
+    before(() => {
+        getRoomStub = sandbox.stub(helpers, 'getRoom').returns({ players_ids: ['01'] });
+    });
 
-    afterEach(() => {
+    after(() => {
         sandbox.restore();
     });
 
@@ -58,7 +61,6 @@ describe('<Playground /> component', () => {
         // console.log(useRefStub.callCount, PROPS.listen.args);
         // expect(PROPS.listen.args).to.deep.equal([[42]]);
 
-        console.log(getRoomStub.args);
         expect(getRoomStub.args[0]).to.deep.equal([PROPS.rooms.rooms, PROPS.user.roomId]);
 
         // expect(setState.args).to.deep.equal([]);
@@ -67,18 +69,19 @@ describe('<Playground /> component', () => {
 
         const SP = wrapper.find(StyledPlayground);
         expect(SP).to.have.lengthOf(1);
+
+        wrapper.unmount();
     });
 
     it('should simulate key events', () => {
-        // const onKeyDownStub = sandbox.stub();
-        // const onKeyUpStub = sandbox.stub();
-        const wrapper = mount(<StyledPlayground />);
+        const wrapper = mount(<Playground {...PROPS} />);
+        const SP = wrapper.find(StyledPlayground);
 
-        const input = wrapper.find(StyledPlayground);
-        input.simulate('keydown');
-        input.simulate('keyup');
-        // expect(onKeyDownStub.callCount).to.be.deep.equal(1);
-        // expect(onKeyUpStub.callCount).to.be.deep.equal(1);
+        SP.simulate('keydown');
+        SP.simulate('keyup');
         expect(PROPS.move.callCount).to.deep.equal(1);
+        expect(PROPS.reactivateDropTime.callCount).to.deep.equal(1);
+
+        wrapper.unmount();
     });
 });
