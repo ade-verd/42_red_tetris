@@ -4,7 +4,9 @@ import { expect } from 'chai';
 import { toast } from 'react-toastify';
 import sinon from 'sinon';
 
-import notify from '../../../../src/client/actions/notifications';
+import notify, {
+    configureNotificationContainer,
+} from '../../../../src/client/actions/notifications';
 
 describe('client/actions/notifications/index', () => {
     const sandbox = sinon.createSandbox();
@@ -12,6 +14,24 @@ describe('client/actions/notifications/index', () => {
     afterEach(() => {
         sandbox.restore();
     });
+
+    it('should configure toast', () => {
+        const CONF = {
+            position: 'bottom-right',
+            autoClose: 4000,
+            draggable: false,
+            hideProgressBar: false,
+            newestOnTop: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+        };
+        const toastStub = sandbox.stub(toast, 'configure');
+
+        configureNotificationContainer();
+
+        expect(toastStub.args).to.deep.equal([[CONF]]);
+    });
+
     it('should notify with info dialog', () => {
         const MSG = 'message';
         const TYPE = 'info';

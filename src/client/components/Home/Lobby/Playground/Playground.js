@@ -26,7 +26,10 @@ const Playground = props => {
         drop,
     } = dispatchs;
 
+    // console.log('TI', playgroundRef);
+
     useEffect(() => {
+        console.log('TOTO');
         listen(playgroundRef);
         resetGame(store);
     }, []);
@@ -56,7 +59,10 @@ const Playground = props => {
         <StyledPlayground
             tabIndex="0"
             ref={playgroundRef}
-            onKeyDown={event => move(store.dispatch, event, field, piece, gameStatus)}
+            onKeyDown={event => {
+                console.log('TTTE');
+                move(store.dispatch, event, field, piece, gameStatus);
+            }}
             onKeyUp={event => reactivateDropTime(store.dispatch, event, gameStatus)}
         >
             <Confetti playgroundRef={playgroundRef} isGameWon={gameStatus.gameWon} />

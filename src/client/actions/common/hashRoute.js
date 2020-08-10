@@ -2,7 +2,7 @@
 
 import { emitCreatePlayerAndRoom } from './createPlayerAndRoom';
 
-const parseHash = hash => {
+export const parseHash = hash => {
     const regexp = /^\#([\w-_ ]+)\[([\w-_ ]+)\]$/;
     const matches = regexp.exec(hash);
 
