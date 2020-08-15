@@ -29,7 +29,7 @@ const setSpectrum = (state, playerId, playerName, spectrum, error) => {
         } else {
             notify({ type: 'error', msg: 'Error while creating the spectrum' });
         }
-        return handleError(state, action.error, 'creationError');
+        return handleError(state, error, 'creationError');
     }
 
     return {
