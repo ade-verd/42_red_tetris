@@ -19,7 +19,7 @@ import { StyledPlayground } from '../../../../../../src/client/components/Home/L
 Enzyme.configure({ adapter: new Adapter() });
 chai.use(chaiEnzyme());
 
-describe('<Playground /> component', () => {
+describe.skip('<Playground /> component', () => {
     const sandbox = sinon.createSandbox();
     const PROPS = {
         field: [],
