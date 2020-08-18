@@ -42,6 +42,9 @@ const myMiddleware = (types = {}) => {
 export const fakeSocket = id => ({
     id: id || '0000001',
     on: sinon.stub(),
+    off: () => ({
+        on: sinon.stub(),
+    }),
     emit: sinon.stub(),
     connect: sinon.stub(),
     removeEventListener: sinon.stub(),
