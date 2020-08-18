@@ -22,7 +22,7 @@ export const handleSocket = socket => {
             case ACTIONS.EMIT:
                 return socket.emit(event, { ...data });
             case ACTIONS.LISTEN:
-                return socket.on(event, fn);
+                return socket.off(event).on(event, fn);
             case ACTIONS.REDUCE:
                 return next(payload);
             case ACTIONS.CONNECT:
