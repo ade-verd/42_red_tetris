@@ -4,10 +4,13 @@ const DATABASE = 'redtetris';
 const COLLECTION = 'highscores';
 const COLLECTION_OPTIONS = {};
 
-const INDEXES = {
-    KEYS: { _id: 1 },
-    OPTIONS: {},
-};
+const INDEXES = [
+    {
+        key: { player_id: 1, score: 1 },
+        background: true,
+        unique: true,
+    },
+];
 
 module.exports = {
     DATABASE,

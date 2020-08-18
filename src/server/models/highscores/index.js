@@ -33,7 +33,7 @@ function collection() {
  * @returns {void}
  */
 async function createIndexes() {
-    await collection().createIndex(INDEXES.KEYS, INDEXES.OPTIONS);
+    await collection().createIndexes(INDEXES);
     console.log('[highscores] collection and indexes created');
 }
 

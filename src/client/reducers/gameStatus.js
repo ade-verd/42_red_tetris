@@ -57,6 +57,9 @@ const reducer = (state = {}, action) => {
             };
         case 'GAMEWON':
             const userId = action.store.getState().usr.id;
+            if (action.winnerId === userId) {
+                emitScore(action.store, action.asyncDispatch);
+            }
             return {
                 ...state,
                 gameWon: action.winnerId === userId,
