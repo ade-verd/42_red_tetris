@@ -69,6 +69,7 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
                 const Y =
                     y + piece.projection.pos.y - malus < 0 ? 0 : y + piece.projection.pos.y - malus;
                 const X = x + piece.projection.pos.x;
+                console.debug('[DrawProjection] newField', { newField, Y, X });
                 newField[Y][X] = [value, 'clear', true];
             }
         });
@@ -81,6 +82,7 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
                 // Same here if malus
                 const Y = y + piece.pos.y - malus < 0 ? 0 : y + piece.pos.y - malus;
                 const X = x + piece.pos.x;
+                console.debug('[DrawTetrimino] newField', { newField, Y, X });
                 newField[Y][X] = [value, `${piece.collided ? 'merged' : 'clear'}`, false];
             }
         });
