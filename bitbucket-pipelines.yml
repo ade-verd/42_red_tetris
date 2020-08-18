@@ -3,15 +3,15 @@ image: node:12.13.1
 pipelines:
   branches:
     master:
-      #- step:
-      #    name: Tests
-      #    caches:
-      #      - node
-      #    script:
-      #      - npm install
-      #      - npm test
-      #    services:
-      #      - mongo
+      - step:
+          name: Tests
+          caches:
+            - node
+          script:
+            - npm install
+            - npm test
+          services:
+            - mongo
       - step:
           name: Build
           caches:
@@ -34,7 +34,7 @@ pipelines:
                 ZIP_FILE: "bluetetris.tar.gz"
                 WAIT: "true"
                 DEBUG: "false"
-#definitions:
-#  services:
-#    mongo:
-#      image: mongo:4.2
+definitions:
+  services:
+    mongo:
+      image: mongo:4.2

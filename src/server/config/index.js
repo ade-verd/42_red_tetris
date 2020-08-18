@@ -19,18 +19,7 @@ module.exports = {
             if (process.env.MONGODB_URI) return process.env.MONGODB_URI;
             return 'mongodb://' + this.host + ':' + this.port;
         },
-        get options() {
-            if (process.env.MONGODB_URI) return {};
-            return {
-                useUnifiedTopology: true,
-                authSource: 'redtetris',
-                authMechanism: 'SCRAM-SHA-1',
-                auth: {
-                    user: process.env.CONFIG_MONGODB_USERNAME || 'red',
-                    password: process.env.CONFIG_MONGODB_PASSWORD || 'tetris',
-                },
-            };
-        },
+        options: {},
     },
     rooms: {
         refreshIntervalMs: parseInt(process.env.ROOMS_REFRESH_INTERVAL_MS, 10) || 30000,
