@@ -1,26 +1,13 @@
-const fs = require('fs');
+'use strict';
 
 const mongodb = require('./lib/mongodb');
 const models = require('./models');
 
+const handler = require('./handler');
 const socket = require('./socket');
 
 let io = null;
 let app = null;
-
-const handler = (req, res) => {
-    console.log('req.url', req.url);
-    const file = req.url === '/bundle.js' ? '/../client/bundle.js' : '/../client/index.html';
-    fs.readFile(__dirname + file, (err, data) => {
-        if (err) {
-            console.error(err);
-            res.writeHead(500);
-            return res.end('Error loading index.html');
-        }
-        res.writeHead(200);
-        res.end(data);
-    });
-};
 
 const appListen = (app, params, cb) => {
     const { host, port } = params;

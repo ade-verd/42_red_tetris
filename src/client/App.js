@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import Home from './containers/Home.container';
+import E404_NotFound from './components/Errors/E404_NotFound';
 
 import 'react-toastify/dist/ReactToastify.css';
 import './actions/notifications/notifications.css';
@@ -20,9 +21,14 @@ const App = ({ store }) => {
     }, [location.hash]);
 
     return (
-        <>
-            <Route path="/" render={props => <Home {...props} history={history} store={store} />} />
-        </>
+        <Switch>
+            <Route
+                path="/"
+                exact
+                render={props => <Home {...props} history={history} store={store} />}
+            />
+            <Route path="*" component={E404_NotFound} status={404} />
+        </Switch>
     );
 };
 
