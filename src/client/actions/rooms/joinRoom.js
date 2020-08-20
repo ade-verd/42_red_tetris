@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { get } from 'lodash-es';
 
 import { ACTIONS } from '../../middlewares/handleSocket';
 
@@ -22,8 +22,8 @@ export const dispatchReduceRoomJoined = (dispatch, payload) => {
     dispatch({
         action: ACTIONS.REDUCE,
         type: 'ROOM_JOINED',
-        roomId: _.get(payload, 'payload.room_id'),
-        roomName: _.get(payload, 'update.value.room_name'),
+        roomId: get(payload, 'payload.room_id'),
+        roomName: get(payload, 'update.value.room_name'),
         error: payload.error,
     });
 };

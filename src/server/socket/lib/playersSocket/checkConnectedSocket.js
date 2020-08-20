@@ -1,6 +1,6 @@
 'use strict';
 
-const _ = require('lodash');
+const { get } = require('lodash-es');
 
 const { ObjectId } = require('mongodb');
 
@@ -29,7 +29,7 @@ const _checkPlayers = async (ioRoom, mongoRoom) => {
 
     await mongoPlayers.forEach(async player => {
         console.log('[checkPlayers]', { player: player });
-        const playerSocketId = _.get(ioRoom, ['sockets', player.socket_id]);
+        const playerSocketId = get(ioRoom, ['sockets', player.socket_id]);
         if (!playerSocketId) {
             await thisFunctions._unsetPlayer(mongoRoom._id.toString(), player._id.toString());
         }

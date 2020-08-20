@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const _ = require('lodash');
+const { omit } = require('lodash-es');
 const sinon = require('sinon');
 const io = require('socket.io-client');
 
@@ -40,7 +40,7 @@ describe('socket/handlers/rooms/getActiveRooms', function() {
 
     it('should emit every active rooms and lobby', function(done) {
         const roomsFixtures = [fixtures.room1Player(), fixtures.room2Players()].map(room =>
-            _.omit(room, 'blocks_list'),
+            omit(room, 'blocks_list'),
         );
         const findStub = sandbox
             .stub(roomsLib, 'findRoomsByGameStatus')

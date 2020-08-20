@@ -1,12 +1,13 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
+const config = {
     entry: './src/client/index.js',
 
     output: {
         path: path.join(__dirname, '/dist/client'),
-        filename: 'bundle.js',
+        filename: '[name].bundle.js',
+        chunkFilename: '[name].bundle.js',
         publicPath: '/',
     },
 
@@ -21,6 +22,12 @@ module.exports = {
             template: './src/client/index.html',
         }),
     ],
+
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+        },
+    },
 
     module: {
         rules: [
@@ -66,4 +73,10 @@ module.exports = {
             },
         ],
     },
+};
+
+module.exports = (env, argv) => {
+    config.devtool = argv.mode === 'production' ? false : 'inline-source-map';
+
+    return config;
 };

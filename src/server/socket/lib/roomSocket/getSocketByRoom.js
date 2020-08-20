@@ -1,12 +1,12 @@
 'use strict';
 
-const _ = require('lodash');
+const { get } = require('lodash-es');
 
 const playersModel = require('../../../models/players');
 
 const getIoRoomSockets = (io, roomSocketId) => {
     const ioRooms = io.sockets.adapter.rooms;
-    return _.get(ioRooms, [roomSocketId.toString(), 'sockets'], {});
+    return get(ioRooms, [roomSocketId.toString(), 'sockets'], {});
 };
 
 const getIoRoomPlayersIds = async (io, roomSocketId) => {

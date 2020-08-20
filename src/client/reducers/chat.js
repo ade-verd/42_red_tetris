@@ -1,6 +1,6 @@
 'use strict';
 
-import _ from 'lodash';
+import { get } from 'lodash-es';
 
 import notify from '../actions/notifications';
 
@@ -18,7 +18,7 @@ const handleMessageReceived = (state, action) => {
     }
 
     const roomId = action.payload.toRoomId;
-    const previousRoomMessages = _.get(state, ['msg', roomId], []);
+    const previousRoomMessages = get(state, ['msg', roomId], []);
     const roomMessages = [...previousRoomMessages, action.payload];
 
     return {

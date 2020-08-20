@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { get } from 'lodash-es';
 import React, { useEffect, useState } from 'react';
 import { library as fontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,7 +24,7 @@ const getPlayers = (states, isLobby, room) => {
 
     return room.players_ids.map((playerId, i) => {
         const icon = isLobby || i > 0 ? 'user' : 'user-cog';
-        const playerName = _.get(states, ['players', playerId]);
+        const playerName = get(states, ['players', playerId]);
         if (playerName) {
             return (
                 <div key={`connectedPlayer_${playerId}`} className={css.item}>
