@@ -1,5 +1,10 @@
 const fs = require('fs');
 
+const ERRORS = {
+    E404: '404: File not found',
+    E500: '500: Internal server error',
+};
+
 const checkFileExist = path => {
     return new Promise((resolve, reject) => {
         fs.access(path, fs.F_OK, err => {
@@ -22,4 +27,4 @@ const readFile = path => {
     });
 };
 
-module.exports = { checkFileExist, readFile };
+module.exports = { checkFileExist, readFile, ERRORS };

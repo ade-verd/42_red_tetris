@@ -2,11 +2,6 @@
 
 const fs = require('./file');
 
-const ERRORS = {
-    E404: '404: File not found',
-    E500: '500: Internal server error ',
-};
-
 const handler = (req, res) => {
     console.log('req.url', req.url);
     let file = '/../../client' + req.url;
@@ -28,7 +23,7 @@ const handler = (req, res) => {
 const errorsHandler = (res, err, fallbackPath) => {
     console.error(err);
     switch (err.message) {
-        case ERRORS.E404:
+        case fs.ERRORS.E404:
             res.writeHead(404);
             fs.readFile(fallbackPath)
                 .then(data => res.end(data))
@@ -40,4 +35,4 @@ const errorsHandler = (res, err, fallbackPath) => {
     }
 };
 
-module.exports = { handler, errorsHandler, ERRORS };
+module.exports = { handler, errorsHandler };
