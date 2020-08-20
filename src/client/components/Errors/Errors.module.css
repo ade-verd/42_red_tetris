@@ -1,15 +1,29 @@
 .container {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    align-items: auto;
     align-content: center;
-    align-items: center;
+    height: 100%;
 }
 
 .item {
     flex: 0 0 auto;
 
     color: #888;
+    text-align: center;
+}
+
+.errorTitle {
     font-size: 1.5em;
+}
+
+.errorMessage {
+    font-size: 1em;
+}
+
+.redirect {
+    margin: 0.5em;
+    font-size: 0.75em;
 }
