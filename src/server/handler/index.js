@@ -1,43 +1,21 @@
 'use strict';
 
-const fs = require('fs');
+const fs = require('./file');
 
 const ERRORS = {
     E404: '404: File not found',
     E500: '500: Internal server error ',
 };
 
-const checkFileExist = path => {
-    return new Promise((resolve, reject) => {
-        fs.access(path, fs.F_OK, err => {
-            if (err) {
-                reject(new Error(ERRORS.E404));
-            }
-            resolve();
-        });
-    });
-};
-
-const readFile = path => {
-    return new Promise((resolve, reject) => {
-        fs.readFile(path, (err, data) => {
-            if (err) {
-                reject(new Error(ERRORS.E500));
-            }
-            resolve(data);
-        });
-    });
-};
-
-const requestHandler = (req, res) => {
+const handler = (req, res) => {
     console.log('req.url', req.url);
     let file = '/../../client' + req.url;
     if (req.url === '/') file += 'index.html';
     const path = __dirname + file;
     const fallbackPath = __dirname + '/../../client/index.html';
 
-    checkFileExist(path)
-        .then(() => readFile(path))
+    fs.checkFileExist(path)
+        .then(() => fs.readFile(path))
         .then(data => {
             res.writeHead(200);
             res.end(data);
@@ -52,7 +30,7 @@ const errorsHandler = (res, err, fallbackPath) => {
     switch (err.message) {
         case ERRORS.E404:
             res.writeHead(404);
-            readFile(fallbackPath)
+            fs.readFile(fallbackPath)
                 .then(data => res.end(data))
                 .catch(err => res.end(err.message));
             break;
@@ -62,4 +40,4 @@ const errorsHandler = (res, err, fallbackPath) => {
     }
 };
 
-module.exports = requestHandler;
+module.exports = { handler, errorsHandler, ERRORS };

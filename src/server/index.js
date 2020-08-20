@@ -3,7 +3,7 @@
 const mongodb = require('./lib/mongodb');
 const models = require('./models');
 
-const handler = require('./handler');
+const requestHandler = require('./handler');
 const socket = require('./socket');
 
 let io = null;
@@ -12,7 +12,7 @@ let app = null;
 const appListen = (app, params, cb) => {
     const { host, port } = params;
 
-    app.on('request', handler);
+    app.on('request', requestHandler.handler);
 
     app.listen({ host, port }, () => {
         console.log(`tetris listen on ${params.url}`);
