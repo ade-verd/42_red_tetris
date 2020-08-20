@@ -41,46 +41,41 @@ describe('socket/handlers/highscores', function() {
         sandbox.restore();
     });
 
-    it('should emit highscores', function(done) {
-        const HIGHSCORES = [
-            {
-                name: 'AAA',
-                score: 333,
-            },
-            {
-                name: 'BBB',
-                score: 222,
-            },
-            {
-                name: 'CCC',
-                score: 111,
-            },
-        ];
+    it('should emit score', function(done) {
+        const PLAYER_ID = '000000000000000000000001';
+        const PLAYER_NAME = 'BOT';
+        const SCORE = 42;
 
-        const findHighScoresStub = sandbox
-            .stub(highscoresLib, 'findHighScores')
-            .resolves(fixtures.getHighscoresOf3());
+        const insertOneStub = sandbox.stub(highscoresLib, 'insertOne').resolves();
 
-        client.emit('highscores:request');
+        client.emit('score:send', actionClient.getScorePayload(PLAYER_ID, PLAYER_NAME, SCORE));
 
-        client.once('highscores:requested', payload => {
-            expect(findHighScoresStub.args).to.deep.equal([[10]]);
-            expect(payload.highscores).to.deep.equal(HIGHSCORES);
+        setTimeout(() => {
+            expect(insertOneStub.args).to.deep.equal([
+                [{ player_id: PLAYER_ID, player_name: PLAYER_NAME, score: SCORE }],
+            ]);
             done();
-        });
+        }, 100);
     });
 
-    it('should not emit anything if an error occurs while receiving gameOver', function(done) {
-        const findHighScoresStub = sandbox
-            .stub(highscoresLib, 'findHighScores')
+    it('should emit the error if an error occurs while inserting score', function(done) {
+        const PLAYER_ID = '000000000000000000000001';
+        const PLAYER_NAME = 'BOT';
+        const SCORE = 42;
+
+        const insertOneStub = sandbox
+            .stub(highscoresLib, 'insertOne')
             .rejects(new Error('something happened'));
 
-        client.emit('highscores:request');
+        const scorePayload = () => actionClient.getScorePayload(PLAYER_ID, PLAYER_NAME, SCORE);
+        client.emit('score:send', scorePayload());
 
-        client.once('highscores:requested', payload => {
-            expect(findHighScoresStub.args).to.deep.equal([[10]]);
+        client.on('score:sent', payload => {
+            expect(insertOneStub.args).to.deep.equal([
+                [{ player_id: PLAYER_ID, player_name: PLAYER_NAME, score: SCORE }],
+            ]);
             expect(payload).to.deep.equal({
-                payload: {},
+                payload: scorePayload(),
                 error: 'Error: something happened',
             });
             done();

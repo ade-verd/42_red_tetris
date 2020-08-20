@@ -9,7 +9,6 @@ import { onRoomCreated } from '../actions/rooms/createRoom';
 import { socketIoConnect, onSocketConnect } from '../actions/common/connect';
 
 const mapStateToProps = state => {
-    console.debug('[Home][mapStateToProps] State', state);
     return {
         chat: state.cht,
         highscores: state.hgh.highscores,
