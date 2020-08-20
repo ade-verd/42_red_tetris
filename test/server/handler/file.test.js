@@ -4,7 +4,7 @@ const sinon = require('sinon');
 
 const file = require('../../../src/server/handler/file');
 
-describe.only('server/handler/file', () => {
+describe('server/handler/file', () => {
     const sandbox = sinon.createSandbox();
 
     afterEach(() => {

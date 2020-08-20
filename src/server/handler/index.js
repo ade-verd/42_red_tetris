@@ -27,7 +27,7 @@ const errorsHandler = (res, err, fallbackPath) => {
             res.writeHead(404);
             fs.readFile(fallbackPath)
                 .then(data => res.end(data))
-                .catch(err => res.end(err.message));
+                .catch(() => res.end(err.message));
             break;
         default:
             res.writeHead(500);

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 module.exports = {
     env: {
         isTestEnv: process.env.NODE_ENV === 'test',
