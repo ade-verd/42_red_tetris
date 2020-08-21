@@ -23,6 +23,6 @@ module.exports = {
         options: {},
     },
     rooms: {
-        refreshIntervalMs: parseInt(process.env.ROOMS_REFRESH_INTERVAL_MS, 10) || 30000,
+        refreshIntervalMs: parseInt(process.env.ROOMS_REFRESH_INTERVAL_MS, 10) || 15000,
     },
 };

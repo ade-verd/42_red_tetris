@@ -1,4 +1,4 @@
-import { get } from 'lodash-es';
+import get from 'lodash/get';
 import React, { useEffect, useState } from 'react';
 import { library as fontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

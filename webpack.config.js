@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const config = {
     entry: './src/client/index.js',
@@ -17,6 +18,7 @@ const config = {
     },
 
     plugins: [
+        new LodashModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
             favicon: './src/client/assets/img/favicon.ico',
             template: './src/client/index.html',
@@ -27,6 +29,12 @@ const config = {
         splitChunks: {
             chunks: 'all',
         },
+    },
+
+    performance: {
+        hints: false,
+        maxEntrypointSize: 512000,
+        maxAssetSize: 512000,
     },
 
     module: {

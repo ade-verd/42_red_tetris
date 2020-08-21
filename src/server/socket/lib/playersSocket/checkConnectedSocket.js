@@ -1,6 +1,6 @@
 'use strict';
 
-const { get } = require('lodash-es');
+const get = require('lodash/get');
 
 const { ObjectId } = require('mongodb');
 

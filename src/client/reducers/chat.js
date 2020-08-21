@@ -1,6 +1,6 @@
 'use strict';
 
-import { get } from 'lodash-es';
+import get from 'lodash/get';
 
 import notify from '../actions/notifications';
 
