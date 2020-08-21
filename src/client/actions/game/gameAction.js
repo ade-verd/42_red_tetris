@@ -24,7 +24,6 @@ export const onGameAction = dispatch => {
         event: 'games:action:ran',
         fn: payload => {
             // TO DO
-            console.log('[onGameAction] /! Reducer not implemented', payload);
         },
     });
 };

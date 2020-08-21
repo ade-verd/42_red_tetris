@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const webpack = require('webpack');
 
 const config = {
     entry: './src/client/index.js',
@@ -22,6 +23,10 @@ const config = {
         new HtmlWebpackPlugin({
             favicon: './src/client/assets/img/favicon.ico',
             template: './src/client/index.html',
+        }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+            'process.env.LOG_LEVEL': JSON.stringify(process.env.LOG_LEVEL),
         }),
     ],
 
@@ -84,7 +89,8 @@ const config = {
 };
 
 module.exports = (env, argv) => {
-    config.devtool = argv.mode === 'production' ? false : 'inline-source-map';
+    config.mode = process.env.NODE_ENV || 'development';
+    config.devtool = config.mode === 'production' ? false : 'inline-source-map';
 
     return config;
 };

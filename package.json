@@ -12,8 +12,8 @@
     "scripts": {
         "start-services": "docker-compose -f docker-services.yml up -d",
         "eslint": "eslint src",
-        "client-dist": "NODE_ENV=production webpack --mode production --progress --colors",
-        "client-dev": "webpack-dev-server --mode development --watch-poll --colors --hot --inline --host 0.0.0.0 --port 8080",
+        "client-dist": "LOG_LEVEL=warn NODE_ENV=production webpack --progress --colors",
+        "client-dev": "NODE_ENV=development webpack-dev-server --watch-poll --colors --hot --inline --host 0.0.0.0 --port 8080",
         "srv-dev": "babel-watch -w src src/server/main.js",
         "srv-dist": "babel src --out-dir dist",
         "dist": "npm run srv-dist && npm run client-dist",

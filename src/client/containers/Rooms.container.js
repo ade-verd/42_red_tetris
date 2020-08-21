@@ -11,7 +11,6 @@ import { emitGetActiveRooms, onGotActiveRooms } from '../actions/rooms/getActive
 import { store } from '../store/store';
 
 const mapStateToProps = state => {
-    console.debug('[Rooms][mapStateToProps] State', state);
     return { rooms: state.rms.rooms, players: state.play.players };
 };
 
