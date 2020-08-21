@@ -1,6 +1,8 @@
 @font-face {
     font-family: 'arcade';
-    src: url('./assets/font/ArcadeNormal-ZDZ.ttf') format('truetype');
+    src: url('./assets/font/ArcadeNormal-ZDZ.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
 }
 
 body {

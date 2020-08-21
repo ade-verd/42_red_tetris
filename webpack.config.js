@@ -30,12 +30,6 @@ const config = {
         }),
     ],
 
-    optimization: {
-        splitChunks: {
-            chunks: 'all',
-        },
-    },
-
     performance: {
         hints: false,
         maxEntrypointSize: 512000,
