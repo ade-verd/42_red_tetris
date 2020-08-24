@@ -20,7 +20,9 @@ module.exports = {
             if (process.env.MONGODB_URI) return process.env.MONGODB_URI;
             return 'mongodb://' + this.host + ':' + this.port;
         },
-        options: {},
+        options: {
+            useUnifiedTopology: true,
+        },
     },
     rooms: {
         refreshIntervalMs: parseInt(process.env.ROOMS_REFRESH_INTERVAL_MS, 10) || 15000,
