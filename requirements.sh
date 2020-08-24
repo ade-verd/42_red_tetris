@@ -14,5 +14,8 @@ export NVM_DIR="$HOME/.nvm"
 
 nvm install v12.13.1 &&
 nvm use &&
-npm install &&
-npm run start-services
+cat << EndOfMessage
+Please run:
+- `npm install` to setup dependencies
+- `npm run start-services` to setup mongodb and mongo-express containers
+EndOfMessage
