@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const omit = require('lodash/omit');
+const { omit } = require('lodash');
 const sinon = require('sinon');
 const io = require('socket.io-client');
 

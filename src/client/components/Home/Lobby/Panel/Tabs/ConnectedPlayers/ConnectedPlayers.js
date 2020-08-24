@@ -1,4 +1,4 @@
-import get from 'lodash/get';
+import { get } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { library as fontAwesomeLibrary } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -50,11 +50,16 @@ const ConnectedPlayers = ({ isLobby, states }) => {
     useEffect(() => {
         if (isLobby) {
             setLobbyUsers(getPlayers(states, isLobby, lobby));
-            console.debug('[ConnectedPlayers] rendering lobby panel');
+            console.debug('[ConnectedPlayers] rendering lobby panel', {
+                states,
+                isLobby,
+                lobby,
+                lobbyUsers,
+            });
         } else {
             const room = getRoomOrLobby(rooms, roomId);
             setRoomPlayers(getPlayers(states, isLobby, room));
-            console.debug('[ConnectedPlayers] rendering room panel');
+            console.debug('[ConnectedPlayers] rendering room panel', roomPlayers);
         }
     }, [isLobby, rooms, lobby, players]);
 
