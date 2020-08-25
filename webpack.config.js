@@ -27,7 +27,9 @@ const config = {
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
             'process.env.LOG_LEVEL': JSON.stringify(process.env.LOG_LEVEL),
-            'process.env.IS_ENABLE_REDUXLOGGER': JSON.stringify(process.env.IS_ENABLE_REDUXLOGGER),
+            'process.env.IS_REDUXLOGGER_ENABLED': JSON.stringify(
+                process.env.IS_REDUXLOGGER_ENABLED,
+            ),
         }),
     ],
 
