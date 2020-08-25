@@ -23,8 +23,7 @@
         "prettier": "prettier --check 'src/**/*.js'",
         "prettier:write": "prettier --write 'src/**/*.js'",
         "test": "npm run prettier && cross-env NODE_ENV=test nyc mocha",
-        "heroku-postbuild": "if [ -d \"src\" ] ; then npm run dist; else echo '[heroku-postbuild] Skip postbuild on bitbucket CI'; fi",
-        "create-archive": "tar -czvf bluetetris.tar.gz dist Procfile package.json"
+        "heroku-postbuild": "if [ -d \"src\" ] ; then npm run dist; else echo '[heroku-postbuild] Skip postbuild on bitbucket CI'; fi"
     },
     "dependencies": {
         "@babel/runtime": "^7.11.2",

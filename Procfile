@@ -1,1 +1,1 @@
-web: node dist/server/main.js
+web: npm run client-dist ; node dist/server/main.js
