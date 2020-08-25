@@ -13,9 +13,7 @@ const Rooms = ({ rooms, players, ...dispatchs }) => {
         dispatchs.emitGetActiveRooms(store.dispatch);
     }, []);
 
-    useEffect(() => {
-        console.debug('[Rooms] rendering');
-    }, [rooms]);
+    useEffect(() => {}, [rooms]);
 
     return (
         <div className={css['container']}>

@@ -28,10 +28,6 @@ export const Home = ({ store, history, chat, highscores, players, rooms, user, .
         dispatchs.socketIoConnect(store.dispatch);
     }, []);
 
-    useEffect(() => {
-        console.debug('[Home] Rendering');
-    });
-
     return (
         <div className={css.container}>
             <Header />

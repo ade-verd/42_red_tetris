@@ -13,9 +13,7 @@ const Highscores = ({ highscores }) => {
         emitGetHighscores(store.dispatch);
     }, []);
 
-    useEffect(() => {
-        console.debug('[Highscores] rendering');
-    }, [highscores]);
+    useEffect(() => {}, [highscores]);
 
     return (
         <StyledHighscores>

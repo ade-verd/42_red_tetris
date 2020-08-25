@@ -16,10 +16,6 @@ const InputMessage = ({ isLobby, inputRef }) => {
     const [message, setMessage] = useState('');
     const [iconClasses, setIconClasses] = useState(css.icon);
 
-    useEffect(() => {
-        console.debug('[InputMessage] rendering');
-    });
-
     const onChangeInput = event => {
         const msg = event.target.value;
         setMessage(msg);

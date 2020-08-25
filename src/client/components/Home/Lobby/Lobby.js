@@ -9,9 +9,7 @@ import css from './Lobby.module.css';
 const Lobby = ({ states }) => {
     const displayGame = states.user && states.user.roomId;
 
-    useEffect(() => {
-        console.debug('[Lobby] Rendering');
-    }, [states.user.roomId]);
+    useEffect(() => {}, [states.user.roomId]);
 
     return (
         <div className={css.container}>

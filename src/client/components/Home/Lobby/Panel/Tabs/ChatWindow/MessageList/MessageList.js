@@ -59,7 +59,6 @@ const MessageList = ({ isLobby, states }) => {
         if (msgList) {
             const roomId = isLobby ? 'lobby' : states.user.roomId;
             setMsgToRender(renderMessages(states.user, msgList[roomId], setLastMessageRef));
-            console.debug('[MessageList] rendering');
         }
     }, [isLobby, msgList]);
 

@@ -6,10 +6,6 @@ import MessageList from './MessageList/MessageList';
 import css from './ChatWindow.module.css';
 
 const ChatWindow = ({ isLobby, states }) => {
-    useEffect(() => {
-        console.debug('[ChatWindow] rendering');
-    });
-
     const inputRef = useRef(null);
 
     const setFocusOnInput = () => {
