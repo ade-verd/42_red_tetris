@@ -43,7 +43,7 @@ export default {
         ],
     },
     logger: {
-        isReduxLoggerEnable: IS_ENABLE_REDUXLOGGER === 'true',
+        isReduxLoggerEnable: process.env.IS_ENABLE_REDUXLOGGER === 'true',
         level: process.env.LOG_LEVEL || 'trace',
     },
 };

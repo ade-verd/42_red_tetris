@@ -24,6 +24,11 @@ module.exports = {
             useUnifiedTopology: true,
         },
     },
+    socket: {
+        cookie: false,
+        pingTimeout: parseInt(process.env.SOCKET_PING_TIMEOUT_MS, 10) || 60000,
+        pingInterval: parseInt(process.env.SOCKET_PING_INTERVAL_MS, 10) || 25000,
+    },
     rooms: {
         refreshIntervalMs: parseInt(process.env.ROOMS_REFRESH_INTERVAL_MS, 10) || 15000,
     },

@@ -6,6 +6,8 @@ const models = require('./models');
 const requestHandler = require('./handler');
 const socket = require('./socket');
 
+const config = require('./config');
+
 let io = null;
 let app = null;
 
@@ -47,7 +49,7 @@ const create = params => {
     const promise = new Promise((resolve, reject) => {
         app = require('http').createServer();
         initApp(app, params, () => {
-            io = require('socket.io')(app, { cookie: false });
+            io = require('socket.io')(app, { ...config.socket });
             socket.initSocketIo(io);
             resolve({ stop });
         });
