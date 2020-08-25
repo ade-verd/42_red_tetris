@@ -24,12 +24,10 @@ const config = {
             favicon: './src/client/assets/img/favicon.ico',
             template: './src/client/index.html',
         }),
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-            'process.env.LOG_LEVEL': JSON.stringify(process.env.LOG_LEVEL),
-            'process.env.IS_REDUXLOGGER_ENABLED': JSON.stringify(
-                process.env.IS_REDUXLOGGER_ENABLED,
-            ),
+        new webpack.EnvironmentPlugin({
+            IS_REDUXLOGGER_ENABLED: 'false',
+            LOG_LEVEL: 'trace',
+            NODE_ENV: 'development',
         }),
     ],
 
