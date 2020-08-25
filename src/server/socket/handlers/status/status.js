@@ -34,7 +34,7 @@ const isWinner = async ({ io, roomId }) => {
     const playersArray = await playersCursor.toArray();
 
     const playingPlayers = playersArray.filter(player => player.game_over === false);
-    return playingPlayers.length === 1 ? playingPlayers[0] : null;
+    return playingPlayers.length <= 1 ? playingPlayers[0] : null;
 };
 
 const emitGameWon = async (socket, payload) => {
