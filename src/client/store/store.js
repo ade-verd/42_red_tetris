@@ -20,7 +20,6 @@ const middlewares = [thunk, asyncDispatchMiddleware, allStatesMiddleware, handle
 console.log({
     isReduxLoggerEnabled: config.logger.isReduxLoggerEnabled,
     IS_REDUXLOGGER_ENABLED: process.env.IS_REDUXLOGGER_ENABLED,
-    env: process.env,
 });
 if (process.env.NODE_ENV === `development` || config.logger.isReduxLoggerEnabled) {
     middlewares.push(reduxLogger);
