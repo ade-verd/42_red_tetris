@@ -17,7 +17,7 @@ const socket = io(config.server.url);
 
 const middlewares = [thunk, asyncDispatchMiddleware, allStatesMiddleware, handleSocket(socket)];
 
-if (process.env.NODE_ENV === `development` || config.logger.isReduxLoggerEnable) {
+if (process.env.NODE_ENV === `development` || config.logger.isReduxLoggerEnabled) {
     middlewares.push(reduxLogger);
 }
 

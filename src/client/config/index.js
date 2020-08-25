@@ -9,7 +9,7 @@ export default {
         },
     },
     logger: {
-        isReduxLoggerEnable: process.env.IS_ENABLE_REDUXLOGGER === 'true',
+        isReduxLoggerEnabled: process.env.IS_REDUXLOGGER_ENABLED === 'true',
         level: process.env.LOG_LEVEL || 'trace',
     },
 };
