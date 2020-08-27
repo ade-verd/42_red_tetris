@@ -13,7 +13,7 @@ import rootReducer from '../reducers/index';
 import config from '../config';
 
 const initialState = {};
-const socket = io(config.server.url);
+const socket = io(config.server.url, { ...config.socket });
 
 const middlewares = [thunk, asyncDispatchMiddleware, allStatesMiddleware, handleSocket(socket)];
 

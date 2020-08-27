@@ -53,13 +53,15 @@ describe('<Home /> component', function() {
     });
 
     it('should shallow render Header, CreatePlayer and Footer', function() {
-        const props = { ...propsFixtures() };
+        const props = { ...propsFixtures(), user: { latency: { value: 1 } } };
         const wrapper = shallow(<HomeComponent {...props} />);
         // console.log('[debug]:\n', wrapper.debug(), '\n[/debug]');
 
         expect(wrapper.contains(<Header />)).to.equal(true);
         expect(wrapper.contains(<CreatePlayer />)).to.equal(true);
-        expect(wrapper.contains(<Footer />)).to.equal(true);
+        expect(wrapper.find(Footer))
+            .to.have.prop('user')
+            .to.deep.equal({ latency: { value: 1 } });
     });
 
     it('should shallow render Header, Lobby and Footer', function() {
@@ -77,7 +79,9 @@ describe('<Home /> component', function() {
                 rooms: {},
                 user: { id: '000000000000000000000001' },
             });
-        expect(wrapper.contains(<Footer />)).to.equal(true);
+        expect(wrapper.find(Footer))
+            .to.have.prop('user')
+            .to.deep.equal({ id: '000000000000000000000001' });
     });
 
     it('should mount Home container without any error', function() {

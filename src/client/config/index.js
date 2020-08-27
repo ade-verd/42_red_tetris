@@ -12,4 +12,7 @@ export default {
         isReduxLoggerEnabled: process.env.IS_REDUXLOGGER_ENABLED === 'true',
         level: process.env.LOG_LEVEL || 'trace',
     },
+    socket: {
+        forceNew: false,
+    },
 };

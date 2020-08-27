@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { configureStore, fakeSocket } from '../../helpers/client';
+import { configureStore } from '../../helpers/client';
 import rootReducer from '../../../src/client/reducers';
 
 const { ACTIONS } = require('../../../src/client/middlewares/handleSocket');

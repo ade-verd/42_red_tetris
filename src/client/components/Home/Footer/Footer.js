@@ -9,7 +9,7 @@ import css from './Footer.module.css';
 import { AUTHORS, REPO_URL } from '../../../../constants';
 
 const latencyDiv = latency => {
-    const value = latency && latency.value ? `~${latency.value}ms` : '-';
+    const value = latency && typeof latency.value === 'number' ? `~${latency.value}ms` : '-';
     const datetime = latency && latency.datetime;
     return (
         <div className={[css.item, css.latencyDiv].join(' ')}>

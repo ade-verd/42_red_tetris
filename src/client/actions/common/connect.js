@@ -1,7 +1,5 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
 
-import { emitPing } from './latency';
-
 export const socketIoConnect = dispatch => {
     dispatch({ action: ACTIONS.CONNECT });
 };
