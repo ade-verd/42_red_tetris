@@ -3,11 +3,38 @@
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-content: center;
 }
 
 .item {
+    flex: 0 1 auto;
+}
+
+.latencyDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+
+    margin-left: 1em;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 0.75em;
+    color: #555559;
+}
+
+.latencyItem {
+}
+
+.authorsDiv {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-content: center;
+}
+
+.authorItem {
     flex: 0 1 auto;
     margin: 1em;
     font-size: 1em;

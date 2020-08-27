@@ -35,10 +35,17 @@ const handleUpdateActiveRooms = (state, action) => {
     return handleRoomUpdate(state, { error });
 };
 
-const handleSaveSocket = (state, action) => {
+const handleSetSocket = (state, action) => {
     return {
         ...state,
         socketId: action.socket.id,
+    };
+};
+
+const handleSetLatency = (state, action) => {
+    return {
+        ...state,
+        latency: { value: action.latency, datetime: action.at },
     };
 };
 
@@ -54,8 +61,10 @@ const reducer = (state = {}, action) => {
             return handleUpdateActiveRooms(state, action);
         case 'USER_LOGOUT':
             return handleUserLogOut(state);
-        case 'SAVE_SOCKET':
-            return handleSaveSocket(state, action);
+        case 'SET_SOCKET':
+            return handleSetSocket(state, action);
+        case 'SET_LATENCY':
+            return handleSetLatency(state, action);
         default:
             return state;
     }

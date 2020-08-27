@@ -1,13 +1,15 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
 
+import { emitPing } from './latency';
+
 export const socketIoConnect = dispatch => {
     dispatch({ action: ACTIONS.CONNECT });
 };
 
-export const dispatchReduceSaveSocket = (dispatch, socket) => {
+export const setSocket = (dispatch, socket) => {
     dispatch({
         action: ACTIONS.REDUCE,
-        type: 'SAVE_SOCKET',
+        type: 'SET_SOCKET',
         socket,
     });
 };
@@ -19,7 +21,7 @@ export const onSocketConnect = dispatch => {
         action: ACTIONS.LISTEN,
         event: 'connect',
         fn: () => {
-            dispatchReduceSaveSocket(dispatch, socket);
+            setSocket(dispatch, socket);
         },
     });
 };

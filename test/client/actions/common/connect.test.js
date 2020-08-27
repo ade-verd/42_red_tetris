@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import { ACTIONS } from '../../../../src/client/middlewares/handleSocket';
 import {
     socketIoConnect,
-    dispatchReduceSaveSocket,
+    setSocket,
     onSocketConnect,
 } from '../../../../src/client/actions/common/connect';
 
@@ -55,18 +55,18 @@ describe('client/actions/common/connect', () => {
         ]);
     });
 
-    it('should dispatch SAVE_SOCKET action', () => {
+    it('should dispatch SET_SOCKET action', () => {
         const initialState = {};
         const store = mockStore(initialState);
         const SOCKET = '0001';
 
-        dispatchReduceSaveSocket(store.dispatch, SOCKET);
+        setSocket(store.dispatch, SOCKET);
 
         const actions = store.getActions();
         expect(actions).to.deep.equal([
             {
                 action: ACTIONS.REDUCE,
-                type: 'SAVE_SOCKET',
+                type: 'SET_SOCKET',
                 socket: SOCKET,
             },
         ]);
@@ -86,7 +86,7 @@ describe('client/actions/common/connect', () => {
             },
             {
                 action: ACTIONS.REDUCE,
-                type: 'SAVE_SOCKET',
+                type: 'SET_SOCKET',
                 socket: { action: 'get_socket', type: 'DEFINED' },
             },
             {

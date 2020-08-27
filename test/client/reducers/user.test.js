@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { configureStore, fakeSocket } from '../../helpers/client';
 import rootReducer from '../../../src/client/reducers';
 
-import { dispatchReduceSaveSocket } from '../../../src/client/actions/common/connect';
+import { setSocket } from '../../../src/client/actions/common/connect';
 import { updateStateAtLogout } from '../../../src/client/actions/players/logOut';
 import { dispatchReducePlayerCreated } from '../../../src/client/actions/players/createPlayer';
 import { dispatchReduceLeaveRoom } from '../../../src/client/actions/rooms/leaveRoom';
@@ -387,12 +387,12 @@ describe('client/reducers/user', function() {
         });
     });
 
-    describe('#handleSaveSocket() - SAVE_SOCKET', function() {
+    describe('#handleSetSocket() - SET_SOCKET', function() {
         it('should update state with the socket id', function(done) {
             const initialState = {};
             const socket = fakeSocket();
             const store = configureStore(rootReducer, socket, initialState, {
-                SAVE_SOCKET: ({ dispatch, getState }) => {
+                SET_SOCKET: ({ dispatch, getState }) => {
                     const state = getState().usr;
                     expect(state).to.deep.equal({
                         socketId: '0000001',
@@ -401,7 +401,7 @@ describe('client/reducers/user', function() {
                 },
             });
 
-            dispatchReduceSaveSocket(store.dispatch, socket);
+            setSocket(store.dispatch, socket);
         });
     });
 });

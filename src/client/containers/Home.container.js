@@ -7,6 +7,7 @@ import { emitCreatePlayer, onPlayerCreated } from '../actions/players/createPlay
 import { onGotPlayers } from '../actions/players/getPlayers';
 import { onRoomCreated } from '../actions/rooms/createRoom';
 import { socketIoConnect, onSocketConnect } from '../actions/common/connect';
+import { onPong } from '../actions/common/latency';
 
 const mapStateToProps = state => {
     return {
@@ -26,6 +27,7 @@ const mapDispatchToProps = dispatch => {
             onGotPlayers(dispatch);
             onChatMessageReceived(dispatch);
             onPlayerCreated(store);
+            onPong(dispatch);
             onRoomCreated(dispatch);
             onSocketConnect(dispatch);
         },

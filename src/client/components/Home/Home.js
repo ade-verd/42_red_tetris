@@ -32,7 +32,7 @@ export const Home = ({ store, history, chat, highscores, players, rooms, user, .
         <div className={css.container}>
             <Header />
             {displayCreatePlayerOrLobby({ chat, highscores, players, rooms, user })}
-            <Footer />
+            <Footer user={user} />
         </div>
     );
 };

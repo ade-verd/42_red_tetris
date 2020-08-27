@@ -43,7 +43,6 @@ const initSocketIo = io => {
         handlers.forEach(handler => {
             eventHelpers.bindEvent(socket, handler);
         });
-        io.emit('server/start');
 
         let timer = new Date();
         setInterval(() => {

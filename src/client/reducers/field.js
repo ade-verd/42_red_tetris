@@ -86,7 +86,7 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
                 // Same here if malus
                 const Y = y + piece.pos.y - malus < 0 ? 0 : y + piece.pos.y - malus;
                 const X = x + piece.pos.x;
-                console.debug('[DrawProjection] newField', {
+                console.debug('[DrawTetrimino] newField', {
                     newField,
                     Y,
                     Ycalc: { y, ypos: piece.pos.y, malus },

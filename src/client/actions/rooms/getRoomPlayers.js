@@ -1,7 +1,6 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
 
 import { emitGetPlayers } from '../players/getPlayers';
-import { dispatchReduceSaveSocket } from '../common/connect';
 
 export const getRoomPlayersPayload = roomId => ({
     room_id: roomId,
