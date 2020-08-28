@@ -8,6 +8,9 @@ const config = require('../../../../../src/server/config');
 
 const playersLib = require('../../../../../src/server/models/players');
 const getActiveRooms = require('../../../../../src/server/socket/handlers/rooms/getActiveRooms');
+const roomSocket = require('../../../../../src/server/socket/lib/roomSocket/changeRoomSocket');
+
+const fixtures = require('../../../../fixtures/players.fixtures');
 
 describe('socket/handlers/players/updateSocketId', function() {
     const sandbox = sinon.createSandbox();
@@ -35,7 +38,11 @@ describe('socket/handlers/players/updateSocketId', function() {
     });
 
     it('should emit socket update result', function(done) {
+        const findStub = sandbox
+            .stub(playersLib, 'findOneById')
+            .resolves(fixtures.insertedPlayer());
         const updateStub = sandbox.stub(playersLib, 'updateOne').resolves({ modifiedCount: 1 });
+        const roomSocketStub = sandbox.stub(roomSocket, 'change').returns();
         const getActiveRoomsStub = sandbox.stub(getActiveRooms, 'emitActiveRooms').resolves();
 
         let socket;
@@ -50,9 +57,11 @@ describe('socket/handlers/players/updateSocketId', function() {
             client.emit('players:socket:update', { player_id: '00000000000000000000000d' });
         });
         client.once('players:socket:updated', payload => {
+            expect(findStub.args).to.deep.equal([['00000000000000000000000d', undefined]]);
             expect(updateStub.args).to.deep.equal([
                 ['00000000000000000000000d', { socket_id: socket.client.id }],
             ]);
+            expect(roomSocketStub.args).to.deep.equal([[socket, 'lobby']]);
             expect(getActiveRoomsStub.args).to.deep.equal([[]]);
             expect(payload).to.deep.equal({
                 payload: { player_id: '00000000000000000000000d' },
@@ -64,6 +73,9 @@ describe('socket/handlers/players/updateSocketId', function() {
     });
 
     it('should not emit anything if an error occurs while updating the socket id', function(done) {
+        const findStub = sandbox
+            .stub(playersLib, 'findOneById')
+            .resolves(fixtures.insertedPlayer());
         const updateStub = sandbox
             .stub(playersLib, 'updateOne')
             .rejects(new Error('something happened'));
@@ -80,6 +92,7 @@ describe('socket/handlers/players/updateSocketId', function() {
             client.emit('players:socket:update', { player_id: '00000000000000000000000d' });
         });
         client.once('players:socket:updated', payload => {
+            expect(findStub.args).to.deep.equal([['00000000000000000000000d', undefined]]);
             expect(updateStub.args).to.deep.equal([
                 ['00000000000000000000000d', { socket_id: socket.client.id }],
             ]);

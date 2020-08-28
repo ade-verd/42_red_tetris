@@ -6,6 +6,7 @@ const helpers = require('../../eventHelpers');
 
 const Player = require('../../../lib/players/classPlayer');
 const getActiveRooms = require('../rooms/getActiveRooms.js');
+const roomSocket = require('../../lib/roomSocket/changeRoomSocket');
 
 const schema = {
     player_id: Joi.string().required(),
@@ -18,8 +19,13 @@ const FUNCTION_NAME = '[updateSocketId]';
 const _updatePlayer = async (socket, payload) => {
     try {
         const player = await new Player({ playerId: payload.player_id });
-        const res = await player.update({ socket_id: socket.client.id });
-        socket.emit(EMIT_EVENT, { payload, update: res });
+        const [playerFound, updateResult] = await Promise.all([
+            player.find(),
+            player.update({ socket_id: socket.client.id }),
+        ]);
+        const moveTo = (playerFound && playerFound.room_id) || 'lobby';
+        roomSocket.change(socket, moveTo);
+        socket.emit(EMIT_EVENT, { payload, update: updateResult });
         await getActiveRooms.emitActiveRooms();
     } catch (err) {
         socket.emit(EMIT_EVENT, { payload, error: err.toString() });
