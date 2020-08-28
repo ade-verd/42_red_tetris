@@ -9,6 +9,8 @@ import Spectrums from './Spectrums/Spectrums';
 import { getRoom } from '../../../../helpers/getRoom';
 import { useInterval } from '../../../../helpers/useInterval';
 
+import { checkSocketId } from '../../../../actions/players/updateSocketId';
+
 import { store } from '../../../../store/store';
 
 const Playground = props => {
@@ -29,6 +31,7 @@ const Playground = props => {
     useEffect(() => {
         listen(playgroundRef);
         resetGame(store);
+        checkSocketId({ dispatch: store.dispatch, user: user });
     }, []);
 
     useEffect(() => {

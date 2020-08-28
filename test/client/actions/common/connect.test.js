@@ -4,11 +4,8 @@ import { expect } from 'chai';
 import configureStore from 'redux-mock-store';
 
 import { ACTIONS } from '../../../../src/client/middlewares/handleSocket';
-import {
-    socketIoConnect,
-    setSocket,
-    onSocketConnect,
-} from '../../../../src/client/actions/common/connect';
+import { socketIoConnect, onSocketConnect } from '../../../../src/client/actions/common/connect';
+import { setSocket } from '../../../../src/client/actions/players/updateSocketId';
 
 describe('client/actions/common/connect', () => {
     // To ignore 'Error: Actions may not have an undefined "type" property'

@@ -2,6 +2,8 @@
 
 import notify from '../actions/notifications';
 
+import checkSocketId from '../actions/players/updateSocketId';
+
 const handleUserUpdate = (state, action) => {
     return {
         ...state,
@@ -30,6 +32,8 @@ const handleUpdateActiveRooms = (state, action) => {
     const isRoomStillActive = action.rooms.some(room => room._id === state.roomId);
 
     if (isRoomStillActive) return state;
+    checkSocketId({ dispatch: action.asyncDispatch, user: action.store.getState().usr });
+
     const error = 'Error: the room has been disconnected';
     notify({ type: 'error', msg: error });
     return handleRoomUpdate(state, { error });
