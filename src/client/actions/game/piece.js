@@ -32,7 +32,7 @@ const drop = (dispatch, field, piece, gameStatus) => {
         console.debug('[normalDrop] if no collision found', {
             piece,
             Ycalc: {
-                yProjecPos: piece ? piece.projection.pos.y : null,
+                yProjecPos: piece && piece.projection ? piece.projection.pos.y : null,
                 yPiecePos: piece ? piece.pos.y : null,
             },
         });
@@ -48,7 +48,7 @@ const drop = (dispatch, field, piece, gameStatus) => {
         console.debug('[normalDrop] if collision found', {
             piece,
             Ycalc: {
-                yProjecPos: piece ? piece.projection.pos.y : null,
+                yProjecPos: piece && piece.projection ? piece.projection.pos.y : null,
                 yPiecePos: piece ? piece.pos.y : null,
             },
         });
