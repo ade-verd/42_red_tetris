@@ -29,6 +29,12 @@ const drop = (dispatch, field, piece, gameStatus) => {
     }
 
     if (!helper.checkCollision(piece, field, { x: 0, y: 1 })) {
+        console.debug('[normalDrop] if no collision found', {
+            piece,
+            newPos,
+            Ycalc: { yProjecPos: piece.projection.pos.y, yPiecePos: piece.pos.y },
+        });
+
         dispatch({ action: ACTIONS.REDUCE, type: 'SET_POS', pos: { x: 0, y: 1 }, collided: false });
     } else {
         // Game over !
@@ -37,6 +43,12 @@ const drop = (dispatch, field, piece, gameStatus) => {
             setGameOver(dispatch);
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
         }
+        console.debug('[normalDrop] if collision found', {
+            piece,
+            newPos,
+            Ycalc: { yProjecPos: piece.projection.pos.y, yPiecePos: piece.pos.y },
+        });
+
         dispatch({ action: ACTIONS.REDUCE, type: 'SET_POS', pos: { x: 0, y: 0 }, collided: true });
     }
 };
@@ -86,6 +98,12 @@ const rotatePiece = (dispatch, field, piece, dir) => {
 
 const hardDrop = (dispatch, piece) => {
     const newPos = { x: 0, y: piece.projection.pos.y - piece.pos.y };
+
+    console.debug('[hardDrop] newField', {
+        piece,
+        newPos,
+        Ycalc: { yProjecPos: piece.projection.pos.y, yPiecePos: piece.pos.y },
+    });
 
     dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
     dispatch({ action: ACTIONS.REDUCE, type: 'SET_POS', pos: newPos, collided: true });
