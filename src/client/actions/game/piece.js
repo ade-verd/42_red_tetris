@@ -31,7 +31,6 @@ const drop = (dispatch, field, piece, gameStatus) => {
     if (!helper.checkCollision(piece, field, { x: 0, y: 1 })) {
         console.debug('[normalDrop] if no collision found', {
             piece,
-            newPos,
             Ycalc: { yProjecPos: piece.projection.pos.y, yPiecePos: piece.pos.y },
         });
 
@@ -45,7 +44,6 @@ const drop = (dispatch, field, piece, gameStatus) => {
         }
         console.debug('[normalDrop] if collision found', {
             piece,
-            newPos,
             Ycalc: { yProjecPos: piece.projection.pos.y, yPiecePos: piece.pos.y },
         });
 
