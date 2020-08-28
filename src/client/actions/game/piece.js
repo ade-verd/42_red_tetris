@@ -31,7 +31,10 @@ const drop = (dispatch, field, piece, gameStatus) => {
     if (!helper.checkCollision(piece, field, { x: 0, y: 1 })) {
         console.debug('[normalDrop] if no collision found', {
             piece,
-            Ycalc: { yProjecPos: piece.projection.pos.y, yPiecePos: piece.pos.y },
+            Ycalc: {
+                yProjecPos: piece ? piece.projection.pos.y : null,
+                yPiecePos: piece ? piece.pos.y : null,
+            },
         });
 
         dispatch({ action: ACTIONS.REDUCE, type: 'SET_POS', pos: { x: 0, y: 1 }, collided: false });
@@ -44,7 +47,10 @@ const drop = (dispatch, field, piece, gameStatus) => {
         }
         console.debug('[normalDrop] if collision found', {
             piece,
-            Ycalc: { yProjecPos: piece.projection.pos.y, yPiecePos: piece.pos.y },
+            Ycalc: {
+                yProjecPos: piece ? piece.projection.pos.y : null,
+                yPiecePos: piece ? piece.pos.y : null,
+            },
         });
 
         dispatch({ action: ACTIONS.REDUCE, type: 'SET_POS', pos: { x: 0, y: 0 }, collided: true });
