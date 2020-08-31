@@ -23,7 +23,7 @@ export const checkSocketId = ({ dispatch, _socket, user }) => {
     const socket = _socket || dispatch({ action: ACTIONS.GET_SOCKET });
 
     if (user.socketId !== socket.id) {
-        emitUpdateSocketId(dispatch, cookie._id);
+        emitUpdateSocketId(dispatch, user.id);
         setSocket(dispatch, socket);
     }
 };
