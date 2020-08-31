@@ -4,9 +4,9 @@ import sinon from 'sinon';
 import { configureStore, fakeSocket } from '../../helpers/client';
 import rootReducer from '../../../src/client/reducers';
 
-import { setSocket } from '../../../src/client/actions/common/connect';
 import { updateStateAtLogout } from '../../../src/client/actions/players/logOut';
 import { dispatchReducePlayerCreated } from '../../../src/client/actions/players/createPlayer';
+import * as checkSocketId from '../../../src/client/actions/players/updateSocketId';
 import { dispatchReduceLeaveRoom } from '../../../src/client/actions/rooms/leaveRoom';
 import { dispatchReduceRoomJoined } from '../../../src/client/actions/rooms/joinRoom';
 import { dispatchReduceRoomCreated } from '../../../src/client/actions/rooms/createRoom';
@@ -231,7 +231,7 @@ describe('client/reducers/user', function() {
                 lobby: roomsFixtures.lobby(),
                 error: undefined,
             };
-
+            const checkSocketStub = sandbox.stub(checkSocketId, 'default').returns();
             const notifyStub = sandbox.stub(notify, 'default');
 
             const initialState = {
@@ -245,6 +245,7 @@ describe('client/reducers/user', function() {
             const socket = fakeSocket();
             const store = configureStore(rootReducer, socket, initialState, {
                 UPDATE_ACTIVE_ROOMS: ({ dispatch, getState }) => {
+                    expect(checkSocketStub.callCount).to.equal(1);
                     expect(notifyStub.args).to.deep.equal([
                         [{ type: 'error', msg: 'Error: the room has been disconnected' }],
                     ]);
@@ -401,7 +402,7 @@ describe('client/reducers/user', function() {
                 },
             });
 
-            setSocket(store.dispatch, socket);
+            checkSocketId.setSocket(store.dispatch, socket);
         });
     });
 });

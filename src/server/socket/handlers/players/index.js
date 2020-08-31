@@ -2,4 +2,5 @@
 module.exports = {
     ...require('./createPlayer'),
     ...require('./getPlayers'),
+    ...require('./updateSocketId'),
 };
