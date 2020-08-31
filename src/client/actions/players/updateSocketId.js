@@ -21,6 +21,9 @@ export const setSocket = (dispatch, _socket) => {
 
 export const checkSocketId = ({ dispatch, _socket, user }) => {
     const socket = _socket || dispatch({ action: ACTIONS.GET_SOCKET });
+    if (!socket) {
+        dispatch({ action: ACTIONS.CONNECT });
+    }
 
     if (user.socketId !== socket.id) {
         emitUpdateSocketId(dispatch, user.id);

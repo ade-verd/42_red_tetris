@@ -14,7 +14,6 @@ const malusHandlers = require('./handlers/malus');
 const highscoresHandlers = require('./handlers/highscores');
 const playersHandlers = require('./handlers/players');
 const roomsHandlers = require('./handlers/rooms');
-const serverTestHandler = require('./handlers/serverTest');
 
 const playerSocketLib = require('./lib/playersSocket/checkConnectedSocket');
 
@@ -33,7 +32,6 @@ const handlers = Object.values({
     ...highscoresHandlers,
     ...playersHandlers,
     ...roomsHandlers,
-    ...serverTestHandler,
 });
 
 const initSocketIo = io => {

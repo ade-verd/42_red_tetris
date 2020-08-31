@@ -1,6 +1,7 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
 
 import checkSocketId from '../players/updateSocketId';
+import { emitPing } from '../server';
 
 export const emitGetActiveRooms = dispatch =>
     dispatch({
@@ -25,7 +26,14 @@ export const onGotActiveRooms = store => {
         event: 'rooms:players:got',
         fn: payload => {
             updateStatePlayersNames(dispatch, payload);
-            checkSocketId({ dispatch, user: store.getState().usr });
+            recurrentActions(store);
         },
     });
+};
+
+const recurrentActions = store => {
+    const { dispatch } = store;
+
+    checkSocketId({ dispatch, user: store.getState().usr });
+    emitPing(dispatch);
 };
