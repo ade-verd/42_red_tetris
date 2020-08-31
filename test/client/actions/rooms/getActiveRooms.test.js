@@ -2,6 +2,7 @@
 
 import { expect } from 'chai';
 import configureStore from 'redux-mock-store';
+import sinon from 'sinon';
 
 import { ACTIONS } from '../../../../src/client/middlewares/handleSocket';
 import {
@@ -9,8 +10,11 @@ import {
     updateStatePlayersNames,
     onGotActiveRooms,
 } from '../../../../src/client/actions/rooms/getActiveRooms';
+import * as checkSocketId from '../../../../src/client/actions/players/updateSocketId';
 
 describe('client/actions/rooms/getActiveRooms', () => {
+    const sandbox = sinon.createSandbox();
+
     // To ignore 'Error: Actions may not have an undefined "type" property'
     const addTypePropertyMiddleware = store => next => action => {
         let typedAction = action;
@@ -38,6 +42,10 @@ describe('client/actions/rooms/getActiveRooms', () => {
     let mockStore;
     beforeEach(() => {
         mockStore = configureStore(middlewares);
+    });
+
+    afterEach(() => {
+        sandbox.restore();
     });
 
     it('should dispatch getActiveRooms emitter', () => {
@@ -75,12 +83,15 @@ describe('client/actions/rooms/getActiveRooms', () => {
     });
 
     it('should dispatch getActiveRooms listener', () => {
-        const initialState = {};
+        const initialState = { usr: {} };
         const store = mockStore(initialState);
 
-        onGotActiveRooms(store.dispatch);
+        const checkSocketStub = sandbox.stub(checkSocketId, 'default').returns();
+
+        onGotActiveRooms(store);
 
         const actions = store.getActions();
+        expect(checkSocketStub.args).to.deep.equal([[{ dispatch: store.dispatch, user: {} }]]);
         expect(actions).to.deep.equal([
             {
                 action: ACTIONS.REDUCE,
