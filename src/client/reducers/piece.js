@@ -43,7 +43,9 @@ const setIndex = (state, index) => {
     };
 };
 
-const setPos = (state, asyncDispatch, { x, y }, collided) => {
+const setPos = (state, asyncDispatch, field, { x, y }, collided) => {
+    if (checkCollision(state, field, { x, y })) return state;
+
     if (x !== 0 || y < 0) {
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'UPDATE_PROJECTION' });
     }
@@ -136,7 +138,13 @@ const reducer = (state = {}, action) => {
         case 'SET_INDEX':
             return setIndex(state, action.index);
         case 'SET_POS':
-            return setPos(state, action.asyncDispatch, action.pos, action.collided);
+            return setPos(
+                state,
+                action.asyncDispatch,
+                action.allStates.fld.field,
+                action.pos,
+                action.collided,
+            );
         case 'SET_DROPTIME':
             return setDropTime(state, action.dropTime);
         case 'SET_TETROMINO':
