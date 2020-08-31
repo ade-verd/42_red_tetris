@@ -1,7 +1,7 @@
 import { FIELD_WIDTH } from '../../constants';
 import { ACTIONS } from '../middlewares/handleSocket';
 import { emitGetRandomTetriminos } from '../actions/game/getTetriminos';
-import { checkCollision } from '../helpers/checkCollision';
+const helper = require('../helpers/checkCollision');
 
 const resetGame = (state, isAdmin) => {
     // Admin provides all the tetromino datas, so we keep it for him
@@ -44,11 +44,11 @@ const setIndex = (state, index) => {
 };
 
 const setPos = (state, asyncDispatch, field, { x, y }, collided) => {
-    if (checkCollision(state, field, { x, y })) return state;
-
     if (x !== 0 || y < 0) {
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'UPDATE_PROJECTION' });
     }
+
+    if (helper.checkCollision(state, field, { x, y })) return state;
 
     const X = state.pos.x + x;
     // If the malus pushs the piece out of limit :
@@ -118,7 +118,7 @@ const updateProjection = (state, field) => {
     const tetromino = JSON.parse(JSON.stringify(state.tetromino));
 
     let pos = 0;
-    while (!checkCollision(state, field, { x: 0, y: pos })) {
+    while (!helper.checkCollision(state, field, { x: 0, y: pos })) {
         pos += 1;
     }
     const newPos = { x: state.pos.x, y: state.pos.y + pos - 1 };

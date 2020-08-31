@@ -5,6 +5,7 @@ import reducer from '../../../src/client/reducers/piece';
 import { FIELD_WIDTH } from '../../../src/constants';
 import { ACTIONS } from '../../../src/client/middlewares/handleSocket';
 import * as tetriminosActionsLib from '../../../src/client/actions/game/getTetriminos';
+const helper = require('../../../src/client/helpers/checkCollision');
 
 describe('client/reducers/piece', function() {
     const sandbox = sinon.createSandbox();
@@ -69,19 +70,40 @@ describe('client/reducers/piece', function() {
     });
 
     describe('SET_POS', function() {
+        const allStates = { fld: { field: [] } };
+
+        let checkCollisionStub;
+        beforeEach(() => {
+            checkCollisionStub = sandbox.stub(helper, 'checkCollision');
+        });
+
+        it('should not set the pos if there is collision', function() {
+            checkCollisionStub.returns(true);
+            const action = { type: 'SET_POS', allStates, pos: { x: 0, y: 1 }, collided: false };
+            const expectedState = { pos: { x: 0, y: 0 } };
+            const state = { pos: { x: 0, y: 0 } };
+
+            expect(reducer(state, action)).to.deep.equal(expectedState);
+            expect(checkCollisionStub.callCount).to.deep.equal(1);
+        });
+
         it('should set the pos', function() {
-            const action = { type: 'SET_POS', pos: { x: 0, y: 1 }, collided: false };
+            checkCollisionStub.returns(false);
+            const action = { type: 'SET_POS', allStates, pos: { x: 0, y: 1 }, collided: false };
             const expectedState = { pos: { x: 0, y: 1 }, collided: false };
             const state = { pos: { x: 0, y: 0 } };
 
             expect(reducer(state, action)).to.deep.equal(expectedState);
+            expect(checkCollisionStub.callCount).to.deep.equal(1);
         });
 
         it('should set the pos with negativ Y', function() {
             const asyncDispatchStub = sandbox.stub();
+            checkCollisionStub.returns(false);
             const action = {
                 type: 'SET_POS',
                 asyncDispatch: asyncDispatchStub,
+                allStates,
                 pos: { x: 0, y: -10 },
                 collided: false,
             };
@@ -92,6 +114,7 @@ describe('client/reducers/piece', function() {
             expect(asyncDispatchStub.args).to.deep.equal([
                 [{ action: ACTIONS.REDUCE, type: 'UPDATE_PROJECTION' }],
             ]);
+            expect(checkCollisionStub.callCount).to.deep.equal(1);
         });
     });
 
