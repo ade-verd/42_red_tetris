@@ -31,7 +31,5 @@ export const onGotActiveRooms = store => {
 };
 
 const recurrentActions = store => {
-    const { dispatch } = store;
-
-    checkSocketId({ dispatch, user: store.getState().usr });
+    checkSocketId({ store });
 };

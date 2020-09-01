@@ -70,16 +70,22 @@ describe('client/actions/common/connect', () => {
     });
 
     it('should dispatch socket connect listener', () => {
-        const initialState = {};
+        const initialState = { usr: { id: '0001', socketId: '0002' } };
         const store = mockStore(initialState);
 
-        onSocketConnect(store.dispatch);
+        onSocketConnect(store);
 
         const actions = store.getActions();
         expect(actions).to.deep.equal([
             {
                 action: ACTIONS.GET_SOCKET,
                 type: 'DEFINED',
+            },
+            {
+                action: ACTIONS.EMIT,
+                type: 'DEFINED',
+                event: 'players:socket:update',
+                data: { player_id: '0001' },
             },
             {
                 action: ACTIONS.REDUCE,

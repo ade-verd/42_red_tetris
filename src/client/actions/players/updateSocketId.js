@@ -19,8 +19,11 @@ export const setSocket = (dispatch, _socket) => {
     });
 };
 
-export const checkSocketId = ({ dispatch, _socket, user }) => {
+export const checkSocketId = ({ store, _socket, _user }) => {
+    const { dispatch } = store;
     const socket = _socket || dispatch({ action: ACTIONS.GET_SOCKET });
+    const user = _user || store.getState().usr;
+
     if (!socket) {
         dispatch({ action: ACTIONS.CONNECT });
     }

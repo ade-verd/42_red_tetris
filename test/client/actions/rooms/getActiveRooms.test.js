@@ -83,7 +83,7 @@ describe('client/actions/rooms/getActiveRooms', () => {
     });
 
     it('should dispatch getActiveRooms listener', () => {
-        const initialState = { usr: {} };
+        const initialState = {};
         const store = mockStore(initialState);
 
         const checkSocketStub = sandbox.stub(checkSocketId, 'default').returns();
@@ -91,7 +91,7 @@ describe('client/actions/rooms/getActiveRooms', () => {
         onGotActiveRooms(store);
 
         const actions = store.getActions();
-        expect(checkSocketStub.args).to.deep.equal([[{ dispatch: store.dispatch, user: {} }]]);
+        expect(checkSocketStub.args).to.deep.equal([[{ store }]]);
         expect(actions).to.deep.equal([
             {
                 action: ACTIONS.REDUCE,
