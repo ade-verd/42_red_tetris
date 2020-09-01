@@ -1,5 +1,7 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
 
+import checkSocketId from '../players/updateSocketId';
+
 export const emitGetActiveRooms = dispatch =>
     dispatch({
         action: ACTIONS.EMIT,
@@ -15,12 +17,19 @@ export const updateStatePlayersNames = (dispatch, payload) => {
     });
 };
 
-export const onGotActiveRooms = dispatch => {
+export const onGotActiveRooms = store => {
+    const { dispatch } = store;
+
     dispatch({
         action: ACTIONS.LISTEN,
         event: 'rooms:players:got',
         fn: payload => {
             updateStatePlayersNames(dispatch, payload);
+            recurrentActions(store);
         },
     });
+};
+
+const recurrentActions = store => {
+    checkSocketId({ store });
 };

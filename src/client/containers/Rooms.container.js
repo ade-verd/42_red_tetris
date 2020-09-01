@@ -24,7 +24,7 @@ const mapDispatchToProps = dispatch => {
         listen: () => {
             onRoomJoined(dispatch);
             onRoomLeft(dispatch);
-            onGotActiveRooms(dispatch);
+            onGotActiveRooms(store);
             onGotRoomPlayers(store);
         },
     };

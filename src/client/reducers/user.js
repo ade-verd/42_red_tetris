@@ -32,7 +32,7 @@ const handleUpdateActiveRooms = (state, action) => {
     const isRoomStillActive = action.rooms.some(room => room._id === state.roomId);
 
     if (isRoomStillActive) return state;
-    checkSocketId({ dispatch: action.asyncDispatch, user: action.store.getState().usr });
+    checkSocketId({ store: action.store });
 
     const error = 'Error: the room has been disconnected';
     notify({ type: 'error', msg: error });

@@ -1,17 +1,17 @@
 import { ACTIONS } from '../../middlewares/handleSocket';
 
-import { setSocket } from '../players/updateSocketId';
+import { checkSocketId } from '../players/updateSocketId';
 
 export const socketIoConnect = dispatch => {
     dispatch({ action: ACTIONS.CONNECT });
 };
 
-export const onSocketConnect = dispatch => {
-    dispatch({
+export const onSocketConnect = store => {
+    store.dispatch({
         action: ACTIONS.LISTEN,
         event: 'connect',
         fn: () => {
-            setSocket(dispatch);
+            checkSocketId({ store });
         },
     });
 };

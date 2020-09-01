@@ -29,7 +29,7 @@ const mapDispatchToProps = dispatch => {
             onPlayerCreated(store);
             onPong(dispatch);
             onRoomCreated(dispatch);
-            onSocketConnect(dispatch);
+            onSocketConnect(store);
         },
     };
 };

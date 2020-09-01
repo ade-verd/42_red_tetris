@@ -17,6 +17,13 @@ export const onPong = dispatch => {
         event: 'pong',
         fn: latency => {
             setLatency(dispatch, latency);
+            emitPing(dispatch);
         },
     });
 };
+
+export const emitPing = dispatch =>
+    dispatch({
+        action: ACTIONS.EMIT,
+        event: 'client:ping',
+    });
