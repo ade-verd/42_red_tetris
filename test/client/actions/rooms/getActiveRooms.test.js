@@ -100,11 +100,6 @@ describe('client/actions/rooms/getActiveRooms', () => {
                 error: undefined,
             },
             {
-                action: ACTIONS.EMIT,
-                type: 'DEFINED',
-                event: 'ping',
-            },
-            {
                 action: ACTIONS.LISTEN,
                 type: 'DEFINED',
                 event: 'rooms:players:got',
