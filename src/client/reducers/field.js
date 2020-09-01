@@ -43,6 +43,7 @@ const sweepRows = (asyncDispatch, newField, { roomId, id, name }) => {
 
 export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) => {
     if (piece.pos.y === 0 && checkCollision(piece, prevField, { x: 0, y: 0 })) {
+        console.debug('[updateField] gameOver in top of field', prevField, piece);
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'GAMEOVER' });
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
         return {
