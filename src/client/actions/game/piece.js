@@ -110,7 +110,13 @@ const hardDrop = (dispatch, piece) => {
     });
 
     dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
-    dispatch({ action: ACTIONS.REDUCE, type: 'SET_POS', pos: newPos, collided: true });
+    dispatch({
+        action: ACTIONS.REDUCE,
+        type: 'SET_POS',
+        pos: newPos,
+        collided: true,
+        hardDrop: true,
+    });
 };
 
 const move = (dispatch, event, field, piece, gameStatus) => {

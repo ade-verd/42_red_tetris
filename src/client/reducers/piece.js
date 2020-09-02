@@ -43,12 +43,13 @@ const setIndex = (state, index) => {
     };
 };
 
-const setPos = (state, asyncDispatch, field, { x, y }, collided) => {
+const setPos = (state, asyncDispatch, field, { x, y }, collided, hardDrop) => {
     if (x !== 0 || y < 0) {
         asyncDispatch({ action: ACTIONS.REDUCE, type: 'UPDATE_PROJECTION' });
     }
 
     if (helper.checkCollision(state, field, { x, y })) return state;
+    if (!hardDrop && state.pos.y === 0 && collided) return state;
 
     const X = state.pos.x + x;
     // If the malus pushs the piece out of limit :
@@ -144,6 +145,7 @@ const reducer = (state = {}, action) => {
                 action.allStates.fld.field,
                 action.pos,
                 action.collided,
+                action.hardDrop,
             );
         case 'SET_DROPTIME':
             return setDropTime(state, action.dropTime);
