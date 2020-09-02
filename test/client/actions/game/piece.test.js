@@ -351,6 +351,7 @@ describe('client/actions/game/piece', () => {
                 type: 'SET_POS',
                 pos: NEW_POS,
                 collided: true,
+                hardDrop: true,
             },
         ]);
     });

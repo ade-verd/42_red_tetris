@@ -87,6 +87,16 @@ describe('client/reducers/piece', function() {
             expect(checkCollisionStub.callCount).to.deep.equal(1);
         });
 
+        it('should not set the pos if collided=True at top of field', function() {
+            checkCollisionStub.returns(false);
+            const action = { type: 'SET_POS', allStates, pos: { x: 0, y: 1 }, collided: true };
+            const expectedState = { pos: { x: 0, y: 0 } };
+            const state = { pos: { x: 0, y: 0 } };
+
+            expect(reducer(state, action)).to.deep.equal(expectedState);
+            expect(checkCollisionStub.callCount).to.deep.equal(1);
+        });
+
         it('should set the pos', function() {
             checkCollisionStub.returns(false);
             const action = { type: 'SET_POS', allStates, pos: { x: 0, y: 1 }, collided: false };
