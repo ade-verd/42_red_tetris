@@ -37,7 +37,7 @@ const emitNewSpectrum = async (socket, payload) => {
     const newSpectrum = field.map(row =>
         row.map((cell, i) => {
             if (spectrumIndex[i]) return 'merged';
-            else if (cell[1] === 'merged') {
+            else if (cell[1] === 'merged' || cell[1] === 'malus') {
                 spectrumIndex[i] = true;
                 return 'merged';
             } else {
