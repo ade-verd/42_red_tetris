@@ -10,9 +10,10 @@ const config = require('../../../../../src/server/config');
 const actionClient = require('../../../../../src/client/actions/game/status');
 const statusHandler = require('../../../../../src/server/socket/handlers/status/status');
 const playersLib = require('../../../../../src/server/models/players');
-const socketRoomLib = require('../../../../../src/server/socket/lib/roomSocket/getSocketByRoom');
+const roomsLib = require('../../../../../src/server/models/rooms');
 
-const fixtures = require('../../../../fixtures/players.fixtures');
+const playersFixtures = require('../../../../fixtures/players.fixtures');
+const roomsFixtures = require('../../../../fixtures/rooms.fixtures');
 
 describe('socket/handlers/status/status', function() {
     const sandbox = sinon.createSandbox();
@@ -92,14 +93,26 @@ describe('socket/handlers/status/status', function() {
         it('should return the winner object', async function() {
             const ROOM_ID = '000000000000000000000001';
 
-            const getIoPlayersStub = sandbox
-                .stub(socketRoomLib, 'getIoRoomPlayers')
-                .resolves({ toArray: () => fixtures.playersWithWinner('0000000001') });
+            const findRoomStub = sandbox
+                .stub(roomsLib, 'findOneById')
+                .resolves(roomsFixtures.room3Players());
+            const findPlayersStub = sandbox
+                .stub(playersLib, 'findAllByIds')
+                .resolves({ toArray: () => playersFixtures.playersWithWinner() });
 
             const ioServer = ioInstance.get();
             const winner = await statusHandler.isWinner({ io: ioServer, roomId: ROOM_ID });
 
-            expect(getIoPlayersStub.args).to.deep.equal([[ioServer, '000000000000000000000001']]);
+            expect(findRoomStub.args).to.deep.equal([['000000000000000000000001', undefined]]);
+            expect(findPlayersStub.args).to.deep.equal([
+                [
+                    [
+                        '00000000000000000000000a',
+                        '00000000000000000000000b',
+                        '00000000000000000000000c',
+                    ],
+                ],
+            ]);
             expect(winner).to.deep.equal({
                 _id: new ObjectId('00000000000000000000000c'),
                 socket_id: '0000000001',
@@ -115,14 +128,26 @@ describe('socket/handlers/status/status', function() {
         it('should return null if there is no winner', async function() {
             const ROOM_ID = '000000000000000000000001';
 
-            const getIoPlayersStub = sandbox
-                .stub(socketRoomLib, 'getIoRoomPlayers')
-                .resolves({ toArray: () => fixtures.default() });
+            const findRoomStub = sandbox
+                .stub(roomsLib, 'findOneById')
+                .resolves(roomsFixtures.room3Players());
+            const findPlayersStub = sandbox
+                .stub(playersLib, 'findAllByIds')
+                .resolves({ toArray: () => playersFixtures.default() });
 
             const ioServer = ioInstance.get();
             const winner = await statusHandler.isWinner({ io: ioServer, roomId: ROOM_ID });
 
-            expect(getIoPlayersStub.args).to.deep.equal([[ioServer, '000000000000000000000001']]);
+            expect(findRoomStub.args).to.deep.equal([['000000000000000000000001', undefined]]);
+            expect(findPlayersStub.args).to.deep.equal([
+                [
+                    [
+                        '00000000000000000000000a',
+                        '00000000000000000000000b',
+                        '00000000000000000000000c',
+                    ],
+                ],
+            ]);
             expect(winner).to.be.null;
         });
     });
@@ -143,9 +168,7 @@ describe('socket/handlers/status/status', function() {
             expect(updateStub.args).to.deep.equal([
                 ['00000000000000000000000a', { game_over: true }],
             ]);
-            expect(isWinnerStub.args).to.deep.equal([
-                [{ io: 'fakeIo', roomId: '000000000000000000000001' }],
-            ]);
+            expect(isWinnerStub.args).to.deep.equal([[{ roomId: '000000000000000000000001' }]]);
         });
 
         it('should update player on game over and send the winner id to the room', function(done) {
@@ -156,7 +179,7 @@ describe('socket/handlers/status/status', function() {
             const updateStub = sandbox.stub(playersLib, 'updateOne').resolves();
             const isWinnerStub = sandbox
                 .stub(statusHandler, 'isWinner')
-                .resolves(fixtures.playersWithWinner()[2]);
+                .resolves(playersFixtures.playersWithWinner()[2]);
 
             const ioServer = ioInstance.get();
             let connected = 0;
@@ -184,9 +207,7 @@ describe('socket/handlers/status/status', function() {
                 expect(updateStub.args).to.deep.equal([
                     ['00000000000000000000000a', { game_over: true }],
                 ]);
-                expect(isWinnerStub.args).to.deep.equal([
-                    [{ io: ioServer, roomId: '000000000000000000000001' }],
-                ]);
+                expect(isWinnerStub.args).to.deep.equal([[{ roomId: '000000000000000000000001' }]]);
                 expect(eventReceived).to.deep.equal({
                     client0: { winnerId: '00000000000000000000000c' },
                     client1: { winnerId: '00000000000000000000000c' },
