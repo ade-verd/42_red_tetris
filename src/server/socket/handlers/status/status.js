@@ -5,6 +5,7 @@ const Joi = require('@hapi/joi');
 const helpers = require('../../eventHelpers');
 const ioInstance = require('../../ioInstance');
 
+const Room = require('../../../lib/rooms/classRoom');
 const playersLib = require('../../../models/players');
 const socketRoomLib = require('../../lib/roomSocket/getSocketByRoom');
 
@@ -29,9 +30,10 @@ const emitGameOver = async (socket, payload) => {
     }
 };
 
-const isWinner = async ({ io, roomId }) => {
-    const playersCursor = await socketRoomLib.getIoRoomPlayers(io, roomId);
-    const playersArray = await playersCursor.toArray();
+const isWinner = async ({ roomId }) => {
+    const room = await new Room({ roomId }).find();
+    const players = await playersLib.findAllByIds(room.players_ids);
+    const playersArray = await players.toArray();
 
     const playingPlayers = playersArray.filter(player => player.game_over === false);
     return playingPlayers.length === 1 ? playingPlayers[0] : null;
@@ -43,7 +45,7 @@ const emitGameWon = async (socket, payload) => {
 
     try {
         await playersLib.updateOne(playerId, { game_over: true });
-        const winner = await thisFunctions.isWinner({ io, roomId });
+        const winner = await thisFunctions.isWinner({ roomId });
 
         if (winner) {
             io.to(roomId).emit(EMIT_EVENT_GAMEWON, { winnerId: winner._id });

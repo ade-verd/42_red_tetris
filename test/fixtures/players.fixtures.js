@@ -118,7 +118,7 @@ const playersWithWinner = winnerSocketId => [
     },
     {
         _id: new ObjectId('00000000000000000000000c'),
-        socket_id: winnerSocketId,
+        socket_id: winnerSocketId || '0000000001',
         room_id: '000000000000000000000001',
         name: 'Jeffrey',
         blocks_consumed: 15,
