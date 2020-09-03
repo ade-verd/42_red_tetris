@@ -1,3 +1,5 @@
+import checkCollision from '../../helpers/checkCollision';
+
 const { ACTIONS } = require('../../middlewares/handleSocket');
 const helper = require('../../helpers/checkCollision');
 
@@ -40,7 +42,7 @@ const drop = (dispatch, field, piece, gameStatus) => {
         dispatch({ action: ACTIONS.REDUCE, type: 'SET_POS', pos: { x: 0, y: 1 }, collided: false });
     } else {
         // Game over !
-        if (piece.pos.y < 1) {
+        if (piece.projection.pos.y === 0) {
             console.debug('GAME OVER !');
             setGameOver(dispatch);
             dispatch({ action: ACTIONS.REDUCE, type: 'SET_DROPTIME', dropTime: null });
