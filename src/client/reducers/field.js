@@ -105,6 +105,8 @@ export const updateField = (asyncDispatch, prevField, piece, user, malus = 0) =>
         };
     }
 
+    if (malus) emitSpectrum(asyncDispatch, user.roomId, user.id, user.name, newField);
+
     return {
         field: newField,
     };
