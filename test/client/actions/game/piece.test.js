@@ -165,7 +165,7 @@ describe('client/actions/game/piece', () => {
         const initialState = {};
         const store = mockStore(initialState);
         const GAME_STATUS = { rows: 0, level: 1 };
-        const PIECE = { pos: { x: 0, y: 2 } };
+        const PIECE = { pos: { x: 0, y: 2 }, projection: { pos: { x: 0, y: 2 } } };
         const checkCollisionStub = sandbox.stub(helper, 'checkCollision').returns(true);
 
         drop(store.dispatch, null, PIECE, GAME_STATUS);
@@ -186,7 +186,7 @@ describe('client/actions/game/piece', () => {
         const initialState = {};
         const store = mockStore(initialState);
         const GAME_STATUS = { rows: 0, level: 1 };
-        const PIECE = { pos: { x: 0, y: 0 } };
+        const PIECE = { pos: { x: 0, y: 0 }, projection: { pos: { x: 0, y: 0 } } };
         const checkCollisionStub = sandbox.stub(helper, 'checkCollision').returns(true);
 
         drop(store.dispatch, null, PIECE, GAME_STATUS);
