@@ -10,7 +10,7 @@ Front-end communicates with socket server.
 Socket server has been developed using NodeJS and SocketIO.
 Data are stored using MongoDB.
 
-![bluetetris](./docs/screenshots/frame-031.jpg)
+![bluetetris](docs/screenshots/frame-031.jpg)
 
 ## Objectives
 
